@@ -1,0 +1,1 @@
+enum PricingTypeEum { FREE, PAID }

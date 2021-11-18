@@ -1,0 +1,1 @@
+enum DrawerEvent { OPEN, CLOSE }
