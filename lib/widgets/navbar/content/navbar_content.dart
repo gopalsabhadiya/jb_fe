@@ -2,9 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jb_fe/constants/enum/navbar_types_enum.dart';
 import 'package:jb_fe/widgets/navbar/content/authenticated/regular_top.dart';
-import 'package:jb_fe/widgets/navbar/content/authenticated/side_hamburger.dart';
+import 'package:jb_fe/widgets/navbar/content/unauthenticated/hamburger_top.dart';
 import 'package:jb_fe/widgets/navbar/content/unauthenticated/regular_top.dart';
-import 'package:jb_fe/widgets/navbar/content/unauthenticated/side_hamburger.dart';
+
+import 'authenticated/hamburger_top.dart';
 
 class NavbarContent extends StatelessWidget {
   final NavbarTypes navbarType;
