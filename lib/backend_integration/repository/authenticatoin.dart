@@ -30,7 +30,9 @@ class AuthenticationRepository {
   void validate() async {
     _controller.add(AuthenticationStatus.LOADING);
     final String _csrfToken = await AppSharedPreference.getString(key: "csrf");
-    if (_csrfToken.isNotEmpty) {
+    final isValid = await AuthenticationAPI.validateAuthentication();
+
+    if (isValid) {
       _controller.add(AuthenticationStatus.AUTHENTICATED);
     } else {
       _controller.add(AuthenticationStatus.UNAUTHENTICATED);
