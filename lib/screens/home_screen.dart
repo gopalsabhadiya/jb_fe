@@ -29,17 +29,19 @@ class _HomeScreenLayout extends State<HomeScreenLayout> {
           future: _csrfToken,
           builder: (context, snapshot) {
             switch (state) {
-              case AuthenticationState.INITIAL:
+              case AuthenticationState.UNKNOWN:
                 if (snapshot.data.toString().isNotEmpty) {
                   return const AuthenticatedHomeScreen();
                 }
                 return const UnauthenticatedHomeScreen();
-              case AuthenticationState.FAILURE:
+              case AuthenticationState.UNAUTHENTICATED:
                 return const UnauthenticatedHomeScreen();
-              case AuthenticationState.SUCCESS:
+              case AuthenticationState.AUTHENTICATED:
                 return const AuthenticatedHomeScreen();
               case AuthenticationState.LOADING:
                 return AppTextBuilder("Loading").build();
+              case AuthenticationState.FAILURE:
+                return AppTextBuilder("Something went wrong").build();
             }
           });
     });

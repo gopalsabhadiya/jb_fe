@@ -1,7 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:jb_fe/controllers/bloc/authentication.dart';
-import 'package:jb_fe/controllers/bloc/state/authentication.dart';
 import 'package:jb_fe/helpers/responsive/responsive_helper.dart';
 import 'package:jb_fe/widgets/body/authenticated/body.dart';
 import 'package:jb_fe/widgets/navbar/navbar.dart';
@@ -16,14 +14,6 @@ class AuthenticatedHomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenLayout extends State<AuthenticatedHomeScreen> {
-  late AuthenticationBloc authenticationBloc;
-
-  @override
-  void initState() {
-    authenticationBloc = AuthenticationBloc(AuthenticationState.INITIAL);
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

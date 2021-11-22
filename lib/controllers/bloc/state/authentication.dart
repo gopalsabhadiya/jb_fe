@@ -1,1 +1,7 @@
-enum AuthenticationState { INITIAL, FAILURE, SUCCESS, LOADING }
+enum AuthenticationState {
+  UNKNOWN,
+  UNAUTHENTICATED,
+  AUTHENTICATED,
+  LOADING,
+  FAILURE
+}

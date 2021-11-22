@@ -41,7 +41,7 @@ class AppRouterDelegate extends RouterDelegate<AppRouterConfiguration>
         key: const ValueKey<String>("HomePage"),
         child: BlocProvider<AuthenticationBloc>(
             create: (context) {
-              return AuthenticationBloc(AuthenticationState.INITIAL);
+              return AuthenticationBloc(AuthenticationState.UNKNOWN);
             },
             child: const HomeScreenLayout()));
 

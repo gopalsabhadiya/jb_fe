@@ -59,7 +59,7 @@ class ScreenSizeUtil {
 
   static NavbarTypes getNavbarType(BuildContext context) {
     if (context.read<AuthenticationBloc>().state ==
-        AuthenticationState.SUCCESS) {
+        AuthenticationState.AUTHENTICATED) {
       if (ResponsiveHelper.screenWidth(context) < 809) {
         return NavbarTypes.REGULAR_TOP_AUTHENTICATED;
       }

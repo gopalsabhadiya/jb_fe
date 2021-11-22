@@ -12,7 +12,7 @@ class AuthenticationBloc extends Bloc<AuthEvent, AuthenticationState> {
   AuthenticationBloc(AuthenticationState initialState) : super(initialState);
 
   AuthenticationState get initialState {
-    return AuthenticationState.INITIAL;
+    return AuthenticationState.UNKNOWN;
   }
 
   @override
@@ -27,7 +27,7 @@ class AuthenticationBloc extends Bloc<AuthEvent, AuthenticationState> {
         final AuthResponse authResponse =
             AuthResponse.fromJson(json.decode(response.body));
         AppSharedPreference.saveString(key: "csrf", value: authResponse.token);
-        yield AuthenticationState.SUCCESS;
+        yield AuthenticationState.AUTHENTICATED;
       } catch (error) {
         yield AuthenticationState.FAILURE;
       }
