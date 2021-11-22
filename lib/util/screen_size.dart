@@ -1,9 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jb_fe/constants/enum/navbar_types_enum.dart';
 import 'package:jb_fe/constants/enum/screen_size_enum.dart';
-import 'package:jb_fe/controllers/bloc/authentication.dart';
-import 'package:jb_fe/controllers/bloc/state/authentication.dart';
 import 'package:jb_fe/helpers/responsive/responsive_helper.dart';
 
 class ScreenSizeUtil {
@@ -58,13 +55,6 @@ class ScreenSizeUtil {
   }
 
   static NavbarTypes getNavbarType(BuildContext context) {
-    if (context.read<AuthenticationBloc>().state ==
-        AuthenticationState.AUTHENTICATED) {
-      if (ResponsiveHelper.screenWidth(context) < 809) {
-        return NavbarTypes.REGULAR_TOP_AUTHENTICATED;
-      }
-      return NavbarTypes.SIDE_HAMBURGER_AUTHENTICATED;
-    }
     if (ResponsiveHelper.screenWidth(context) < 809) {
       return NavbarTypes.SIDE_HAMBURGER_UNAUTHENTICATED;
     }

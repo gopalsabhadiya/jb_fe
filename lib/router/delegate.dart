@@ -16,9 +16,6 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:jb_fe/controllers/bloc/authentication.dart';
-import 'package:jb_fe/controllers/bloc/state/authentication.dart';
 import 'package:jb_fe/router/config.dart';
 import 'package:jb_fe/screens/home_screen.dart';
 import 'package:jb_fe/util/unauthenticated_navbar.dart';
@@ -37,13 +34,8 @@ class AppRouterDelegate extends RouterDelegate<AppRouterConfiguration>
   static final ValueNotifier<bool?> unknownStateNotifier = ValueNotifier(null);
 
   AppRouterDelegate() {
-    _homePage = MaterialPage(
-        key: const ValueKey<String>("HomePage"),
-        child: BlocProvider<AuthenticationBloc>(
-            create: (context) {
-              return AuthenticationBloc(AuthenticationState.UNKNOWN);
-            },
-            child: const HomeScreenLayout()));
+    _homePage = const MaterialPage(
+        key: ValueKey<String>("HomePage"), child: HomeScreenLayout());
 
     Listenable.merge([linkLocationNotifier, unknownStateNotifier])
         .addListener(() {

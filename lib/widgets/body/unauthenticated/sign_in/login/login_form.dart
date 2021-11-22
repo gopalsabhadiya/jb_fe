@@ -1,11 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jb_fe/backend_integration/dto/login.dart';
 import 'package:jb_fe/constants/colors.dart';
 import 'package:jb_fe/constants/texts/sign_in.dart';
-import 'package:jb_fe/controllers/bloc/authentication.dart';
-import 'package:jb_fe/controllers/bloc/events/authentication.dart';
 import 'package:jb_fe/widgets/calligraphy/app_text.dart';
 import 'package:jb_fe/widgets/common/inputs/text_field.dart';
 
@@ -59,8 +56,7 @@ class _LoginForm extends State<LoginForm> {
   }
 
   Future<void> _authenticate() async {
-    BlocProvider.of<AuthenticationBloc>(context)
-        .add(Authenticate(loginFormDTO: loginFormDTO));
+    print("Authenticate User here");
   }
 
   void _showHidePassword() {

@@ -1,7 +1,0 @@
-enum AuthenticationState {
-  UNKNOWN,
-  UNAUTHENTICATED,
-  AUTHENTICATED,
-  LOADING,
-  FAILURE
-}
