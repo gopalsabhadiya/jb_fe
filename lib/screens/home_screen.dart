@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jb_fe/backend_integration/constants/stream/AuthenticationStatus.dart';
-import 'package:jb_fe/constants/enum/screen_type.dart';
+import 'package:jb_fe/constants/enum/screen.dart';
 import 'package:jb_fe/controllers/bloc/authentication.dart';
 import 'package:jb_fe/controllers/bloc/events/authentication.dart';
 import 'package:jb_fe/controllers/bloc/state/authentication.dart';
@@ -41,16 +41,6 @@ class _HomeScreenLayout extends State<HomeScreenLayout> {
             return const HomeScreenContent(
                 type: ScreenTypeEnum.UNAUTHENTICATED);
         }
-        // switch (state.status) {
-        //   case AuthenticationStatus.UNKNOWN:
-        //     return AppTextBuilder("Loading").build();
-        //   case AuthenticationStatus.AUTHENTICATED:
-        //     return const AuthenticatedHomeScreen();
-        //   case AuthenticationStatus.LOADING:
-        //     return AppTextBuilder("Loading").build();
-        //   case AuthenticationStatus.UNAUTHENTICATED:
-        //     return const UnauthenticatedHomeScreen();
-        // }
       },
     );
   }

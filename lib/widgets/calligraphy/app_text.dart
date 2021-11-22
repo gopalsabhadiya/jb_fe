@@ -39,12 +39,6 @@ class AppTextBuilder {
   late FontWeight _fontWeight = FontWeight.normal;
   late EdgeInsets _padding = EdgeInsets.zero;
 
-  /// Build Text widget
-  /// Defaults:
-  ///   color: black,
-  ///   size: 18,
-  ///   opacity: 1
-  ///   weight: normal
   AppTextBuilder(this._text);
 
   AppTextBuilder color(Color color) {

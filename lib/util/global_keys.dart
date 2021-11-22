@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:jb_fe/constants/enum/screen_type.dart';
+import 'package:jb_fe/constants/enum/screen.dart';
 
 class AppGlobalKeys {
   static final GlobalKey<ScaffoldState> UNAUTH_BODY_SCAFFOLD =

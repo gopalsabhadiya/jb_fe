@@ -15,17 +15,18 @@ class AppDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AuthenticationBloc, AuthenticationState>(
-        builder: (BuildContext context, AuthenticationState state) {
-      if (state.status == AuthenticationStatus.AUTHENTICATED) {
-        return ScreenSizeUtil.getAuthenticatedNavbarType(context) ==
-                NavbarTypes.SIDE_HAMBURGER_AUTHENTICATED
-            ? AuthenticatedDrawer()
+      builder: (BuildContext context, AuthenticationState state) {
+        if (state.status == AuthenticationStatus.AUTHENTICATED) {
+          return ScreenSizeUtil.getAuthenticatedNavbarType(context) ==
+                  NavbarTypes.HAMBURGER_TOP_AUTHENTICATED
+              ? AuthenticatedDrawer()
+              : const SizedBox.shrink();
+        }
+        return ScreenSizeUtil.getUnauthenticatedNavbarType(context) ==
+                NavbarTypes.HAMBURGER_TOP_UNAUTHENTICATED
+            ? UnauthenticatedDrawer()
             : const SizedBox.shrink();
-      }
-      return ScreenSizeUtil.getUnauthenticatedNavbarType(context) ==
-              NavbarTypes.SIDE_HAMBURGER_UNAUTHENTICATED
-          ? UnauthenticatedDrawer()
-          : const SizedBox.shrink();
-    });
+      },
+    );
   }
 }

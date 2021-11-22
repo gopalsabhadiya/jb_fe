@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:jb_fe/constants/enum/screen_size_enum.dart';
+import 'package:jb_fe/constants/enum/screen.dart';
 
 class ResponsiveHelper {
   static const int largeScreenSize = 1366;

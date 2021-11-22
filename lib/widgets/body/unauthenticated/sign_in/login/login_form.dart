@@ -59,10 +59,8 @@ class _LoginForm extends State<LoginForm> {
   }
 
   Future<void> _authenticate() async {
-    print("Authenticate User here");
     loginFormDTO.setEmail("gopal.sabhadiya@gmail.com");
     loginFormDTO.setPassword("123456");
-    print("LoginForm:${loginFormDTO.toString()}");
     BlocProvider.of<AuthenticationBloc>(context)
         .add(AuthenticationLoginRequested(loginFormDTO));
   }

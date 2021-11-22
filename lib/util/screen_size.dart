@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:jb_fe/constants/enum/navbar_types_enum.dart';
-import 'package:jb_fe/constants/enum/screen_size_enum.dart';
+import 'package:jb_fe/constants/enum/screen.dart';
 import 'package:jb_fe/helpers/responsive/responsive_helper.dart';
 
 class ScreenSizeUtil {

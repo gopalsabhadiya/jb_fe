@@ -8,12 +8,12 @@ import 'package:jb_fe/controllers/bloc/state/drawer.dart';
 import 'package:jb_fe/util/global_keys.dart';
 import 'package:jb_fe/widgets/svg/logo_svg.dart';
 
-class SideHamburgerUnauthenticatedNavbar extends StatefulWidget {
-  const SideHamburgerUnauthenticatedNavbar({Key? key}) : super(key: key);
+class HamburgerTopUnauthenticatedNavbar extends StatefulWidget {
+  const HamburgerTopUnauthenticatedNavbar({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return _SideHamburgerUnauthenticatedNavbar();
+    return _HamburgerTopUnauthenticatedNavbar();
   }
 
   static Map<String, bool> _getLinksMap(List<String> links) {
@@ -22,8 +22,8 @@ class SideHamburgerUnauthenticatedNavbar extends StatefulWidget {
   }
 }
 
-class _SideHamburgerUnauthenticatedNavbar
-    extends State<SideHamburgerUnauthenticatedNavbar>
+class _HamburgerTopUnauthenticatedNavbar
+    extends State<HamburgerTopUnauthenticatedNavbar>
     with SingleTickerProviderStateMixin {
   final double _paddingLR = 20;
   final double _opacity = 0.75;

@@ -1,1 +1,0 @@
-enum ScreenTypeEnum { AUTHENTICATED, UNAUTHENTICATED }

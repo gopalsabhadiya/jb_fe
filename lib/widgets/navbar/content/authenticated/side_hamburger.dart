@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jb_fe/constants/durations/animation_durations.dart';
-import 'package:jb_fe/constants/enum/screen_type.dart';
+import 'package:jb_fe/constants/enum/screen.dart';
 import 'package:jb_fe/controllers/bloc/drawer.dart';
 import 'package:jb_fe/controllers/bloc/state/drawer.dart';
 import 'package:jb_fe/util/global_keys.dart';
