@@ -1,0 +1,85 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jb_fe/constants/durations/animation_durations.dart';
+import 'package:jb_fe/constants/enum/screen_type.dart';
+import 'package:jb_fe/controllers/bloc/drawer.dart';
+import 'package:jb_fe/controllers/bloc/state/drawer.dart';
+import 'package:jb_fe/util/global_keys.dart';
+import 'package:jb_fe/widgets/svg/logo_svg.dart';
+
+class HamburgerTopAuthenticatedNavbar extends StatefulWidget {
+  const HamburgerTopAuthenticatedNavbar({Key? key}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() {
+    return _HamburgerTopAuthenticatedNavbar();
+  }
+}
+
+class _HamburgerTopAuthenticatedNavbar
+    extends State<HamburgerTopAuthenticatedNavbar>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _animationController;
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController =
+        AnimationController(vsync: this, duration: AnimationDuration.SHORT);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<DrawerBloc, DrawerState>(
+        builder: (BuildContext context, DrawerState state) {
+      _toggleAnimation(state);
+      return Padding(
+        padding: const EdgeInsets.all(10),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            IconButton(
+              icon: AnimatedIcon(
+                icon: AnimatedIcons.menu_close,
+                progress: _animationController,
+                size: 30,
+              ),
+              padding: const EdgeInsets.all(0),
+              onPressed: () {
+                if (AppGlobalKeys.getBodyScaffoldKey(
+                        ScreenTypeEnum.AUTHENTICATED)
+                    .currentState!
+                    .isDrawerOpen) {
+                  AppGlobalKeys.getBodyScaffoldKey(ScreenTypeEnum.AUTHENTICATED)
+                      .currentState!
+                      .openEndDrawer();
+                } else {
+                  AppGlobalKeys.getBodyScaffoldKey(ScreenTypeEnum.AUTHENTICATED)
+                      .currentState!
+                      .openDrawer();
+                }
+              },
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 10),
+              child: LogoSVG(),
+            ),
+          ],
+        ),
+      );
+    });
+  }
+
+  void _toggleAnimation(DrawerState drawerState) {
+    switch (drawerState) {
+      case DrawerState.OPEN:
+        _animationController.forward();
+        break;
+      case DrawerState.CLOSED:
+        _animationController.reverse();
+        break;
+    }
+  }
+}

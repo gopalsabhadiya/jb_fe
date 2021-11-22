@@ -6,16 +6,10 @@ import 'package:jb_fe/constants/durations/animation_durations.dart';
 import 'package:jb_fe/controllers/bloc/drawer.dart';
 import 'package:jb_fe/controllers/bloc/state/drawer.dart';
 import 'package:jb_fe/util/global_keys.dart';
-import 'package:jb_fe/util/unauthenticated_navbar.dart';
 import 'package:jb_fe/widgets/svg/logo_svg.dart';
 
 class SideHamburgerUnauthenticatedNavbar extends StatefulWidget {
-  final List<String> _links = UnauthenticatedNavbarLinks.getLinks();
-  late final Map<String, bool> _isHovering;
-
-  SideHamburgerUnauthenticatedNavbar({Key? key}) : super(key: key) {
-    _isHovering = _getLinksMap(_links);
-  }
+  const SideHamburgerUnauthenticatedNavbar({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {

@@ -1,0 +1,1 @@
+enum AuthenticationStatus { UNKNOWN, AUTHENTICATED, UNAUTHENTICATED, LOADING }

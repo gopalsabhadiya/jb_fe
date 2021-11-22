@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jb_fe/constants/colors.dart';
 import 'package:jb_fe/constants/enum/navbar_types_enum.dart';
+import 'package:jb_fe/widgets/navbar/content/authenticated/regular_top.dart';
+import 'package:jb_fe/widgets/navbar/content/authenticated/side_hamburger.dart';
 import 'package:jb_fe/widgets/navbar/content/unauthenticated/regular_top.dart';
 import 'package:jb_fe/widgets/navbar/content/unauthenticated/side_hamburger.dart';
 
@@ -27,15 +29,14 @@ class _NavbarContent extends State<NavbarContent> {
       case NavbarTypes.REGULAR_TOP_UNAUTHENTICATED:
         return RegularTopUnauthenticatedNavbar();
       case NavbarTypes.SIDE_HAMBURGER_UNAUTHENTICATED:
-        return SideHamburgerUnauthenticatedNavbar();
+        return const SideHamburgerUnauthenticatedNavbar();
       case NavbarTypes.REGULAR_TOP_AUTHENTICATED:
-        // TODO: Handle this case.
-        break;
+        return const RegularTopAuthenticatedNavbar();
       case NavbarTypes.REGULAR_SIDE_AUTHENTICATED:
         // TODO: Handle this case.
         break;
       case NavbarTypes.SIDE_HAMBURGER_AUTHENTICATED:
-        break;
+        return const HamburgerTopAuthenticatedNavbar();
       default:
         return RegularTopUnauthenticatedNavbar();
     }

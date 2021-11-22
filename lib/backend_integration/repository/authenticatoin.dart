@@ -1,0 +1,41 @@
+import 'dart:async';
+import 'dart:convert';
+
+import 'package:jb_fe/backend_integration/api/auth.dart';
+import 'package:jb_fe/backend_integration/constants/stream/AuthenticationStatus.dart';
+import 'package:jb_fe/backend_integration/dto/login.dart';
+import 'package:jb_fe/backend_integration/dto/responses/auth_response.dart';
+import 'package:jb_fe/backend_integration/utils/storage/shared_preference.dart';
+
+class AuthenticationRepository {
+  final _controller = StreamController<AuthenticationStatus>();
+
+  Stream<AuthenticationStatus> get authStatus async* {
+    yield AuthenticationStatus.UNKNOWN;
+    yield* _controller.stream;
+  }
+
+  Future<void> logIn(LoginFormDTO loginForm) async {
+    _controller.add(AuthenticationStatus.LOADING);
+    final response = await AuthenticationAPI.authenticateUser(loginForm);
+    final authResponse = AuthResponse.fromJson(json.decode(response.body));
+    AppSharedPreference.saveString(key: "csrf", value: authResponse.token);
+    _controller.add(AuthenticationStatus.AUTHENTICATED);
+  }
+
+  void logOut() {
+    _controller.add(AuthenticationStatus.UNAUTHENTICATED);
+  }
+
+  void validate() async {
+    _controller.add(AuthenticationStatus.LOADING);
+    final String _csrfToken = await AppSharedPreference.getString(key: "csrf");
+    if (_csrfToken.isNotEmpty) {
+      _controller.add(AuthenticationStatus.AUTHENTICATED);
+    } else {
+      _controller.add(AuthenticationStatus.UNAUTHENTICATED);
+    }
+  }
+
+  void dispose() => _controller.close();
+}

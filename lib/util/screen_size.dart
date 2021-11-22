@@ -54,11 +54,18 @@ class ScreenSizeUtil {
     }
   }
 
-  static NavbarTypes getNavbarType(BuildContext context) {
+  static NavbarTypes getUnauthenticatedNavbarType(BuildContext context) {
     if (ResponsiveHelper.screenWidth(context) < 809) {
       return NavbarTypes.SIDE_HAMBURGER_UNAUTHENTICATED;
     }
     return NavbarTypes.REGULAR_TOP_UNAUTHENTICATED;
+  }
+
+  static NavbarTypes getAuthenticatedNavbarType(BuildContext context) {
+    if (ResponsiveHelper.screenWidth(context) < 800) {
+      return NavbarTypes.SIDE_HAMBURGER_AUTHENTICATED;
+    }
+    return NavbarTypes.REGULAR_TOP_AUTHENTICATED;
   }
 
   static double getContentPadding(BuildContext context) {
