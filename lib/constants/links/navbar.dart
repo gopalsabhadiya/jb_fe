@@ -13,4 +13,8 @@ class NavbarLinks {
 
   static const String UA_SIGN_IN_KEY = "sign_in";
   static const String UA_SIGN_IN_VALUE = "Sign In";
+
+  static const A_NOTIFICATION_KEY = "notification";
+  static const A_CART_KEY = "cart";
+  static const A_ACCOUNT_KEY = "account";
 }

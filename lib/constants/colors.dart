@@ -11,7 +11,8 @@ class AppColors {
   static const Color grey_3 = Color(0xFF707070);
   static const Color grey_4 = Color(0xFF585858);
   static const Color green_1 = Color(0xFF197D01);
-  static const Color red_1 = Color(0xFF7D0101);
+  static const Color red_1 = Color(0xFFE10404);
+  static const Color red_2 = Color(0xFF7D0101);
 
   static const Color white = Colors.white;
   static const Color black = Colors.black;
@@ -27,6 +28,7 @@ class AppColors {
   static Color grey4WithOpacity(opacity) => grey_4.withOpacity(opacity);
   static Color green1WithOpacity(opacity) => green_1.withOpacity(opacity);
   static Color red1WithOpacity(opacity) => red_1.withOpacity(opacity);
+  static Color red2WithOpacity(opacity) => red_2.withOpacity(opacity);
   static Color whiteWithOpacity(opacity) => white.withOpacity(opacity);
   static Color clackWithOpacity(opacity) => black.withOpacity(opacity);
 }

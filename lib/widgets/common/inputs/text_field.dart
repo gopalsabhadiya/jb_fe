@@ -34,7 +34,7 @@ class AppTextInput extends StatelessWidget {
             fillColor: AppColors.white,
             hoverColor: AppColors.blue_1,
             errorBorder: const OutlineInputBorder(
-              borderSide: BorderSide(color: AppColors.red_1, width: 1.5),
+              borderSide: BorderSide(color: AppColors.red_2, width: 1.5),
             ),
             focusedBorder: const OutlineInputBorder(
               borderSide: BorderSide(color: AppColors.blue_4, width: 1.5),

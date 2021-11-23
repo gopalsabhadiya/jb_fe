@@ -36,9 +36,7 @@ class _AuthenticatedDrawerState extends State<AuthenticatedDrawer> {
     return Container(
       width: ResponsiveHelper.screenWidth(context),
       color: AppColors.black,
-      child: Drawer(
-        child: AppTextBuilder("Helllo User").build()
-      ),
+      child: Drawer(child: AppTextBuilder("Helllo User").build()),
     );
   }
 

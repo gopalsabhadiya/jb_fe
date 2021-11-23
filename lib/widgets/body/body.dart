@@ -17,7 +17,7 @@ class AppBody extends StatelessWidget {
       if (state.status == AuthenticationStatus.AUTHENTICATED) {
         return const AppBodyAuthenticated();
       }
-      return const AppBodyUnAuthenticated();
+      return AppBodyUnAuthenticated();
     });
   }
 }

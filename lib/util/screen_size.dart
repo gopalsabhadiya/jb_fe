@@ -61,6 +61,13 @@ class ScreenSizeUtil {
     return NavbarTypes.REGULAR_TOP_UNAUTHENTICATED;
   }
 
+  static bool displayDrawer(BuildContext context) {
+    if (ResponsiveHelper.screenWidth(context) < 800) {
+      return true;
+    }
+    return false;
+  }
+
   static NavbarTypes getAuthenticatedNavbarType(BuildContext context) {
     if (ResponsiveHelper.screenWidth(context) < 800) {
       return NavbarTypes.HAMBURGER_TOP_AUTHENTICATED;

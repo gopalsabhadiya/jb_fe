@@ -9,7 +9,9 @@ import 'package:jb_fe/widgets/body/unauthenticated/sign_in/sign_in.dart';
 import 'contact_us/contact_us.dart';
 
 class AppBodyUnAuthenticated extends StatefulWidget {
-  const AppBodyUnAuthenticated({Key? key}) : super(key: key);
+  final ScrollController _scrollController = ScrollController();
+
+  AppBodyUnAuthenticated({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -18,7 +20,6 @@ class AppBodyUnAuthenticated extends StatefulWidget {
 }
 
 class _AppBody extends State<AppBodyUnAuthenticated> {
-  final ScrollController _scrollController = ScrollController();
   late List<GlobalKey> keys;
 
   @override
@@ -31,7 +32,7 @@ class _AppBody extends State<AppBodyUnAuthenticated> {
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       _scrollToLink();
       AppRouterDelegate.linkLocationNotifier.addListener(() {
-        if (_scrollController.hasClients) {
+        if (widget._scrollController.hasClients) {
           _scrollToLink();
         }
       });
@@ -42,14 +43,14 @@ class _AppBody extends State<AppBodyUnAuthenticated> {
   Widget build(BuildContext context) {
     return NotificationListener<ScrollNotification>(
       onNotification: (notification) {
-        if (notification is UserScrollNotification) {
+        if (notification is ScrollEndNotification) {
           _onUserScrolled(notification.metrics.pixels);
         }
         return true;
       },
       child: SingleChildScrollView(
-        controller: _scrollController,
-        physics: const BouncingScrollPhysics(),
+        controller: widget._scrollController,
+        //physics: const BouncingScrollPhysics(),
         child: Column(
           children: [
             Container(key: keys[0], child: const AppHome()),

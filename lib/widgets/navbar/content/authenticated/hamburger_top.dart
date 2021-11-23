@@ -52,9 +52,7 @@ class _HamburgerTopAuthenticatedNavbar
                         ScreenTypeEnum.AUTHENTICATED)
                     .currentState!
                     .isDrawerOpen) {
-                  AppGlobalKeys.getBodyScaffoldKey(ScreenTypeEnum.AUTHENTICATED)
-                      .currentState!
-                      .openEndDrawer();
+                  Navigator.pop(context);
                 } else {
                   AppGlobalKeys.getBodyScaffoldKey(ScreenTypeEnum.AUTHENTICATED)
                       .currentState!
