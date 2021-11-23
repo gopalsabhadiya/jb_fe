@@ -4,7 +4,6 @@ import 'package:jb_fe/constants/colors.dart';
 import 'package:jb_fe/constants/typography/font_weight.dart';
 import 'package:jb_fe/helpers/responsive/responsive_helper.dart';
 import 'package:jb_fe/router/delegate.dart';
-import 'package:jb_fe/util/global_keys.dart';
 import 'package:jb_fe/util/unauthenticated_navbar.dart';
 import 'package:jb_fe/widgets/calligraphy/app_text.dart';
 
@@ -74,8 +73,7 @@ class _UnauthenticatedDrawerState extends State<UnauthenticatedDrawer> {
               },
               onTap: () {
                 AppRouterDelegate.linkLocationNotifier.value = entry.key;
-                AppGlobalKeys.UNAUTH_BODY_SCAFFOLD.currentState!
-                    .openEndDrawer();
+                Navigator.pop(context);
               },
               child: Column(
                 children: [

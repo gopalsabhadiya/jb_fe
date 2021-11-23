@@ -4,8 +4,7 @@ import 'package:jb_fe/constants/colors.dart';
 import 'package:jb_fe/constants/typography/font_weight.dart';
 import 'package:jb_fe/helpers/responsive/responsive_helper.dart';
 import 'package:jb_fe/router/delegate.dart';
-import 'package:jb_fe/util/global_keys.dart';
-import 'package:jb_fe/util/unauthenticated_navbar.dart';
+import 'package:jb_fe/util/authenticated_navbar.dart';
 import 'package:jb_fe/widgets/calligraphy/app_text.dart';
 
 class AuthenticatedDrawer extends StatefulWidget {
@@ -20,7 +19,7 @@ class AuthenticatedDrawer extends StatefulWidget {
 
   Map<String, bool> _getLinksMap() {
     Map<String, bool> hovering = {
-      for (var e in UnauthenticatedNavbarLinks.LINKS.keys.toList()) e: false
+      for (var e in AuthenticatedNavbarLinks.LINK_ICONS.keys.toList()) e: false
     };
     return hovering;
   }
@@ -36,12 +35,25 @@ class _AuthenticatedDrawerState extends State<AuthenticatedDrawer> {
     return Container(
       width: ResponsiveHelper.screenWidth(context),
       color: AppColors.black,
-      child: Drawer(child: AppTextBuilder("Helllo User").build()),
+      child: Drawer(
+        child: Container(
+          color: AppColors.blue_1,
+          child: Padding(
+            padding: EdgeInsets.all(30),
+            child: Container(
+              color: AppColors.white,
+              child: Column(
+                children: _getLinks(),
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 
   List<Widget> _getLinks() {
-    return UnauthenticatedNavbarLinks.LINKS.entries
+    return AuthenticatedNavbarLinks.LINKS.entries
         .map<Widget>((entry) => (InkWell(
               onHover: (value) {
                 setState(() {
@@ -50,8 +62,7 @@ class _AuthenticatedDrawerState extends State<AuthenticatedDrawer> {
               },
               onTap: () {
                 AppRouterDelegate.linkLocationNotifier.value = entry.key;
-                AppGlobalKeys.UNAUTH_BODY_SCAFFOLD.currentState!
-                    .openEndDrawer();
+                Navigator.pop(context);
               },
               child: Column(
                 children: [
@@ -65,8 +76,7 @@ class _AuthenticatedDrawerState extends State<AuthenticatedDrawer> {
                           Row(
                             children: [
                               Icon(
-                                UnauthenticatedNavbarLinks
-                                    .LINK_ICONS[entry.key],
+                                AuthenticatedNavbarLinks.LINK_ICONS[entry.key],
                                 color: AppColors.blue_5,
                                 size: 35,
                               ),

@@ -98,6 +98,19 @@ class ScreenSizeUtil {
     }
   }
 
+  static double getWidthAdditionForDrawerUI(
+      BuildContext context, double sizeMargin) {
+    double screenWidth = ResponsiveHelper.screenWidth(context);
+    if (screenWidth > 1365) {
+      return sizeMargin;
+    } else if (screenWidth < 800) {
+      return 0;
+    } else {
+      return sizeMargin *
+          ((ResponsiveHelper.screenWidth(context) - 800) / (1015));
+    }
+  }
+
   static double getSidePadding(BuildContext context, double factor) {
     double screenWidth = ResponsiveHelper.screenWidth(context);
     if (screenWidth <= factor) {
