@@ -18,14 +18,16 @@ class SidePanelLink extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 10, bottom: 10),
-      child: ResponsiveHelper.screenWidth(context) < 1200
-          ? Column(
-              children: _getContent(context),
-            )
-          : Row(children: _getContent(context)),
-    );
+    return ResponsiveHelper.screenWidth(context) < 1200
+        ? Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Column(
+                children: _getContent(context),
+              ),
+            ],
+          )
+        : Row(children: _getContent(context));
   }
 
   _getContent(BuildContext context) {
@@ -38,14 +40,11 @@ class SidePanelLink extends StatelessWidget {
           color: _isActive ? AppColors.blue_5 : AppColors.grey_3,
         ),
       ),
-      Padding(
-        padding: const EdgeInsets.only(left: 20, right: 20, top: 5, bottom: 5),
-        child: AppTextBuilder(_text)
-            .size(16 + ScreenSizeUtil.getWidthAdditionForDrawerUI(context, 2))
-            .color(AppColors.blue_5)
-            .weight(_isActive ? AppFontWeight.BOLD : AppFontWeight.LIGHT)
-            .build(),
-      )
+      AppTextBuilder(_text)
+          .size(16 + ScreenSizeUtil.getWidthAdditionForDrawerUI(context, 2))
+          .color(AppColors.blue_5)
+          .weight(_isActive ? AppFontWeight.BOLD : AppFontWeight.LIGHT)
+          .build(),
     ];
   }
 }

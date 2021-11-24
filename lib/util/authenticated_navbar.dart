@@ -21,6 +21,8 @@ class AuthenticatedNavbarLinks {
     NavbarLinks.A_SHOP_EXPENSES_KEY: Icons.storefront,
   };
 
+  static const DEFAULT_ACTIVE_LINK = "dashboard";
+
   static List<IconData> getLinkIcons() => LINK_ICONS.values.toList();
 
   static List<String> getLinks() => LINK_ICONS.keys.toList();

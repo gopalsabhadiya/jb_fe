@@ -29,7 +29,8 @@ class _SidePanelState extends State<SidePanel> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(20),
+      padding: EdgeInsets.only(top: 20),
+      width: ResponsiveHelper.screenWidth(context) < 1200 ? 180 : 300,
       child: Column(
           crossAxisAlignment: ResponsiveHelper.screenWidth(context) < 1200
               ? CrossAxisAlignment.center
@@ -44,31 +45,42 @@ class _SidePanelState extends State<SidePanel> {
     );
   }
 
-  _getLinks() {
+  List<Widget> _getLinks() {
     //return [SidePanelLink(icon: Icons.ac_unit, text: "Hello")];
     return AuthenticatedNavbarLinks.LINKS.entries
-        .map<Widget>((entry) => InkWell(
-              onHover: (value) {
-                setState(() {
-                  widget._isHovering[entry.key] = value ? true : false;
-                });
-              },
-              onTap: () {
-                setState(() {
-                  activeLNK = entry.key;
-                });
-                AppRouterDelegate.linkLocationNotifier.value = entry.key;
-              },
-              child: Container(
-                color: (widget._isHovering[entry.key] ?? false)
-                    ? AppColors.blue_1
-                    : AppColors.white,
-                child: SidePanelLink(
-                  icon: AuthenticatedNavbarLinks.LINK_ICONS[entry.key],
-                  text: entry.value,
-                  isActive: activeLNK == entry.key,
+        .map<Widget>((entry) => Column(
+              children: [
+                InkWell(
+                  onHover: (value) {
+                    setState(() {
+                      widget._isHovering[entry.key] = value ? true : false;
+                    });
+                  },
+                  onTap: () {
+                    setState(() {
+                      activeLNK = entry.key;
+                    });
+                    AppRouterDelegate.linkLocationNotifier.value = entry.key;
+                  },
+                  child: Container(
+                    padding: EdgeInsets.all(15),
+                    color: activeLNK == entry.key ||
+                            (widget._isHovering[entry.key] ?? false)
+                        ? AppColors.blue_1
+                        : AppColors.white,
+                    child: SidePanelLink(
+                      icon: AuthenticatedNavbarLinks.LINK_ICONS[entry.key],
+                      text: entry.value,
+                      isActive: activeLNK == entry.key,
+                    ),
+                  ),
                 ),
-              ),
+                if (activeLNK == entry.key)
+                  Container(
+                    height: 2,
+                    color: AppColors.blue_5,
+                  )
+              ],
             ))
         .toList();
   }
