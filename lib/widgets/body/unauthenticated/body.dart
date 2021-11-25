@@ -43,7 +43,7 @@ class _AppBody extends State<AppBodyUnAuthenticated> {
   Widget build(BuildContext context) {
     return NotificationListener<ScrollNotification>(
       onNotification: (notification) {
-        if (notification is UserScrollNotification) {
+        if (notification is ScrollEndNotification) {
           _onUserScrolled(notification.metrics.pixels);
         }
         return true;
@@ -65,7 +65,6 @@ class _AppBody extends State<AppBodyUnAuthenticated> {
   }
 
   void _onUserScrolled(double offset) {
-    print("OnUserScrolled");
     double totalItemHeight = 0;
     for (int i = 0; i < keys.length; i++) {
       totalItemHeight += keys[i].currentContext!.size!.height;
@@ -85,7 +84,6 @@ class _AppBody extends State<AppBodyUnAuthenticated> {
   }
 
   void _scrollToLink() {
-    print("Scroll to link called");
     Scrollable.ensureVisible(
       keys[_getLinkIndex()].currentContext!,
       duration: const Duration(milliseconds: 300),
@@ -96,11 +94,9 @@ class _AppBody extends State<AppBodyUnAuthenticated> {
   _getLinkIndex() {
     if (UnauthenticatedNavbarLinks.LINKS
         .containsKey(AppRouterDelegate.linkLocationNotifier.value)) {
-      print("IntoIf");
       String? link = AppRouterDelegate.linkLocationNotifier.value;
       return UnauthenticatedNavbarLinks.getIndex(key: link);
     }
-    print("Returning from else");
     AppRouterDelegate.linkLocationNotifier.value =
         UnauthenticatedNavbarLinks.DEFAULT_ACTIVE_LINK;
     return UnauthenticatedNavbarLinks.getIndex(

@@ -5,7 +5,7 @@ import 'package:jb_fe/backend_integration/repository/authenticatoin.dart';
 import 'package:jb_fe/backend_integration/repository/user.dart';
 import 'package:jb_fe/controllers/bloc/authentication.dart';
 import 'package:jb_fe/router/config.dart';
-import 'package:jb_fe/screens/home_screen.dart';
+import 'package:jb_fe/screens/homescreen/home_screen.dart';
 import 'package:jb_fe/util/unauthenticated_navbar.dart';
 import 'package:jb_fe/widgets/unknown_screen.dart';
 

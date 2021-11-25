@@ -6,8 +6,6 @@ import 'package:jb_fe/constants/colors.dart';
 import 'package:jb_fe/constants/texts/sign_in.dart';
 import 'package:jb_fe/controllers/bloc/authentication.dart';
 import 'package:jb_fe/controllers/bloc/events/authentication.dart';
-import 'package:jb_fe/router/delegate.dart';
-import 'package:jb_fe/util/authenticated_navbar.dart';
 import 'package:jb_fe/widgets/calligraphy/app_text.dart';
 import 'package:jb_fe/widgets/common/inputs/text_field.dart';
 
@@ -65,8 +63,6 @@ class _LoginForm extends State<LoginForm> {
     loginFormDTO.setPassword("123456");
     BlocProvider.of<AuthenticationBloc>(context)
         .add(AuthenticationLoginRequested(loginFormDTO));
-    AppRouterDelegate.linkLocationNotifier.value =
-        AuthenticatedNavbarLinks.DEFAULT_ACTIVE_LINK;
   }
 
   void _showHidePassword() {

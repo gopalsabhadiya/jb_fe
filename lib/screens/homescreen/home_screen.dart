@@ -6,7 +6,7 @@ import 'package:jb_fe/constants/enum/screen.dart';
 import 'package:jb_fe/controllers/bloc/authentication.dart';
 import 'package:jb_fe/controllers/bloc/events/authentication.dart';
 import 'package:jb_fe/controllers/bloc/state/authentication.dart';
-import 'package:jb_fe/screens/homescreen_content.dart';
+import 'package:jb_fe/screens/homescreen/homescreen_content.dart';
 import 'package:jb_fe/widgets/calligraphy/app_text.dart';
 
 class HomeScreenLayout extends StatefulWidget {

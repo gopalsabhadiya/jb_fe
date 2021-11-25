@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jb_fe/constants/colors.dart';
+import 'package:jb_fe/controllers/bloc/authenticated_sidepanel.dart';
+import 'package:jb_fe/controllers/bloc/events/authenticated_sidepanel.dart';
 import 'package:jb_fe/helpers/responsive/responsive_helper.dart';
 import 'package:jb_fe/router/delegate.dart';
 import 'package:jb_fe/util/authenticated_navbar.dart';
@@ -35,7 +38,7 @@ class _SidePanelState extends State<SidePanel> {
           crossAxisAlignment: ResponsiveHelper.screenWidth(context) < 1200
               ? CrossAxisAlignment.center
               : CrossAxisAlignment.start,
-          children: _getLinks()),
+          children: _getLinks(context)),
       decoration: BoxDecoration(boxShadow: <BoxShadow>[
         BoxShadow(
             color: AppColors.grey_3.withOpacity(0.5),
@@ -45,7 +48,7 @@ class _SidePanelState extends State<SidePanel> {
     );
   }
 
-  List<Widget> _getLinks() {
+  List<Widget> _getLinks(BuildContext context) {
     //return [SidePanelLink(icon: Icons.ac_unit, text: "Hello")];
     return AuthenticatedNavbarLinks.LINKS.entries
         .map<Widget>((entry) => Column(
@@ -57,6 +60,8 @@ class _SidePanelState extends State<SidePanel> {
                     });
                   },
                   onTap: () {
+                    BlocProvider.of<AuthenticatedSidePanelCubit>(context)
+                        .navigateTo(entry.key);
                     setState(() {
                       activeLNK = entry.key;
                     });
