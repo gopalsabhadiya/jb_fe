@@ -9,9 +9,9 @@ class AppIconButton extends StatelessWidget {
   final VoidCallback _onClickHandler;
   final EdgeInsets _padding;
 
-  AppIconButton._builder(
+  const AppIconButton._builder(
       this._icon, this._size, this._color, this._onClickHandler, this._padding)
-      : super(key: ValueKey<int>(_icon.hashCode));
+      : super();
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +63,11 @@ class AppIconButtonBuilder {
   }
 
   AppIconButton build() {
-    return AppIconButton._builder(_icon, _size ?? 18, _color ?? AppColors.black,
-        _onClickHandler ?? _onClickHandlerNull, _padding!);
+    return AppIconButton._builder(
+        _icon,
+        _size ?? 18,
+        _color ?? AppColors.black,
+        _onClickHandler ?? _onClickHandlerNull,
+        _padding ?? const EdgeInsets.all(0));
   }
 }

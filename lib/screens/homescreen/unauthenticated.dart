@@ -5,7 +5,6 @@ import 'package:jb_fe/constants/enum/screen.dart';
 import 'package:jb_fe/controllers/bloc/drawer.dart';
 import 'package:jb_fe/controllers/bloc/events/drawer.dart';
 import 'package:jb_fe/controllers/bloc/state/drawer.dart';
-import 'package:jb_fe/helpers/responsive/responsive_helper.dart';
 import 'package:jb_fe/router/delegate.dart';
 import 'package:jb_fe/util/global_keys.dart';
 import 'package:jb_fe/util/screen_size.dart';
@@ -27,7 +26,7 @@ class UnauthenticatedHomeScreen extends StatelessWidget {
       create: (context) => DrawerBloc(DrawerState.CLOSED),
       child: Scaffold(
           appBar: PreferredSize(
-              preferredSize: Size(ResponsiveHelper.screenWidth(context), 70),
+              preferredSize: ScreenSizeUtil.getNavbarPreferredSize(context),
               child: const AppNavbar()),
           body: Scaffold(
             key: AppGlobalKeys.getBodyScaffoldKey(

@@ -1,6 +1,9 @@
 class AssetLocation {
   static const String BOOK_SVG = "./assets/BookSVG.svg";
   static const String LOGO_SVG = "./assets/LogoSVG.svg";
+  static const String DIAMOND_SVG = "./assets/DiamondSVG.svg";
+  static const String BRACELET_1_JPG = "./assets/Bracelet_1.jpg";
+
   static const String ICON_ACCOUNTING = "./icons/IconAccounting.svg";
   static const String ICON_CATALOG = "./icons/IconCatalog.svg";
   static const String ICON_DEVICE = "./icons/IconDevice.svg";

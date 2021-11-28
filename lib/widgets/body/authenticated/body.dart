@@ -4,6 +4,12 @@ import 'package:jb_fe/controllers/bloc/authenticated_sidepanel.dart';
 import 'package:jb_fe/controllers/bloc/state/authenticated_sidepanel.dart';
 import 'package:jb_fe/router/delegate.dart';
 import 'package:jb_fe/util/screen_size.dart';
+import 'package:jb_fe/widgets/body/authenticated/dashboard/dashboard.dart';
+import 'package:jb_fe/widgets/body/authenticated/inventory/inventory.dart';
+import 'package:jb_fe/widgets/body/authenticated/orders/orders.dart';
+import 'package:jb_fe/widgets/body/authenticated/party/party.dart';
+import 'package:jb_fe/widgets/body/authenticated/payments/payments.dart';
+import 'package:jb_fe/widgets/body/authenticated/shop_expenses/shop_expenses.dart';
 import 'package:jb_fe/widgets/body/authenticated/side_panel.dart';
 import 'package:jb_fe/widgets/calligraphy/app_text.dart';
 
@@ -26,17 +32,17 @@ class AppBodyAuthenticated extends StatelessWidget {
         builder: (BuildContext context, AuthenticatedSidePanelState state) {
       switch (state) {
         case AuthenticatedSidePanelState.DASHBOARD:
-          return AppTextBuilder("Dashboard").build();
+          return const Dashboard();
         case AuthenticatedSidePanelState.PARTY:
-          return AppTextBuilder("Party").build();
+          return const Party();
         case AuthenticatedSidePanelState.INVENTORY:
-          return AppTextBuilder("Inventory").build();
+          return const Inventory();
         case AuthenticatedSidePanelState.ORDERS:
-          return AppTextBuilder("Orders").build();
+          return const Orders();
         case AuthenticatedSidePanelState.PAYMENTS:
-          return AppTextBuilder("Payments").build();
+          return const Payments();
         case AuthenticatedSidePanelState.SHOP_EXPENSES:
-          return AppTextBuilder("Shop Expenses").build();
+          return const ShopExpenses();
       }
     });
     print(

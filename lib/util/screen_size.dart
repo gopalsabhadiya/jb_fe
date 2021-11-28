@@ -119,4 +119,32 @@ class ScreenSizeUtil {
       return (screenWidth - factor) / 2;
     }
   }
+
+  static Size getNavbarPreferredSize(BuildContext context) {
+    return Size(ResponsiveHelper.screenWidth(context), 70);
+  }
+
+  static EdgeInsets getNavbarContentPadding() {
+    return EdgeInsets.all(15);
+  }
+
+  static EdgeInsets getSidePanelPadding() {
+    return const EdgeInsets.all(20);
+  }
+
+  static double getSidePanelWidth(BuildContext context) {
+    return ResponsiveHelper.screenWidth(context) < 1200 ? 180 : 300;
+  }
+
+  static double getBottomDrawerWidth(BuildContext context) {
+    return ResponsiveHelper.screenWidth(context) -
+        (displayDrawer(context) ? 0 : getSidePanelWidth(context));
+  }
+
+  static double getBottomDrawerHeight(BuildContext context) {
+    return ResponsiveHelper.screenHeight(context) +
+        getNavbarContentPadding().right +
+        getNavbarContentPadding().left -
+        getNavbarPreferredSize(context).height;
+  }
 }

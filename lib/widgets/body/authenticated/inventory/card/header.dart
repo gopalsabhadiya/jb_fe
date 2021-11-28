@@ -1,0 +1,49 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:jb_fe/constants/colors.dart';
+import 'package:jb_fe/constants/typography/font_weight.dart';
+import 'package:jb_fe/widgets/calligraphy/app_text.dart';
+import 'package:jb_fe/widgets/common/buttons/icon_button.dart';
+
+class ItemCardHeader extends StatelessWidget {
+  const ItemCardHeader({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      constraints: const BoxConstraints(
+          minWidth: 250, minHeight: 50, maxWidth: 250, maxHeight: 50),
+      padding: EdgeInsets.all(8),
+      decoration: const BoxDecoration(
+        color: AppColors.white,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(5),
+          topRight: Radius.circular(5),
+        ),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          AppTextBuilder("Gold Ring")
+              .weight(AppFontWeight.BOLD)
+              .size(18)
+              .color(AppColors.blue_5)
+              .build(),
+          Row(
+            children: [
+              AppIconButtonBuilder(Icons.add_shopping_cart)
+                  .size(25)
+                  .color(AppColors.blue_5)
+                  .padding(const EdgeInsets.symmetric(horizontal: 5))
+                  .build(),
+              AppIconButtonBuilder(Icons.share)
+                  .size(25)
+                  .color(AppColors.blue_5)
+                  .build()
+            ],
+          )
+        ],
+      ),
+    );
+  }
+}

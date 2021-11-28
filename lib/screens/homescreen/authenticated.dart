@@ -7,7 +7,6 @@ import 'package:jb_fe/controllers/bloc/drawer.dart';
 import 'package:jb_fe/controllers/bloc/events/drawer.dart';
 import 'package:jb_fe/controllers/bloc/state/authenticated_sidepanel.dart';
 import 'package:jb_fe/controllers/bloc/state/drawer.dart';
-import 'package:jb_fe/helpers/responsive/responsive_helper.dart';
 import 'package:jb_fe/router/delegate.dart';
 import 'package:jb_fe/util/authenticated_navbar.dart';
 import 'package:jb_fe/util/global_keys.dart';
@@ -33,11 +32,11 @@ class AuthenticatedHomeScreen extends StatelessWidget {
             create: (context) => DrawerBloc(DrawerState.CLOSED)),
         BlocProvider<AuthenticatedSidePanelCubit>(
             create: (context) => AuthenticatedSidePanelCubit(
-                AuthenticatedSidePanelState.DASHBOARD))
+                AuthenticatedSidePanelState.INVENTORY))
       ],
       child: Scaffold(
           appBar: PreferredSize(
-              preferredSize: Size(ResponsiveHelper.screenWidth(context), 70),
+              preferredSize: ScreenSizeUtil.getNavbarPreferredSize(context),
               child: const AppNavbar()),
           body: Scaffold(
             key: AppGlobalKeys.getBodyScaffoldKey(ScreenTypeEnum.AUTHENTICATED),

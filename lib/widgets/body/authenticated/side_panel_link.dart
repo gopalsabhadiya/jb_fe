@@ -19,13 +19,11 @@ class SidePanelLink extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ResponsiveHelper.screenWidth(context) < 1200
-        ? Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Column(
-                children: _getContent(context),
-              ),
-            ],
+        ? SizedBox(
+            width: double.maxFinite,
+            child: Column(
+              children: _getContent(context),
+            ),
           )
         : Row(children: _getContent(context));
   }

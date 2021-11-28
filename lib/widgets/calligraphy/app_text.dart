@@ -9,6 +9,7 @@ class AppText extends StatelessWidget {
   final double _opacity;
   final FontWeight _weight;
   final EdgeInsets _padding;
+  final TextAlign _textAlign;
 
   @override
   Widget build(BuildContext context) {
@@ -21,13 +22,13 @@ class AppText extends StatelessWidget {
           fontSize: _size,
           fontWeight: _weight,
         ),
-        textAlign: TextAlign.center,
+        textAlign: _textAlign,
       ),
     );
   }
 
   AppText._builder(this._text, this._color, this._size, this._opacity,
-      this._weight, this._padding)
+      this._weight, this._padding, this._textAlign)
       : super(key: ValueKey<String>(_text));
 }
 
@@ -38,6 +39,7 @@ class AppTextBuilder {
   late double _textOpacity = 1;
   late FontWeight _fontWeight = FontWeight.normal;
   late EdgeInsets _padding = EdgeInsets.zero;
+  late TextAlign _textAlign = TextAlign.center;
 
   AppTextBuilder(this._text);
 
@@ -81,6 +83,11 @@ class AppTextBuilder {
     return this;
   }
 
+  AppTextBuilder textAlign(TextAlign textAlign) {
+    _textAlign = textAlign;
+    return this;
+  }
+
   AppTextBuilder paddingHorizontalVertical(
       {required double paddingHorizontal, required double paddingVertical}) {
     _padding = EdgeInsets.only(
@@ -99,7 +106,7 @@ class AppTextBuilder {
   }
 
   AppText build() {
-    return AppText._builder(
-        _text, _textColor, _fontSize, _textOpacity, _fontWeight, _padding);
+    return AppText._builder(_text, _textColor, _fontSize, _textOpacity,
+        _fontWeight, _padding, _textAlign);
   }
 }
