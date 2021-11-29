@@ -37,6 +37,7 @@ dependencies:
   flutter_bloc:
   json_annotation: ^4.3.0
   shared_preferences:
+  dotted_border:
 
 
   # The following adds the Cupertino Icons font to your application.
