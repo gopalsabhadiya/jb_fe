@@ -59,6 +59,7 @@ class _HamburgerTopUnauthenticatedNavbar
                 onPressed: () {
                   if (AppGlobalKeys
                       .UNAUTH_BODY_SCAFFOLD.currentState!.isDrawerOpen) {
+                    print("Into if");
                     AppGlobalKeys.UNAUTH_BODY_SCAFFOLD.currentState!
                         .openEndDrawer();
                   } else {

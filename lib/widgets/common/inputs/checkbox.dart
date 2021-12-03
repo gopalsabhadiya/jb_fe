@@ -24,6 +24,7 @@ class _AppCheckboxState extends State<AppCheckbox> {
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisSize: MainAxisSize.min,
       children: [
         Theme(
           data: ThemeData(unselectedWidgetColor: AppColors.blue_5),

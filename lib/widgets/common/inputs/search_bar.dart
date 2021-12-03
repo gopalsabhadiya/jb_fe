@@ -2,24 +2,20 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jb_fe/constants/colors.dart';
 
-class AppTextInput extends StatelessWidget {
-  final IconData prefixIcon;
+class AppSearchBarInput extends StatelessWidget {
   final String hint;
   final IconData? suffixIcon;
-  final IconData? alternateSuffixIcon;
   final bool? obscureText;
-  final VoidCallback? suffixIconClickHandler;
+  final VoidCallback suffixIconClickHandler;
   final Function(String) onChanged;
-  const AppTextInput(
-      {Key? key,
-      required this.prefixIcon,
-      required this.hint,
-      required this.onChanged,
-      this.suffixIcon,
-      this.obscureText,
-      this.suffixIconClickHandler,
-      this.alternateSuffixIcon})
-      : super(key: key);
+  const AppSearchBarInput({
+    Key? key,
+    required this.hint,
+    required this.onChanged,
+    this.suffixIcon,
+    this.obscureText,
+    required this.suffixIconClickHandler,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -33,32 +29,30 @@ class AppTextInput extends StatelessWidget {
             filled: true,
             fillColor: AppColors.white,
             hoverColor: AppColors.blue_1,
-            errorBorder: const OutlineInputBorder(
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(100),
+            ),
+            errorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(100),
               borderSide: BorderSide(color: AppColors.red_2, width: 1.5),
             ),
-            focusedBorder: const OutlineInputBorder(
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(100),
               borderSide: BorderSide(color: AppColors.blue_4, width: 1.5),
             ),
-            enabledBorder: const OutlineInputBorder(
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(100),
               borderSide: BorderSide(color: AppColors.blue_5, width: 1.5),
             ),
             hintStyle: const TextStyle(color: AppColors.grey_3, fontSize: 16),
-            prefixIcon: Padding(
-              padding: const EdgeInsets.all(10),
-              child: Icon(
-                prefixIcon,
-                color: AppColors.blue_5,
-                size: 25,
-              ),
-            ),
             suffixIcon: IconButton(
-              icon: Icon(
-                suffixIcon,
+              icon: const Icon(
+                Icons.search,
                 color: AppColors.blue_5,
                 size: 25,
               ),
               onPressed: () {
-                suffixIconClickHandler!();
+                suffixIconClickHandler();
               },
             ),
             hintText: hint,

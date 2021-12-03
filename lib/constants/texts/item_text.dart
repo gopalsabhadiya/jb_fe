@@ -15,9 +15,16 @@ class ItemText {
   static final String LAOUR_PER_GRAM = "Per Gram";
   static final String LAOUR_TOTAL = "Total";
 
+  static final EXTRA_ITEM_TEXT = "Extras";
   static final String ADD_EXTRA_INPUT_TEXT = "Add";
   static final String EXTRA_TYPE_INPUT_TEXT = "Select Extra Type";
   static final String EXTRA_PIECE_INPUT_TEXT = "Number of pieces";
   static final String EXTRA_LABOUR_INPUT_TEXT = "Enter Labour Value";
   static final String EXTRA_ITEM_RATE_INPUT_TEXT = "Extra Item Rate per piece";
+
+  static final List<String> LABOUR_TYPE_LIST = [
+    "Percentage",
+    "Per Gram",
+    "Total"
+  ];
 }

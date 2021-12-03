@@ -55,9 +55,11 @@ class ScreenSizeUtil {
   }
 
   static NavbarTypes getUnauthenticatedNavbarType(BuildContext context) {
-    if (ResponsiveHelper.screenWidth(context) < 809) {
+    if (ResponsiveHelper.screenWidth(context) < 800) {
+      print("Returning Hamburger unauthenticated navbar");
       return NavbarTypes.HAMBURGER_TOP_UNAUTHENTICATED;
     }
+    print("Returning Regular unauthenticated navbar");
     return NavbarTypes.REGULAR_TOP_UNAUTHENTICATED;
   }
 
@@ -70,8 +72,10 @@ class ScreenSizeUtil {
 
   static NavbarTypes getAuthenticatedNavbarType(BuildContext context) {
     if (ResponsiveHelper.screenWidth(context) < 800) {
+      print("Returning Hamburger authenticated navbar");
       return NavbarTypes.HAMBURGER_TOP_AUTHENTICATED;
     }
+    print("Returning Regular authenticated navbar");
     return NavbarTypes.REGULAR_TOP_AUTHENTICATED;
   }
 
@@ -145,6 +149,7 @@ class ScreenSizeUtil {
     return ResponsiveHelper.screenHeight(context) +
         getNavbarContentPadding().right +
         getNavbarContentPadding().left -
-        getNavbarPreferredSize(context).height;
+        getNavbarPreferredSize(context).height -
+        20;
   }
 }

@@ -12,7 +12,7 @@ class Inventory extends StatefulWidget {
 }
 
 class _InventoryState extends State<Inventory> {
-  bool showEditItemDrawer = true;
+  bool showEditItemDrawer = false;
 
   @override
   Widget build(BuildContext context) {
@@ -88,43 +88,6 @@ class _InventoryState extends State<Inventory> {
               ),
             ),
           ),
-          // AnimatedContainer(
-          //   duration: AnimationDuration.SHORT,
-          //   height: play ? MediaQuery.of(context).size.height : 0,
-          //   color: AppColors.grey_2,
-          //   child: Column(
-          //     crossAxisAlignment: CrossAxisAlignment.start,
-          //     children: [
-          //       Container(
-          //         color: AppColors.blue_5,
-          //         height: 50,
-          //         child: Padding(
-          //           padding: const EdgeInsets.all(8.0),
-          //           child: Row(
-          //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //             children: [
-          //               AppIconButtonBuilder(Icons.arrow_back)
-          //                   .size(25)
-          //                   .onClickHandler(_cancelSave)
-          //                   .color(AppColors.grey_1)
-          //                   .build(),
-          //               InkWell(
-          //                 onTap: _saveParty,
-          //                 child: AppTextBuilder("Save")
-          //                     .size(20)
-          //                     .weight(AppFontWeight.BOLD)
-          //                     .color(AppColors.grey_1)
-          //                     .paddingHorizontal(20)
-          //                     .build(),
-          //               )
-          //             ],
-          //           ),
-          //         ),
-          //       ),
-          //       AppTextBuilder("Hello").build(),
-          //     ],
-          //   ),
-          // )
           AnimatedPositioned(
               width: ScreenSizeUtil.getBottomDrawerWidth(context),
               height: ScreenSizeUtil.getBottomDrawerHeight(context),
@@ -134,9 +97,6 @@ class _InventoryState extends State<Inventory> {
               child: EditItem(
                 toggleDrawer: _toggleDrawer,
               )),
-          // Container(
-          //   color: AppColors.blue_5,
-          // )
         ],
       ),
     );

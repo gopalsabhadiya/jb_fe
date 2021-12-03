@@ -21,6 +21,7 @@ class ItemInputTopSection extends StatelessWidget {
         ),
         IntrinsicHeight(
           child: Row(
+            mainAxisSize: MainAxisSize.min,
             children: [
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -59,7 +60,7 @@ class ItemInputTopSection extends StatelessWidget {
                         ),
                         child: Column(
                           children: [
-                            Icon(
+                            const Icon(
                               Icons.cloud_upload,
                               size: 65,
                               color: AppColors.blue_5,
@@ -76,7 +77,16 @@ class ItemInputTopSection extends StatelessWidget {
             ],
           ),
         ),
-        AppTextBuilder("UploadedImages").build()
+        Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            AppTextBuilder("Ring.jpg").color(AppColors.blue_5).size(16).build(),
+            AppTextBuilder("Chain.jpg")
+                .color(AppColors.blue_5)
+                .size(16)
+                .build(),
+          ],
+        )
       ],
     );
   }

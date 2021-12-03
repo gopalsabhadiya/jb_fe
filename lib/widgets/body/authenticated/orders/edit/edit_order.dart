@@ -5,12 +5,12 @@ import 'package:jb_fe/constants/typography/font_weight.dart';
 import 'package:jb_fe/widgets/calligraphy/app_text.dart';
 import 'package:jb_fe/widgets/common/buttons/icon_button.dart';
 
-import 'item_form.dart';
+import 'order_form.dart';
 
-class EditItem extends StatelessWidget {
+class EditOrder extends StatelessWidget {
   final VoidCallback _toggleDrawer;
 
-  const EditItem({Key? key, required toggleDrawer})
+  const EditOrder({Key? key, required toggleDrawer})
       : _toggleDrawer = toggleDrawer,
         super(key: key);
 
@@ -35,7 +35,7 @@ class EditItem extends StatelessWidget {
                       .color(AppColors.grey_1)
                       .build(),
                   InkWell(
-                    onTap: _saveItem,
+                    onTap: _saveOrder,
                     child: AppTextBuilder("Save")
                         .size(20)
                         .weight(AppFontWeight.BOLD)
@@ -47,19 +47,19 @@ class EditItem extends StatelessWidget {
               ),
             ),
           ),
-          const Expanded(child: ItemForm()),
+          const Expanded(child: OrderForm()),
         ],
       ),
     );
   }
 
-  void _saveItem() {
-    print("Save Item");
+  void _saveOrder() {
+    print("Save Order");
     _toggleDrawer();
   }
 
   void _cancelSave() {
-    print("Cancel Save Item");
+    print("Cancel Save Order");
     _toggleDrawer();
   }
 }

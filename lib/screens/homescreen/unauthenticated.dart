@@ -18,13 +18,17 @@ class UnauthenticatedHomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(
+        "Building unauthenticated scaffold: ${ScreenSizeUtil.displayDrawer(context)}");
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       AppRouterDelegate.linkLocationNotifier.value =
           UnauthenticatedNavbarLinks.DEFAULT_ACTIVE_LINK;
     });
     return BlocProvider<DrawerBloc>(
       create: (context) => DrawerBloc(DrawerState.CLOSED),
-      child: Scaffold(
+      child: BlocBuilder<DrawerBloc, DrawerState>(
+          builder: (BuildContext context, DrawerState state) {
+        return Scaffold(
           appBar: PreferredSize(
               preferredSize: ScreenSizeUtil.getNavbarPreferredSize(context),
               child: const AppNavbar()),
@@ -36,19 +40,25 @@ class UnauthenticatedHomeScreen extends StatelessWidget {
                 ? UnauthenticatedDrawer()
                 : null,
             body: AppBodyUnAuthenticated(),
-          )),
+          ),
+        );
+      }),
     );
   }
 
   _fireDrawerEvent(BuildContext context) {
+    print("Drawer event fired");
     if (AppGlobalKeys.getBodyScaffoldKey(ScreenTypeEnum.UNAUTHENTICATED)
         .currentState!
         .isDrawerOpen) {
-      context.read<DrawerBloc>().add(DrawerEvent.OPEN);
+      print('Drawer event: if');
+      BlocProvider.of<DrawerBloc>(context).add(DrawerEvent.OPEN);
     } else if (!AppGlobalKeys.getBodyScaffoldKey(ScreenTypeEnum.UNAUTHENTICATED)
         .currentState!
         .isDrawerOpen) {
-      context.read<DrawerBloc>().add(DrawerEvent.CLOSE);
+      print('Drawer event: else if');
+
+      BlocProvider.of<DrawerBloc>(context).add(DrawerEvent.CLOSE);
     }
   }
 }
