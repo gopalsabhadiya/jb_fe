@@ -47,7 +47,7 @@ class AppTextInput extends StatelessWidget {
               padding: const EdgeInsets.all(10),
               child: Icon(
                 prefixIcon,
-                color: AppColors.blue_5,
+                color: AppColors.blue5WithOpacity(0.7),
                 size: 25,
               ),
             ),

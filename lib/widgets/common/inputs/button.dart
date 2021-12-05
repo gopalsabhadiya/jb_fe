@@ -4,7 +4,7 @@ import 'package:jb_fe/constants/colors.dart';
 import 'package:jb_fe/constants/typography/font_weight.dart';
 import 'package:jb_fe/widgets/calligraphy/app_text.dart';
 
-enum ButtonColorScheme { RED, BLUE }
+enum ButtonColorScheme { RED, BLUE, WHITE }
 
 class AppButton extends StatelessWidget {
   final ButtonColorScheme _colorScheme;
@@ -77,6 +77,8 @@ class AppButton extends StatelessWidget {
         return AppColors.red_2;
       case ButtonColorScheme.BLUE:
         return AppColors.blue_5;
+      case ButtonColorScheme.WHITE:
+        return AppColors.white;
     }
   }
 
@@ -86,6 +88,8 @@ class AppButton extends StatelessWidget {
         return AppColors.red2WithOpacity(0.04);
       case ButtonColorScheme.BLUE:
         return AppColors.blue4WithOpacity(0.04);
+      case ButtonColorScheme.WHITE:
+        return AppColors.blue_5;
     }
   }
 
@@ -95,6 +99,8 @@ class AppButton extends StatelessWidget {
         return AppColors.red2WithOpacity(0.12);
       case ButtonColorScheme.BLUE:
         return AppColors.blue4WithOpacity(0.12);
+      case ButtonColorScheme.WHITE:
+        return AppColors.white;
     }
   }
 }

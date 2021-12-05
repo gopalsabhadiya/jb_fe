@@ -1,0 +1,12 @@
+class PaymentText {
+  static final String ORDERS_SECTION_HEADER = "Orders";
+  static final String UNSORTED_AMMOUNT = "Unsorted Ammount";
+  static final String SEARCH_PARTY_INPUT_TEXT = "Search Party";
+  static final String PAYMENT_TYPE_INPUT_TEXT = "Select Payment Type";
+  static final String AMMOUNT_INPUT_TEXT = "Enter Payment Ammount";
+  static final String CHECK_NUMBER_INPUT_TEXT = "Enter Check Number";
+  static final String PAN_INPUT_TEXT = "Payee PAN Number";
+  static final String AADHAR_INPUT_TEXT = "Payee AADHAR Number";
+  static final String BANK_NAME_INPUT_TEXT = "Enter Bank Name";
+  static final String ORDER_DEPOSIT_INPUT_TEXT = "Enter Deposit Ammount";
+}

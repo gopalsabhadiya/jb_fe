@@ -34,16 +34,16 @@ class ExtraItemForm extends StatelessWidget {
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     AppTextInput(
-                      prefixIcon: AppIcons.karat,
-                      hint: ItemText.KARAT_INPUT_TEXT,
+                      prefixIcon: AppIcons.crystal,
+                      hint: ItemText.EXTRA_TYPE_INPUT_TEXT,
                       onChanged: _onChange,
                     ),
                     const SizedBox(
                       height: 10,
                     ),
                     AppTextInput(
-                      prefixIcon: AppIcons.karat,
-                      hint: ItemText.KARAT_INPUT_TEXT,
+                      prefixIcon: Icons.extension,
+                      hint: ItemText.EXTRA_PIECE_INPUT_TEXT,
                       onChanged: _onChange,
                     ),
                   ],
@@ -57,16 +57,16 @@ class ExtraItemForm extends StatelessWidget {
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     AppTextInput(
-                      prefixIcon: AppIcons.karat,
-                      hint: ItemText.KARAT_INPUT_TEXT,
+                      prefixIcon: Icons.engineering,
+                      hint: ItemText.EXTRA_LABOUR_INPUT_TEXT,
                       onChanged: _onChange,
                     ),
                     const SizedBox(
                       height: 10,
                     ),
                     AppTextInput(
-                      prefixIcon: AppIcons.karat,
-                      hint: ItemText.KARAT_INPUT_TEXT,
+                      prefixIcon: Icons.local_offer,
+                      hint: ItemText.EXTRA_ITEM_RATE_INPUT_TEXT,
                       onChanged: _onChange,
                     ),
                   ],

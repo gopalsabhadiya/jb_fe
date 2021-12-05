@@ -2,15 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jb_fe/constants/colors.dart';
 import 'package:jb_fe/constants/typography/font_weight.dart';
+import 'package:jb_fe/widgets/body/authenticated/payments/add_edit/payment_form.dart';
 import 'package:jb_fe/widgets/calligraphy/app_text.dart';
 import 'package:jb_fe/widgets/common/buttons/icon_button.dart';
 
-import 'item_form.dart';
-
-class EditItem extends StatelessWidget {
+class EditPayment extends StatelessWidget {
   final VoidCallback _toggleDrawer;
 
-  const EditItem({Key? key, required toggleDrawer})
+  const EditPayment({Key? key, required toggleDrawer})
       : _toggleDrawer = toggleDrawer,
         super(key: key);
 
@@ -47,7 +46,7 @@ class EditItem extends StatelessWidget {
               ),
             ),
           ),
-          const Expanded(child: ItemForm()),
+          Expanded(child: const PaymentForm()),
         ],
       ),
     );

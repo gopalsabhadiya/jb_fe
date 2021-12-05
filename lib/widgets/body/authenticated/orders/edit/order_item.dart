@@ -74,8 +74,10 @@ class OrderFormItemDetails extends StatelessWidget {
               padding: const EdgeInsets.all(10),
               child: Column(
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  Wrap(
+                    spacing: 10,
+                    runSpacing: 10,
+                    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: const [
                       AppChip(text: "4.500", icon: AppIcons.gross_weight),
                       AppChip(text: "4.500", icon: AppIcons.net_weight),
@@ -86,35 +88,25 @@ class OrderFormItemDetails extends StatelessWidget {
                   const SizedBox(
                     height: 10,
                   ),
-                  Row(
+                  Wrap(
+                    spacing: 10,
+                    runSpacing: 10,
                     children: [
                       KeyValueDisplay(
                         textKey: OrderText.DIAMOND,
                         value: "₹ 250",
                       ),
-                      const SizedBox(
-                        width: 10,
-                      ),
                       KeyValueDisplay(
                         textKey: OrderText.RHODIUM,
                         value: "₹ 150",
-                      ),
-                      const SizedBox(
-                        width: 10,
                       ),
                       KeyValueDisplay(
                         textKey: OrderText.HALL_MARK,
                         value: "₹ 200",
                       ),
-                      const SizedBox(
-                        width: 10,
-                      ),
                       KeyValueDisplay(
                         textKey: OrderText.RUBY,
                         value: "₹ 2,500",
-                      ),
-                      const SizedBox(
-                        width: 10,
                       ),
                       KeyValueDisplay(
                         textKey: OrderText.STONE,
@@ -168,10 +160,6 @@ class OrderFormItemDetails extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  void _onChange(String value) {
-    print("Input Changed");
   }
 
   void _onClick() {

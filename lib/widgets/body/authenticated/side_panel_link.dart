@@ -40,7 +40,7 @@ class SidePanelLink extends StatelessWidget {
       ),
       AppTextBuilder(_text)
           .size(16 + ScreenSizeUtil.getWidthAdditionForDrawerUI(context, 2))
-          .color(AppColors.blue_5)
+          .color(_isActive ? AppColors.blue_5 : AppColors.grey_3)
           .weight(_isActive ? AppFontWeight.BOLD : AppFontWeight.LIGHT)
           .build(),
     ];

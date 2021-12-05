@@ -31,8 +31,8 @@ class AuthenticatedHomeScreen extends StatelessWidget {
         BlocProvider<DrawerBloc>(
             create: (context) => DrawerBloc(DrawerState.CLOSED)),
         BlocProvider<AuthenticatedSidePanelCubit>(
-            create: (context) =>
-                AuthenticatedSidePanelCubit(AuthenticatedSidePanelState.ORDERS))
+            create: (context) => AuthenticatedSidePanelCubit(
+                AuthenticatedSidePanelState.PAYMENTS))
       ],
       child: Scaffold(
           appBar: PreferredSize(

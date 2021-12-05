@@ -7,7 +7,9 @@ import 'package:jb_fe/widgets/calligraphy/app_text.dart';
 import 'package:jb_fe/widgets/common/inputs/button.dart';
 
 class ItemInputExtrasSection extends StatelessWidget {
-  const ItemInputExtrasSection({Key? key}) : super(key: key);
+  final ScrollController controller = ScrollController();
+
+  ItemInputExtrasSection({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +23,7 @@ class ItemInputExtrasSection extends StatelessWidget {
                 offset: Offset(2, 2),
                 color: AppColors.grey_3, //edited
                 spreadRadius: 1,
-                blurRadius: 5 //edited
+                blurRadius: 4 //edited
                 )
           ],
         ),
@@ -56,15 +58,21 @@ class ItemInputExtrasSection extends StatelessWidget {
                   borderRadius: BorderRadius.vertical(
                       top: Radius.circular(5), bottom: Radius.circular(5)),
                 ),
-                child: ListView(
-                  children: [
-                    ExtraItemForm(),
-                    ExtraItemForm(),
-                    ExtraItemForm(),
-                    ExtraItemForm(),
-                    ExtraItemForm(),
-                    ExtraItemForm()
-                  ],
+                child: Scrollbar(
+                  isAlwaysShown: true,
+                  interactive: true,
+                  controller: controller,
+                  child: ListView(
+                    controller: controller,
+                    children: [
+                      ExtraItemForm(),
+                      ExtraItemForm(),
+                      ExtraItemForm(),
+                      ExtraItemForm(),
+                      ExtraItemForm(),
+                      ExtraItemForm()
+                    ],
+                  ),
                 ),
               ),
             )

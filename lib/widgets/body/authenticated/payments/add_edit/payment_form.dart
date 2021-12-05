@@ -1,17 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:jb_fe/constants/colors.dart';
-import 'package:jb_fe/widgets/body/authenticated/orders/edit/header_section.dart';
-import 'package:jb_fe/widgets/body/authenticated/orders/edit/item_section.dart';
-import 'package:jb_fe/widgets/body/authenticated/orders/edit/mid_section.dart';
+import 'package:jb_fe/widgets/body/authenticated/payments/add_edit/mid_section.dart';
+import 'package:jb_fe/widgets/body/authenticated/payments/add_edit/orders_section.dart';
+import 'package:jb_fe/widgets/body/authenticated/payments/add_edit/top_section.dart';
 
-class OrderForm extends StatelessWidget {
-  const OrderForm({Key? key}) : super(key: key);
+class PaymentForm extends StatelessWidget {
+  const PaymentForm({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(20),
       child: Container(
+        padding: EdgeInsets.all(20),
         constraints: const BoxConstraints(maxWidth: 1000),
         decoration: BoxDecoration(
           color: AppColors.white,
@@ -28,10 +29,10 @@ class OrderForm extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.max,
           crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: const [
-            OrderFormHeader(),
-            OrderFormMidSection(),
-            OrderFormItemSection(),
+          children: [
+            PaymentFormTopSection(),
+            PaymentFormMidSection(),
+            PaymentFormOrderSection()
           ],
         ),
       ),

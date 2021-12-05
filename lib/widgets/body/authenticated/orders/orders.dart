@@ -12,7 +12,7 @@ class Orders extends StatefulWidget {
 }
 
 class _OrdersState extends State<Orders> {
-  bool showEditOrderDrawer = true;
+  bool showEditOrderDrawer = false;
 
   @override
   Widget build(BuildContext context) {

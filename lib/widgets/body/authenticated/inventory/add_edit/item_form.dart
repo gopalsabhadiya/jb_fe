@@ -14,28 +14,29 @@ class ItemForm extends StatelessWidget {
       padding: const EdgeInsets.all(20),
       child: Container(
           padding: const EdgeInsets.all(20),
-          constraints: BoxConstraints(maxWidth: 1366),
+          constraints: BoxConstraints(maxWidth: 1000),
           decoration: BoxDecoration(
-              color: AppColors.white,
-              borderRadius: BorderRadius.circular(5),
-              boxShadow: const [
-                BoxShadow(
-                    offset: Offset(2, 2),
-                    color: AppColors.grey_3, //edited
-                    spreadRadius: 1,
-                    blurRadius: 5 //edited
-                    )
-              ]),
+            color: AppColors.white,
+            borderRadius: BorderRadius.circular(5),
+            // boxShadow: const [
+            //   BoxShadow(
+            //       // offset: Offset(2, 2),
+            //       color: AppColors.grey_3, //edited
+            //       spreadRadius: -2,
+            //       blurRadius: 10 //edited
+            //       )
+            // ],
+          ),
           child: Column(
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: const [
-              ItemInputTopSection(),
-              SizedBox(
+            children: [
+              const ItemInputTopSection(),
+              const SizedBox(
                 height: 30,
               ),
               ItemInputMedSection(),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
               ItemInputExtrasSection()
