@@ -12,7 +12,7 @@ class Payments extends StatefulWidget {
 }
 
 class _PaymentsState extends State<Payments> {
-  bool showEditPaymentDrawer = true;
+  bool showEditPaymentDrawer = false;
 
   @override
   Widget build(BuildContext context) {
