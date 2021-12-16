@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jb_fe/injection_container.dart';
 import 'package:jb_fe/router/delegate.dart';
 import 'package:jb_fe/router/parser.dart';
 
@@ -6,6 +7,7 @@ import 'configure_nonweb.dart' if (dart.library.html) 'configure_web.dart';
 
 void main() {
   configureApp();
+  init();
   runApp(MyApp());
 }
 //

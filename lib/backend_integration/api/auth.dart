@@ -8,15 +8,21 @@ import 'package:jb_fe/backend_integration/dto/responses/auth_response.dart';
 import 'package:jb_fe/backend_integration/utils/storage/shared_preference.dart';
 
 class AuthenticationAPI {
-  static final _http = AppHttpClient.getHttpClient();
+  static final AuthenticationAPI _singleton = AuthenticationAPI._internal();
+  factory AuthenticationAPI() {
+    return _singleton;
+  }
+  AuthenticationAPI._internal();
 
-  static Future<http.Response> authenticateUser(LoginFormDTO user) {
+  final _http = AppHttpClient.getHttpClient();
+
+  Future<http.Response> authenticateUser(LoginFormDTO user) {
     return _http.post(EndpointUri.getAuthenticateURL(),
         headers: {"content-type": "application/json"},
         body: jsonEncode(user.toJson()));
   }
 
-  static Future<bool> validateAuthentication() async {
+  Future<bool> validateAuthentication() async {
     final String csrfToken = await AppSharedPreference.getString(key: "csrf");
     if (csrfToken.isNotEmpty) {
       AuthResponse authResponse = AuthResponse(csrfToken, false);
@@ -24,6 +30,7 @@ class AuthenticationAPI {
           EndpointUri.getValidateAuthenticationURL(),
           headers: {"content-type": "application/json"},
           body: jsonEncode(authResponse.toJson()));
+      print("Response: ${response.headers['set-cookie']}");
       if (response.statusCode == 200) {
         return true;
       }

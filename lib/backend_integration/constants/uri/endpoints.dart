@@ -1,9 +1,12 @@
 class EndpointUri {
   //static const String _SERVER_ADDRESS = "https://j-m-s.herokuapp.com";
   static const String _SERVER_ADDRESS = "http://localhost:8080";
+  // static const String _SERVER_ADDRESS = "http://10.0.2.2:8080";
 
   static const String _PATH_USER_ID = "{USER_ID}";
   static const String _PATH_BUSINESS_ID = "{BUSINESS_ID}";
+  static const String _PATH_PARTY_ID = "{PARTY_ID}";
+  static const String _PAGE = "{PAGE}";
 
   static const String _BASE_URL = "$_SERVER_ADDRESS/api";
 
@@ -12,6 +15,7 @@ class EndpointUri {
   static const String _VALIDATE_AUTH = "$_BASE_AUTH/validate";
   static const String _BASE_BUSINESS = "$_BASE_URL/business";
   static const String _BASE_PARTY = "$_BASE_URL/party";
+  static const String _PARTY_PAGE = "$_BASE_URL/party/?page=$_PAGE";
   static const String _BASE_ORDER = "$_BASE_URL/order";
   static const String _BASE_BILL = "$_BASE_URL/bill";
   static const String _BASE_ITEM = "$_BASE_URL/item";
@@ -64,5 +68,13 @@ class EndpointUri {
 
   static Uri getGetItemCollectionURL() {
     return Uri.parse(_ITEM_COLLECTION);
+  }
+
+  static Uri getBaseParty() {
+    return Uri.parse(_BASE_PARTY);
+  }
+
+  static Uri getPartyPage(int pageNumber) {
+    return Uri.parse(_PARTY_PAGE.replaceAll(_PAGE, pageNumber.toString()));
   }
 }

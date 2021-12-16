@@ -1,14 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:jb_fe/backend_integration/constants/enum/party_type_enum.dart';
+import 'package:jb_fe/backend_integration/dto/party/party_presentation.dart';
 import 'package:jb_fe/constants/colors.dart';
 import 'package:jb_fe/constants/durations/animation_durations.dart';
-import 'package:jb_fe/constants/enum/form_type.dart';
 import 'package:jb_fe/constants/texts/party_text.dart';
 import 'package:jb_fe/constants/typography/font_weight.dart';
 import 'package:jb_fe/widgets/calligraphy/app_text.dart';
 
 class PartyFormHeader extends StatefulWidget {
-  const PartyFormHeader({Key? key}) : super(key: key);
+  final PartyPresentation _party;
+  const PartyFormHeader({Key? key, required party})
+      : _party = party,
+        super(key: key);
 
   @override
   State<PartyFormHeader> createState() => _PartyFormHeaderState();
@@ -17,11 +21,11 @@ class PartyFormHeader extends StatefulWidget {
 class _PartyFormHeaderState extends State<PartyFormHeader>
     with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
-  late PartyFormType _currentFormState;
+  late PartyTypeEnum _currentFormState;
 
   @override
   void initState() {
-    _currentFormState = PartyFormType.CUSTOMER;
+    _currentFormState = widget._party.type;
 
     super.initState();
     _animationController =
@@ -42,9 +46,10 @@ class _PartyFormHeaderState extends State<PartyFormHeader>
         InkWell(
           child: _getCustomerCapsule(),
           onTap: () {
+            widget._party.setNewType(PartyTypeEnum.Customer);
             _animationController.forward();
             setState(() {
-              _currentFormState = PartyFormType.CUSTOMER;
+              _currentFormState = PartyTypeEnum.Customer;
             });
           },
         ),
@@ -52,8 +57,9 @@ class _PartyFormHeaderState extends State<PartyFormHeader>
           child: _getVendorCapsule(),
           onTap: () {
             _animationController.animateBack(0);
+            widget._party.setNewType(PartyTypeEnum.Retail);
             setState(() {
-              _currentFormState = PartyFormType.VENDOR;
+              _currentFormState = PartyTypeEnum.Retail;
             });
           },
         ),
@@ -65,18 +71,18 @@ class _PartyFormHeaderState extends State<PartyFormHeader>
     return AnimatedContainer(
       duration: AnimationDuration.SHORT,
       decoration: ShapeDecoration(
-          color: _getBackgroundColor(PartyFormType.CUSTOMER),
+          color: _getBackgroundColor(PartyTypeEnum.Customer),
           shape: const StadiumBorder()),
       child: AnimatedPadding(
         duration: AnimationDuration.SHORT,
         padding: EdgeInsets.only(
-            top: _getPaddingVertical(PartyFormType.CUSTOMER),
-            bottom: _getPaddingVertical(PartyFormType.CUSTOMER),
+            top: _getPaddingVertical(PartyTypeEnum.Customer),
+            bottom: _getPaddingVertical(PartyTypeEnum.Customer),
             left: 50,
             right: 50),
         child: AppTextBuilder(PartyText.CUSTOMER)
-            .color(_getTextColor(PartyFormType.CUSTOMER))
-            .size(_getFontSize(PartyFormType.CUSTOMER))
+            .color(_getTextColor(PartyTypeEnum.Customer))
+            .size(_getFontSize(PartyTypeEnum.Customer))
             .weight(AppFontWeight.SEMI_BOLD)
             .build(),
       ),
@@ -87,114 +93,114 @@ class _PartyFormHeaderState extends State<PartyFormHeader>
     return AnimatedContainer(
       duration: AnimationDuration.SHORT,
       decoration: ShapeDecoration(
-          color: _getBackgroundColor(PartyFormType.VENDOR),
+          color: _getBackgroundColor(PartyTypeEnum.Retail),
           shape: const StadiumBorder()),
       child: AnimatedPadding(
         duration: AnimationDuration.SHORT,
         padding: EdgeInsets.only(
-            top: _getPaddingVertical(PartyFormType.VENDOR),
-            bottom: _getPaddingVertical(PartyFormType.VENDOR),
+            top: _getPaddingVertical(PartyTypeEnum.Retail),
+            bottom: _getPaddingVertical(PartyTypeEnum.Retail),
             left: 50,
             right: 50),
-        child: AppTextBuilder(PartyText.VENDOR)
-            .color(_getTextColor(PartyFormType.VENDOR))
-            .size(_getFontSize(PartyFormType.VENDOR))
+        child: AppTextBuilder(PartyText.RETAIL)
+            .color(_getTextColor(PartyTypeEnum.Retail))
+            .size(_getFontSize(PartyTypeEnum.Retail))
             .weight(AppFontWeight.SEMI_BOLD)
             .build(),
       ),
     );
   }
 
-  Color _getBackgroundColor(PartyFormType partyFormType) {
+  Color _getBackgroundColor(PartyTypeEnum partyFormType) {
     switch (partyFormType) {
-      case PartyFormType.CUSTOMER:
+      case PartyTypeEnum.Customer:
         switch (_currentFormState) {
-          case PartyFormType.CUSTOMER:
+          case PartyTypeEnum.Customer:
             return AppColors.blue_5;
-          case PartyFormType.VENDOR:
+          case PartyTypeEnum.Retail:
             return AppColors.blue_2;
         }
-      case PartyFormType.VENDOR:
+      case PartyTypeEnum.Retail:
         switch (_currentFormState) {
-          case PartyFormType.CUSTOMER:
+          case PartyTypeEnum.Customer:
             return AppColors.blue_2;
-          case PartyFormType.VENDOR:
+          case PartyTypeEnum.Retail:
             return AppColors.blue_5;
         }
     }
   }
 
-  Color _getTextColor(PartyFormType partyFormType) {
+  Color _getTextColor(PartyTypeEnum partyFormType) {
     switch (partyFormType) {
-      case PartyFormType.CUSTOMER:
+      case PartyTypeEnum.Customer:
         switch (_currentFormState) {
-          case PartyFormType.CUSTOMER:
+          case PartyTypeEnum.Customer:
             return AppColors.grey_1;
-          case PartyFormType.VENDOR:
+          case PartyTypeEnum.Retail:
             return AppColors.blue_5;
         }
-      case PartyFormType.VENDOR:
+      case PartyTypeEnum.Retail:
         switch (_currentFormState) {
-          case PartyFormType.CUSTOMER:
+          case PartyTypeEnum.Customer:
             return AppColors.blue_5;
-          case PartyFormType.VENDOR:
+          case PartyTypeEnum.Retail:
             return AppColors.grey_1;
         }
     }
   }
 
-  double _getFontSize(PartyFormType partyFormType) {
+  double _getFontSize(PartyTypeEnum partyFormType) {
     switch (partyFormType) {
-      case PartyFormType.CUSTOMER:
+      case PartyTypeEnum.Customer:
         switch (_currentFormState) {
-          case PartyFormType.CUSTOMER:
+          case PartyTypeEnum.Customer:
             return 18;
-          case PartyFormType.VENDOR:
+          case PartyTypeEnum.Retail:
             return 16;
         }
-      case PartyFormType.VENDOR:
+      case PartyTypeEnum.Retail:
         switch (_currentFormState) {
-          case PartyFormType.CUSTOMER:
+          case PartyTypeEnum.Customer:
             return 16;
-          case PartyFormType.VENDOR:
+          case PartyTypeEnum.Retail:
             return 18;
         }
     }
   }
 
-  double _getPaddingVertical(PartyFormType partyFormType) {
+  double _getPaddingVertical(PartyTypeEnum partyFormType) {
     switch (partyFormType) {
-      case PartyFormType.CUSTOMER:
+      case PartyTypeEnum.Customer:
         switch (_currentFormState) {
-          case PartyFormType.CUSTOMER:
+          case PartyTypeEnum.Customer:
             return 15;
-          case PartyFormType.VENDOR:
+          case PartyTypeEnum.Retail:
             return 8;
         }
-      case PartyFormType.VENDOR:
+      case PartyTypeEnum.Retail:
         switch (_currentFormState) {
-          case PartyFormType.CUSTOMER:
+          case PartyTypeEnum.Customer:
             return 8;
-          case PartyFormType.VENDOR:
+          case PartyTypeEnum.Retail:
             return 15;
         }
     }
   }
 
-  _getOpacity(PartyFormType partyFormType) {
+  _getOpacity(PartyTypeEnum partyFormType) {
     switch (partyFormType) {
-      case PartyFormType.CUSTOMER:
+      case PartyTypeEnum.Customer:
         switch (_currentFormState) {
-          case PartyFormType.CUSTOMER:
+          case PartyTypeEnum.Customer:
             return 1;
-          case PartyFormType.VENDOR:
+          case PartyTypeEnum.Retail:
             return 0;
         }
-      case PartyFormType.VENDOR:
+      case PartyTypeEnum.Retail:
         switch (_currentFormState) {
-          case PartyFormType.CUSTOMER:
+          case PartyTypeEnum.Customer:
             return 0;
-          case PartyFormType.VENDOR:
+          case PartyTypeEnum.Retail:
             return 1;
         }
     }

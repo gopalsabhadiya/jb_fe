@@ -2,7 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jb_fe/controllers/bloc/authenticated_sidepanel.dart';
 import 'package:jb_fe/controllers/bloc/state/authenticated_sidepanel.dart';
-import 'package:jb_fe/router/delegate.dart';
+import 'package:jb_fe/controllers/party_bloc/party_bloc.dart';
+import 'package:jb_fe/injection_container.dart';
 import 'package:jb_fe/util/screen_size.dart';
 import 'package:jb_fe/widgets/body/authenticated/dashboard/dashboard.dart';
 import 'package:jb_fe/widgets/body/authenticated/inventory/inventory.dart';
@@ -11,7 +12,6 @@ import 'package:jb_fe/widgets/body/authenticated/party/party.dart';
 import 'package:jb_fe/widgets/body/authenticated/payments/payments.dart';
 import 'package:jb_fe/widgets/body/authenticated/shop_expenses/shop_expenses.dart';
 import 'package:jb_fe/widgets/body/authenticated/side_panel.dart';
-import 'package:jb_fe/widgets/calligraphy/app_text.dart';
 
 class AppBodyAuthenticated extends StatelessWidget {
   const AppBodyAuthenticated({Key? key}) : super(key: key);
@@ -34,7 +34,11 @@ class AppBodyAuthenticated extends StatelessWidget {
         case AuthenticatedSidePanelState.DASHBOARD:
           return const Dashboard();
         case AuthenticatedSidePanelState.PARTY:
-          return const Party();
+          return BlocProvider<PartyBloc>(
+            create: (BuildContext context) =>
+                serviceLocator<PartyBloc>()..add(FetchParties()),
+            child: const Party(),
+          );
         case AuthenticatedSidePanelState.INVENTORY:
           return const Inventory();
         case AuthenticatedSidePanelState.ORDERS:
@@ -45,11 +49,5 @@ class AppBodyAuthenticated extends StatelessWidget {
           return const ShopExpenses();
       }
     });
-    print(
-        "Router delegate value:${AppRouterDelegate.linkLocationNotifier.value}");
-    if (AppRouterDelegate.linkLocationNotifier.value == "dashboard") {
-      return Container(child: AppTextBuilder("Dashboard").build());
-    }
-    return Container(child: AppTextBuilder("Dummy").build());
   }
 }

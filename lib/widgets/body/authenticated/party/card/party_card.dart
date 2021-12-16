@@ -1,15 +1,18 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jb_fe/backend_integration/dto/party/party_presentation.dart';
 import 'package:jb_fe/constants/colors.dart';
+import 'package:jb_fe/controllers/delete_party/delete_party_bloc.dart';
 import 'package:jb_fe/widgets/body/authenticated/party/card/content.dart';
 import 'package:jb_fe/widgets/body/authenticated/party/card/footer.dart';
 import 'package:jb_fe/widgets/body/authenticated/party/card/header.dart';
 
 class PartyCard extends StatelessWidget {
-  final Function(String) _onPartyEdit;
-  final String _partyId;
-  const PartyCard({Key? key, required onPartyEdit, required partyId})
+  final Function(PartyPresentation) _onPartyEdit;
+  final PartyPresentation _party;
+  const PartyCard({Key? key, required onPartyEdit, required party})
       : _onPartyEdit = onPartyEdit,
-        _partyId = partyId,
+        _party = party,
         super(key: key);
 
   @override
@@ -31,12 +34,18 @@ class PartyCard extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          PartyCardHeader(),
-          PartyCardContent(),
+          PartyCardHeader(name: _party.name),
+          PartyCardContent(
+              contact: _party.contactNo,
+              address: _party.address,
+              gstin: _party.gstin,
+              balance: _party.balance,
+              email: _party.email),
           PartyCardFooter(
+            partyType: _party.type,
             onPartyFavourite: _onPartyFavouriteClick,
             onPartyEdit: _onPartyEditClick,
-            onPartyDelete: _onPartyDeleteClick,
+            onPartyDelete: () => _onPartyDeleteClick(context),
           ),
         ],
       ),
@@ -44,14 +53,16 @@ class PartyCard extends StatelessWidget {
   }
 
   _onPartyFavouriteClick() {
-    print("Party favourite: $_partyId");
+    print("Party favourite: ${_party.partyId}");
   }
 
   _onPartyEditClick() {
-    _onPartyEdit(_partyId);
+    _onPartyEdit(_party);
   }
 
-  _onPartyDeleteClick() {
-    print("Party Deleted: $_partyId");
+  _onPartyDeleteClick(BuildContext context) {
+    BlocProvider.of<DeletePartyBloc>(context)
+        .add(DeleteParty(partyIdToBeDeleted: _party.id));
+    print("Party Deleted:  ${_party.partyId}");
   }
 }

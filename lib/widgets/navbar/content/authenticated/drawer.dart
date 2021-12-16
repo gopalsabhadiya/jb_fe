@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jb_fe/constants/colors.dart';
 import 'package:jb_fe/constants/typography/font_weight.dart';
+import 'package:jb_fe/controllers/bloc/authenticated_sidepanel.dart';
 import 'package:jb_fe/helpers/responsive/responsive_helper.dart';
 import 'package:jb_fe/router/delegate.dart';
 import 'package:jb_fe/util/authenticated_navbar.dart';
@@ -61,6 +63,8 @@ class _AuthenticatedDrawerState extends State<AuthenticatedDrawer> {
                 });
               },
               onTap: () {
+                BlocProvider.of<AuthenticatedSidePanelCubit>(context)
+                    .navigateTo(entry.key);
                 AppRouterDelegate.linkLocationNotifier.value = entry.key;
                 Navigator.pop(context);
               },

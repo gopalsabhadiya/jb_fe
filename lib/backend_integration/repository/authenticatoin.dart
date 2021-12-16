@@ -9,6 +9,7 @@ import 'package:jb_fe/backend_integration/utils/storage/shared_preference.dart';
 
 class AuthenticationRepository {
   final _controller = StreamController<AuthenticationStatus>();
+  AuthenticationAPI api = AuthenticationAPI();
 
   Stream<AuthenticationStatus> get authStatus async* {
     yield AuthenticationStatus.UNKNOWN;
@@ -17,7 +18,7 @@ class AuthenticationRepository {
 
   Future<void> logIn(LoginFormDTO loginForm) async {
     _controller.add(AuthenticationStatus.LOADING);
-    final response = await AuthenticationAPI.authenticateUser(loginForm);
+    final response = await api.authenticateUser(loginForm);
     final authResponse = AuthResponse.fromJson(json.decode(response.body));
     AppSharedPreference.saveString(key: "csrf", value: authResponse.token);
     _controller.add(AuthenticationStatus.AUTHENTICATED);
@@ -30,7 +31,7 @@ class AuthenticationRepository {
   void validate() async {
     _controller.add(AuthenticationStatus.LOADING);
     final String _csrfToken = await AppSharedPreference.getString(key: "csrf");
-    final isValid = await AuthenticationAPI.validateAuthentication();
+    final isValid = await api.validateAuthentication();
 
     if (isValid) {
       _controller.add(AuthenticationStatus.AUTHENTICATED);

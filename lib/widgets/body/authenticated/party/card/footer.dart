@@ -1,17 +1,28 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jb_fe/backend_integration/constants/enum/party_type_enum.dart';
 import 'package:jb_fe/constants/colors.dart';
+import 'package:jb_fe/controllers/delete_party/delete_party_bloc.dart';
 import 'package:jb_fe/widgets/calligraphy/app_text.dart';
 import 'package:jb_fe/widgets/common/buttons/icon_button.dart';
 
 class PartyCardFooter extends StatelessWidget {
+  final PartyTypeEnum _partyType;
   final VoidCallback _onPartyFavourite;
   final VoidCallback _onPartyEdit;
   final VoidCallback _onPartyDelete;
 
-  const PartyCardFooter({Key? key, required onPartyFavourite, required onPartyEdit, required onPartyDelete})
-      : _onPartyFavourite=onPartyFavourite,_onPartyEdit = onPartyEdit,
-  _onPartyDelete = onPartyDelete,
+  const PartyCardFooter(
+      {Key? key,
+      required onPartyFavourite,
+      required onPartyEdit,
+      required onPartyDelete,
+      required partyType})
+      : _partyType = partyType,
+        _onPartyFavourite = onPartyFavourite,
+        _onPartyEdit = onPartyEdit,
+        _onPartyDelete = onPartyDelete,
         super(key: key);
 
   @override
@@ -31,7 +42,7 @@ class PartyCardFooter extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            AppTextBuilder("Customer").color(AppColors.green_1).build(),
+            AppTextBuilder(_partyType.name()).color(AppColors.green_1).build(),
             Row(
               children: [
                 AppIconButtonBuilder(Icons.grade_outlined)
@@ -45,12 +56,22 @@ class PartyCardFooter extends StatelessWidget {
                     .padding(EdgeInsets.all(3))
                     .color(AppColors.blue_5)
                     .build(),
-                AppIconButtonBuilder(Icons.delete)
-                    .size(25)
-                    .onClickHandler(_onPartyDelete)
-                    .padding(EdgeInsets.all(3))
-                    .color(AppColors.red_2)
-                    .build(),
+                BlocBuilder<DeletePartyBloc, DeletePartyState>(
+                  builder: (context, state) {
+                    switch (state.deleteStatus) {
+                      case DeletePartyStatus.LOADING:
+                        return CircularProgressIndicator();
+                      case DeletePartyStatus.COMPLETED:
+                      case DeletePartyStatus.ERROR:
+                        return AppIconButtonBuilder(Icons.delete)
+                            .size(25)
+                            .onClickHandler(_onPartyDelete)
+                            .padding(EdgeInsets.all(3))
+                            .color(AppColors.red_2)
+                            .build();
+                    }
+                  },
+                )
               ],
             )
           ],

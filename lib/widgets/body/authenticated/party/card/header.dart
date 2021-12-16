@@ -5,7 +5,10 @@ import 'package:jb_fe/constants/typography/font_weight.dart';
 import 'package:jb_fe/widgets/calligraphy/app_text.dart';
 
 class PartyCardHeader extends StatelessWidget {
-  const PartyCardHeader({Key? key}) : super(key: key);
+  final String _name;
+  const PartyCardHeader({Key? key, required name})
+      : _name = name,
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +29,7 @@ class PartyCardHeader extends StatelessWidget {
             child:
                 Icon(Icons.account_circle, size: 35, color: AppColors.blue_5),
           ),
-          AppTextBuilder("Gopal Sabhadiya")
+          AppTextBuilder(_name)
               .weight(AppFontWeight.BOLD)
               .size(20)
               .color(AppColors.blue_5)

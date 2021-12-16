@@ -29,24 +29,27 @@ class AuthenticatedHomeScreen extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<DrawerBloc>(
-            create: (context) => DrawerBloc(DrawerState.CLOSED)),
+            lazy: false, create: (context) => DrawerBloc(DrawerState.CLOSED)),
         BlocProvider<AuthenticatedSidePanelCubit>(
-            create: (context) => AuthenticatedSidePanelCubit(
-                AuthenticatedSidePanelState.DASHBOARD))
+            create: (context) =>
+                AuthenticatedSidePanelCubit(AuthenticatedSidePanelState.PARTY))
       ],
-      child: Scaffold(
-          appBar: PreferredSize(
-              preferredSize: ScreenSizeUtil.getNavbarPreferredSize(context),
-              child: const AppNavbar()),
-          body: Scaffold(
-            key: AppGlobalKeys.getBodyScaffoldKey(ScreenTypeEnum.AUTHENTICATED),
-            onDrawerChanged: (status) => _fireDrawerEvent(context),
-            drawer: ScreenSizeUtil.displayDrawer(context)
-                ? AuthenticatedDrawer()
-                : null,
-            endDrawer: AuthenticatedEndDrawer(),
-            body: const AppBodyAuthenticated(),
-          )),
+      child: Builder(builder: (context) {
+        return Scaffold(
+            appBar: PreferredSize(
+                preferredSize: ScreenSizeUtil.getNavbarPreferredSize(context),
+                child: const AppNavbar()),
+            body: Scaffold(
+              key: AppGlobalKeys.getBodyScaffoldKey(
+                  ScreenTypeEnum.AUTHENTICATED),
+              onDrawerChanged: (status) => _fireDrawerEvent(context),
+              drawer: ScreenSizeUtil.displayDrawer(context)
+                  ? AuthenticatedDrawer()
+                  : null,
+              endDrawer: AuthenticatedEndDrawer(),
+              body: const AppBodyAuthenticated(),
+            ));
+      }),
     );
   }
 

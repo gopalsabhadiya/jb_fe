@@ -1,0 +1,1 @@
+class ServerFailure implements Exception {}

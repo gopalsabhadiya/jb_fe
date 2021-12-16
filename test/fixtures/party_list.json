@@ -1,0 +1,28 @@
+[
+  {
+    "_id": "616697fad810bf356eee16b4",
+    "balance": -3734,
+    "order": [],
+    "name": "Gopal sabhadiya",
+    "contactNo": "8000523940",
+    "address": "10, purvi soc., Part-2, street-1,",
+    "date": "2021-10-13T07:48:09.759Z",
+    "type": "Retail",
+    "user": "611d5c1181eed425bcba9a3a",
+    "business": "613aee5346c199325cea723c",
+    "partyId": 1,
+    "gstin": "JHFGJAS"
+  },
+  {
+    "_id": "616d71be342cfd6d74c3b734",
+    "balance": 0,
+    "order": [],
+    "name": "Gopal",
+    "contactNo": "9879879877",
+    "date": "2021-10-18T13:08:14.229Z",
+    "partyId": 1,
+    "type": "Retail",
+    "user": "616842db3cfe09740023eebc",
+    "business": "616d7123ab091c6c252ec5a6"
+  }
+]
