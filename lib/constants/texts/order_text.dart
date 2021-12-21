@@ -1,4 +1,8 @@
 class OrderText {
+  static final String SEARCH_ORDER_HINT = "Search Order Here";
+  static final String SEARCH_ORDER_TOOLTIP =
+      "You can search order by: Party Name, Id";
+
   static final String OLD_RATE_INPUT_TEXT = "old Rate /10g";
   static final String NET_AMMOUNT = "Net";
   static final String CGST = "CGST";

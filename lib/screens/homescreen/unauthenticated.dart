@@ -18,8 +18,6 @@ class UnauthenticatedHomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(
-        "Building unauthenticated scaffold: ${ScreenSizeUtil.displayDrawer(context)}");
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       AppRouterDelegate.linkLocationNotifier.value =
           UnauthenticatedNavbarLinks.DEFAULT_ACTIVE_LINK;

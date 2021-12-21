@@ -36,8 +36,8 @@ class AppNavbar extends StatelessWidget {
       decoration: BoxDecoration(boxShadow: <BoxShadow>[
         BoxShadow(
             color: AppColors.grey_3.withOpacity(0.5),
-            blurRadius: 15.0,
-            offset: const Offset(0.0, 0.75))
+            blurRadius: 10.0,
+            offset: const Offset(10, 0))
       ], color: AppColors.white),
     );
   }

@@ -1,4 +1,8 @@
 class PartyText {
+  static final String SEARCH_PARTY_HINT = "Search Party Here";
+  static final String SEARCH_PARTY_TOOLTIP =
+      "You can search party by: Name, Id, Contact Number, GST number";
+
   static final String CUSTOMER = "Customer";
   static final String RETAIL = "Retail";
 
@@ -25,4 +29,8 @@ class PartyText {
 
   static final String AADHAR_INPUT_HINT = "Enter AADHAR Card number";
   static final String AADHAR_TOOLTIP = "Enter Party's AADHAR Card Number";
+
+  static final String DELETE_PARTY_ALERT_HEADER = "Delete Party";
+  static final String DELETE_PARTY_ALERT_MESSAGE =
+      "Are you sure you want to delete: ";
 }

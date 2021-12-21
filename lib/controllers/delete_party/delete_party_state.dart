@@ -11,6 +11,16 @@ class DeletePartyState extends Equatable {
     this.lastDeletedPartyId,
   });
 
+  DeletePartyState copyWith({
+    DeletePartyStatus? deleteStatus,
+    String? lastDeletedPartyId,
+  }) {
+    return DeletePartyState(
+      deleteStatus: deleteStatus ?? this.deleteStatus,
+      lastDeletedPartyId: lastDeletedPartyId ?? this.lastDeletedPartyId,
+    );
+  }
+
   @override
   List<Object> get props => [deleteStatus];
 }

@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:jb_fe/constants/colors.dart';
 import 'package:jb_fe/constants/typography/font_weight.dart';
 import 'package:jb_fe/util/global_keys.dart';
-import 'package:jb_fe/util/screen_size.dart';
 import 'package:jb_fe/widgets/calligraphy/app_text.dart';
 import 'package:jb_fe/widgets/common/buttons/icon_button.dart';
-import 'package:jb_fe/widgets/svg/logo_svg.dart';
+import 'package:jb_fe/widgets/common/buttons/icon_button_circle.dart';
+import 'package:jb_fe/widgets/navbar/content/authenticated/search_bar.dart';
 
 class RegularTopAuthenticatedNavbar extends StatelessWidget {
   const RegularTopAuthenticatedNavbar({Key? key}) : super(key: key);
@@ -26,11 +26,15 @@ class RegularTopAuthenticatedNavbar extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(15),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          LogoSVG(),
-          SizedBox(
-            width: 50 + ScreenSizeUtil.getWidthWidthAddition(context, 800),
+          // LogoSVG(),
+          Row(
+            children: [
+              const SearchBar(),
+              AppIconButtonCircleBuilder(Icons.filter_alt).build(),
+              AppIconButtonCircleBuilder(Icons.add).build(),
+            ],
           ),
           Row(
             children: [
@@ -40,7 +44,7 @@ class RegularTopAuthenticatedNavbar extends StatelessWidget {
                   AppIconButtonBuilder(Icons.notifications)
                       .size(30)
                       .color(AppColors.blue_5)
-                      .padding(EdgeInsets.only(left: 8, right: 8))
+                      .padding(const EdgeInsets.only(left: 8, right: 8))
                       .build(),
                   Padding(
                     padding: const EdgeInsets.only(right: 8),

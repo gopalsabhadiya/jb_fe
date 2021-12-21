@@ -1,4 +1,8 @@
 class ItemText {
+  static final String SEARCH_ITEM_HINT = "Search Item Here";
+  static final String SEARCH_ITEM_TOOLTIP =
+      "You can search item by: Name,Id, HUID";
+
   static final String PUBLIC_INPUT_TEXT = "Public";
   static final String SELECT_IMAGE_INPUT_TEXT = "Select";
   static final String CLEAR_IMAGES_INPUT_TEXT = "Clear";

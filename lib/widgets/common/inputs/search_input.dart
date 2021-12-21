@@ -1,46 +1,42 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:jb_fe/backend_integration/constants/other/regex.dart';
 import 'package:jb_fe/constants/colors.dart';
 
-class AppTextInput extends StatelessWidget {
+class AppSearchInput extends StatefulWidget {
   final IconData prefixIcon;
   final String hint;
-  final String? initialValue;
-  final IconData? suffixIcon;
-  final IconData? alternateSuffixIcon;
   final bool? obscureText;
-  final bool isNumberInput;
   final String? tooltip;
-  final VoidCallback? suffixIconClickHandler;
+  final Function(String) searchSubmitHandler;
   final Function(String) onChanged;
   final String? Function(String?)? validator;
 
-  const AppTextInput(
-      {Key? key,
-      required this.prefixIcon,
-      required this.hint,
-      required this.onChanged,
-      this.initialValue,
-      this.suffixIcon,
-      this.obscureText,
-      this.isNumberInput = false,
-      this.tooltip,
-      this.suffixIconClickHandler,
-      this.alternateSuffixIcon,
-      this.validator})
-      : super(key: key);
+  const AppSearchInput({
+    Key? key,
+    required this.prefixIcon,
+    required this.hint,
+    required this.onChanged,
+    this.obscureText,
+    this.tooltip,
+    required this.searchSubmitHandler,
+    this.validator,
+  }) : super(key: key);
+
+  @override
+  State<AppSearchInput> createState() => _AppSearchInputState();
+}
+
+class _AppSearchInputState extends State<AppSearchInput> {
+  IconData suffixIcon = Icons.search;
+  final _controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    final key = GlobalKey<State<Tooltip>>();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Tooltip(
-          key: key,
-          message: tooltip ?? hint,
+          message: widget.tooltip ?? widget.hint,
           textStyle: const TextStyle(fontSize: 14, color: AppColors.blue_1),
           padding: const EdgeInsets.all(5),
           margin: EdgeInsets.all(10),
@@ -50,56 +46,69 @@ class AppTextInput extends StatelessWidget {
               color: AppColors.blue5WithOpacity(0.9),
               borderRadius: const BorderRadius.all(Radius.circular(5))),
           child: TextFormField(
-            keyboardType:
-                isNumberInput ? TextInputType.number : TextInputType.text,
-            inputFormatters: isNumberInput
-                ? [
-                    FilteringTextInputFormatter(RegexConstants.NUMBER_REGEX,
-                        allow: true)
-                  ]
-                : [],
-            validator: validator,
-            controller: TextEditingController()..text = initialValue ?? "",
-            onChanged: onChanged,
-            obscureText: obscureText ?? false,
+            controller: _controller,
+            onFieldSubmitted: widget.searchSubmitHandler,
+            validator: widget.validator,
+            onChanged: (String value) {
+              widget.onChanged(value);
+              setState(() {
+                suffixIcon = Icons.clear;
+              });
+            },
+            obscureText: widget.obscureText ?? false,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             decoration: InputDecoration(
+              contentPadding: EdgeInsets.all(0),
+              isDense: true,
               filled: true,
               fillColor: AppColors.white,
               hoverColor: AppColors.blue_1,
               errorBorder: const OutlineInputBorder(
                 borderSide: BorderSide(color: AppColors.red_2, width: 4),
+                borderRadius: BorderRadius.all(
+                  Radius.circular(100),
+                ),
               ),
               focusedErrorBorder: const OutlineInputBorder(
                 borderSide: BorderSide(color: AppColors.red_2, width: 1.5),
+                borderRadius: BorderRadius.all(
+                  Radius.circular(100),
+                ),
               ),
               focusedBorder: const OutlineInputBorder(
                 borderSide: BorderSide(color: AppColors.blue_4, width: 1.5),
               ),
               enabledBorder: const OutlineInputBorder(
-                borderSide: BorderSide(color: AppColors.blue_5, width: 1.5),
+                borderSide: BorderSide(color: AppColors.blue_5, width: 2),
+                borderRadius: BorderRadius.all(
+                  Radius.circular(100),
+                ),
               ),
               hintStyle: const TextStyle(color: AppColors.grey_3, fontSize: 16),
-              errorStyle: TextStyle(fontSize: 0.001),
+              errorStyle: const TextStyle(fontSize: 0.001),
               prefixIcon: Padding(
-                padding: const EdgeInsets.all(10),
+                padding: const EdgeInsets.symmetric(horizontal: 1),
                 child: Icon(
-                  prefixIcon,
+                  widget.prefixIcon,
                   color: AppColors.blue5WithOpacity(0.7),
                   size: 25,
                 ),
               ),
               suffixIcon: IconButton(
+                padding: EdgeInsets.zero,
                 icon: Icon(
                   suffixIcon,
                   color: AppColors.blue_5,
                   size: 25,
                 ),
                 onPressed: () {
-                  suffixIconClickHandler!();
+                  _controller.clear();
+                  setState(() {
+                    suffixIcon = Icons.search;
+                  });
                 },
               ),
-              hintText: hint,
+              hintText: widget.hint,
             ),
           ),
         ),

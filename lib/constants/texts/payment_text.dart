@@ -1,4 +1,8 @@
 class PaymentText {
+  static final String SEARCH_PAYMENT_HINT = "Search Order Here";
+  static final String SEARCH_PAYMENT_TOOLTIP =
+      "You can search payment by: Party Name, Id, Ammount";
+
   static final String ORDERS_SECTION_HEADER = "Orders";
   static final String UNSORTED_AMMOUNT = "Unsorted Ammount";
   static final String SEARCH_PARTY_INPUT_TEXT = "Search Party";

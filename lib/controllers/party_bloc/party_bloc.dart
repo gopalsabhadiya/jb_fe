@@ -18,23 +18,8 @@ class PartyBloc extends Bloc<PartyEvent, PartyState> {
   FutureOr<void> _onFetchParty(
       PartyEvent event, Emitter<PartyState> emit) async {
     if (event is RemoveParty) {
-      print("Remove Party: ${event.partyId} ${state.partyList.length}");
-      final newList = <PartyPresentation>[];
-      state.partyList.forEach((party) {
-        if (party.id != event.partyId) {
-          newList.add(party);
-        }
-      });
-      print("Removed: ${state.partyList.length}");
-      emit(
-        state.copyWith(
-          status: PartyStatus.success,
-          partyList: newList,
-        ),
-      );
-      return null;
+      return _removePartyFromList(event, emit);
     }
-    print("AfterCode");
     if (state.hasReachedMax) {
       return null;
     }
@@ -44,9 +29,10 @@ class PartyBloc extends Bloc<PartyEvent, PartyState> {
         return emit(state.copyWith(
             status: PartyStatus.success,
             partyList: partyList,
-            hasReachedMax: false));
+            hasReachedMax: partyList.length < 20));
       }
       final partyList = await getPartyPage((state.partyList.length ~/ 20) + 1);
+      print("PartyListLength: ${partyList.length}");
       if (partyList.isEmpty) {
         emit(state.copyWith(
           hasReachedMax: true,
@@ -74,10 +60,18 @@ class PartyBloc extends Bloc<PartyEvent, PartyState> {
 
   FutureOr<void> _removePartyFromList(
       RemoveParty event, Emitter<PartyState> emit) {
-    print("Remove Party: ${event.partyId} ${state.partyList.length}");
-    state.partyList.removeWhere((party) => party.id == event.partyId);
-    print("Removed: ${state.partyList.length}");
-    emit(state.copyWith(
-        status: PartyStatus.success, partyList: List.from(state.partyList)));
+    final newList = <PartyPresentation>[];
+    state.partyList.forEach((party) {
+      if (party.id != event.partyId) {
+        newList.add(party);
+      }
+    });
+    emit(
+      state.copyWith(
+        status: PartyStatus.success,
+        partyList: newList,
+      ),
+    );
+    return null;
   }
 }

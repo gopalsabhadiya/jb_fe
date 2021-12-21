@@ -1,11 +1,14 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jb_fe/backend_integration/dto/party/party_presentation.dart';
 import 'package:jb_fe/constants/colors.dart';
+import 'package:jb_fe/constants/texts/party_text.dart';
 import 'package:jb_fe/controllers/delete_party/delete_party_bloc.dart';
 import 'package:jb_fe/widgets/body/authenticated/party/card/content.dart';
 import 'package:jb_fe/widgets/body/authenticated/party/card/footer.dart';
 import 'package:jb_fe/widgets/body/authenticated/party/card/header.dart';
+import 'package:jb_fe/widgets/common/alerts/confirmation_alert.dart';
 
 class PartyCard extends StatelessWidget {
   final Function(PartyPresentation) _onPartyEdit;
@@ -43,6 +46,7 @@ class PartyCard extends StatelessWidget {
               email: _party.email),
           PartyCardFooter(
             partyType: _party.type,
+            partyId: _party.id,
             onPartyFavourite: _onPartyFavouriteClick,
             onPartyEdit: _onPartyEditClick,
             onPartyDelete: () => _onPartyDeleteClick(context),
@@ -60,9 +64,24 @@ class PartyCard extends StatelessWidget {
     _onPartyEdit(_party);
   }
 
-  _onPartyDeleteClick(BuildContext context) {
+  _onPartyDeleteClick(BuildContext parentContext) {
+    showDialog(
+      context: parentContext,
+      builder: (BuildContext context) {
+        return ConfirmationAlert(
+            title: PartyText.DELETE_PARTY_ALERT_HEADER,
+            content: PartyText.DELETE_PARTY_ALERT_MESSAGE,
+            variable: _party.name,
+            continueCallBack: () {
+              Navigator.of(context).pop();
+              _deleteParty(parentContext);
+            });
+      },
+    );
+  }
+
+  _deleteParty(BuildContext context) {
     BlocProvider.of<DeletePartyBloc>(context)
         .add(DeleteParty(partyIdToBeDeleted: _party.id));
-    print("Party Deleted:  ${_party.partyId}");
   }
 }

@@ -18,21 +18,30 @@ class DeletePartyBloc extends Bloc<DeletePartyEvent, DeletePartyState> {
   FutureOr<void> _onDeletePartyEvent(
       DeletePartyEvent event, Emitter<DeletePartyState> emit) async {
     print("Deleting party");
-    emit(DeletePartyState(deleteStatus: DeletePartyStatus.LOADING));
-    await Future.delayed(Duration(seconds: 2));
     emit(
-      DeletePartyState(
-        deleteStatus: DeletePartyStatus.COMPLETED,
+      state.copyWith(
+        deleteStatus: DeletePartyStatus.LOADING,
         lastDeletedPartyId: (event as DeleteParty).partyIdToBeDeleted,
       ),
     );
-    // emit(const DeletePartyState(deleteStatus: DeletePartyStatus.LOADING));
-    // try {
-    //   deletePartyUseCase(partyId: (event as DeleteParty).partyIdToBeDeleted);
-    //   emit(const DeletePartyState(deleteStatus: DeletePartyStatus.COMPLETED));
-    // } catch (e) {
-    //   emit(const DeletePartyState(deleteStatus: DeletePartyStatus.ERROR));
-    //   return null;
-    // }
+    print("Deleting party: Loading");
+
+    try {
+      deletePartyUseCase(partyId: event.partyIdToBeDeleted);
+      print("Deleting party: completer");
+
+      emit(
+        state.copyWith(
+          deleteStatus: DeletePartyStatus.COMPLETED,
+        ),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          deleteStatus: DeletePartyStatus.ERROR,
+        ),
+      );
+      return null;
+    }
   }
 }

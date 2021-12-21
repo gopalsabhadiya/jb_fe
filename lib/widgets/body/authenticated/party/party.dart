@@ -27,6 +27,7 @@ class _PartyState extends State<Party> with TickerProviderStateMixin {
   void initState() {
     _controller = ScrollController();
     _controller.addListener(_onScroll);
+
     super.initState();
   }
 
@@ -34,14 +35,12 @@ class _PartyState extends State<Party> with TickerProviderStateMixin {
   PartyPresentation? editParty;
   @override
   Widget build(BuildContext context) {
-    final deletePartyBloc = serviceLocator<DeletePartyBloc>();
+    final DeletePartyBloc deletePartyBloc = serviceLocator<DeletePartyBloc>();
     deletePartyBloc.stream.listen(
       (event) {
         if (event.deleteStatus == DeletePartyStatus.COMPLETED) {
           BlocProvider.of<PartyBloc>(context)
               .add(RemoveParty(partyId: event.lastDeletedPartyId!));
-          print(
-              "Delete Party Listener: ${event.deleteStatus} ${event.lastDeletedPartyId}");
         }
       },
     );
@@ -59,7 +58,6 @@ class _PartyState extends State<Party> with TickerProviderStateMixin {
                   controller: _controller,
                   child: BlocBuilder<PartyBloc, PartyState>(
                     builder: (BuildContext context, PartyState state) {
-                      print("Building again");
                       switch (state.status) {
                         case PartyStatus.initial:
                           return const Center(
@@ -145,12 +143,13 @@ class _PartyState extends State<Party> with TickerProviderStateMixin {
   }
 
   List<Widget> _getParties(List<PartyPresentation> partyList) {
-    print("RebuildinParties");
     return partyList
-        .map((party) => PartyCard(
-              party: party,
-              onPartyEdit: _onPartyEdit,
-            ))
+        .map(
+          (party) => PartyCard(
+            party: party,
+            onPartyEdit: _onPartyEdit,
+          ),
+        )
         .toList();
   }
 }

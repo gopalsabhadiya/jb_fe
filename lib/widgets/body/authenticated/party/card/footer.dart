@@ -9,6 +9,7 @@ import 'package:jb_fe/widgets/common/buttons/icon_button.dart';
 
 class PartyCardFooter extends StatelessWidget {
   final PartyTypeEnum _partyType;
+  final String _partyId;
   final VoidCallback _onPartyFavourite;
   final VoidCallback _onPartyEdit;
   final VoidCallback _onPartyDelete;
@@ -16,10 +17,12 @@ class PartyCardFooter extends StatelessWidget {
   const PartyCardFooter(
       {Key? key,
       required onPartyFavourite,
+      required partyId,
       required onPartyEdit,
       required onPartyDelete,
       required partyType})
       : _partyType = partyType,
+        _partyId = partyId,
         _onPartyFavourite = onPartyFavourite,
         _onPartyEdit = onPartyEdit,
         _onPartyDelete = onPartyDelete,
@@ -57,21 +60,29 @@ class PartyCardFooter extends StatelessWidget {
                     .color(AppColors.blue_5)
                     .build(),
                 BlocBuilder<DeletePartyBloc, DeletePartyState>(
-                  builder: (context, state) {
-                    switch (state.deleteStatus) {
-                      case DeletePartyStatus.LOADING:
-                        return CircularProgressIndicator();
-                      case DeletePartyStatus.COMPLETED:
-                      case DeletePartyStatus.ERROR:
-                        return AppIconButtonBuilder(Icons.delete)
-                            .size(25)
-                            .onClickHandler(_onPartyDelete)
-                            .padding(EdgeInsets.all(3))
-                            .color(AppColors.red_2)
-                            .build();
-                    }
-                  },
-                )
+                    builder: (context, state) {
+                  if (_partyId == state.lastDeletedPartyId &&
+                      state.deleteStatus == DeletePartyStatus.LOADING) {
+                    return const Padding(
+                      padding: EdgeInsets.all(5.5),
+                      child: SizedBox(
+                        height: 20,
+                        width: 20,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 3,
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(AppColors.red_2),
+                        ),
+                      ),
+                    );
+                  }
+                  return AppIconButtonBuilder(Icons.delete)
+                      .size(25)
+                      .onClickHandler(_onPartyDelete)
+                      .padding(EdgeInsets.all(3))
+                      .color(AppColors.red_2)
+                      .build();
+                })
               ],
             )
           ],

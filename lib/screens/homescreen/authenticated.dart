@@ -14,7 +14,6 @@ import 'package:jb_fe/util/screen_size.dart';
 import 'package:jb_fe/widgets/body/authenticated/body.dart';
 import 'package:jb_fe/widgets/navbar/content/authenticated/drawer.dart';
 import 'package:jb_fe/widgets/navbar/content/authenticated/end_drawer.dart';
-import 'package:jb_fe/widgets/navbar/navbar.dart';
 
 class AuthenticatedHomeScreen extends StatelessWidget {
   const AuthenticatedHomeScreen({Key? key}) : super(key: key);
@@ -36,19 +35,18 @@ class AuthenticatedHomeScreen extends StatelessWidget {
       ],
       child: Builder(builder: (context) {
         return Scaffold(
-            appBar: PreferredSize(
-                preferredSize: ScreenSizeUtil.getNavbarPreferredSize(context),
-                child: const AppNavbar()),
+            // appBar: PreferredSize(
+            //     preferredSize: ScreenSizeUtil.getNavbarPreferredSize(context),
+            //     child: const AppNavbar()),
             body: Scaffold(
-              key: AppGlobalKeys.getBodyScaffoldKey(
-                  ScreenTypeEnum.AUTHENTICATED),
-              onDrawerChanged: (status) => _fireDrawerEvent(context),
-              drawer: ScreenSizeUtil.displayDrawer(context)
-                  ? AuthenticatedDrawer()
-                  : null,
-              endDrawer: AuthenticatedEndDrawer(),
-              body: const AppBodyAuthenticated(),
-            ));
+          key: AppGlobalKeys.getBodyScaffoldKey(ScreenTypeEnum.AUTHENTICATED),
+          onDrawerChanged: (status) => _fireDrawerEvent(context),
+          drawer: ScreenSizeUtil.displayDrawer(context)
+              ? AuthenticatedDrawer()
+              : null,
+          endDrawer: AuthenticatedEndDrawer(),
+          body: const AppBodyAuthenticated(),
+        ));
       }),
     );
   }

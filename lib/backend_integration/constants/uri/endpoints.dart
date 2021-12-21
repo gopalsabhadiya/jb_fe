@@ -16,6 +16,7 @@ class EndpointUri {
   static const String _BASE_BUSINESS = "$_BASE_URL/business";
   static const String _BASE_PARTY = "$_BASE_URL/party";
   static const String _PARTY_PAGE = "$_BASE_URL/party/?page=$_PAGE";
+  static const String _DELETE_PARTY = "$_BASE_PARTY/$_PATH_PARTY_ID";
   static const String _BASE_ORDER = "$_BASE_URL/order";
   static const String _BASE_BILL = "$_BASE_URL/bill";
   static const String _BASE_ITEM = "$_BASE_URL/item";
@@ -72,6 +73,10 @@ class EndpointUri {
 
   static Uri getBaseParty() {
     return Uri.parse(_BASE_PARTY);
+  }
+
+  static Uri getDeletePartyURL(String partyId) {
+    return Uri.parse(_DELETE_PARTY.replaceAll(_PATH_PARTY_ID, partyId));
   }
 
   static Uri getPartyPage(int pageNumber) {

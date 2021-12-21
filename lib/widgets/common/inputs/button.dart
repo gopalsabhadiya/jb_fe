@@ -4,19 +4,26 @@ import 'package:jb_fe/constants/colors.dart';
 import 'package:jb_fe/constants/typography/font_weight.dart';
 import 'package:jb_fe/widgets/calligraphy/app_text.dart';
 
-enum ButtonColorScheme { RED, BLUE, WHITE }
+enum ButtonColorScheme { RED, BLUE, WHITE, GREEN }
 
 class AppButton extends StatelessWidget {
   final ButtonColorScheme _colorScheme;
   final String _hint;
   final VoidCallback _onClick;
   final IconData? _icon;
+  final EdgeInsets? _padding;
   const AppButton(
-      {Key? key, required hint, icon, required onClick, required colorScheme})
+      {Key? key,
+      required hint,
+      icon,
+      required onClick,
+      required colorScheme,
+      padding})
       : _hint = hint,
         _icon = icon,
         _onClick = onClick,
         _colorScheme = colorScheme,
+        _padding = padding,
         super(key: key);
 
   @override
@@ -39,7 +46,7 @@ class AppButton extends StatelessWidget {
           },
         ),
         padding: MaterialStateProperty.all<EdgeInsets>(
-          const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
+          _padding ?? const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
         ),
         foregroundColor: MaterialStateProperty.all<Color>(_getColor()),
         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -79,6 +86,8 @@ class AppButton extends StatelessWidget {
         return AppColors.blue_5;
       case ButtonColorScheme.WHITE:
         return AppColors.white;
+      case ButtonColorScheme.GREEN:
+        return AppColors.green_1;
     }
   }
 
@@ -90,6 +99,8 @@ class AppButton extends StatelessWidget {
         return AppColors.blue4WithOpacity(0.04);
       case ButtonColorScheme.WHITE:
         return AppColors.blue_5;
+      case ButtonColorScheme.GREEN:
+        return AppColors.green1WithOpacity(0.04);
     }
   }
 
@@ -101,6 +112,8 @@ class AppButton extends StatelessWidget {
         return AppColors.blue4WithOpacity(0.12);
       case ButtonColorScheme.WHITE:
         return AppColors.white;
+      case ButtonColorScheme.GREEN:
+        return AppColors.green1WithOpacity(0.12);
     }
   }
 }

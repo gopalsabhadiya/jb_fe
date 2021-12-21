@@ -25,9 +25,17 @@ class PartyRemoteDataSourceImpl implements PartyRemoteDataSource {
   }
 
   @override
-  Future<void> deleteParty(String partyId) {
-    // TODO: implement deleteParty
-    throw UnimplementedError();
+  Future<void> deleteParty(String partyId) async {
+    print("Deleting party in ds: $partyId");
+    try {
+      final response = await _http.delete(
+        EndpointUri.getDeletePartyURL(partyId),
+        headers: {"content-type": "application/json"},
+      );
+      print("Party Deleted: ${response.statusCode}");
+    } catch (e) {
+      print("Exception");
+    }
   }
 
   @override

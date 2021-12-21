@@ -12,6 +12,7 @@ import 'package:jb_fe/widgets/body/authenticated/party/party.dart';
 import 'package:jb_fe/widgets/body/authenticated/payments/payments.dart';
 import 'package:jb_fe/widgets/body/authenticated/shop_expenses/shop_expenses.dart';
 import 'package:jb_fe/widgets/body/authenticated/side_panel.dart';
+import 'package:jb_fe/widgets/navbar/navbar.dart';
 
 class AppBodyAuthenticated extends StatelessWidget {
   const AppBodyAuthenticated({Key? key}) : super(key: key);
@@ -21,7 +22,11 @@ class AppBodyAuthenticated extends StatelessWidget {
     return Row(
       children: [
         !ScreenSizeUtil.displayDrawer(context) ? SidePanel() : Container(),
-        _getContentSection()
+        Expanded(
+          child: Column(
+            children: [const AppNavbar(), _getContentSection()],
+          ),
+        ),
       ],
     );
   }
