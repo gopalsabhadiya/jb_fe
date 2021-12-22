@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:jb_fe/backend_integration/domain/usecase/party/get_party_page.dart';
+import 'package:jb_fe/backend_integration/domain/usecase/party/search_party.dart';
 import 'package:jb_fe/backend_integration/dto/party/party_presentation.dart';
 
 part 'party_event.dart';
@@ -10,8 +11,10 @@ part 'party_state.dart';
 
 class PartyBloc extends Bloc<PartyEvent, PartyState> {
   final GetPartyPageUseCase getPartyPage;
+  final SearchPartyUseCase searchParty;
 
-  PartyBloc({required this.getPartyPage}) : super(const PartyState()) {
+  PartyBloc({required this.getPartyPage, required this.searchParty})
+      : super(const PartyState()) {
     on<PartyEvent>(_onFetchParty);
   }
 
@@ -19,6 +22,12 @@ class PartyBloc extends Bloc<PartyEvent, PartyState> {
       PartyEvent event, Emitter<PartyState> emit) async {
     if (event is RemoveParty) {
       return _removePartyFromList(event, emit);
+    }
+    if (event is SearchPartyDisplay) {
+      return _searchPartyDisplay(event, emit);
+    }
+    if (event is ClearSearchTerm) {
+      return _clearSearchTerm(event, emit);
     }
     if (state.hasReachedMax) {
       return null;
@@ -31,7 +40,12 @@ class PartyBloc extends Bloc<PartyEvent, PartyState> {
             partyList: partyList,
             hasReachedMax: partyList.length < 20));
       }
-      final partyList = await getPartyPage((state.partyList.length ~/ 20) + 1);
+      print("Your Search term in party bloc: ${state.searchTerm}");
+      final partyList = state.searchTerm.isEmpty
+          ? await getPartyPage((state.partyList.length ~/ 20) + 1)
+          : await searchParty(
+              searchTerm: state.searchTerm,
+              pageNumber: (state.partyList.length ~/ 20) + 1);
       print("PartyListLength: ${partyList.length}");
       if (partyList.isEmpty) {
         emit(state.copyWith(
@@ -61,11 +75,11 @@ class PartyBloc extends Bloc<PartyEvent, PartyState> {
   FutureOr<void> _removePartyFromList(
       RemoveParty event, Emitter<PartyState> emit) {
     final newList = <PartyPresentation>[];
-    state.partyList.forEach((party) {
+    for (var party in state.partyList) {
       if (party.id != event.partyId) {
         newList.add(party);
       }
-    });
+    }
     emit(
       state.copyWith(
         status: PartyStatus.success,
@@ -73,5 +87,31 @@ class PartyBloc extends Bloc<PartyEvent, PartyState> {
       ),
     );
     return null;
+  }
+
+  FutureOr<void> _searchPartyDisplay(
+      SearchPartyDisplay event, Emitter<PartyState> emit) {
+    print("Displaying result for: ${event.searchTerm}");
+    emit(state.copyWith(
+        partyList: event.searchResult,
+        status: PartyStatus.success,
+        searchTerm: event.searchTerm));
+  }
+
+  FutureOr<void> _clearSearchTerm(
+      ClearSearchTerm event, Emitter<PartyState> emit) async {
+    emit(state.copyWith(
+      partyList: <PartyPresentation>[],
+      status: PartyStatus.initial,
+      searchTerm: "",
+    ));
+    final partyList = await getPartyPage(1);
+    return emit(
+      state.copyWith(
+        status: PartyStatus.success,
+        partyList: partyList,
+        hasReachedMax: partyList.length < 20,
+      ),
+    );
   }
 }

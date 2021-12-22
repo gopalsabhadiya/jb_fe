@@ -11,7 +11,8 @@ import 'package:jb_fe/util/screen_size.dart';
 import 'package:jb_fe/util/unauthenticated_navbar.dart';
 import 'package:jb_fe/widgets/body/unauthenticated/body.dart';
 import 'package:jb_fe/widgets/navbar/content/unauthenticated/drawer.dart';
-import 'package:jb_fe/widgets/navbar/navbar.dart';
+import 'package:jb_fe/widgets/navbar/content/unauthenticated/hamburger_top.dart';
+import 'package:jb_fe/widgets/navbar/content/unauthenticated/regular_top.dart';
 
 class UnauthenticatedHomeScreen extends StatelessWidget {
   const UnauthenticatedHomeScreen({Key? key}) : super(key: key);
@@ -28,8 +29,11 @@ class UnauthenticatedHomeScreen extends StatelessWidget {
           builder: (BuildContext context, DrawerState state) {
         return Scaffold(
           appBar: PreferredSize(
-              preferredSize: ScreenSizeUtil.getNavbarPreferredSize(context),
-              child: const AppNavbar()),
+            preferredSize: ScreenSizeUtil.getNavbarPreferredSize(context),
+            child: ScreenSizeUtil.getIsHamburgerNavbar(context)
+                ? const HamburgerTopUnauthenticatedNavbar()
+                : RegularTopUnauthenticatedNavbar(),
+          ),
           body: Scaffold(
             key: AppGlobalKeys.getBodyScaffoldKey(
                 ScreenTypeEnum.UNAUTHENTICATED),

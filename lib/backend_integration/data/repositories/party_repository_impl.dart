@@ -24,8 +24,9 @@ class PartyRepositoryImpl implements PartyRepository {
   }
 
   @override
-  Future<List<PartyEntity>> searchParty(String searchTerm) async {
-    return await remoteDataSource.searchParty(searchTerm);
+  Future<List<PartyEntity>> searchParty(
+      String searchTerm, int pageNumber) async {
+    return await remoteDataSource.searchParty(searchTerm, pageNumber);
   }
 
   @override

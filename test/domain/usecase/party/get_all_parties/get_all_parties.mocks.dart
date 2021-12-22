@@ -60,7 +60,8 @@ class MockPartyRepository extends _i1.Mock implements _i3.PartyRepository {
           returnValue: Future<void>.value(),
           returnValueForMissingStub: Future<void>.value()) as _i4.Future<void>);
   @override
-  _i4.Future<List<_i2.PartyEntity>> searchParty(String? searchTerm) =>
+  _i4.Future<List<_i2.PartyEntity>> searchParty(
+          String? searchTerm, int paeNumber) =>
       (super.noSuchMethod(Invocation.method(#searchParty, [searchTerm]),
               returnValue:
                   Future<List<_i2.PartyEntity>>.value(<_i2.PartyEntity>[]))

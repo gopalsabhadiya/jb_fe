@@ -68,11 +68,8 @@ class ScreenSizeUtil {
     return false;
   }
 
-  static NavbarTypes getAuthenticatedNavbarType(BuildContext context) {
-    if (ResponsiveHelper.screenWidth(context) < 800) {
-      return NavbarTypes.HAMBURGER_TOP_AUTHENTICATED;
-    }
-    return NavbarTypes.REGULAR_TOP_AUTHENTICATED;
+  static bool getIsHamburgerNavbar(BuildContext context) {
+    return ResponsiveHelper.screenWidth(context) < 800;
   }
 
   static double getContentPadding(BuildContext context) {

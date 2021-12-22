@@ -12,7 +12,8 @@ import 'package:jb_fe/widgets/body/authenticated/party/party.dart';
 import 'package:jb_fe/widgets/body/authenticated/payments/payments.dart';
 import 'package:jb_fe/widgets/body/authenticated/shop_expenses/shop_expenses.dart';
 import 'package:jb_fe/widgets/body/authenticated/side_panel.dart';
-import 'package:jb_fe/widgets/navbar/navbar.dart';
+import 'package:jb_fe/widgets/navbar/content/authenticated/hamburger_top.dart';
+import 'package:jb_fe/widgets/navbar/content/authenticated/regular_top.dart';
 
 class AppBodyAuthenticated extends StatelessWidget {
   const AppBodyAuthenticated({Key? key}) : super(key: key);
@@ -23,9 +24,7 @@ class AppBodyAuthenticated extends StatelessWidget {
       children: [
         !ScreenSizeUtil.displayDrawer(context) ? SidePanel() : Container(),
         Expanded(
-          child: Column(
-            children: [const AppNavbar(), _getContentSection()],
-          ),
+          child: _getContentSection(),
         ),
       ],
     );
@@ -37,21 +36,63 @@ class AppBodyAuthenticated extends StatelessWidget {
         builder: (BuildContext context, AuthenticatedSidePanelState state) {
       switch (state) {
         case AuthenticatedSidePanelState.DASHBOARD:
-          return const Dashboard();
+          return Column(
+            children: [
+              ScreenSizeUtil.getIsHamburgerNavbar(context)
+                  ? const HamburgerTopAuthenticatedNavbar()
+                  : const RegularTopAuthenticatedNavbar(),
+              const Dashboard(),
+            ],
+          );
         case AuthenticatedSidePanelState.PARTY:
           return BlocProvider<PartyBloc>(
             create: (BuildContext context) =>
                 serviceLocator<PartyBloc>()..add(FetchParties()),
-            child: const Party(),
+            child: Column(
+              children: [
+                ScreenSizeUtil.getIsHamburgerNavbar(context)
+                    ? const HamburgerTopAuthenticatedNavbar()
+                    : const RegularTopAuthenticatedNavbar(),
+                const Party(),
+              ],
+            ),
           );
         case AuthenticatedSidePanelState.INVENTORY:
-          return const Inventory();
+          return Column(
+            children: [
+              ScreenSizeUtil.getIsHamburgerNavbar(context)
+                  ? const HamburgerTopAuthenticatedNavbar()
+                  : const RegularTopAuthenticatedNavbar(),
+              const Inventory(),
+            ],
+          );
         case AuthenticatedSidePanelState.ORDERS:
-          return const Orders();
+          return Column(
+            children: [
+              ScreenSizeUtil.getIsHamburgerNavbar(context)
+                  ? const HamburgerTopAuthenticatedNavbar()
+                  : const RegularTopAuthenticatedNavbar(),
+              const Orders(),
+            ],
+          );
         case AuthenticatedSidePanelState.PAYMENTS:
-          return const Payments();
+          return Column(
+            children: [
+              ScreenSizeUtil.getIsHamburgerNavbar(context)
+                  ? const HamburgerTopAuthenticatedNavbar()
+                  : const RegularTopAuthenticatedNavbar(),
+              const Payments(),
+            ],
+          );
         case AuthenticatedSidePanelState.SHOP_EXPENSES:
-          return const ShopExpenses();
+          return Column(
+            children: [
+              ScreenSizeUtil.getIsHamburgerNavbar(context)
+                  ? const HamburgerTopAuthenticatedNavbar()
+                  : const RegularTopAuthenticatedNavbar(),
+              const ShopExpenses(),
+            ],
+          );
       }
     });
   }

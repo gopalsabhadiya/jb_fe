@@ -9,11 +9,15 @@ abstract class PartyEvent extends Equatable {
 
 class FetchParties extends PartyEvent {}
 
-class SearchParties extends PartyEvent {
+class SearchPartyDisplay extends PartyEvent {
+  final List<PartyPresentation> searchResult;
   final String searchTerm;
 
-  const SearchParties({required this.searchTerm});
+  const SearchPartyDisplay(
+      {required this.searchResult, required this.searchTerm});
 }
+
+class ClearSearchTerm extends PartyEvent {}
 
 class RemoveParty extends PartyEvent {
   final String partyId;

@@ -42,19 +42,30 @@ class _RegularTopUnauthenticatedNavbar
     return ValueListenableBuilder(
       valueListenable: AppRouterDelegate.linkLocationNotifier,
       builder: (BuildContext context, String? value, Widget? child) {
-        return Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            LogoSVG(),
-            SizedBox(
-              width: ScreenSizeUtil.getNavbarMiddlePadding(context),
-            ),
-            Row(
-              children: widget._links.entries
-                  .map<Widget>((entry) => _getLinkWidget(entry))
-                  .toList(),
-            ),
-          ],
+        return Container(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              LogoSVG(),
+              SizedBox(
+                width: ScreenSizeUtil.getNavbarMiddlePadding(context),
+              ),
+              Row(
+                children: widget._links.entries
+                    .map<Widget>((entry) => _getLinkWidget(entry))
+                    .toList(),
+              ),
+            ],
+          ),
+          decoration: BoxDecoration(
+            boxShadow: <BoxShadow>[
+              BoxShadow(
+                  color: AppColors.grey_3.withOpacity(0.5),
+                  blurRadius: 10.0,
+                  offset: const Offset(10, 0))
+            ],
+            color: AppColors.white,
+          ),
         );
       },
     );

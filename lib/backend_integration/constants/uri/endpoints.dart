@@ -7,6 +7,7 @@ class EndpointUri {
   static const String _PATH_BUSINESS_ID = "{BUSINESS_ID}";
   static const String _PATH_PARTY_ID = "{PARTY_ID}";
   static const String _PAGE = "{PAGE}";
+  static const String _SEARCH_TERM = "{SEARCH_TERM}";
 
   static const String _BASE_URL = "$_SERVER_ADDRESS/api";
 
@@ -14,9 +15,13 @@ class EndpointUri {
   static const String _BASE_AUTH = "$_BASE_URL/auth";
   static const String _VALIDATE_AUTH = "$_BASE_AUTH/validate";
   static const String _BASE_BUSINESS = "$_BASE_URL/business";
+
   static const String _BASE_PARTY = "$_BASE_URL/party";
   static const String _PARTY_PAGE = "$_BASE_URL/party/?page=$_PAGE";
   static const String _DELETE_PARTY = "$_BASE_PARTY/$_PATH_PARTY_ID";
+  static const String _SEARCH_PARTY =
+      "$_BASE_URL/party/?page=$_PAGE&searchTerm=$_SEARCH_TERM";
+
   static const String _BASE_ORDER = "$_BASE_URL/order";
   static const String _BASE_BILL = "$_BASE_URL/bill";
   static const String _BASE_ITEM = "$_BASE_URL/item";
@@ -81,5 +86,11 @@ class EndpointUri {
 
   static Uri getPartyPage(int pageNumber) {
     return Uri.parse(_PARTY_PAGE.replaceAll(_PAGE, pageNumber.toString()));
+  }
+
+  static Uri getSearchPartyURL(int pageNumber, String searchTerm) {
+    return Uri.parse(_SEARCH_PARTY
+        .replaceAll(_PAGE, pageNumber.toString())
+        .replaceAll(_SEARCH_TERM, searchTerm));
   }
 }

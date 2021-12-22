@@ -10,6 +10,7 @@ class AppSearchInput extends StatefulWidget {
   final Function(String) searchSubmitHandler;
   final Function(String) onChanged;
   final String? Function(String?)? validator;
+  final Function() clearSearchResult;
 
   const AppSearchInput({
     Key? key,
@@ -19,6 +20,7 @@ class AppSearchInput extends StatefulWidget {
     this.obscureText,
     this.tooltip,
     required this.searchSubmitHandler,
+    required this.clearSearchResult,
     this.validator,
   }) : super(key: key);
 
@@ -106,6 +108,7 @@ class _AppSearchInputState extends State<AppSearchInput> {
                   setState(() {
                     suffixIcon = Icons.search;
                   });
+                  widget.clearSearchResult();
                 },
               ),
               hintText: widget.hint,
