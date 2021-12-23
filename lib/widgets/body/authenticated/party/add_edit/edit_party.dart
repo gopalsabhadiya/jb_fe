@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jb_fe/backend_integration/dto/party/party_presentation.dart';
 import 'package:jb_fe/constants/colors.dart';
 import 'package:jb_fe/constants/typography/font_weight.dart';
-import 'package:jb_fe/controllers/update_party/update_party_bloc.dart';
+import 'package:jb_fe/controllers/bloc/party/update_party/update_party_bloc.dart';
 import 'package:jb_fe/widgets/body/authenticated/party/add_edit/party_form.dart';
 import 'package:jb_fe/widgets/calligraphy/app_text.dart';
 import 'package:jb_fe/widgets/common/buttons/icon_button.dart';

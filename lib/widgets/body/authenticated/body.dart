@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jb_fe/controllers/bloc/authenticated_sidepanel.dart';
+import 'package:jb_fe/controllers/bloc/party/party_bloc/party_bloc.dart';
 import 'package:jb_fe/controllers/bloc/state/authenticated_sidepanel.dart';
-import 'package:jb_fe/controllers/party_bloc/party_bloc.dart';
 import 'package:jb_fe/injection_container.dart';
 import 'package:jb_fe/util/screen_size.dart';
 import 'package:jb_fe/widgets/body/authenticated/dashboard/dashboard.dart';

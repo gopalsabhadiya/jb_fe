@@ -20,9 +20,6 @@ class PartyBloc extends Bloc<PartyEvent, PartyState> {
 
   FutureOr<void> _onFetchParty(
       PartyEvent event, Emitter<PartyState> emit) async {
-    if (event is RemoveParty) {
-      return _removePartyFromList(event, emit);
-    }
     if (event is SearchPartyDisplay) {
       return _searchPartyDisplay(event, emit);
     }
@@ -72,7 +69,7 @@ class PartyBloc extends Bloc<PartyEvent, PartyState> {
     }
   }
 
-  FutureOr<void> _removePartyFromList(
+  FutureOr<void> removePartyFromList(
       RemoveParty event, Emitter<PartyState> emit) {
     final newList = <PartyPresentation>[];
     for (var party in state.partyList) {

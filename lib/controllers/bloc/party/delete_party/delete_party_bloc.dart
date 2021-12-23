@@ -3,11 +3,13 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:jb_fe/backend_integration/domain/usecase/party/delete_party.dart';
+import 'package:jb_fe/controllers/bloc/party/mediator/party_operation_notifier.dart';
 
 part 'delete_party_event.dart';
 part 'delete_party_state.dart';
 
-class DeletePartyBloc extends Bloc<DeletePartyEvent, DeletePartyState> {
+class DeletePartyBloc extends Bloc<DeletePartyEvent, DeletePartyState>
+    with PartyOperationNotifier {
   final DeletePartyUseCase deletePartyUseCase;
 
   DeletePartyBloc({required this.deletePartyUseCase})
@@ -27,14 +29,13 @@ class DeletePartyBloc extends Bloc<DeletePartyEvent, DeletePartyState> {
     print("Deleting party: Loading");
 
     try {
-      deletePartyUseCase(partyId: event.partyIdToBeDeleted);
-      print("Deleting party: completer");
-
+      await deletePartyUseCase(partyId: event.partyIdToBeDeleted);
       emit(
         state.copyWith(
           deleteStatus: DeletePartyStatus.COMPLETED,
         ),
       );
+      notifySubscriber(deleteId: event.partyIdToBeDeleted);
     } catch (e) {
       emit(
         state.copyWith(

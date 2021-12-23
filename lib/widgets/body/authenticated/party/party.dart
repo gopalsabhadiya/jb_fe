@@ -4,9 +4,9 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jb_fe/backend_integration/dto/party/party_presentation.dart';
 import 'package:jb_fe/constants/durations/animation_durations.dart';
-import 'package:jb_fe/controllers/delete_party/delete_party_bloc.dart';
-import 'package:jb_fe/controllers/party_bloc/party_bloc.dart';
-import 'package:jb_fe/controllers/update_party/update_party_bloc.dart';
+import 'package:jb_fe/controllers/bloc/party/delete_party/delete_party_bloc.dart';
+import 'package:jb_fe/controllers/bloc/party/party_bloc/party_bloc.dart';
+import 'package:jb_fe/controllers/bloc/party/update_party/update_party_bloc.dart';
 import 'package:jb_fe/injection_container.dart';
 import 'package:jb_fe/util/screen_size.dart';
 import 'package:jb_fe/widgets/body/authenticated/party/add_edit/edit_party.dart';
@@ -35,15 +35,16 @@ class _PartyState extends State<Party> with TickerProviderStateMixin {
   PartyPresentation? editParty;
   @override
   Widget build(BuildContext context) {
-    final DeletePartyBloc deletePartyBloc = serviceLocator<DeletePartyBloc>();
-    deletePartyBloc.stream.listen(
-      (event) {
-        if (event.deleteStatus == DeletePartyStatus.COMPLETED) {
-          BlocProvider.of<PartyBloc>(context)
-              .add(RemoveParty(partyId: event.lastDeletedPartyId!));
-        }
-      },
-    );
+    final DeletePartyBloc deletePartyBloc = serviceLocator<DeletePartyBloc>()
+      ..subscribe(subscriber: BlocProvider.of<PartyBloc>(context));
+    // deletePartyBloc.stream.listen(
+    //   (event) {
+    //     if (event.deleteStatus == DeletePartyStatus.COMPLETED) {
+    //       BlocProvider.of<PartyBloc>(context)
+    //           .add(RemoveParty(partyId: event.lastDeletedPartyId!));
+    //     }
+    //   },
+    // );
     return Expanded(
       child: Stack(
         children: [

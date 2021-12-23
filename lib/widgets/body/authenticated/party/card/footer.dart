@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jb_fe/backend_integration/constants/enum/party_type_enum.dart';
 import 'package:jb_fe/constants/colors.dart';
-import 'package:jb_fe/controllers/delete_party/delete_party_bloc.dart';
+import 'package:jb_fe/controllers/bloc/party/delete_party/delete_party_bloc.dart';
 import 'package:jb_fe/widgets/calligraphy/app_text.dart';
 import 'package:jb_fe/widgets/common/buttons/icon_button.dart';
 

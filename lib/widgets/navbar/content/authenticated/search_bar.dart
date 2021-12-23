@@ -6,9 +6,9 @@ import 'package:jb_fe/constants/texts/order_text.dart';
 import 'package:jb_fe/constants/texts/party_text.dart';
 import 'package:jb_fe/constants/texts/payment_text.dart';
 import 'package:jb_fe/controllers/bloc/authenticated_sidepanel.dart';
+import 'package:jb_fe/controllers/bloc/party/party_bloc/party_bloc.dart';
 import 'package:jb_fe/controllers/bloc/state/authenticated_sidepanel.dart';
-import 'package:jb_fe/controllers/party_bloc/party_bloc.dart';
-import 'package:jb_fe/controllers/search_party/search_party_bloc.dart';
+import 'package:jb_fe/controllers/bloc/party/search_party/search_party_bloc.dart';
 import 'package:jb_fe/widgets/common/inputs/search_input.dart';
 
 import '../../../../injection_container.dart';

@@ -18,9 +18,3 @@ class SearchPartyDisplay extends PartyEvent {
 }
 
 class ClearSearchTerm extends PartyEvent {}
-
-class RemoveParty extends PartyEvent {
-  final String partyId;
-
-  const RemoveParty({required this.partyId});
-}

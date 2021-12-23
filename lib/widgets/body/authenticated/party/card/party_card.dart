@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jb_fe/backend_integration/dto/party/party_presentation.dart';
 import 'package:jb_fe/constants/colors.dart';
 import 'package:jb_fe/constants/texts/party_text.dart';
-import 'package:jb_fe/controllers/delete_party/delete_party_bloc.dart';
+import 'package:jb_fe/controllers/bloc/party/delete_party/delete_party_bloc.dart';
 import 'package:jb_fe/widgets/body/authenticated/party/card/content.dart';
 import 'package:jb_fe/widgets/body/authenticated/party/card/footer.dart';
 import 'package:jb_fe/widgets/body/authenticated/party/card/header.dart';

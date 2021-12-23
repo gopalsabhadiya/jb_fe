@@ -41,7 +41,7 @@ class _SidePanelState extends State<SidePanel> {
             padding: const EdgeInsets.only(bottom: 20),
             child: LogoSVG(),
           ),
-          SizedBox(
+          const SizedBox(
             height: 50,
           ),
           Column(
@@ -63,42 +63,44 @@ class _SidePanelState extends State<SidePanel> {
   List<Widget> _getLinks(BuildContext context) {
     //return [SidePanelLink(icon: Icons.ac_unit, text: "Hello")];
     return AuthenticatedNavbarLinks.LINKS.entries
-        .map<Widget>((entry) => Column(
-              children: [
-                InkWell(
-                  onHover: (value) {
-                    setState(() {
-                      widget._isHovering[entry.key] = value ? true : false;
-                    });
-                  },
-                  onTap: () {
-                    BlocProvider.of<AuthenticatedSidePanelCubit>(context)
-                        .navigateTo(entry.key);
-                    setState(() {
-                      activeLNK = entry.key;
-                    });
-                    AppRouterDelegate.linkLocationNotifier.value = entry.key;
-                  },
-                  child: Container(
-                    padding: EdgeInsets.all(15),
-                    color: activeLNK == entry.key ||
-                            (widget._isHovering[entry.key] ?? false)
-                        ? AppColors.blue_1
-                        : AppColors.white,
-                    child: SidePanelLink(
-                      icon: AuthenticatedNavbarLinks.LINK_ICONS[entry.key],
-                      text: entry.value,
-                      isActive: activeLNK == entry.key,
-                    ),
+        .map<Widget>(
+          (entry) => Column(
+            children: [
+              InkWell(
+                onHover: (value) {
+                  setState(() {
+                    widget._isHovering[entry.key] = value ? true : false;
+                  });
+                },
+                onTap: () {
+                  BlocProvider.of<AuthenticatedSidePanelCubit>(context)
+                      .navigateTo(entry.key);
+                  setState(() {
+                    activeLNK = entry.key;
+                  });
+                  AppRouterDelegate.linkLocationNotifier.value = entry.key;
+                },
+                child: Container(
+                  padding: EdgeInsets.all(15),
+                  color: activeLNK == entry.key ||
+                          (widget._isHovering[entry.key] ?? false)
+                      ? AppColors.blue_1
+                      : AppColors.white,
+                  child: SidePanelLink(
+                    icon: AuthenticatedNavbarLinks.LINK_ICONS[entry.key],
+                    text: entry.value,
+                    isActive: activeLNK == entry.key,
                   ),
                 ),
-                if (activeLNK == entry.key)
-                  Container(
-                    height: 2,
-                    color: AppColors.blue_5,
-                  )
-              ],
-            ))
+              ),
+              if (activeLNK == entry.key)
+                Container(
+                  height: 2,
+                  color: AppColors.blue_5,
+                )
+            ],
+          ),
+        )
         .toList();
   }
 }
