@@ -21,6 +21,7 @@ dependencies:
   dartz:
   get_it:
   equatable:
+  uuid:
 
 
 dev_dependencies:

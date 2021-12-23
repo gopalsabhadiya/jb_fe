@@ -30,7 +30,6 @@ class AuthenticationAPI {
           EndpointUri.getValidateAuthenticationURL(),
           headers: {"content-type": "application/json"},
           body: jsonEncode(authResponse.toJson()));
-      print("Response: ${response.headers['set-cookie']}");
       if (response.statusCode == 200) {
         return true;
       }

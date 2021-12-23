@@ -49,17 +49,13 @@ class UnauthenticatedHomeScreen extends StatelessWidget {
   }
 
   _fireDrawerEvent(BuildContext context) {
-    print("Drawer event fired");
     if (AppGlobalKeys.getBodyScaffoldKey(ScreenTypeEnum.UNAUTHENTICATED)
         .currentState!
         .isDrawerOpen) {
-      print('Drawer event: if');
       BlocProvider.of<DrawerBloc>(context).add(DrawerEvent.OPEN);
     } else if (!AppGlobalKeys.getBodyScaffoldKey(ScreenTypeEnum.UNAUTHENTICATED)
         .currentState!
         .isDrawerOpen) {
-      print('Drawer event: else if');
-
       BlocProvider.of<DrawerBloc>(context).add(DrawerEvent.CLOSE);
     }
   }

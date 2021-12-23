@@ -4,13 +4,14 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:jb_fe/backend_integration/domain/usecase/party/update_party.dart';
 import 'package:jb_fe/backend_integration/dto/party/party_presentation.dart';
-import 'package:jb_fe/controllers/bloc/party/mediator/party_operation_notifier.dart';
+import 'package:jb_fe/controllers/bloc/party/mediator/notification/notification.dart';
+import 'package:jb_fe/controllers/bloc/party/mediator/notifier/update_notifier.dart';
 
 part 'update_party_event.dart';
 part 'update_party_state.dart';
 
 class UpdatePartyBloc extends Bloc<UpdatePartyEvent, UpdatePartyState>
-    with PartyOperationNotifier {
+    with UpdatePartyNotifier {
   final UpdatePartyUseCase updatePartyUseCase;
 
   UpdatePartyBloc({required this.updatePartyUseCase})
@@ -24,7 +25,11 @@ class UpdatePartyBloc extends Bloc<UpdatePartyEvent, UpdatePartyState>
     try {
       updatePartyUseCase(party: (event as UpdateParty).partyPresentation);
       emit(const UpdatePartyState(updateStatus: UpdatePartyStatus.COMPLETED));
-      notifySubscriber();
+      notifySubscriber(
+        notification: UpdatePartyNotification(
+          party: event.partyPresentation,
+        ),
+      );
     } catch (e) {
       emit(const UpdatePartyState(updateStatus: UpdatePartyStatus.ERROR));
       return null;

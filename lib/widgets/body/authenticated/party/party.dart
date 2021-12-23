@@ -35,16 +35,6 @@ class _PartyState extends State<Party> with TickerProviderStateMixin {
   PartyPresentation? editParty;
   @override
   Widget build(BuildContext context) {
-    final DeletePartyBloc deletePartyBloc = serviceLocator<DeletePartyBloc>()
-      ..subscribe(subscriber: BlocProvider.of<PartyBloc>(context));
-    // deletePartyBloc.stream.listen(
-    //   (event) {
-    //     if (event.deleteStatus == DeletePartyStatus.COMPLETED) {
-    //       BlocProvider.of<PartyBloc>(context)
-    //           .add(RemoveParty(partyId: event.lastDeletedPartyId!));
-    //     }
-    //   },
-    // );
     return Expanded(
       child: Stack(
         children: [
@@ -65,7 +55,12 @@ class _PartyState extends State<Party> with TickerProviderStateMixin {
                               child: CircularProgressIndicator());
                         case PartyStatus.success:
                           return BlocProvider<DeletePartyBloc>(
-                            create: (context) => deletePartyBloc,
+                            create: (context) =>
+                                serviceLocator<DeletePartyBloc>()
+                                  ..subscribe(
+                                    subscriber:
+                                        BlocProvider.of<PartyBloc>(context),
+                                  ),
                             child: Wrap(
                               clipBehavior: Clip.hardEdge,
                               spacing: 40,
@@ -96,7 +91,9 @@ class _PartyState extends State<Party> with TickerProviderStateMixin {
             child: editParty != null
                 ? BlocProvider<UpdatePartyBloc>(
                     create: (BuildContext context) =>
-                        serviceLocator<UpdatePartyBloc>(),
+                        serviceLocator<UpdatePartyBloc>()
+                          ..subscribe(
+                              subscriber: BlocProvider.of<PartyBloc>(context)),
                     child: EditParty(
                       party: editParty!,
                       toggleDrawer: _toggleDrawer,
@@ -132,7 +129,7 @@ class _PartyState extends State<Party> with TickerProviderStateMixin {
 
   void _onScroll() {
     if (_isBottom && _controller.position.extentAfter == 0) {
-      context.read<PartyBloc>().add(FetchParties());
+      context.read<PartyBloc>().add(FetchNextPartyPage());
     }
   }
 

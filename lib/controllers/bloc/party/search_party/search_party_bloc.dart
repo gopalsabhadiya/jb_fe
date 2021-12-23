@@ -4,11 +4,15 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:jb_fe/backend_integration/domain/usecase/party/search_party.dart';
 import 'package:jb_fe/backend_integration/dto/party/party_presentation.dart';
+import 'package:jb_fe/controllers/bloc/party/mediator/notification/notification.dart';
+import 'package:jb_fe/controllers/bloc/party/mediator/notifier/search_notifier.dart';
+import 'package:jb_fe/controllers/bloc/party/mediator/subscriber/operation_subscriber.dart';
 
 part 'search_party_event.dart';
 part 'search_party_state.dart';
 
-class SearchPartyBloc extends Bloc<SearchPartyEvent, SearchPartyState> {
+class SearchPartyBloc extends Bloc<SearchPartyEvent, SearchPartyState>
+    with SearchPartyNotifier, PartyOperationSubscriber {
   final SearchPartyUseCase searchPartyUseCase;
 
   SearchPartyBloc({required this.searchPartyUseCase})
@@ -34,6 +38,7 @@ class SearchPartyBloc extends Bloc<SearchPartyEvent, SearchPartyState> {
           result: searchResult,
         ),
       );
+      notifySubscriber(notification: SearchPartyCompleteNotification(result: searchResult),);
     } catch (e) {
       emit(
         state.copyWith(
@@ -42,5 +47,14 @@ class SearchPartyBloc extends Bloc<SearchPartyEvent, SearchPartyState> {
       );
       return null;
     }
+  }
+
+  @override
+  // TODO: implement id
+  String get id => throw UnimplementedError();
+
+  @override
+  void update({required OperationNotification notification}) {
+    print("Search next page");
   }
 }

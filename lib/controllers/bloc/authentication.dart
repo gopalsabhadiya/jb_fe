@@ -69,16 +69,14 @@ class AuthenticationBloc
     _authenticationRepository.logIn(event.loginForm);
   }
 
-  _onAuthenticationValidationRequested(AuthenticationValidationRequested event, Emitter<AuthenticationState> emit) {
+  _onAuthenticationValidationRequested(AuthenticationValidationRequested event,
+      Emitter<AuthenticationState> emit) {
     _authenticationRepository.validate();
-
   }
 
   Future<User?> _tryGetUser() async {
-    print("Trying to get user");
     try {
       final user = await _userRepository.getUser();
-      print("Your User: ${user.toString()}");
       return user;
     } catch (_) {
       return null;

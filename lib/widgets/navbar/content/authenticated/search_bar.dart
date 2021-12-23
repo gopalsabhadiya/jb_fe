@@ -7,8 +7,8 @@ import 'package:jb_fe/constants/texts/party_text.dart';
 import 'package:jb_fe/constants/texts/payment_text.dart';
 import 'package:jb_fe/controllers/bloc/authenticated_sidepanel.dart';
 import 'package:jb_fe/controllers/bloc/party/party_bloc/party_bloc.dart';
-import 'package:jb_fe/controllers/bloc/state/authenticated_sidepanel.dart';
 import 'package:jb_fe/controllers/bloc/party/search_party/search_party_bloc.dart';
+import 'package:jb_fe/controllers/bloc/state/authenticated_sidepanel.dart';
 import 'package:jb_fe/widgets/common/inputs/search_input.dart';
 
 import '../../../../injection_container.dart';
@@ -27,27 +27,34 @@ class SearchBar extends StatelessWidget {
           case AuthenticatedSidePanelState.PARTY:
             return BlocProvider(
               create: (context) {
+                print("Providing bloc");
                 final SearchPartyBloc searchPartyBloc =
-                    serviceLocator<SearchPartyBloc>();
-
-                searchPartyBloc.stream.listen(
-                  (event) {
-                    print(
-                        "Your search term in search bar: ${event.searchTerm}");
-                    print(
-                        "Your search result in search bar: ${event.result.length}");
-                    if (event.searchStatus == SearchPartyStatus.COMPLETED) {
-                      BlocProvider.of<PartyBloc>(context).add(
-                        SearchPartyDisplay(
-                          searchResult: event.result,
-                          searchTerm: event.searchTerm,
-                        ),
-                      );
-                    }
-                  },
-                );
+                    serviceLocator<SearchPartyBloc>()
+                      ..subscribe(
+                          subscriber: BlocProvider.of<PartyBloc>(context));
+                print("PartyBlocState: ${BlocProvider.of<PartyBloc>(context).state.partyList.length}");
+                BlocProvider.of<PartyBloc>(context)
+                    .subscribe(subscriber: searchPartyBloc);
                 return searchPartyBloc;
               },
+              // create: (context) {
+              //   final SearchPartyBloc searchPartyBloc =
+              //       serviceLocator<SearchPartyBloc>()..subscribe(subscriber: BlocProvider.of<PartyBloc>(context));
+              //
+              //   searchPartyBloc.stream.listen(
+              //     (event) {
+              //       if (event.searchStatus == SearchPartyStatus.COMPLETED) {
+              //         BlocProvider.of<PartyBloc>(context).add(
+              //           SearchPartyDisplay(
+              //             searchResult: event.result,
+              //             searchTerm: event.searchTerm,
+              //           ),
+              //         );
+              //       }
+              //     },
+              //   );
+              //   return searchPartyBloc;
+              // },
               child: Builder(builder: (context) {
                 return SizedBox(
                   width: 300,
@@ -117,12 +124,7 @@ class SearchBar extends StatelessWidget {
   }
 
   _clearSearchTerm(BuildContext context) {
-    print("Clear search term");
-    print(
-        "PartyBlocState: ${BlocProvider.of<PartyBloc>(context).state.searchTerm}");
     BlocProvider.of<PartyBloc>(context).add(ClearSearchTerm());
-    print(
-        "PartyBlocState: ${BlocProvider.of<PartyBloc>(context).state.searchTerm}");
   }
 
   _onPartySearchChange(String value) {
@@ -130,7 +132,6 @@ class SearchBar extends StatelessWidget {
   }
 
   _partySearchClickHandler(BuildContext context, String searchText) {
-    print("Searching party: $searchText");
     BlocProvider.of<SearchPartyBloc>(context)
         .add(SearchParty(searchTerm: searchText));
   }

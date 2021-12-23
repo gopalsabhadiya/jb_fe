@@ -9,6 +9,8 @@ abstract class PartyEvent extends Equatable {
 
 class FetchParties extends PartyEvent {}
 
+class FetchNextPartyPage extends PartyEvent {}
+
 class SearchPartyDisplay extends PartyEvent {
   final List<PartyPresentation> searchResult;
   final String searchTerm;
