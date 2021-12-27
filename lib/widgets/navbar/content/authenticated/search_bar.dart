@@ -32,7 +32,8 @@ class SearchBar extends StatelessWidget {
                     serviceLocator<SearchPartyBloc>()
                       ..subscribe(
                           subscriber: BlocProvider.of<PartyBloc>(context));
-                print("PartyBlocState: ${BlocProvider.of<PartyBloc>(context).state.partyList.length}");
+                print(
+                    "PartyBlocState: ${BlocProvider.of<PartyBloc>(context).state.partyList.length}");
                 BlocProvider.of<PartyBloc>(context)
                     .subscribe(subscriber: searchPartyBloc);
                 return searchPartyBloc;
@@ -124,7 +125,7 @@ class SearchBar extends StatelessWidget {
   }
 
   _clearSearchTerm(BuildContext context) {
-    BlocProvider.of<PartyBloc>(context).add(ClearSearchTerm());
+    BlocProvider.of<SearchPartyBloc>(context).add(ClearSearchTerm());
   }
 
   _onPartySearchChange(String value) {

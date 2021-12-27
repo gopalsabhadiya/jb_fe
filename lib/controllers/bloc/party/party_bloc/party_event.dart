@@ -7,7 +7,7 @@ abstract class PartyEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class FetchParties extends PartyEvent {}
+class FetchPartyFirstPage extends PartyEvent {}
 
 class FetchNextPartyPage extends PartyEvent {}
 
@@ -19,4 +19,7 @@ class SearchPartyDisplay extends PartyEvent {
       {required this.searchResult, required this.searchTerm});
 }
 
-class ClearSearchTerm extends PartyEvent {}
+class AddSearchTerm extends PartyEvent {
+  final String searchTerm;
+  const AddSearchTerm({required this.searchTerm});
+}

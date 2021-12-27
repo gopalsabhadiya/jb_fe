@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:jb_fe/backend_integration/domain/usecase/party/get_party_page.dart';
-import 'package:jb_fe/backend_integration/domain/usecase/party/search_party.dart';
 import 'package:jb_fe/backend_integration/dto/party/party_presentation.dart';
 import 'package:jb_fe/controllers/bloc/party/mediator/notification/notification.dart';
 import 'package:jb_fe/controllers/bloc/party/mediator/notifier/next_page_notifier.dart';
@@ -24,113 +23,117 @@ class _DisplaySearchResult extends PartyEvent {
   const _DisplaySearchResult({required this.result});
 }
 
+class _ClearSearchTerm extends PartyEvent {}
+
 class PartyBloc extends Bloc<PartyEvent, PartyState>
-    with PartyOperationSubscriber, NextPartyPageNotifier {
+    with PartyOperationSubscriber, SearchNextPartyPageNotifier {
   final String _id = const Uuid().v4();
 
   final GetPartyPageUseCase getPartyPage;
-  final SearchPartyUseCase searchParty;
 
-  PartyBloc({required this.getPartyPage, required this.searchParty})
-      : super(const PartyState()) {
-    on<_DeleteParty>(_removePartyFromList);
-    on<_DisplaySearchResult>(_displaySearchResult);
+  PartyBloc({required this.getPartyPage}) : super(const PartyState()) {
+    on<FetchPartyFirstPage>(_onFetchPartyFirstPage);
     on<FetchNextPartyPage>(_fetchNextPartyPage);
-    on<PartyEvent>(_onFetchParty);
+    on<_DisplaySearchResult>(_displaySearchResult);
+    on<_ClearSearchTerm>(_clearSearchTerm);
+    on<_DeleteParty>(_removePartyFromList);
   }
 
-  FutureOr<void> _onFetchParty(
-      PartyEvent event, Emitter<PartyState> emit) async {
-    if (event is _DeleteParty) {
-      return null;
-    }
-    if (event is SearchPartyDisplay) {
-      print("SearchPartyDisplayEvent fired");
-      return null;
-      // return _searchPartyDisplay(event, emit);
-    }
-    if (event is ClearSearchTerm) {
-      return _clearSearchTerm(event, emit);
-    }
-    if (state.hasReachedMax) {
-      return null;
-    }
+  FutureOr<void> _onFetchPartyFirstPage(
+      FetchPartyFirstPage event, Emitter<PartyState> emit) async {
+    emit(
+      state.copyWith(
+        status: PartyStatus.LOADING,
+      ),
+    );
     try {
-      if (state.status == PartyStatus.initial) {
-        final partyList = await getPartyPage(1);
-        return emit(state.copyWith(
-            status: PartyStatus.success,
-            partyList: partyList,
-            hasReachedMax: partyList.length < 20));
-      }
-      final partyList = state.searchTerm.isEmpty
-          ? await getPartyPage((state.partyList.length ~/ 20) + 1)
-          : await searchParty(
-              searchTerm: state.searchTerm,
-              pageNumber: (state.partyList.length ~/ 20) + 1);
-      if (partyList.isEmpty) {
-        emit(state.copyWith(
-          hasReachedMax: true,
-        ));
-      } else if (partyList.length < 20) {
-        emit(state.copyWith(
-          hasReachedMax: true,
-          partyList: List.of(state.partyList)..addAll(partyList),
-          status: PartyStatus.success,
-        ));
-      } else {
-        emit(
-          state.copyWith(
-            status: PartyStatus.success,
-            partyList: List.of(state.partyList)..addAll(partyList),
-          ),
-        );
-      }
+      final partyList = await getPartyPage(pageNumber: 1);
+      emit(
+        state.copyWith(
+          status: PartyStatus.SUCCESS,
+          partyList: partyList,
+          hasReachedMax: partyList.length < 20,
+        ),
+      );
     } catch (e) {
       emit(
-        state.copyWith(status: PartyStatus.failure),
+        state.copyWith(status: PartyStatus.FAILURE),
       );
     }
   }
 
-  FutureOr<void> _clearSearchTerm(
-      ClearSearchTerm event, Emitter<PartyState> emit) async {
+  FutureOr<void> _fetchNextPartyPage(
+      FetchNextPartyPage event, Emitter<PartyState> emit) async {
+    if (state.hasReachedMax == true) {
+      return null;
+    }
+    if (state.needToSearch) {
+      notifySubscriber(
+        notification: const SearchNextPartyPageRequestNotification(),
+      );
+      return null;
+    }
+
+    final partyList =
+        await getPartyPage(pageNumber: (state.partyList.length ~/ 20) + 1);
     emit(state.copyWith(
-      partyList: <PartyPresentation>[],
-      status: PartyStatus.initial,
-      searchTerm: "",
+      hasReachedMax: partyList.length < 20,
+      partyList: List.of(state.partyList)..addAll(partyList),
+      status: PartyStatus.SUCCESS,
     ));
-    final partyList = await getPartyPage(1);
-    return emit(
+    return null;
+  }
+
+  FutureOr<void> _displaySearchResult(
+      _DisplaySearchResult event, Emitter<PartyState> emit) {
+    emit(
       state.copyWith(
-        status: PartyStatus.success,
-        partyList: partyList,
-        hasReachedMax: partyList.length < 20,
+        status: PartyStatus.LOADING,
       ),
     );
+    emit(
+      state.copyWith(
+        partyList: event.result,
+        status: PartyStatus.SUCCESS,
+        hasReachedMax: event.result.length < 20,
+        needToSearch: true,
+      ),
+    );
+  }
+
+  FutureOr<void> _clearSearchTerm(
+      _ClearSearchTerm event, Emitter<PartyState> emit) {
+    emit(
+      state.copyWith(
+        status: PartyStatus.LOADING,
+        partyList: <PartyPresentation>[],
+        needToSearch: false,
+      ),
+    );
+    add(FetchPartyFirstPage());
   }
 
   @override
   void update({required OperationNotification notification}) {
     switch (notification.notificationType) {
       case NotificationType.PARTY_DELETED:
-        add(_DeleteParty(
-            partyId: (notification as DeletePartyNotification).partyId));
+        add(
+          _DeleteParty(
+            partyId: (notification as DeletePartyNotification).partyId,
+          ),
+        );
         break;
       case NotificationType.PARTY_UPDATED:
-        print("Party Updated in partyBloc");
         break;
       case NotificationType.PARTY_SEARCH_COMPLETE:
         add(
           _DisplaySearchResult(
-              result: (notification as SearchPartyCompleteNotification).result),
+            result: (notification as SearchPartyCompleteNotification).result,
+          ),
         );
         break;
-      case NotificationType.PARTY_SEARCH_REMOVED:
-        // TODO: Handle this case.
-        break;
-      case NotificationType.PARTY_SEARCH_NEXT_PAGE:
-        // TODO: Handle this case.
+      case NotificationType.PARTY_SEARCH_CLEARED:
+        add(_ClearSearchTerm());
         break;
     }
   }
@@ -145,33 +148,10 @@ class PartyBloc extends Bloc<PartyEvent, PartyState>
     }
     emit(
       state.copyWith(
-        status: PartyStatus.success,
+        status: PartyStatus.SUCCESS,
         partyList: newList,
       ),
     );
-  }
-
-  FutureOr<void> _displaySearchResult(
-      _DisplaySearchResult event, Emitter<PartyState> emit) {
-    emit(
-      state.copyWith(
-        partyList: event.result,
-        status: PartyStatus.success,
-        hasReachedMax: event.result.length < 20,
-      ),
-    );
-  }
-
-  FutureOr<void> _fetchNextPartyPage(
-      FetchNextPartyPage event, Emitter<PartyState> emit) {
-    // if (state.hasReachedMax == true) {
-    //   return null;
-    // }
-    notifySubscriber(
-      notification:
-          NextPartyPageRequestNotification(skip: state.partyList.length),
-    );
-    print("Fetch next page");
   }
 
   @override

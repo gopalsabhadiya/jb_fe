@@ -12,3 +12,5 @@ class SearchParty extends SearchPartyEvent {
 
   const SearchParty({required this.searchTerm});
 }
+
+class ClearSearchTerm extends SearchPartyEvent {}

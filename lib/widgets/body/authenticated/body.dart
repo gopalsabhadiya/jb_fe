@@ -47,7 +47,7 @@ class AppBodyAuthenticated extends StatelessWidget {
         case AuthenticatedSidePanelState.PARTY:
           return BlocProvider<PartyBloc>(
             create: (BuildContext context) =>
-                serviceLocator<PartyBloc>()..add(FetchParties()),
+                serviceLocator<PartyBloc>()..add(FetchPartyFirstPage()),
             child: Column(
               children: [
                 ScreenSizeUtil.getIsHamburgerNavbar(context)

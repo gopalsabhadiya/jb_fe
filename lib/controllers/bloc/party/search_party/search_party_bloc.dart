@@ -18,6 +18,7 @@ class SearchPartyBloc extends Bloc<SearchPartyEvent, SearchPartyState>
   SearchPartyBloc({required this.searchPartyUseCase})
       : super(const SearchPartyState()) {
     on<SearchPartyEvent>(_onSearchPartyEvent);
+    on<ClearSearchTerm>(_onClearSearchTerm);
   }
 
   FutureOr<void> _onSearchPartyEvent(
@@ -31,14 +32,20 @@ class SearchPartyBloc extends Bloc<SearchPartyEvent, SearchPartyState>
       final searchResult = await searchPartyUseCase(
         searchTerm: (event as SearchParty).searchTerm,
       );
+      print("Searched parties: ${searchResult.length}");
       emit(
         state.copyWith(
           searchStatus: SearchPartyStatus.COMPLETED,
           searchTerm: event.searchTerm,
-          result: searchResult,
+          result: List.of(state.result)..addAll(searchResult),
         ),
       );
-      notifySubscriber(notification: SearchPartyCompleteNotification(result: searchResult),);
+      notifySubscriber(
+        notification: SearchPartyCompleteNotification(
+          result: state.result,
+          searchTerm: state.searchTerm,
+        ),
+      );
     } catch (e) {
       emit(
         state.copyWith(
@@ -54,7 +61,30 @@ class SearchPartyBloc extends Bloc<SearchPartyEvent, SearchPartyState>
   String get id => throw UnimplementedError();
 
   @override
-  void update({required OperationNotification notification}) {
-    print("Search next page");
+  void update({required OperationNotification notification}) async {
+    print("Search next page: ${notification}");
+    final searchResult = await searchPartyUseCase(
+        searchTerm: state.searchTerm,
+        pageNumber: (state.result.length ~/ 20) + 1);
+    notifySubscriber(
+      notification: SearchPartyCompleteNotification(
+        result: List.of(state.result)..addAll(searchResult),
+        searchTerm: state.searchTerm,
+      ),
+    );
+  }
+
+  FutureOr<void> _onClearSearchTerm(
+      ClearSearchTerm event, Emitter<SearchPartyState> emit) {
+    print("Clearin search term");
+    emit(state.copyWith(
+      result: <PartyPresentation>[],
+      searchTerm: "",
+      searchStatus: SearchPartyStatus.COMPLETED,
+    ));
+    notifySubscriber(
+      notification: const SearchPartyTermClearedNotification(),
+    );
+    return null;
   }
 }

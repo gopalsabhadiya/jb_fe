@@ -5,8 +5,7 @@ enum NotificationType {
   PARTY_DELETED,
   PARTY_UPDATED,
   PARTY_SEARCH_COMPLETE,
-  PARTY_SEARCH_REMOVED,
-  PARTY_SEARCH_NEXT_PAGE,
+  PARTY_SEARCH_CLEARED,
   PARTY_GET_NEXT_PAGE
 }
 
@@ -42,22 +41,21 @@ class UpdatePartyNotification extends OperationNotification {
 
 class SearchPartyCompleteNotification extends OperationNotification {
   final List<PartyPresentation> result;
-  const SearchPartyCompleteNotification({
-    required this.result,
-  }) : super(notificationType: NotificationType.PARTY_SEARCH_COMPLETE);
+  final String searchTerm;
+  const SearchPartyCompleteNotification(
+      {required this.result, required this.searchTerm})
+      : super(notificationType: NotificationType.PARTY_SEARCH_COMPLETE);
 
   @override
   List<Object> get props => [result, notificationType];
 }
 
-class SearchPartyTermRemovedNotification extends OperationNotification {
-  const SearchPartyTermRemovedNotification()
-      : super(notificationType: NotificationType.PARTY_SEARCH_REMOVED);
+class SearchPartyTermClearedNotification extends OperationNotification {
+  const SearchPartyTermClearedNotification()
+      : super(notificationType: NotificationType.PARTY_SEARCH_CLEARED);
 }
 
-class NextPartyPageRequestNotification extends OperationNotification {
-  final int skip;
-
-  const NextPartyPageRequestNotification({required this.skip})
+class SearchNextPartyPageRequestNotification extends OperationNotification {
+  const SearchNextPartyPageRequestNotification()
       : super(notificationType: NotificationType.PARTY_GET_NEXT_PAGE);
 }

@@ -49,11 +49,19 @@ class _PartyState extends State<Party> with TickerProviderStateMixin {
                   controller: _controller,
                   child: BlocBuilder<PartyBloc, PartyState>(
                     builder: (BuildContext context, PartyState state) {
+                      print("IntoBuilder: ${state.status}");
                       switch (state.status) {
-                        case PartyStatus.initial:
+                        case PartyStatus.INITIAL:
                           return const Center(
                               child: CircularProgressIndicator());
-                        case PartyStatus.success:
+                        case PartyStatus.LOADING:
+                          _controller
+                              .jumpTo(_controller.position.minScrollExtent);
+                          return const Center(
+                              child: CircularProgressIndicator());
+                        case PartyStatus.SUCCESS:
+                          // print(
+                          //     "Success State update: ${state.partyList.length}");
                           return BlocProvider<DeletePartyBloc>(
                             create: (context) =>
                                 serviceLocator<DeletePartyBloc>()
@@ -70,7 +78,8 @@ class _PartyState extends State<Party> with TickerProviderStateMixin {
                               children: _getParties(state.partyList),
                             ),
                           );
-                        case PartyStatus.failure:
+                        case PartyStatus.FAILURE:
+                          print("Falure State update");
                           return Center(
                             child: AppTextBuilder("Failed to fetch parties")
                                 .build(),
@@ -129,6 +138,7 @@ class _PartyState extends State<Party> with TickerProviderStateMixin {
 
   void _onScroll() {
     if (_isBottom && _controller.position.extentAfter == 0) {
+      print("Hit Bottom");
       context.read<PartyBloc>().add(FetchNextPartyPage());
     }
   }

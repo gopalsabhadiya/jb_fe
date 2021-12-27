@@ -16,8 +16,11 @@ final serviceLocator = GetIt.instance;
 
 void init() {
   //bloc
-  serviceLocator.registerFactory(() =>
-      PartyBloc(getPartyPage: serviceLocator(), searchParty: serviceLocator()));
+  serviceLocator.registerFactory(
+    () => PartyBloc(
+      getPartyPage: serviceLocator(),
+    ),
+  );
   serviceLocator.registerFactory(
       () => UpdatePartyBloc(updatePartyUseCase: serviceLocator()));
   serviceLocator.registerFactory(

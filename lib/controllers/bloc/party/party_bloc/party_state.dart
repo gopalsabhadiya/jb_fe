@@ -1,31 +1,31 @@
 part of 'party_bloc.dart';
 
-enum PartyStatus { initial, success, failure }
+enum PartyStatus { INITIAL, LOADING, SUCCESS, FAILURE }
 
 class PartyState extends Equatable {
   final PartyStatus status;
   final List<PartyPresentation> partyList;
   final bool hasReachedMax;
-  final String searchTerm;
+  final bool needToSearch;
 
   const PartyState({
-    this.status = PartyStatus.initial,
+    this.status = PartyStatus.INITIAL,
     this.partyList = const <PartyPresentation>[],
     this.hasReachedMax = false,
-    this.searchTerm = "",
+    this.needToSearch = false,
   });
 
   PartyState copyWith({
     PartyStatus? status,
     List<PartyPresentation>? partyList,
     bool? hasReachedMax,
-    String? searchTerm,
+    bool? needToSearch,
   }) {
     return PartyState(
         status: status ?? this.status,
         partyList: partyList ?? this.partyList,
         hasReachedMax: hasReachedMax ?? this.hasReachedMax,
-        searchTerm: searchTerm ?? this.searchTerm);
+        needToSearch: needToSearch ?? this.needToSearch);
   }
 
   @override

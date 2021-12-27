@@ -16,7 +16,6 @@ class SearchPartyNotifier implements PartyOperationNotifier {
 
   @override
   void notifySubscriber({required OperationNotification notification}) {
-    print("Notifying search party complete");
     for (final subscriber in _subscribers) {
       subscriber.update(notification: notification);
     }
