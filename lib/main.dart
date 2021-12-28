@@ -8,7 +8,7 @@ import 'configure_nonweb.dart' if (dart.library.html) 'configure_web.dart';
 void main() {
   configureApp();
   init();
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 //
 // class MyApp extends StatelessWidget {

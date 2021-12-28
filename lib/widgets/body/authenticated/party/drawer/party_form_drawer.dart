@@ -1,0 +1,77 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jb_fe/constants/colors.dart';
+import 'package:jb_fe/constants/durations/animation_durations.dart';
+import 'package:jb_fe/controllers/bloc/party/update_party/update_party_bloc.dart';
+import 'package:jb_fe/util/screen_size.dart';
+import 'package:jb_fe/widgets/body/authenticated/party/add_edit/edit_party.dart';
+import 'package:jb_fe/widgets/calligraphy/app_text.dart';
+import 'package:jb_fe/widgets/common/save_cancel_bar.dart';
+
+class PartyFormDrawer extends StatefulWidget {
+  const PartyFormDrawer({Key? key}) : super(key: key);
+
+  @override
+  State<PartyFormDrawer> createState() => _PartyFormDrawerState();
+}
+
+class _PartyFormDrawerState extends State<PartyFormDrawer>
+    with TickerProviderStateMixin {
+  late Animation<Offset> animation;
+
+  late AnimationController animationController;
+
+  @override
+  void initState() {
+    super.initState();
+
+    animationController = AnimationController(
+      vsync: this,
+      duration: AnimationDuration.SHORT,
+    );
+    animation =
+        Tween<Offset>(begin: const Offset(0, 1), end: const Offset(0, 0))
+            .animate(
+      CurvedAnimation(
+        parent: animationController,
+        curve: Curves.easeOut,
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SlideTransition(
+      position: animation,
+      child: Container(
+        width: ScreenSizeUtil.getBottomDrawerWidth(context),
+        height: ScreenSizeUtil.getBottomDrawerHeight(context),
+        color: AppColors.blue_1,
+        child: BlocBuilder<UpdatePartyBloc, UpdatePartyState>(
+          builder: (context, state) {
+            if (state.partyToBeUpdated != null) {
+              animationController.forward();
+              return EditParty(
+                party: state.partyToBeUpdated!,
+                closeDrawer: _cancelUpdate,
+              );
+            }
+            return Container();
+          },
+        ),
+      ),
+    );
+  }
+
+  _cancelUpdate() {
+    animationController.reverse();
+    BlocProvider.of<UpdatePartyBloc>(context).add(RemovePartyToBeUpdated());
+  }
+
+  @override
+  void dispose() {
+    animationController.dispose();
+    super.dispose();
+  }
+}

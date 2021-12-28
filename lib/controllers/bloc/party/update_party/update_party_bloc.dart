@@ -16,14 +16,16 @@ class UpdatePartyBloc extends Bloc<UpdatePartyEvent, UpdatePartyState>
 
   UpdatePartyBloc({required this.updatePartyUseCase})
       : super(const UpdatePartyState()) {
-    on<UpdatePartyEvent>(_onUpdatePartyEvent);
+    on<UpdateParty>(_onUpdatePartyEvent);
+    on<AddPartyToBeUpdated>(_onAddPartyToBeUpdated);
+    on<RemovePartyToBeUpdated>(_removePartyToBeUpdated);
   }
 
   FutureOr<void> _onUpdatePartyEvent(
-      UpdatePartyEvent event, Emitter<UpdatePartyState> emit) async {
+      UpdateParty event, Emitter<UpdatePartyState> emit) async {
     emit(const UpdatePartyState(updateStatus: UpdatePartyStatus.LOADING));
     try {
-      updatePartyUseCase(party: (event as UpdateParty).partyPresentation);
+      updatePartyUseCase(party: event.partyPresentation);
       emit(const UpdatePartyState(updateStatus: UpdatePartyStatus.COMPLETED));
       notifySubscriber(
         notification: UpdatePartyNotification(
@@ -34,5 +36,22 @@ class UpdatePartyBloc extends Bloc<UpdatePartyEvent, UpdatePartyState>
       emit(const UpdatePartyState(updateStatus: UpdatePartyStatus.ERROR));
       return null;
     }
+  }
+
+  FutureOr<void> _onAddPartyToBeUpdated(
+      AddPartyToBeUpdated event, Emitter<UpdatePartyState> emit) {
+    emit(
+      state.copyWith(
+        partyToBeUpdated: event.partyToBeUpdated,
+        updateStatus: UpdatePartyStatus.UPDATE_PARTY_ADDED,
+      ),
+    );
+  }
+
+  FutureOr<void> _removePartyToBeUpdated(
+      RemovePartyToBeUpdated event, Emitter<UpdatePartyState> emit) {
+    emit(
+      const UpdatePartyState(updateStatus: UpdatePartyStatus.COMPLETED),
+    );
   }
 }

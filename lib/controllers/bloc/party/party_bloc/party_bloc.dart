@@ -18,6 +18,11 @@ class _DeleteParty extends PartyEvent {
   const _DeleteParty({required this.partyId});
 }
 
+class _UpdateParty extends PartyEvent {
+  final PartyPresentation updatedParty;
+  const _UpdateParty({required this.updatedParty});
+}
+
 class _DisplaySearchResult extends PartyEvent {
   final List<PartyPresentation> result;
   const _DisplaySearchResult({required this.result});
@@ -37,6 +42,7 @@ class PartyBloc extends Bloc<PartyEvent, PartyState>
     on<_DisplaySearchResult>(_displaySearchResult);
     on<_ClearSearchTerm>(_clearSearchTerm);
     on<_DeleteParty>(_removePartyFromList);
+    on<_UpdateParty>(_updateParty);
   }
 
   FutureOr<void> _onFetchPartyFirstPage(
@@ -124,6 +130,10 @@ class PartyBloc extends Bloc<PartyEvent, PartyState>
         );
         break;
       case NotificationType.PARTY_UPDATED:
+        add(
+          _UpdateParty(
+              updatedParty: (notification as UpdatePartyNotification).party),
+        );
         break;
       case NotificationType.PARTY_SEARCH_COMPLETE:
         add(
@@ -145,6 +155,21 @@ class PartyBloc extends Bloc<PartyEvent, PartyState>
       if (party.id != event.partyId) {
         newList.add(party);
       }
+    }
+    emit(
+      state.copyWith(
+        status: PartyStatus.SUCCESS,
+        partyList: newList,
+      ),
+    );
+  }
+
+  FutureOr<void> _updateParty(_UpdateParty event, Emitter<PartyState> emit) {
+    final newList = <PartyPresentation>[];
+    for (var party in state.partyList) {
+      party.id != event.updatedParty.id
+          ? newList.add(event.updatedParty)
+          : newList.add(party);
     }
     emit(
       state.copyWith(

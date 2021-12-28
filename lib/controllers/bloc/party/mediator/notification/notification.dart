@@ -4,6 +4,7 @@ import 'package:jb_fe/backend_integration/dto/party/party_presentation.dart';
 enum NotificationType {
   PARTY_DELETED,
   PARTY_UPDATED,
+  PARTY_CREATED,
   PARTY_SEARCH_COMPLETE,
   PARTY_SEARCH_CLEARED,
   PARTY_GET_NEXT_PAGE
@@ -26,6 +27,17 @@ class DeletePartyNotification extends OperationNotification {
 
   @override
   List<Object> get props => [partyId, notificationType];
+}
+
+class NewPartyNotification extends OperationNotification {
+  final PartyPresentation party;
+
+  const NewPartyNotification({
+    required this.party,
+  }) : super(notificationType: NotificationType.PARTY_CREATED);
+
+  @override
+  List<Object> get props => [party, notificationType];
 }
 
 class UpdatePartyNotification extends OperationNotification {

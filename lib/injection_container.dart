@@ -6,6 +6,7 @@ import 'package:jb_fe/backend_integration/domain/usecase/party/delete_party.dart
 import 'package:jb_fe/backend_integration/domain/usecase/party/get_party_page.dart';
 import 'package:jb_fe/backend_integration/domain/usecase/party/search_party.dart';
 import 'package:jb_fe/backend_integration/domain/usecase/party/update_party.dart';
+import 'package:jb_fe/controllers/bloc/party/party_form_toggle/party_form_toggle_cubit.dart';
 import 'package:jb_fe/controllers/bloc/party/search_party/search_party_bloc.dart';
 import 'package:jb_fe/controllers/bloc/party/update_party/update_party_bloc.dart';
 
@@ -22,27 +23,55 @@ void init() {
     ),
   );
   serviceLocator.registerFactory(
-      () => UpdatePartyBloc(updatePartyUseCase: serviceLocator()));
+    () => UpdatePartyBloc(
+      updatePartyUseCase: serviceLocator(),
+    ),
+  );
   serviceLocator.registerFactory(
-      () => DeletePartyBloc(deletePartyUseCase: serviceLocator()));
+    () => DeletePartyBloc(
+      deletePartyUseCase: serviceLocator(),
+    ),
+  );
   serviceLocator.registerFactory(
-      () => SearchPartyBloc(searchPartyUseCase: serviceLocator()));
+    () => SearchPartyBloc(
+      searchPartyUseCase: serviceLocator(),
+    ),
+  );
+  serviceLocator.registerFactory(
+    () => PartyFormToggleCubit(),
+  );
 
   //usecases
   serviceLocator.registerLazySingleton(
-      () => GetPartyPageUseCase(repository: serviceLocator()));
+    () => GetPartyPageUseCase(
+      repository: serviceLocator(),
+    ),
+  );
   serviceLocator.registerLazySingleton(
-      () => UpdatePartyUseCase(repository: serviceLocator()));
+    () => UpdatePartyUseCase(
+      repository: serviceLocator(),
+    ),
+  );
   serviceLocator.registerLazySingleton(
-      () => DeletePartyUseCase(repository: serviceLocator()));
+    () => DeletePartyUseCase(
+      repository: serviceLocator(),
+    ),
+  );
   serviceLocator.registerLazySingleton(
-      () => SearchPartyUseCase(repository: serviceLocator()));
+    () => SearchPartyUseCase(
+      repository: serviceLocator(),
+    ),
+  );
 
   //repository
   serviceLocator.registerLazySingleton<PartyRepository>(
-      () => PartyRepositoryImpl(remoteDataSource: serviceLocator()));
+    () => PartyRepositoryImpl(
+      remoteDataSource: serviceLocator(),
+    ),
+  );
 
   //data sources
   serviceLocator.registerLazySingleton<PartyRemoteDataSource>(
-      () => PartyRemoteDataSourceImpl());
+    () => PartyRemoteDataSourceImpl(),
+  );
 }

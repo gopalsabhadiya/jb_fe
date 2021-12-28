@@ -20,6 +20,7 @@ class PartyRemoteDataSourceImpl implements PartyRemoteDataSource {
 
   @override
   Future<PartyModel> addParty(PartyEntity party) {
+    print("add party here");
     // TODO: implement addParty
     throw UnimplementedError();
   }

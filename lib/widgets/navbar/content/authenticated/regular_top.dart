@@ -1,12 +1,23 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jb_fe/constants/colors.dart';
 import 'package:jb_fe/constants/typography/font_weight.dart';
+import 'package:jb_fe/controllers/bloc/authenticated_sidepanel.dart';
+import 'package:jb_fe/controllers/bloc/state/authenticated_sidepanel.dart';
 import 'package:jb_fe/util/global_keys.dart';
 import 'package:jb_fe/widgets/calligraphy/app_text.dart';
 import 'package:jb_fe/widgets/common/buttons/icon_button.dart';
-import 'package:jb_fe/widgets/common/buttons/icon_button_circle.dart';
-import 'package:jb_fe/widgets/navbar/content/authenticated/search_bar.dart';
+import 'package:jb_fe/widgets/navbar/content/authenticated/add_button/add_item_button.dart';
+import 'package:jb_fe/widgets/navbar/content/authenticated/add_button/add_order_button.dart';
+import 'package:jb_fe/widgets/navbar/content/authenticated/add_button/add_party_button.dart';
+import 'package:jb_fe/widgets/navbar/content/authenticated/add_button/add_payment_button.dart';
+import 'package:jb_fe/widgets/navbar/content/authenticated/filter_button/filter_item_button.dart';
+import 'package:jb_fe/widgets/navbar/content/authenticated/filter_button/filter_order_button.dart';
+import 'package:jb_fe/widgets/navbar/content/authenticated/filter_button/filter_party_button.dart';
+import 'package:jb_fe/widgets/navbar/content/authenticated/search_bar/item_seearch_bar.dart';
+import 'package:jb_fe/widgets/navbar/content/authenticated/search_bar/order_search_bar.dart';
+import 'package:jb_fe/widgets/navbar/content/authenticated/search_bar/party_search_bar.dart';
 
 class RegularTopAuthenticatedNavbar extends StatelessWidget {
   const RegularTopAuthenticatedNavbar({Key? key}) : super(key: key);
@@ -30,12 +41,13 @@ class RegularTopAuthenticatedNavbar extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             // LogoSVG(),
-            Row(
-              children: [
-                const SearchBar(),
-                AppIconButtonCircleBuilder(Icons.filter_alt).build(),
-                AppIconButtonCircleBuilder(Icons.add).build(),
-              ],
+            BlocBuilder<AuthenticatedSidePanelCubit,
+                AuthenticatedSidePanelState>(
+              builder: (context, state) {
+                return Row(
+                  children: _getPageActions(state),
+                );
+              },
             ),
             Row(
               children: [
@@ -94,5 +106,34 @@ class RegularTopAuthenticatedNavbar extends StatelessWidget {
         color: AppColors.white,
       ),
     );
+  }
+
+  _getPageActions(AuthenticatedSidePanelState state) {
+    switch (state) {
+      case AuthenticatedSidePanelState.DASHBOARD:
+        return [Container()];
+      case AuthenticatedSidePanelState.PARTY:
+        return [
+          const PartySearchBar(),
+          const FilterPartyButton(),
+          const AddPartyButton()
+        ];
+      case AuthenticatedSidePanelState.INVENTORY:
+        return [
+          const ItemSearchBar(),
+          const FilterItemButton(),
+          const AddItemButton()
+        ];
+      case AuthenticatedSidePanelState.ORDERS:
+        return [const OrderSearchBar(), FilterOrderButton(), AddOrderButton()];
+      case AuthenticatedSidePanelState.PAYMENTS:
+        return [
+          const PartySearchBar(),
+          const FilterPartyButton(),
+          const AddPaymentButton()
+        ];
+      case AuthenticatedSidePanelState.SHOP_EXPENSES:
+        return [Container()];
+    }
   }
 }

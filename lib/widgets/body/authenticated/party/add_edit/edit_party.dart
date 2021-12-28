@@ -8,15 +8,16 @@ import 'package:jb_fe/controllers/bloc/party/update_party/update_party_bloc.dart
 import 'package:jb_fe/widgets/body/authenticated/party/add_edit/party_form.dart';
 import 'package:jb_fe/widgets/calligraphy/app_text.dart';
 import 'package:jb_fe/widgets/common/buttons/icon_button.dart';
+import 'package:jb_fe/widgets/common/save_cancel_bar.dart';
 
 class EditParty extends StatefulWidget {
-  final VoidCallback _toggleDrawer;
+  final VoidCallback _closeDrawer;
   final PartyPresentation _party;
 
   const EditParty(
-      {Key? key, required toggleDrawer, required PartyPresentation party})
+      {Key? key, required closeDrawer, required PartyPresentation party})
       : _party = party,
-        _toggleDrawer = toggleDrawer,
+        _closeDrawer = closeDrawer,
         super(key: key);
 
   @override
@@ -33,36 +34,14 @@ class _EditPartyState extends State<EditParty> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Container(
-            color: AppColors.blue_5,
-            height: 50,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  AppIconButtonBuilder(Icons.arrow_back)
-                      .size(25)
-                      .onClickHandler(_cancelSave)
-                      .color(AppColors.grey_1)
-                      .build(),
-                  InkWell(
-                    onTap: _saveParty,
-                    child: AppTextBuilder("Save")
-                        .size(20)
-                        .weight(AppFontWeight.BOLD)
-                        .color(AppColors.grey_1)
-                        .paddingHorizontal(20)
-                        .build(),
-                  )
-                ],
-              ),
-            ),
+          SaveCancelBar(
+            cancelCallback: _cancelSave,
+            saveCallback: _updateParty,
           ),
           BlocConsumer<UpdatePartyBloc, UpdatePartyState>(
             listener: (BuildContext context, UpdatePartyState state) {
               if (state.updateStatus == UpdatePartyStatus.COMPLETED) {
-                widget._toggleDrawer();
+                widget._closeDrawer();
               }
             },
             builder: (BuildContext context, UpdatePartyState state) {
@@ -70,6 +49,7 @@ class _EditPartyState extends State<EditParty> {
                 case UpdatePartyStatus.LOADING:
                   return const Center(child: CircularProgressIndicator());
                 case UpdatePartyStatus.COMPLETED:
+                case UpdatePartyStatus.UPDATE_PARTY_ADDED:
                   return Form(
                     key: _formKey,
                     child: PartyForm(
@@ -77,7 +57,7 @@ class _EditPartyState extends State<EditParty> {
                     ),
                   );
                 case UpdatePartyStatus.ERROR:
-                  return AppTextBuilder("Upps Something went wrong").build();
+                  return AppTextBuilder("Opps Something went wrong").build();
               }
             },
           ),
@@ -87,14 +67,15 @@ class _EditPartyState extends State<EditParty> {
     );
   }
 
-  void _saveParty() {
+  void _updateParty() {
     if (_formKey.currentState!.validate()) {
+      print("Updating party");
       BlocProvider.of<UpdatePartyBloc>(context)
           .add(UpdateParty(partyPresentation: widget._party));
     }
   }
 
   void _cancelSave() {
-    widget._toggleDrawer();
+    widget._closeDrawer();
   }
 }
