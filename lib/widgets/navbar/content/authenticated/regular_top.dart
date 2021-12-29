@@ -83,7 +83,7 @@ class RegularTopAuthenticatedNavbar extends StatelessWidget {
                 AppIconButtonBuilder(Icons.shopping_cart)
                     .size(30)
                     .color(AppColors.blue_5)
-                    .padding(EdgeInsets.only(left: 8, right: 8))
+                    .padding(const EdgeInsets.only(left: 8, right: 8))
                     .build(),
                 AppIconButtonBuilder(Icons.account_circle)
                     .size(30)
@@ -125,7 +125,11 @@ class RegularTopAuthenticatedNavbar extends StatelessWidget {
           const AddItemButton()
         ];
       case AuthenticatedSidePanelState.ORDERS:
-        return [const OrderSearchBar(), FilterOrderButton(), AddOrderButton()];
+        return [
+          const OrderSearchBar(),
+          const FilterOrderButton(),
+          const AddOrderButton()
+        ];
       case AuthenticatedSidePanelState.PAYMENTS:
         return [
           const PartySearchBar(),

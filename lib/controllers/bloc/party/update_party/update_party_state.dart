@@ -1,6 +1,6 @@
 part of 'update_party_bloc.dart';
 
-enum UpdatePartyStatus { UPDATE_PARTY_ADDED, LOADING, COMPLETED, ERROR }
+enum UpdatePartyStatus { LOADING, COMPLETED, ERROR }
 
 class UpdatePartyState extends Equatable {
   final UpdatePartyStatus updateStatus;

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jb_fe/controllers/bloc/authenticated_sidepanel.dart';
 import 'package:jb_fe/controllers/bloc/party/party_bloc/party_bloc.dart';
+import 'package:jb_fe/controllers/bloc/party/party_form_toggle/party_form_toggle_cubit.dart';
 import 'package:jb_fe/controllers/bloc/state/authenticated_sidepanel.dart';
 import 'package:jb_fe/injection_container.dart';
 import 'package:jb_fe/util/screen_size.dart';
@@ -45,9 +46,19 @@ class AppBodyAuthenticated extends StatelessWidget {
             ],
           );
         case AuthenticatedSidePanelState.PARTY:
-          return BlocProvider<PartyBloc>(
-            create: (BuildContext context) =>
-                serviceLocator<PartyBloc>()..add(FetchPartyFirstPage()),
+          return MultiBlocProvider(
+            providers: [
+              BlocProvider<PartyBloc>(
+                create: (BuildContext context) => serviceLocator<PartyBloc>()
+                  ..add(
+                    FetchPartyFirstPage(),
+                  ),
+              ),
+              BlocProvider<PartyFormToggleCubit>(
+                create: (BuildContext context) =>
+                    serviceLocator<PartyFormToggleCubit>(),
+              )
+            ],
             child: Column(
               children: [
                 ScreenSizeUtil.getIsHamburgerNavbar(context)

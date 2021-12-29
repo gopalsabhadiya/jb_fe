@@ -37,7 +37,7 @@ class PartyCard extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          PartyCardHeader(name: _party.name),
+          PartyCardHeader(name: _party.name, partyId: _party.partyId),
           PartyCardContent(
               contact: _party.contactNo,
               address: _party.address,
@@ -82,6 +82,6 @@ class PartyCard extends StatelessWidget {
 
   _deleteParty(BuildContext context) {
     BlocProvider.of<DeletePartyBloc>(context)
-        .add(DeleteParty(partyIdToBeDeleted: _party.id));
+        .add(DeleteParty(partyIdToBeDeleted: _party.id!));
   }
 }

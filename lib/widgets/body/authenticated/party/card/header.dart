@@ -6,8 +6,10 @@ import 'package:jb_fe/widgets/calligraphy/app_text.dart';
 
 class PartyCardHeader extends StatelessWidget {
   final String _name;
-  const PartyCardHeader({Key? key, required name})
+  final int _partyId;
+  const PartyCardHeader({Key? key, required name, required partyId})
       : _name = name,
+        _partyId = partyId,
         super(key: key);
 
   @override
@@ -23,17 +25,25 @@ class PartyCardHeader extends StatelessWidget {
         ),
       ),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const Padding(
-            padding: EdgeInsets.all(8.0),
-            child:
-                Icon(Icons.account_circle, size: 35, color: AppColors.blue_5),
+          Row(
+            children: [
+              const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Icon(Icons.account_circle,
+                    size: 35, color: AppColors.blue_5),
+              ),
+              AppTextBuilder(_name).size(18).color(AppColors.blue_5).build()
+            ],
           ),
-          AppTextBuilder(_name)
-              .weight(AppFontWeight.BOLD)
-              .size(20)
-              .color(AppColors.blue_5)
-              .build()
+          Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: AppTextBuilder(_partyId.toString())
+                .size(18)
+                .color(AppColors.grey_4)
+                .build(),
+          )
         ],
       ),
     );

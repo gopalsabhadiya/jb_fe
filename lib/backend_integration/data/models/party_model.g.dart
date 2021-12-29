@@ -7,8 +7,8 @@ part of 'party_model.dart';
 // **************************************************************************
 
 PartyModel _$PartyModelFromJson(Map<String, dynamic> json) => PartyModel(
-      id: json['_id'] as String,
-      partyId: json['partyId'] as int,
+      id: json['_id'] as String?,
+      partyId: json['partyId'] as int?,
       name: json['name'] as String,
       contactNo: json['contactNo'] as String,
       gstin: json['gstin'] as String?,
@@ -20,29 +20,38 @@ PartyModel _$PartyModelFromJson(Map<String, dynamic> json) => PartyModel(
       aadharNo: json['aadharNo'] as String?,
       order:
           (json['order'] as List<dynamic>?)?.map((e) => e as String).toList(),
-      user: json['user'] as String,
-      business: json['business'] as String,
-      date: DateTime.parse(json['date'] as String),
+      user: json['user'] as String?,
+      business: json['business'] as String?,
+      date:
+          json['date'] == null ? null : DateTime.parse(json['date'] as String),
     );
 
-Map<String, dynamic> _$PartyModelToJson(PartyModel instance) =>
-    <String, dynamic>{
-      '_id': instance.id,
-      'partyId': instance.partyId,
-      'name': instance.name,
-      'contactNo': instance.contactNo,
-      'gstin': instance.gstin,
-      'balance': instance.balance,
-      'address': instance.address,
-      'email': instance.email,
-      'type': _$PartyTypeEnumEnumMap[instance.type],
-      'panNo': instance.panNo,
-      'aadharNo': instance.aadharNo,
-      'order': instance.order,
-      'user': instance.user,
-      'business': instance.business,
-      'date': instance.date.toIso8601String(),
-    };
+Map<String, dynamic> _$PartyModelToJson(PartyModel instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('_id', ignoreIfEmpty(instance.id));
+  val['partyId'] = instance.partyId;
+  val['name'] = instance.name;
+  val['contactNo'] = instance.contactNo;
+  writeNotNull('gstin', ignoreIfEmpty(instance.gstin));
+  val['balance'] = instance.balance;
+  writeNotNull('address', ignoreIfEmpty(instance.address));
+  writeNotNull('email', ignoreIfEmpty(instance.email));
+  val['type'] = _$PartyTypeEnumEnumMap[instance.type];
+  writeNotNull('panNo', ignoreIfEmpty(instance.panNo));
+  writeNotNull('aadharNo', ignoreIfEmpty(instance.aadharNo));
+  writeNotNull('order', instance.order);
+  writeNotNull('user', instance.user);
+  writeNotNull('business', instance.business);
+  writeNotNull('date', instance.date?.toIso8601String());
+  return val;
+}
 
 const _$PartyTypeEnumEnumMap = {
   PartyTypeEnum.Customer: 'Customer',

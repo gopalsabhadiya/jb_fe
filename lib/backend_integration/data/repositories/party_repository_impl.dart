@@ -10,7 +10,7 @@ class PartyRepositoryImpl implements PartyRepository {
 
   @override
   Future<PartyEntity> addParty(PartyEntity party) async {
-    return await remoteDataSource.addParty(party as PartyModel);
+    return await remoteDataSource.addParty(party.getModel());
   }
 
   @override

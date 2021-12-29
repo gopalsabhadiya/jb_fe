@@ -42,24 +42,26 @@ class PartyForm extends StatelessWidget {
               children: [
                 Expanded(
                   child: AppTextInput(
-                      validator: _party.nameValidator,
-                      initialValue: _party.newName,
-                      prefixIcon: Icons.account_circle,
-                      hint: PartyText.PARTY_NAME_INPUT_HINT,
-                      tooltip: PartyText.PARTY_NAME_TOOLTIP,
-                      onChanged: _party.setNewName),
+                    validator: _party.nameValidator,
+                    initialValue: _party.newName,
+                    prefixIcon: Icons.account_circle,
+                    hint: PartyText.PARTY_NAME_INPUT_HINT,
+                    tooltip: PartyText.PARTY_NAME_TOOLTIP,
+                    onChanged: _party.setNewName,
+                  ),
                 ),
                 const SizedBox(
                   width: 10,
                 ),
                 Expanded(
                   child: AppTextInput(
-                      validator: _party.contactNoValidator,
-                      initialValue: _party.newContactNo,
-                      prefixIcon: Icons.call,
-                      hint: PartyText.CONTACT_NO_INPUT_HINT,
-                      tooltip: PartyText.CONATCT_NO_TOOLTIP,
-                      onChanged: _party.setNewContactNo),
+                    validator: _party.contactNoValidator,
+                    initialValue: _party.newContactNo,
+                    prefixIcon: Icons.call,
+                    hint: PartyText.CONTACT_NO_INPUT_HINT,
+                    tooltip: PartyText.CONATCT_NO_TOOLTIP,
+                    onChanged: _party.setNewContactNo,
+                  ),
                 ),
               ],
             ),
@@ -67,38 +69,11 @@ class PartyForm extends StatelessWidget {
               height: 10,
             ),
             AppTextInput(
-                initialValue: _party.newAddress,
-                prefixIcon: Icons.place,
-                hint: PartyText.ADDRESS_INPUT_HINT,
-                tooltip: PartyText.ADDRESS_TOOLTIP,
-                onChanged: _party.setNewAddress),
-            const SizedBox(
-              height: 10,
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: AppTextInput(
-                      validator: _party.gstinValidator,
-                      initialValue: _party.newGstin,
-                      prefixIcon: Icons.store,
-                      hint: PartyText.GSTIN_INPUT_HINT,
-                      tooltip: PartyText.GSTIN_TOOLTIP,
-                      onChanged: _party.setNewGstin),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                Expanded(
-                  child: AppTextInput(
-                      validator: _party.balanceValidator,
-                      initialValue: _party.newBalance.toString(),
-                      prefixIcon: Icons.account_balance_wallet,
-                      hint: PartyText.BALANCE_INPUT_HINT,
-                      tooltip: PartyText.BALANCE_TOOLTIP,
-                      onChanged: _party.setNewBalance),
-                ),
-              ],
+              initialValue: _party.newAddress,
+              prefixIcon: Icons.place,
+              hint: PartyText.ADDRESS_INPUT_HINT,
+              tooltip: PartyText.ADDRESS_TOOLTIP,
+              onChanged: _party.setNewAddress,
             ),
             const SizedBox(
               height: 10,
@@ -107,24 +82,56 @@ class PartyForm extends StatelessWidget {
               children: [
                 Expanded(
                   child: AppTextInput(
-                      validator: _party.panNoValidator,
-                      initialValue: _party.newPanNo,
-                      prefixIcon: Icons.badge,
-                      hint: PartyText.AADHAR_INPUT_HINT,
-                      tooltip: PartyText.AADHAR_TOOLTIP,
-                      onChanged: _party.setNewPanNo),
+                    validator: _party.gstinValidator,
+                    initialValue: _party.newGstin,
+                    prefixIcon: Icons.store,
+                    hint: PartyText.GSTIN_INPUT_HINT,
+                    tooltip: PartyText.GSTIN_TOOLTIP,
+                    onChanged: _party.setNewGstin,
+                  ),
                 ),
                 const SizedBox(
                   width: 10,
                 ),
                 Expanded(
                   child: AppTextInput(
-                      validator: _party.aadharNoValidator,
-                      initialValue: _party.newAadharNo,
-                      prefixIcon: Icons.badge,
-                      hint: PartyText.PAN_INPUT_HINT,
-                      tooltip: PartyText.PAN_TOOLTIP,
-                      onChanged: _party.setNewBalance),
+                    validator: _party.balanceValidator,
+                    initialValue: _party.newBalance.toString(),
+                    prefixIcon: Icons.account_balance_wallet,
+                    hint: PartyText.BALANCE_INPUT_HINT,
+                    tooltip: PartyText.BALANCE_TOOLTIP,
+                    onChanged: _party.setNewBalance,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: AppTextInput(
+                    validator: _party.aadharNoValidator,
+                    initialValue: _party.newAadharNo,
+                    prefixIcon: Icons.badge,
+                    hint: PartyText.AADHAR_INPUT_HINT,
+                    tooltip: PartyText.AADHAR_TOOLTIP,
+                    onChanged: _party.setNewAadharNo,
+                  ),
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                Expanded(
+                  child: AppTextInput(
+                    validator: _party.panNoValidator,
+                    initialValue: _party.newPanNo,
+                    prefixIcon: Icons.badge,
+                    hint: PartyText.PAN_INPUT_HINT,
+                    tooltip: PartyText.PAN_TOOLTIP,
+                    onChanged: _party.setNewPanNo,
+                  ),
                 ),
               ],
             ),
@@ -132,12 +139,13 @@ class PartyForm extends StatelessWidget {
               height: 10,
             ),
             AppTextInput(
-                validator: _party.emailValidator,
-                initialValue: _party.newEmail,
-                prefixIcon: Icons.email,
-                hint: PartyText.EMAIL_INPUT_HINT,
-                tooltip: PartyText.EMAIL_TOOLTIP,
-                onChanged: _party.setNewEmail),
+              validator: _party.emailValidator,
+              initialValue: _party.newEmail,
+              prefixIcon: Icons.email,
+              hint: PartyText.EMAIL_INPUT_HINT,
+              tooltip: PartyText.EMAIL_TOOLTIP,
+              onChanged: _party.setNewEmail,
+            ),
           ],
         ),
       ),

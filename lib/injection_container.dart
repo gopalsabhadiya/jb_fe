@@ -2,10 +2,12 @@ import 'package:get_it/get_it.dart';
 import 'package:jb_fe/backend_integration/data/datasource/party_remote_ds.dart';
 import 'package:jb_fe/backend_integration/data/repositories/party_repository_impl.dart';
 import 'package:jb_fe/backend_integration/domain/repositories/party_repository.dart';
+import 'package:jb_fe/backend_integration/domain/usecase/party/create_party.dart';
 import 'package:jb_fe/backend_integration/domain/usecase/party/delete_party.dart';
 import 'package:jb_fe/backend_integration/domain/usecase/party/get_party_page.dart';
 import 'package:jb_fe/backend_integration/domain/usecase/party/search_party.dart';
 import 'package:jb_fe/backend_integration/domain/usecase/party/update_party.dart';
+import 'package:jb_fe/controllers/bloc/party/new_party/add_party_bloc.dart';
 import 'package:jb_fe/controllers/bloc/party/party_form_toggle/party_form_toggle_cubit.dart';
 import 'package:jb_fe/controllers/bloc/party/search_party/search_party_bloc.dart';
 import 'package:jb_fe/controllers/bloc/party/update_party/update_party_bloc.dart';
@@ -40,6 +42,11 @@ void init() {
   serviceLocator.registerFactory(
     () => PartyFormToggleCubit(),
   );
+  serviceLocator.registerFactory(
+    () => AddPartyBloc(
+      createPartyUseCase: serviceLocator(),
+    ),
+  );
 
   //usecases
   serviceLocator.registerLazySingleton(
@@ -59,6 +66,11 @@ void init() {
   );
   serviceLocator.registerLazySingleton(
     () => SearchPartyUseCase(
+      repository: serviceLocator(),
+    ),
+  );
+  serviceLocator.registerLazySingleton(
+    () => CreatePartyUseCase(
       repository: serviceLocator(),
     ),
   );

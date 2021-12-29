@@ -1,10 +1,36 @@
 part of 'party_form_toggle_cubit.dart';
 
-class PartyFormToggleState extends Equatable {
-  final bool isOpen;
-  const PartyFormToggleState({required this.isOpen});
+abstract class ToggleForParty extends Equatable {
+  const ToggleForParty();
+}
+
+class ToggleForPartyUpdate extends ToggleForParty {
+  final PartyPresentation partyToBeUpdated;
+
+  const ToggleForPartyUpdate({required this.partyToBeUpdated});
 
   @override
-  // TODO: implement props
-  List<Object?> get props => [isOpen];
+  List<Object?> get props => [partyToBeUpdated];
+}
+
+class ToggleForNewParty extends ToggleForParty {
+  const ToggleForNewParty();
+  @override
+  List<Object?> get props => [];
+}
+
+class DoNotToggle extends ToggleForParty {
+  const DoNotToggle();
+  @override
+  List<Object?> get props => [];
+}
+
+class PartyFormToggleState extends Equatable {
+  final ToggleForParty toggleForParty;
+  const PartyFormToggleState({
+    this.toggleForParty = const DoNotToggle(),
+  });
+
+  @override
+  List<Object?> get props => [toggleForParty];
 }

@@ -8,7 +8,7 @@ class SearchNextPartyPageNotifier implements PartyOperationNotifier {
 
   @override
   void subscribe({required PartyOperationSubscriber subscriber}) {
-    print("Subscribing: $subscriber");
+    print("Search subscriber added");
     _subscribers.add(subscriber);
   }
 
@@ -18,7 +18,6 @@ class SearchNextPartyPageNotifier implements PartyOperationNotifier {
 
   @override
   void notifySubscriber({required OperationNotification notification}) {
-    print("Notifying Next party page subscribers");
     for (final subscriber in _subscribers) {
       print(subscriber);
       subscriber.update(notification: notification);

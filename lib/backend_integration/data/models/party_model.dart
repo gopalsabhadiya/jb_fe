@@ -7,8 +7,8 @@ part 'party_model.g.dart';
 @JsonSerializable()
 class PartyModel extends PartyEntity {
   const PartyModel({
-    required String id,
-    required int partyId,
+    String? id,
+    int? partyId,
     required String name,
     required String contactNo,
     String? gstin,
@@ -19,9 +19,9 @@ class PartyModel extends PartyEntity {
     String? panNo,
     String? aadharNo,
     List<String>? order,
-    required String user,
-    required String business,
-    required DateTime date,
+    String? user,
+    String? business,
+    DateTime? date,
   }) : super(
           id: id,
           partyId: partyId,

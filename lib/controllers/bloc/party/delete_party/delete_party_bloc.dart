@@ -27,7 +27,7 @@ class DeletePartyBloc extends Bloc<DeletePartyEvent, DeletePartyState>
       ),
     );
     try {
-      // await deletePartyUseCase(partyId: event.partyIdToBeDeleted);
+      await deletePartyUseCase(partyId: event.partyIdToBeDeleted);
       emit(
         state.copyWith(
           deleteStatus: DeletePartyStatus.COMPLETED,

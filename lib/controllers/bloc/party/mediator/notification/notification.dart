@@ -5,6 +5,7 @@ enum NotificationType {
   PARTY_DELETED,
   PARTY_UPDATED,
   PARTY_CREATED,
+  PARTY_ADD_REQUEST,
   PARTY_SEARCH_COMPLETE,
   PARTY_SEARCH_CLEARED,
   PARTY_GET_NEXT_PAGE
@@ -70,4 +71,9 @@ class SearchPartyTermClearedNotification extends OperationNotification {
 class SearchNextPartyPageRequestNotification extends OperationNotification {
   const SearchNextPartyPageRequestNotification()
       : super(notificationType: NotificationType.PARTY_GET_NEXT_PAGE);
+}
+
+class AddPartyRequestNotification extends OperationNotification {
+  const AddPartyRequestNotification()
+      : super(notificationType: NotificationType.PARTY_ADD_REQUEST);
 }

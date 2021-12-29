@@ -4,30 +4,30 @@ import 'package:jb_fe/backend_integration/domain/entities/party.dart';
 import 'package:jb_fe/constants/texts/defaults.dart';
 
 class PartyPresentation {
-  late String _id;
-  late int _partyId;
+  String? _id;
+  int? _partyId;
   late String _name;
   late String _newName;
   late String _contactNo;
   late String _newContactNo;
-  late String? _gstin;
-  late String? _newGstin;
+  String? _gstin;
+  String? _newGstin;
   late double _balance;
   late double _newBalance;
-  late String? _address;
-  late String? _newAddress;
-  late String? _email;
-  late String? _newEmail;
+  String? _address;
+  String? _newAddress;
+  String? _email;
+  String? _newEmail;
   late PartyTypeEnum _type;
   late PartyTypeEnum _newType;
-  late String? _panNo;
-  late String? _newPanNo;
-  late String? _aadharNo;
-  late String? _newAadharNo;
-  late List<String>? _order;
-  late String _user;
-  late String _business;
-  late DateTime _date;
+  String? _panNo;
+  String? _newPanNo;
+  String? _aadharNo;
+  String? _newAadharNo;
+  List<String>? _order;
+  String? _user;
+  String? _business;
+  DateTime? _date;
 
   PartyPresentation(PartyEntity entity)
       : _id = entity.id,
@@ -56,9 +56,21 @@ class PartyPresentation {
         _date = entity.date,
         super();
 
-  String get id => _id;
+  PartyPresentation.empty()
+      : _newType = PartyTypeEnum.Customer,
+        _newGstin = "",
+        _newName = "",
+        _newContactNo = "",
+        _newAddress = "",
+        _newBalance = 0,
+        _newPanNo = "",
+        _newAadharNo = "",
+        _newEmail = "",
+        super();
 
-  int get partyId => _partyId;
+  String? get id => _id;
+
+  int? get partyId => _partyId;
 
   String get name => _name;
 
@@ -98,24 +110,18 @@ class PartyPresentation {
 
   List<String>? get order => _order;
 
-  String get user => _user;
+  String? get user => _user;
 
-  String get business => _business;
+  String? get business => _business;
 
-  DateTime get date => _date;
-
-  set name(String value) {
-    _name = value;
-  }
+  DateTime? get date => _date;
 
   void setNewName(String value) {
     _newName = value;
   }
 
   String? nameValidator(String? name) {
-    return (_newName == null || _newName.length == 0)
-        ? DefaultTexts.EMPTY
-        : null;
+    return (_newName.isEmpty) ? DefaultTexts.EMPTY : null;
   }
 
   void setContactNo(String value) {
@@ -151,11 +157,11 @@ class PartyPresentation {
   }
 
   void setNewBalance(String value) {
-    _newBalance = double.parse(value);
+    _newBalance = double.tryParse(value) ?? _newBalance;
   }
 
   String? balanceValidator(String? value) {
-    return double.parse(value!) != null ? null : DefaultTexts.EMPTY;
+    return double.tryParse(value!) != null ? null : DefaultTexts.EMPTY;
   }
 
   void setAddress(String value) {
@@ -179,7 +185,7 @@ class PartyPresentation {
   }
 
   String? emailValidator(String? email) {
-    _email != null && RegexConstants.EMAIL_REGEX.hasMatch(_email!)
+    _newEmail != null && RegexConstants.EMAIL_REGEX.hasMatch(_newEmail!)
         ? DefaultTexts.EMPTY
         : null;
   }
@@ -201,7 +207,7 @@ class PartyPresentation {
   }
 
   String? panNoValidator(String? panNo) {
-    _panNo != null && RegexConstants.PAN_NO_REGEX.hasMatch(_aadharNo!)
+    _newPanNo != null && RegexConstants.PAN_NO_REGEX.hasMatch(_newPanNo!)
         ? DefaultTexts.EMPTY
         : null;
   }
@@ -215,9 +221,9 @@ class PartyPresentation {
   }
 
   String? aadharNoValidator(String? aadharNo) {
-    _aadharNo != null &&
-            _aadharNo!.length == 12 &&
-            int.parse(_aadharNo!) != null
+    _newAadharNo != null &&
+            _newAadharNo!.length == 12 &&
+            int.parse(_newAadharNo!) != null
         ? DefaultTexts.EMPTY
         : null;
   }
@@ -253,6 +259,20 @@ class PartyPresentation {
       email: _email,
     );
   }
+
+  // static PartyPresentation empty() {
+  //   final entity = PartyEntity(
+  //       id: "",
+  //       partyId: 0,
+  //       name: "",
+  //       contactNo: "",
+  //       balance: 0,
+  //       type: PartyTypeEnum.Customer,
+  //       user: "",
+  //       business: "",
+  //       date: DateTime.now());
+  //   return PartyPresentation(entity);
+  // }
 
   @override
   String toString() {

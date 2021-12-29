@@ -80,7 +80,7 @@ class AppTextInput extends StatelessWidget {
                 borderSide: BorderSide(color: AppColors.blue_5, width: 1.5),
               ),
               hintStyle: const TextStyle(color: AppColors.grey_3, fontSize: 16),
-              errorStyle: TextStyle(fontSize: 0.001),
+              errorStyle: const TextStyle(fontSize: 0.001),
               prefixIcon: Padding(
                 padding: const EdgeInsets.all(10),
                 child: Icon(

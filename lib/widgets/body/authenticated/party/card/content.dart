@@ -10,6 +10,8 @@ class PartyCardContent extends StatelessWidget {
   final String _gstin;
   final double _balance;
   final String _email;
+  static const double _iconSize = 25;
+  static const double _fontSize = 16;
   const PartyCardContent({
     Key? key,
     required String contact,
@@ -18,10 +20,16 @@ class PartyCardContent extends StatelessWidget {
     required double balance,
     String? email,
   })  : _contact = contact,
-        _address = address ?? DefaultTexts.NULL_STRING,
-        _gstin = gstin ?? DefaultTexts.NULL_STRING,
+        _address = address == null || address.length == 0
+            ? DefaultTexts.NULL_STRING
+            : address,
+        _gstin = gstin == null || gstin.length == 0
+            ? DefaultTexts.NULL_STRING
+            : gstin,
         _balance = balance,
-        _email = email ?? DefaultTexts.NULL_STRING,
+        _email = email == null || email.length == 0
+            ? DefaultTexts.NULL_STRING
+            : email,
         super(key: key);
 
   @override
@@ -38,11 +46,12 @@ class PartyCardContent extends StatelessWidget {
                 padding: EdgeInsets.only(right: 8.0),
                 child: Icon(
                   Icons.call,
+                  size: _iconSize,
                   color: AppColors.blue_5,
                 ),
               ),
               AppTextBuilder(_contact)
-                  .size(16)
+                  .size(_fontSize)
                   .textAlign(TextAlign.right)
                   .build()
             ]),
@@ -55,6 +64,7 @@ class PartyCardContent extends StatelessWidget {
                 padding: EdgeInsets.only(right: 8.0),
                 child: Icon(
                   Icons.place,
+                  size: _iconSize,
                   color: AppColors.blue_5,
                 ),
               ),
@@ -64,7 +74,7 @@ class PartyCardContent extends StatelessWidget {
               ),
               Expanded(
                 child: AppTextBuilder(_address)
-                    .size(16)
+                    .size(_fontSize)
                     .color(_address == DefaultTexts.NULL_STRING
                         ? AppColors.red_2
                         : AppColors.black)
@@ -81,11 +91,12 @@ class PartyCardContent extends StatelessWidget {
                 padding: EdgeInsets.only(right: 8.0),
                 child: Icon(
                   Icons.store,
+                  size: _iconSize,
                   color: AppColors.blue_5,
                 ),
               ),
               AppTextBuilder(_gstin)
-                  .size(16)
+                  .size(_fontSize)
                   .color(_gstin == DefaultTexts.NULL_STRING
                       ? AppColors.red_2
                       : AppColors.black)
@@ -101,13 +112,14 @@ class PartyCardContent extends StatelessWidget {
                 padding: EdgeInsets.only(right: 8.0),
                 child: Icon(
                   Icons.account_balance_wallet,
+                  size: _iconSize,
                   color: AppColors.blue_5,
                 ),
               ),
               AppTextBuilder(DefaultTexts.RUPEE_SYMBOL +
                       DefaultTexts.SPACE +
                       _balance.toString())
-                  .size(16)
+                  .size(_fontSize)
                   .build()
             ]),
             Container(
@@ -119,6 +131,7 @@ class PartyCardContent extends StatelessWidget {
                 padding: EdgeInsets.only(right: 8.0),
                 child: Icon(
                   Icons.email,
+                  size: _iconSize,
                   color: AppColors.blue_5,
                 ),
               ),

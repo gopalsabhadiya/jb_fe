@@ -3,18 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jb_fe/backend_integration/dto/party/party_presentation.dart';
 import 'package:jb_fe/constants/colors.dart';
-import 'package:jb_fe/constants/typography/font_weight.dart';
-import 'package:jb_fe/controllers/bloc/party/update_party/update_party_bloc.dart';
+import 'package:jb_fe/controllers/bloc/party/new_party/add_party_bloc.dart';
 import 'package:jb_fe/widgets/body/authenticated/party/add_edit/party_form.dart';
 import 'package:jb_fe/widgets/calligraphy/app_text.dart';
-import 'package:jb_fe/widgets/common/buttons/icon_button.dart';
 import 'package:jb_fe/widgets/common/save_cancel_bar.dart';
 
-class EditParty extends StatefulWidget {
+class AddParty extends StatefulWidget {
   final VoidCallback _closeDrawer;
   final PartyPresentation _party;
 
-  const EditParty({
+  const AddParty({
     Key? key,
     required closeDrawer,
     required PartyPresentation party,
@@ -23,10 +21,10 @@ class EditParty extends StatefulWidget {
         super(key: key);
 
   @override
-  State<EditParty> createState() => _EditPartyState();
+  State<AddParty> createState() => _AddPartyState();
 }
 
-class _EditPartyState extends State<EditParty> {
+class _AddPartyState extends State<AddParty> {
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -40,24 +38,24 @@ class _EditPartyState extends State<EditParty> {
             cancelCallback: _cancelSave,
             saveCallback: _updateParty,
           ),
-          BlocConsumer<UpdatePartyBloc, UpdatePartyState>(
-            listener: (BuildContext context, UpdatePartyState state) {
-              if (state.updateStatus == UpdatePartyStatus.COMPLETED) {
+          BlocConsumer<AddPartyBloc, AddPartyState>(
+            listener: (BuildContext context, AddPartyState state) {
+              if (state.status == AddPartyStatus.COMPLETED) {
                 widget._closeDrawer();
               }
             },
-            builder: (BuildContext context, UpdatePartyState state) {
-              switch (state.updateStatus) {
-                case UpdatePartyStatus.LOADING:
+            builder: (BuildContext context, AddPartyState state) {
+              switch (state.status) {
+                case AddPartyStatus.LOADING:
                   return const Center(child: CircularProgressIndicator());
-                case UpdatePartyStatus.COMPLETED:
+                case AddPartyStatus.COMPLETED:
                   return Form(
                     key: _formKey,
                     child: PartyForm(
                       party: widget._party,
                     ),
                   );
-                case UpdatePartyStatus.ERROR:
+                case AddPartyStatus.ERROR:
                   return AppTextBuilder("Opps Something went wrong").build();
               }
             },
@@ -70,9 +68,11 @@ class _EditPartyState extends State<EditParty> {
 
   void _updateParty() {
     if (_formKey.currentState!.validate()) {
-      print("Updating party");
-      BlocProvider.of<UpdatePartyBloc>(context)
-          .add(UpdateParty(partyPresentation: widget._party));
+      BlocProvider.of<AddPartyBloc>(context).add(
+        AddNewParty(
+          partyPresentation: widget._party,
+        ),
+      );
     }
   }
 

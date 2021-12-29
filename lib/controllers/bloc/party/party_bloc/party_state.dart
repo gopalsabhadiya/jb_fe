@@ -29,5 +29,5 @@ class PartyState extends Equatable {
   }
 
   @override
-  List<Object?> get props => [status, partyList, hasReachedMax];
+  List<Object?> get props => [status, partyList, hasReachedMax, needToSearch];
 }

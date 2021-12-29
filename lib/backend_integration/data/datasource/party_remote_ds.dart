@@ -19,10 +19,17 @@ class PartyRemoteDataSourceImpl implements PartyRemoteDataSource {
   final _http = AppHttpClient.getHttpClient();
 
   @override
-  Future<PartyModel> addParty(PartyEntity party) {
+  Future<PartyModel> addParty(PartyModel party) async {
     print("add party here");
-    // TODO: implement addParty
-    throw UnimplementedError();
+    final response = await _http.post(
+      EndpointUri.getBaseParty(),
+      body: jsonEncode(party.toJson()),
+      headers: {
+        "content-type": "application/json",
+      },
+    );
+    print("response: ${response.body}");
+    return PartyModel.fromJson(jsonDecode(response.body));
   }
 
   @override

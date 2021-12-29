@@ -24,20 +24,11 @@ class Party extends StatefulWidget {
 
 class _PartyState extends State<Party> with TickerProviderStateMixin {
   late ScrollController _controller;
-  late Animation<Offset> animation;
-  late AnimationController animationController;
 
   @override
   void initState() {
     _controller = ScrollController();
     _controller.addListener(_onScroll);
-
-    animationController =
-        AnimationController(vsync: this, duration: AnimationDuration.SHORT);
-    animation =
-        Tween<Offset>(begin: const Offset(0, 0), end: const Offset(0, -1))
-            .animate(animationController);
-
     super.initState();
   }
 
@@ -46,73 +37,69 @@ class _PartyState extends State<Party> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<UpdatePartyBloc>(
-      create: (BuildContext context) => serviceLocator<UpdatePartyBloc>()
-        ..subscribe(
-          subscriber: BlocProvider.of<PartyBloc>(context),
-        ),
-      child: Expanded(
-        child: Stack(
-          children: [
-            SizedBox(
-              height: double.infinity,
-              width: double.infinity,
-              child: Padding(
+    return Expanded(
+      child: Stack(
+        children: [
+          SizedBox(
+            height: double.infinity,
+            width: double.infinity,
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: Container(
                 padding: const EdgeInsets.all(20),
-                child: Container(
-                  padding: const EdgeInsets.all(20),
-                  child: SingleChildScrollView(
-                    controller: _controller,
-                    child: BlocBuilder<PartyBloc, PartyState>(
-                      builder: (BuildContext context, PartyState state) {
-                        switch (state.status) {
-                          case PartyStatus.INITIAL:
-                            return const Center(
-                                child: CircularProgressIndicator());
-                          case PartyStatus.LOADING:
-                            _controller
-                                .jumpTo(_controller.position.minScrollExtent);
-                            return const Center(
-                                child: CircularProgressIndicator());
-                          case PartyStatus.SUCCESS:
-                            return BlocProvider<DeletePartyBloc>(
-                              create: (context) =>
-                                  serviceLocator<DeletePartyBloc>()
-                                    ..subscribe(
-                                      subscriber:
-                                          BlocProvider.of<PartyBloc>(context),
-                                    ),
-                              child: Wrap(
-                                clipBehavior: Clip.hardEdge,
-                                spacing: 40,
-                                runSpacing: 40,
-                                crossAxisAlignment: WrapCrossAlignment.center,
-                                alignment: WrapAlignment.center,
-                                children: _getParties(state.partyList, context),
-                              ),
-                            );
-                          case PartyStatus.FAILURE:
-                            return Center(
-                              child: AppTextBuilder("Failed to fetch parties")
-                                  .build(),
-                            );
-                        }
-                      },
-                    ),
+                child: SingleChildScrollView(
+                  controller: _controller,
+                  child: BlocBuilder<PartyBloc, PartyState>(
+                    builder: (BuildContext context, PartyState state) {
+                      print("Into buildeer");
+                      switch (state.status) {
+                        case PartyStatus.INITIAL:
+                          return const Center(
+                              child: CircularProgressIndicator());
+                        case PartyStatus.LOADING:
+                          _controller
+                              .jumpTo(_controller.position.minScrollExtent);
+                          return const Center(
+                              child: CircularProgressIndicator());
+                        case PartyStatus.SUCCESS:
+                          return BlocProvider<DeletePartyBloc>(
+                            create: (context) =>
+                                serviceLocator<DeletePartyBloc>()
+                                  ..subscribe(
+                                    subscriber:
+                                        BlocProvider.of<PartyBloc>(context),
+                                  ),
+                            child: Wrap(
+                              clipBehavior: Clip.hardEdge,
+                              spacing: 40,
+                              runSpacing: 40,
+                              crossAxisAlignment: WrapCrossAlignment.center,
+                              alignment: WrapAlignment.center,
+                              children: _getParties(state.partyList),
+                            ),
+                          );
+                        case PartyStatus.FAILURE:
+                          return Center(
+                            child: AppTextBuilder("Failed to fetch parties")
+                                .build(),
+                          );
+                      }
+                    },
                   ),
                 ),
               ),
             ),
-            const PartyFormDrawer()
-          ],
-        ),
+          ),
+          const PartyFormDrawer()
+        ],
       ),
     );
   }
 
-  _onPartyEdit(PartyPresentation party, BuildContext context) {
-    BlocProvider.of<UpdatePartyBloc>(context)
-        .add(AddPartyToBeUpdated(partyToBeUpdated: party));
+  _onPartyEdit(PartyPresentation party) {
+    BlocProvider.of<PartyFormToggleCubit>(context).openDrawer(
+      toggleForParty: ToggleForPartyUpdate(partyToBeUpdated: party),
+    );
   }
 
   @override
@@ -136,13 +123,12 @@ class _PartyState extends State<Party> with TickerProviderStateMixin {
     return currentScroll >= (maxScroll * 0.9);
   }
 
-  List<Widget> _getParties(
-      List<PartyPresentation> partyList, BuildContext context) {
+  List<Widget> _getParties(List<PartyPresentation> partyList) {
     return partyList
         .map(
           (party) => PartyCard(
             party: party,
-            onPartyEdit: (party) => _onPartyEdit(party, context),
+            onPartyEdit: (party) => _onPartyEdit(party),
           ),
         )
         .toList();

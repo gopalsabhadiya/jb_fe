@@ -16,7 +16,7 @@ class AppIconButtonCircle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () {},
+      onPressed: _onClickHandler,
       child: Icon(
         _icon,
         size: 25,

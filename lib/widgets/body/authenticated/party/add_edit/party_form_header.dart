@@ -25,7 +25,7 @@ class _PartyFormHeaderState extends State<PartyFormHeader>
 
   @override
   void initState() {
-    _currentFormState = widget._party.type;
+    _currentFormState = widget._party.newType;
 
     super.initState();
     _animationController =
