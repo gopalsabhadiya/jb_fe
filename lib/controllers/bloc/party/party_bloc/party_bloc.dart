@@ -28,9 +28,9 @@ class _AddParty extends PartyEvent {
   const _AddParty({required this.addedParty});
 }
 
-class _DisplaySearchResult extends PartyEvent {
+class _DisplaySearchPartyResult extends PartyEvent {
   final List<PartyPresentation> result;
-  const _DisplaySearchResult({required this.result});
+  const _DisplaySearchPartyResult({required this.result});
 }
 
 class _ClearSearchTerm extends PartyEvent {}
@@ -44,7 +44,7 @@ class PartyBloc extends Bloc<PartyEvent, PartyState>
   PartyBloc({required this.getPartyPage}) : super(const PartyState()) {
     on<FetchPartyFirstPage>(_onFetchPartyFirstPage);
     on<FetchNextPartyPage>(_fetchNextPartyPage);
-    on<_DisplaySearchResult>(_displaySearchResult);
+    on<_DisplaySearchPartyResult>(_displaySearchResult);
     on<_ClearSearchTerm>(_clearSearchTerm);
     on<_DeleteParty>(_removePartyFromList);
     on<_UpdateParty>(_updateParty);
@@ -97,7 +97,7 @@ class PartyBloc extends Bloc<PartyEvent, PartyState>
   }
 
   FutureOr<void> _displaySearchResult(
-      _DisplaySearchResult event, Emitter<PartyState> emit) {
+      _DisplaySearchPartyResult event, Emitter<PartyState> emit) {
     emit(
       state.copyWith(
         status: PartyStatus.LOADING,
@@ -171,32 +171,32 @@ class PartyBloc extends Bloc<PartyEvent, PartyState>
   }
 
   @override
-  void update({required OperationNotification notification}) {
+  void update({required PartyOperationNotification notification}) {
     switch (notification.notificationType) {
-      case NotificationType.PARTY_DELETED:
+      case PartyNotificationType.PARTY_DELETED:
         add(
           _DeleteParty(
             partyId: (notification as DeletePartyNotification).partyId,
           ),
         );
         break;
-      case NotificationType.PARTY_UPDATED:
+      case PartyNotificationType.PARTY_UPDATED:
         add(
           _UpdateParty(
               updatedParty: (notification as UpdatePartyNotification).party),
         );
         break;
-      case NotificationType.PARTY_SEARCH_COMPLETE:
+      case PartyNotificationType.PARTY_SEARCH_COMPLETE:
         add(
-          _DisplaySearchResult(
+          _DisplaySearchPartyResult(
             result: (notification as SearchPartyCompleteNotification).result,
           ),
         );
         break;
-      case NotificationType.PARTY_SEARCH_CLEARED:
+      case PartyNotificationType.PARTY_SEARCH_CLEARED:
         add(_ClearSearchTerm());
         break;
-      case NotificationType.PARTY_CREATED:
+      case PartyNotificationType.PARTY_CREATED:
         add(_AddParty(
             addedParty: (notification as NewPartyNotification).party));
         break;

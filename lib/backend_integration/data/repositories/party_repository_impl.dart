@@ -1,5 +1,4 @@
 import 'package:jb_fe/backend_integration/data/datasource/party_remote_ds.dart';
-import 'package:jb_fe/backend_integration/data/models/party_model.dart';
 import 'package:jb_fe/backend_integration/domain/entities/party.dart';
 import 'package:jb_fe/backend_integration/domain/repositories/party_repository.dart';
 

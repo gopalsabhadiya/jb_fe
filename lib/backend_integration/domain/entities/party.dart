@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:jb_fe/backend_integration/constants/enum/party_type_enum.dart';
-import 'package:jb_fe/backend_integration/data/models/party_model.dart';
+import 'package:jb_fe/backend_integration/data/models/party/party_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 String? ignoreIfEmpty(String? value) {

@@ -15,11 +15,11 @@ class SearchPartyDisplay extends PartyEvent {
   final List<PartyPresentation> searchResult;
   final String searchTerm;
 
-  const SearchPartyDisplay(
-      {required this.searchResult, required this.searchTerm});
-}
+  const SearchPartyDisplay({
+    required this.searchResult,
+    required this.searchTerm,
+  });
 
-class AddSearchTerm extends PartyEvent {
-  final String searchTerm;
-  const AddSearchTerm({required this.searchTerm});
+  @override
+  List<Object?> get props => [searchResult, searchTerm];
 }

@@ -15,7 +15,7 @@ class DeletePartyNotifier implements PartyOperationNotifier {
       _subscribers.removeWhere((element) => element.id == subscriber.id);
 
   @override
-  void notifySubscriber({required OperationNotification notification}) {
+  void notifySubscriber({required PartyOperationNotification notification}) {
     for (final subscriber in _subscribers) {
       subscriber.update(notification: notification);
     }

@@ -6,5 +6,5 @@ abstract class PartyOperationNotifier {
 
   void unSubscribe({required PartyOperationSubscriber subscriber});
 
-  void notifySubscriber({required OperationNotification notification});
+  void notifySubscriber({required PartyOperationNotification notification});
 }

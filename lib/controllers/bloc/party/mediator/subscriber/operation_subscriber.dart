@@ -2,5 +2,5 @@ import 'package:jb_fe/controllers/bloc/party/mediator/notification/notification.
 
 abstract class PartyOperationSubscriber {
   String get id;
-  void update({required OperationNotification notification});
+  void update({required PartyOperationNotification notification});
 }

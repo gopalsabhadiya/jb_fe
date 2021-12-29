@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:jb_fe/backend_integration/dto/party/party_presentation.dart';
 
-enum NotificationType {
+enum PartyNotificationType {
   PARTY_DELETED,
   PARTY_UPDATED,
   PARTY_CREATED,
@@ -11,69 +11,69 @@ enum NotificationType {
   PARTY_GET_NEXT_PAGE
 }
 
-class OperationNotification extends Equatable {
-  final NotificationType notificationType;
-  const OperationNotification({required this.notificationType});
+class PartyOperationNotification extends Equatable {
+  final PartyNotificationType notificationType;
+  const PartyOperationNotification({required this.notificationType});
 
   @override
   List<Object?> get props => [notificationType];
 }
 
-class DeletePartyNotification extends OperationNotification {
+class DeletePartyNotification extends PartyOperationNotification {
   final String partyId;
 
   const DeletePartyNotification({
     required this.partyId,
-  }) : super(notificationType: NotificationType.PARTY_DELETED);
+  }) : super(notificationType: PartyNotificationType.PARTY_DELETED);
 
   @override
   List<Object> get props => [partyId, notificationType];
 }
 
-class NewPartyNotification extends OperationNotification {
+class NewPartyNotification extends PartyOperationNotification {
   final PartyPresentation party;
 
   const NewPartyNotification({
     required this.party,
-  }) : super(notificationType: NotificationType.PARTY_CREATED);
+  }) : super(notificationType: PartyNotificationType.PARTY_CREATED);
 
   @override
   List<Object> get props => [party, notificationType];
 }
 
-class UpdatePartyNotification extends OperationNotification {
+class UpdatePartyNotification extends PartyOperationNotification {
   final PartyPresentation party;
 
   const UpdatePartyNotification({
     required this.party,
-  }) : super(notificationType: NotificationType.PARTY_UPDATED);
+  }) : super(notificationType: PartyNotificationType.PARTY_UPDATED);
 
   @override
   List<Object> get props => [party, notificationType];
 }
 
-class SearchPartyCompleteNotification extends OperationNotification {
+class SearchPartyCompleteNotification extends PartyOperationNotification {
   final List<PartyPresentation> result;
   final String searchTerm;
   const SearchPartyCompleteNotification(
       {required this.result, required this.searchTerm})
-      : super(notificationType: NotificationType.PARTY_SEARCH_COMPLETE);
+      : super(notificationType: PartyNotificationType.PARTY_SEARCH_COMPLETE);
 
   @override
   List<Object> get props => [result, notificationType];
 }
 
-class SearchPartyTermClearedNotification extends OperationNotification {
+class SearchPartyTermClearedNotification extends PartyOperationNotification {
   const SearchPartyTermClearedNotification()
-      : super(notificationType: NotificationType.PARTY_SEARCH_CLEARED);
+      : super(notificationType: PartyNotificationType.PARTY_SEARCH_CLEARED);
 }
 
-class SearchNextPartyPageRequestNotification extends OperationNotification {
+class SearchNextPartyPageRequestNotification extends PartyOperationNotification {
   const SearchNextPartyPageRequestNotification()
-      : super(notificationType: NotificationType.PARTY_GET_NEXT_PAGE);
+      : super(notificationType: PartyNotificationType.PARTY_GET_NEXT_PAGE);
 }
 
-class AddPartyRequestNotification extends OperationNotification {
+class AddPartyRequestNotification extends PartyOperationNotification {
   const AddPartyRequestNotification()
-      : super(notificationType: NotificationType.PARTY_ADD_REQUEST);
+      : super(notificationType: PartyNotificationType.PARTY_ADD_REQUEST);
 }

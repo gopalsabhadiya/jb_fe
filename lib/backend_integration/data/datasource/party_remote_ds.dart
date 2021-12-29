@@ -2,8 +2,7 @@ import 'dart:convert';
 
 import 'package:jb_fe/backend_integration/client/http_client.dart';
 import 'package:jb_fe/backend_integration/constants/uri/endpoints.dart';
-import 'package:jb_fe/backend_integration/data/models/party_model.dart';
-import 'package:jb_fe/backend_integration/domain/entities/party.dart';
+import 'package:jb_fe/backend_integration/data/models/party/party_model.dart';
 
 abstract class PartyRemoteDataSource {
   Future<List<PartyModel>> getAllParties();

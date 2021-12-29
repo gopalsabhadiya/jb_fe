@@ -61,7 +61,7 @@ class SearchPartyBloc extends Bloc<SearchPartyEvent, SearchPartyState>
   String get id => throw UnimplementedError();
 
   @override
-  void update({required OperationNotification notification}) async {
+  void update({required PartyOperationNotification notification}) async {
     print("Search next page: ${notification}");
     final searchResult = await searchPartyUseCase(
         searchTerm: state.searchTerm,
