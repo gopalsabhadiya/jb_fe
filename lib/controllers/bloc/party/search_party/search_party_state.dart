@@ -9,7 +9,7 @@ class SearchPartyState extends Equatable {
 
   const SearchPartyState({
     this.searchStatus = SearchPartyStatus.COMPLETED,
-    this.searchTerm = "",
+    this.searchTerm = DefaultTexts.EMPTY,
     this.result = const <PartyPresentation>[],
   });
 

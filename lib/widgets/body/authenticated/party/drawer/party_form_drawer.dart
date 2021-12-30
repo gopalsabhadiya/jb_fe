@@ -55,7 +55,8 @@ class _PartyFormDrawerState extends State<PartyFormDrawer>
         child: BlocBuilder<PartyFormToggleCubit, PartyFormToggleState>(
           builder: (context, state) {
             if (state.toggleForParty is ToggleForPartyUpdate) {
-              animationController.forward();
+              _openDrawer();
+
               return BlocProvider<UpdatePartyBloc>(
                 create: (context) => serviceLocator<UpdatePartyBloc>()
                   ..subscribe(
@@ -69,7 +70,8 @@ class _PartyFormDrawerState extends State<PartyFormDrawer>
               );
             }
             if (state.toggleForParty is ToggleForNewParty) {
-              animationController.forward();
+              _openDrawer();
+
               return BlocProvider<AddPartyBloc>(
                 create: (BuildContext context) => serviceLocator<AddPartyBloc>()
                   ..subscribe(
@@ -88,8 +90,16 @@ class _PartyFormDrawerState extends State<PartyFormDrawer>
     );
   }
 
-  _cancelUpdate() {
+  void _openDrawer() {
+    animationController.forward();
+  }
+
+  void _closeDrawer() {
     animationController.reverse();
+  }
+
+  _cancelUpdate() {
+    _closeDrawer();
     BlocProvider.of<PartyFormToggleCubit>(context).closeDrawer();
   }
 

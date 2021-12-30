@@ -1,4 +1,4 @@
-import 'package:jb_fe/backend_integration/domain/entities/item.dart';
+import 'package:jb_fe/backend_integration/domain/entities/item/item.dart';
 
 abstract class ItemRepository {
   Future<List<ItemEntity>> getItemPage(int pageNumber);

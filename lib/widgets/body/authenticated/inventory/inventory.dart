@@ -1,8 +1,14 @@
 import 'package:flutter/cupertino.dart';
-import 'package:jb_fe/constants/durations/animation_durations.dart';
-import 'package:jb_fe/util/screen_size.dart';
-import 'package:jb_fe/widgets/body/authenticated/inventory/add_edit/edit_item.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jb_fe/backend_integration/dto/item/item_presentation.dart';
+import 'package:jb_fe/controllers/bloc/inventory/delete_item/delete_item_bloc.dart';
+import 'package:jb_fe/controllers/bloc/inventory/item_bloc/item_bloc.dart';
+import 'package:jb_fe/controllers/bloc/inventory/item_form_toggle/item_form_toggle_cubit.dart';
+import 'package:jb_fe/injection_container.dart';
 import 'package:jb_fe/widgets/body/authenticated/inventory/card/item_card.dart';
+import 'package:jb_fe/widgets/body/authenticated/inventory/drawer/item_form_drawer.dart';
+import 'package:jb_fe/widgets/calligraphy/app_text.dart';
 
 class Inventory extends StatefulWidget {
   const Inventory({Key? key}) : super(key: key);
@@ -12,7 +18,15 @@ class Inventory extends StatefulWidget {
 }
 
 class _InventoryState extends State<Inventory> {
+  late ScrollController _scrollController;
   bool showEditItemDrawer = false;
+
+  @override
+  void initState() {
+    _scrollController = ScrollController();
+    _scrollController.addListener(_onScroll);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,91 +41,101 @@ class _InventoryState extends State<Inventory> {
               child: Container(
                 padding: EdgeInsets.all(20),
                 child: SingleChildScrollView(
-                  child: Wrap(
-                    clipBehavior: Clip.hardEdge,
-                    spacing: 40,
-                    runSpacing: 40,
-                    crossAxisAlignment: WrapCrossAlignment.center,
-                    alignment: WrapAlignment.center,
-                    children: [
-                      ItemCard(
-                        itemId: "1",
-                        onItemEdit: _onItemEdit,
-                      ),
-                      ItemCard(
-                        itemId: "2",
-                        onItemEdit: _onItemEdit,
-                      ),
-                      ItemCard(
-                        itemId: "3",
-                        onItemEdit: _onItemEdit,
-                      ),
-                      ItemCard(
-                        itemId: "4",
-                        onItemEdit: _onItemEdit,
-                      ),
-                      ItemCard(
-                        itemId: "5",
-                        onItemEdit: _onItemEdit,
-                      ),
-                      ItemCard(
-                        itemId: "6",
-                        onItemEdit: _onItemEdit,
-                      ),
-                      ItemCard(
-                        itemId: "7",
-                        onItemEdit: _onItemEdit,
-                      ),
-                      ItemCard(
-                        itemId: "8",
-                        onItemEdit: _onItemEdit,
-                      ),
-                      ItemCard(
-                        itemId: "9",
-                        onItemEdit: _onItemEdit,
-                      ),
-                      ItemCard(
-                        itemId: "10",
-                        onItemEdit: _onItemEdit,
-                      ),
-                      ItemCard(
-                        itemId: "11",
-                        onItemEdit: _onItemEdit,
-                      ),
-                      ItemCard(
-                        itemId: "12",
-                        onItemEdit: _onItemEdit,
-                      ),
-                    ],
+                  controller: _scrollController,
+                  child: BlocBuilder<ItemBloc, ItemState>(
+                    builder: (BuildContext context, ItemState state) {
+                      print("Into Builder");
+                      switch (state.status) {
+                        case ItemStatus.INITIAL:
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        case ItemStatus.LOADING:
+                          _scrollController.jumpTo(
+                              _scrollController.position.minScrollExtent);
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        case ItemStatus.SUCCESS:
+                          return BlocProvider<DeleteItemBloc>(
+                            create: (BuildContext context) =>
+                                serviceLocator<DeleteItemBloc>()
+                                  ..subscribe(
+                                    subscriber:
+                                        BlocProvider.of<ItemBloc>(context),
+                                  ),
+                            child: Wrap(
+                              clipBehavior: Clip.hardEdge,
+                              spacing: 40,
+                              runSpacing: 40,
+                              crossAxisAlignment: WrapCrossAlignment.center,
+                              alignment: WrapAlignment.center,
+                              children: _getItems(state.itemList),
+                            ),
+                          );
+                        case ItemStatus.FAILURE:
+                          return Center(
+                            child:
+                                AppTextBuilder("Failed to fetch Items").build(),
+                          );
+                      }
+                    },
                   ),
                 ),
               ),
             ),
           ),
-          AnimatedPositioned(
-              width: ScreenSizeUtil.getBottomDrawerWidth(context),
-              height: ScreenSizeUtil.getBottomDrawerHeight(context),
-              curve: Curves.easeOut,
-              duration: AnimationDuration.SHORT,
-              top: showEditItemDrawer ? 0 : MediaQuery.of(context).size.height,
-              child: EditItem(
-                toggleDrawer: _toggleDrawer,
-              )),
+          // AnimatedPositioned(
+          //   width: ScreenSizeUtil.getBottomDrawerWidth(context),
+          //   height: ScreenSizeUtil.getBottomDrawerHeight(context),
+          //   curve: Curves.easeOut,
+          //   duration: AnimationDuration.SHORT,
+          //   top: showEditItemDrawer ? 0 : MediaQuery.of(context).size.height,
+          //   child: EditItem(
+          //     toggleDrawer: _toggleDrawer,
+          //   ),
+          // ),
+          const ItemFormDrawer()
         ],
       ),
     );
   }
 
-  _toggleDrawer() {
-    setState(() {
-      showEditItemDrawer = !showEditItemDrawer;
-    });
+  _onItemEdit(ItemPresentation item) {
+    BlocProvider.of<ItemFormToggleCubit>(context).openDrawer(
+      toggleForItem: ToggleForItemUpdate(itemToBeUpdated: item),
+    );
   }
 
-  _onItemEdit(String id) {
-    setState(() {
-      showEditItemDrawer = !showEditItemDrawer;
-    });
-    print("Edit Party: $id");
+  @override
+  void dispose() {
+    _scrollController
+      ..removeListener(_onScroll)
+      ..dispose();
+    super.dispose();
+  }
+
+  void _onScroll() {
+    if (_isBottom && _scrollController.position.extentAfter == 0) {
+      BlocProvider.of<ItemBloc>(context).add(FetchNextItemPage());
+    }
+  }
+
+  bool get _isBottom {
+    if (!_scrollController.hasClients) return false;
+    final maxScroll = _scrollController.position.maxScrollExtent;
+    final currentScroll = _scrollController.offset;
+    return currentScroll >= (maxScroll * 0.9);
+  }
+
+  List<Widget> _getItems(List<ItemPresentation> itemList) {
+    return itemList
+        .map(
+          (item) => ItemCard(
+            item: item,
+            onItemEdit: (item) => _onItemEdit(item),
+          ),
+        )
+        .toList();
   }
 }

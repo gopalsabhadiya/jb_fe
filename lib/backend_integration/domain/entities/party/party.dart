@@ -1,12 +1,14 @@
 import 'package:equatable/equatable.dart';
 import 'package:jb_fe/backend_integration/constants/enum/party_type_enum.dart';
-import 'package:jb_fe/backend_integration/data/models/party/party_model.dart';
 import 'package:json_annotation/json_annotation.dart';
+
+part 'party.g.dart';
 
 String? ignoreIfEmpty(String? value) {
   return value == null || value.isEmpty ? null : value;
 }
 
+@JsonSerializable()
 class PartyEntity extends Equatable {
   @JsonKey(
     name: "_id",
@@ -15,7 +17,7 @@ class PartyEntity extends Equatable {
     toJson: ignoreIfEmpty,
   )
   final String? id;
-  final int? partyId;
+  final String? partyId;
   final String name;
   final String contactNo;
 
@@ -117,22 +119,18 @@ class PartyEntity extends Equatable {
         date
       ];
 
-  PartyModel getModel() {
-    return PartyModel(
-        id: id,
-        partyId: partyId,
-        name: name,
-        contactNo: contactNo,
-        gstin: gstin,
-        balance: balance,
-        address: address,
-        email: email,
-        type: type,
-        panNo: panNo,
-        aadharNo: aadharNo,
-        order: order,
-        user: user,
-        business: business,
-        date: date);
+  factory PartyEntity.fromJson(Map<String, dynamic> json) =>
+      _$PartyEntityFromJson(json);
+  Map<String, dynamic> toJson() => _$PartyEntityToJson(this);
+
+  static List<PartyEntity> fromJsonToList(List<dynamic> json) {
+    for (int i = 0; i < json.length; i++) {
+      PartyEntity.fromJson(json[i]);
+    }
+    return List<PartyEntity>.from(
+      json.map(
+        (party) => PartyEntity.fromJson(party),
+      ),
+    );
   }
 }

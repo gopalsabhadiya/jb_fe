@@ -22,5 +22,5 @@ class DeletePartyState extends Equatable {
   }
 
   @override
-  List<Object> get props => [deleteStatus];
+  List<Object?> get props => [deleteStatus, lastDeletedPartyId];
 }

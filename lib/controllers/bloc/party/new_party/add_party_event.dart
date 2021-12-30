@@ -2,13 +2,13 @@ part of 'add_party_bloc.dart';
 
 abstract class AddPartyEvent extends Equatable {
   const AddPartyEvent();
-
-  @override
-  List<Object?> get props => [];
 }
 
 class AddNewParty extends AddPartyEvent {
-  final PartyPresentation partyPresentation;
+  final PartyPresentation party;
 
-  const AddNewParty({required this.partyPresentation});
+  const AddNewParty({required this.party});
+
+  @override
+  List<Object?> get props => [party];
 }

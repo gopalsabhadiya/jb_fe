@@ -72,7 +72,7 @@ class _EditPartyState extends State<EditParty> {
     if (_formKey.currentState!.validate()) {
       print("Updating party");
       BlocProvider.of<UpdatePartyBloc>(context)
-          .add(UpdateParty(partyPresentation: widget._party));
+          .add(UpdateParty(party: widget._party));
     }
   }
 

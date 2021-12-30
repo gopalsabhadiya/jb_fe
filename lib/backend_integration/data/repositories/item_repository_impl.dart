@@ -1,40 +1,39 @@
-import 'package:jb_fe/backend_integration/domain/entities/item.dart';
+import 'package:jb_fe/backend_integration/data/datasource/item_remote_ds.dart';
+import 'package:jb_fe/backend_integration/domain/entities/item/item.dart';
 import 'package:jb_fe/backend_integration/domain/repositories/item_repository.dart';
 
 class ItemRepositoryImpl implements ItemRepository {
+  final ItemRemoteDataSource remoteDataSource;
+
+  ItemRepositoryImpl({required this.remoteDataSource});
+
   @override
-  Future<ItemEntity> addItem(ItemEntity item) {
-    // TODO: implement addItem
-    throw UnimplementedError();
+  Future<ItemEntity> addItem(ItemEntity item) async {
+    return await remoteDataSource.addItem(item);
   }
 
   @override
-  Future<void> deleteItem(String itemId) {
-    // TODO: implement deleteItem
-    throw UnimplementedError();
+  Future<void> deleteItem(String itemId) async {
+    return await remoteDataSource.deleteItem(itemId);
   }
 
   @override
-  Future<ItemEntity> getItem(String itemId) {
-    // TODO: implement getItem
-    throw UnimplementedError();
+  Future<ItemEntity> getItem(String itemId) async {
+    return await remoteDataSource.getItem(itemId);
   }
 
   @override
-  Future<List<ItemEntity>> getItemPage(int pageNumber) {
-    // TODO: implement getItemPage
-    throw UnimplementedError();
+  Future<List<ItemEntity>> searchItem(String searchTerm, int pageNumber) async {
+    return await remoteDataSource.searchItem(searchTerm, pageNumber);
   }
 
   @override
-  Future<List<ItemEntity>> searchItem(String searchTerm, int pageNumber) {
-    // TODO: implement searchItem
-    throw UnimplementedError();
+  Future<ItemEntity> updateItem(ItemEntity item) async {
+    return await remoteDataSource.updateItem(item);
   }
 
   @override
-  Future<ItemEntity> updateItem(ItemEntity item) {
-    // TODO: implement updateItem
-    throw UnimplementedError();
+  Future<List<ItemEntity>> getItemPage(int pageNumber) async {
+    return await remoteDataSource.getItemPage(pageNumber);
   }
 }

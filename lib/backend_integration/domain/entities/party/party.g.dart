@@ -1,32 +1,32 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'party_model.dart';
+part of 'party.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-PartyModel _$PartyModelFromJson(Map<String, dynamic> json) => PartyModel(
+PartyEntity _$PartyEntityFromJson(Map<String, dynamic> json) => PartyEntity(
       id: json['_id'] as String?,
-      partyId: json['partyId'] as int?,
+      partyId: json['partyId'] as String?,
       name: json['name'] as String,
       contactNo: json['contactNo'] as String,
-      gstin: json['gstin'] as String?,
       balance: (json['balance'] as num).toDouble(),
-      address: json['address'] as String?,
-      email: json['email'] as String?,
       type: $enumDecode(_$PartyTypeEnumEnumMap, json['type']),
-      panNo: json['panNo'] as String?,
-      aadharNo: json['aadharNo'] as String?,
-      order:
-          (json['order'] as List<dynamic>?)?.map((e) => e as String).toList(),
       user: json['user'] as String?,
       business: json['business'] as String?,
       date:
           json['date'] == null ? null : DateTime.parse(json['date'] as String),
+      gstin: json['gstin'] as String?,
+      address: json['address'] as String?,
+      panNo: json['panNo'] as String?,
+      aadharNo: json['aadharNo'] as String?,
+      order:
+          (json['order'] as List<dynamic>?)?.map((e) => e as String).toList(),
+      email: json['email'] as String?,
     );
 
-Map<String, dynamic> _$PartyModelToJson(PartyModel instance) {
+Map<String, dynamic> _$PartyEntityToJson(PartyEntity instance) {
   final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {

@@ -62,7 +62,7 @@ class PartySearchBar extends StatelessWidget {
   }
 
   _clearSearchTerm(BuildContext context) {
-    BlocProvider.of<SearchPartyBloc>(context).add(ClearSearchTerm());
+    BlocProvider.of<SearchPartyBloc>(context).add(ClearSearchPartyTerm());
   }
 
   _onPartySearchChange(String value) {

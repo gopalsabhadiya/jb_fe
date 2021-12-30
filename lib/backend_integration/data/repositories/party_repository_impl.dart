@@ -1,5 +1,5 @@
 import 'package:jb_fe/backend_integration/data/datasource/party_remote_ds.dart';
-import 'package:jb_fe/backend_integration/domain/entities/party.dart';
+import 'package:jb_fe/backend_integration/domain/entities/party/party.dart';
 import 'package:jb_fe/backend_integration/domain/repositories/party_repository.dart';
 
 class PartyRepositoryImpl implements PartyRepository {
@@ -9,7 +9,7 @@ class PartyRepositoryImpl implements PartyRepository {
 
   @override
   Future<PartyEntity> addParty(PartyEntity party) async {
-    return await remoteDataSource.addParty(party.getModel());
+    return await remoteDataSource.addParty(party);
   }
 
   @override
@@ -30,7 +30,7 @@ class PartyRepositoryImpl implements PartyRepository {
 
   @override
   Future<PartyEntity> updateParty(PartyEntity party) async {
-    return await remoteDataSource.updateParty(party.getModel());
+    return await remoteDataSource.updateParty(party);
   }
 
   @override

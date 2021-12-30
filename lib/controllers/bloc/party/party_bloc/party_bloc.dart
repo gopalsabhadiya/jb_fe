@@ -39,9 +39,9 @@ class PartyBloc extends Bloc<PartyEvent, PartyState>
     with PartyOperationSubscriber, SearchNextPartyPageNotifier {
   final String _id = const Uuid().v4();
 
-  final GetPartyPageUseCase getPartyPage;
+  final GetPartyPageUseCase getPartyPageUseCase;
 
-  PartyBloc({required this.getPartyPage}) : super(const PartyState()) {
+  PartyBloc({required this.getPartyPageUseCase}) : super(const PartyState()) {
     on<FetchPartyFirstPage>(_onFetchPartyFirstPage);
     on<FetchNextPartyPage>(_fetchNextPartyPage);
     on<_DisplaySearchPartyResult>(_displaySearchResult);
@@ -59,7 +59,7 @@ class PartyBloc extends Bloc<PartyEvent, PartyState>
       ),
     );
     try {
-      final partyList = await getPartyPage(pageNumber: 1);
+      final partyList = await getPartyPageUseCase(pageNumber: 1);
       emit(
         state.copyWith(
           status: PartyStatus.SUCCESS,
@@ -69,7 +69,9 @@ class PartyBloc extends Bloc<PartyEvent, PartyState>
       );
     } catch (e) {
       emit(
-        state.copyWith(status: PartyStatus.FAILURE),
+        state.copyWith(
+          status: PartyStatus.FAILURE,
+        ),
       );
     }
   }
@@ -86,13 +88,15 @@ class PartyBloc extends Bloc<PartyEvent, PartyState>
       return null;
     }
 
-    final partyList =
-        await getPartyPage(pageNumber: (state.partyList.length ~/ 20) + 1);
-    emit(state.copyWith(
-      hasReachedMax: partyList.length < 20,
-      partyList: List.of(state.partyList)..addAll(partyList),
-      status: PartyStatus.SUCCESS,
-    ));
+    final partyList = await getPartyPageUseCase(
+        pageNumber: (state.partyList.length ~/ 20) + 1);
+    emit(
+      state.copyWith(
+        hasReachedMax: partyList.length < 20,
+        partyList: List.of(state.partyList)..addAll(partyList),
+        status: PartyStatus.SUCCESS,
+      ),
+    );
     return null;
   }
 
@@ -149,9 +153,6 @@ class PartyBloc extends Bloc<PartyEvent, PartyState>
           ? newList.add(event.updatedParty)
           : newList.add(party);
     }
-    final previousState = state;
-    final newState =
-        state.copyWith(status: PartyStatus.SUCCESS, partyList: newList);
 
     emit(
       state.copyWith(
@@ -183,7 +184,8 @@ class PartyBloc extends Bloc<PartyEvent, PartyState>
       case PartyNotificationType.PARTY_UPDATED:
         add(
           _UpdateParty(
-              updatedParty: (notification as UpdatePartyNotification).party),
+            updatedParty: (notification as UpdatePartyNotification).party,
+          ),
         );
         break;
       case PartyNotificationType.PARTY_SEARCH_COMPLETE:
@@ -197,8 +199,11 @@ class PartyBloc extends Bloc<PartyEvent, PartyState>
         add(_ClearSearchTerm());
         break;
       case PartyNotificationType.PARTY_CREATED:
-        add(_AddParty(
-            addedParty: (notification as NewPartyNotification).party));
+        add(
+          _AddParty(
+            addedParty: (notification as NewPartyNotification).party,
+          ),
+        );
         break;
     }
   }

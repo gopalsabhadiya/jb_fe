@@ -14,7 +14,7 @@ class AddParty extends StatefulWidget {
 
   const AddParty({
     Key? key,
-    required closeDrawer,
+    required VoidCallback closeDrawer,
     required PartyPresentation party,
   })  : _party = party,
         _closeDrawer = closeDrawer,
@@ -47,7 +47,9 @@ class _AddPartyState extends State<AddParty> {
             builder: (BuildContext context, AddPartyState state) {
               switch (state.status) {
                 case AddPartyStatus.LOADING:
-                  return const Center(child: CircularProgressIndicator());
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
                 case AddPartyStatus.COMPLETED:
                   return Form(
                     key: _formKey,
@@ -70,7 +72,7 @@ class _AddPartyState extends State<AddParty> {
     if (_formKey.currentState!.validate()) {
       BlocProvider.of<AddPartyBloc>(context).add(
         AddNewParty(
-          partyPresentation: widget._party,
+          party: widget._party,
         ),
       );
     }

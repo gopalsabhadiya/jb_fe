@@ -15,15 +15,15 @@ class DeletePartyBloc extends Bloc<DeletePartyEvent, DeletePartyState>
 
   DeletePartyBloc({required this.deletePartyUseCase})
       : super(const DeletePartyState()) {
-    on<DeletePartyEvent>(_onDeletePartyEvent);
+    on<DeleteParty>(_onDeleteParty);
   }
 
-  FutureOr<void> _onDeletePartyEvent(
-      DeletePartyEvent event, Emitter<DeletePartyState> emit) async {
+  FutureOr<void> _onDeleteParty(
+      DeleteParty event, Emitter<DeletePartyState> emit) async {
     emit(
       state.copyWith(
         deleteStatus: DeletePartyStatus.LOADING,
-        lastDeletedPartyId: (event as DeleteParty).partyIdToBeDeleted,
+        lastDeletedPartyId: event.partyIdToBeDeleted,
       ),
     );
     try {

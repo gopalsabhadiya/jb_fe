@@ -2,7 +2,7 @@ import 'package:jb_fe/controllers/bloc/party/mediator/notification/notification.
 import 'package:jb_fe/controllers/bloc/party/mediator/notifier/operation_notifier.dart';
 import 'package:jb_fe/controllers/bloc/party/mediator/subscriber/operation_subscriber.dart';
 
-class CreatePartyNotifier implements PartyOperationNotifier {
+class AddPartyNotifier implements PartyOperationNotifier {
   final List<PartyOperationSubscriber> _subscribers =
       <PartyOperationSubscriber>[];
 

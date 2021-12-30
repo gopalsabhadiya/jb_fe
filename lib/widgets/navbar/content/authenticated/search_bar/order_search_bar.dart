@@ -26,7 +26,7 @@ class OrderSearchBar extends StatelessWidget {
   }
 
   _clearSearchTerm(BuildContext context) {
-    BlocProvider.of<SearchPartyBloc>(context).add(ClearSearchTerm());
+    print("Clear Order Search Term here");
   }
 
   _onOrderSearchChange(String value) {

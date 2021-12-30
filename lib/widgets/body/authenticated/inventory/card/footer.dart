@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:jb_fe/backend_integration/dto/item/item_presentation.dart';
 import 'package:jb_fe/constants/colors.dart';
 import 'package:jb_fe/constants/typography/font_weight.dart';
 import 'package:jb_fe/widgets/calligraphy/app_text.dart';
@@ -9,15 +10,18 @@ class ItemCardFooter extends StatelessWidget {
   final VoidCallback _onItemEdit;
   final VoidCallback _onItemView;
   final VoidCallback _onItemDelete;
+  final ItemPresentation _item;
 
-  const ItemCardFooter(
-      {Key? key,
-      required onItemEdit,
-      required onItemView,
-      required onItemDelete})
-      : _onItemEdit = onItemEdit,
+  const ItemCardFooter({
+    Key? key,
+    required onItemEdit,
+    required onItemView,
+    required onItemDelete,
+    required item,
+  })  : _onItemEdit = onItemEdit,
         _onItemView = onItemView,
         _onItemDelete = onItemDelete,
+        _item = item,
         super(key: key);
 
   @override
@@ -41,7 +45,7 @@ class ItemCardFooter extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 AppTextBuilder("NW: ").color(AppColors.blue_5).size(16).build(),
-                AppTextBuilder("4.1000")
+                AppTextBuilder(_item.netWeight.toStringAsFixed(3))
                     .color(AppColors.blue_5)
                     .size(16)
                     .weight(AppFontWeight.BOLD)

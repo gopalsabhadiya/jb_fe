@@ -1,5 +1,5 @@
-
 import 'package:equatable/equatable.dart';
+import 'package:jb_fe/backend_integration/dto/item/item_presentation.dart';
 
 enum ItemNotificationType {
   ITEM_DELETED,
@@ -17,4 +17,63 @@ class ItemOperationNotification extends Equatable {
 
   @override
   List<Object?> get props => [notificationType];
+}
+
+class DeleteItemNotification extends ItemOperationNotification {
+  final String itemId;
+
+  const DeleteItemNotification({
+    required this.itemId,
+  }) : super(notificationType: ItemNotificationType.ITEM_DELETED);
+
+  @override
+  List<Object> get props => [itemId, notificationType];
+}
+
+class NewItemNotification extends ItemOperationNotification {
+  final ItemPresentation item;
+
+  const NewItemNotification({
+    required this.item,
+  }) : super(notificationType: ItemNotificationType.ITEM_CREATED);
+
+  @override
+  List<Object> get props => [item, notificationType];
+}
+
+class UpdateItemNotification extends ItemOperationNotification {
+  final ItemPresentation item;
+
+  const UpdateItemNotification({
+    required this.item,
+  }) : super(notificationType: ItemNotificationType.ITEM_UPDATED);
+
+  @override
+  List<Object> get props => [item, notificationType];
+}
+
+class SearchItemCompleteNotification extends ItemOperationNotification {
+  final List<ItemPresentation> result;
+  final String searchTerm;
+  const SearchItemCompleteNotification(
+      {required this.result, required this.searchTerm})
+      : super(notificationType: ItemNotificationType.ITEM_SEARCH_COMPLETE);
+
+  @override
+  List<Object> get props => [result, notificationType];
+}
+
+class SearchItemTermClearedNotification extends ItemOperationNotification {
+  const SearchItemTermClearedNotification()
+      : super(notificationType: ItemNotificationType.ITEM_SEARCH_CLEARED);
+}
+
+class SearchNextItemPageRequestNotification extends ItemOperationNotification {
+  const SearchNextItemPageRequestNotification()
+      : super(notificationType: ItemNotificationType.ITEM_GET_NEXT_PAGE);
+}
+
+class AddItemRequestNotification extends ItemOperationNotification {
+  const AddItemRequestNotification()
+      : super(notificationType: ItemNotificationType.ITEM_ADD_REQUEST);
 }

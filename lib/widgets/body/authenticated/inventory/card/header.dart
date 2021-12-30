@@ -1,12 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:jb_fe/backend_integration/dto/item/item_presentation.dart';
 import 'package:jb_fe/constants/colors.dart';
 import 'package:jb_fe/constants/typography/font_weight.dart';
 import 'package:jb_fe/widgets/calligraphy/app_text.dart';
 import 'package:jb_fe/widgets/common/buttons/icon_button.dart';
 
 class ItemCardHeader extends StatelessWidget {
-  const ItemCardHeader({Key? key}) : super(key: key);
+  final ItemPresentation _item;
+  const ItemCardHeader({Key? key, required item})
+      : _item = item,
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +28,7 @@ class ItemCardHeader extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          AppTextBuilder("Gold Ring")
+          AppTextBuilder(_item.name)
               .weight(AppFontWeight.BOLD)
               .size(18)
               .color(AppColors.blue_5)

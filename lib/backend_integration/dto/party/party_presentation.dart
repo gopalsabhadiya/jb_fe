@@ -1,11 +1,11 @@
 import 'package:jb_fe/backend_integration/constants/enum/party_type_enum.dart';
 import 'package:jb_fe/backend_integration/constants/other/regex.dart';
-import 'package:jb_fe/backend_integration/domain/entities/party.dart';
+import 'package:jb_fe/backend_integration/domain/entities/party/party.dart';
 import 'package:jb_fe/constants/texts/defaults.dart';
 
 class PartyPresentation {
   String? _id;
-  int? _partyId;
+  String? _partyId;
   late String _name;
   late String _newName;
   late String _contactNo;
@@ -70,7 +70,7 @@ class PartyPresentation {
 
   String? get id => _id;
 
-  int? get partyId => _partyId;
+  String? get partyId => _partyId;
 
   String get name => _name;
 

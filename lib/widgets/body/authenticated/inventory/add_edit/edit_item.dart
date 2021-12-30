@@ -1,18 +1,33 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jb_fe/backend_integration/dto/item/item_presentation.dart';
 import 'package:jb_fe/constants/colors.dart';
 import 'package:jb_fe/constants/typography/font_weight.dart';
+import 'package:jb_fe/controllers/bloc/inventory/update_item/update_item_bloc.dart';
 import 'package:jb_fe/widgets/calligraphy/app_text.dart';
 import 'package:jb_fe/widgets/common/buttons/icon_button.dart';
 
 import 'item_form.dart';
 
-class EditItem extends StatelessWidget {
-  final VoidCallback _toggleDrawer;
+class EditItem extends StatefulWidget {
+  final VoidCallback _closeDrawer;
+  final ItemPresentation _item;
 
-  const EditItem({Key? key, required toggleDrawer})
-      : _toggleDrawer = toggleDrawer,
+  const EditItem({
+    Key? key,
+    required ItemPresentation item,
+    required closeDrawer,
+  })  : _item = item,
+        _closeDrawer = closeDrawer,
         super(key: key);
+
+  @override
+  State<EditItem> createState() => _EditItemState();
+}
+
+class _EditItemState extends State<EditItem> {
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +50,7 @@ class EditItem extends StatelessWidget {
                       .color(AppColors.grey_1)
                       .build(),
                   InkWell(
-                    onTap: _saveItem,
+                    onTap: _updateItem,
                     child: AppTextBuilder("Save")
                         .size(20)
                         .weight(AppFontWeight.BOLD)
@@ -47,19 +62,27 @@ class EditItem extends StatelessWidget {
               ),
             ),
           ),
-          const Expanded(child: ItemForm()),
+          Expanded(
+            child: ItemForm(
+              item: widget._item,
+            ),
+          ),
         ],
       ),
     );
   }
 
-  void _saveItem() {
-    print("Save Item");
-    _toggleDrawer();
+  void _updateItem() {
+    if (_formKey.currentState!.validate()) {
+      print("Updating party");
+      BlocProvider.of<UpdateItemBloc>(context).add(UpdateItem(
+        item: widget._item,
+      ));
+    }
   }
 
   void _cancelSave() {
     print("Cancel Save Item");
-    _toggleDrawer();
+    widget._closeDrawer();
   }
 }

@@ -6,6 +6,7 @@ class EndpointUri {
   static const String _PATH_USER_ID = "{USER_ID}";
   static const String _PATH_BUSINESS_ID = "{BUSINESS_ID}";
   static const String _PATH_PARTY_ID = "{PARTY_ID}";
+  static const String _PATH_ITEM_ID = "{ITEM_ID}";
   static const String _PAGE = "{PAGE}";
   static const String _SEARCH_TERM = "{SEARCH_TERM}";
 
@@ -17,14 +18,19 @@ class EndpointUri {
   static const String _BASE_BUSINESS = "$_BASE_URL/business";
 
   static const String _BASE_PARTY = "$_BASE_URL/party";
-  static const String _PARTY_PAGE = "$_BASE_URL/party/?page=$_PAGE";
+  static const String _PARTY_PAGE = "$_BASE_PARTY/?page=$_PAGE";
   static const String _DELETE_PARTY = "$_BASE_PARTY/$_PATH_PARTY_ID";
   static const String _SEARCH_PARTY =
-      "$_BASE_URL/party/?page=$_PAGE&searchTerm=$_SEARCH_TERM";
+      "$_BASE_PARTY/?page=$_PAGE&searchTerm=$_SEARCH_TERM";
+
+  static const String _BASE_ITEM = "$_BASE_URL/item";
+  static const String _ITEM_PAGE = "$_BASE_ITEM/?page=$_PAGE";
+  static const String _DELETE_ITEM = "$_BASE_ITEM/$_PATH_ITEM_ID";
+  static const String _SEARCH_ITEM =
+      "$_BASE_ITEM/?page=$_PAGE&searchTerm=$_SEARCH_TERM";
 
   static const String _BASE_ORDER = "$_BASE_URL/order";
   static const String _BASE_BILL = "$_BASE_URL/bill";
-  static const String _BASE_ITEM = "$_BASE_URL/item";
   static const String _BASE_RECEIPT = "$_BASE_URL/receipt";
 
   static const String _GET_USER = _BASE_USER;
@@ -90,6 +96,24 @@ class EndpointUri {
 
   static Uri getSearchPartyURL(int pageNumber, String searchTerm) {
     return Uri.parse(_SEARCH_PARTY
+        .replaceAll(_PAGE, pageNumber.toString())
+        .replaceAll(_SEARCH_TERM, searchTerm));
+  }
+
+  static Uri getBaseItem() {
+    return Uri.parse(_BASE_ITEM);
+  }
+
+  static Uri getDeleteITEMURL(String itemId) {
+    return Uri.parse(_DELETE_ITEM.replaceAll(_PATH_ITEM_ID, itemId));
+  }
+
+  static Uri getItemPage(int pageNumber) {
+    return Uri.parse(_ITEM_PAGE.replaceAll(_PAGE, pageNumber.toString()));
+  }
+
+  static Uri getSearchItemURL(int pageNumber, String searchTerm) {
+    return Uri.parse(_SEARCH_ITEM
         .replaceAll(_PAGE, pageNumber.toString())
         .replaceAll(_SEARCH_TERM, searchTerm));
   }

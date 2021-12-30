@@ -11,20 +11,19 @@ part 'add_party_event.dart';
 part 'add_party_state.dart';
 
 class AddPartyBloc extends Bloc<AddPartyEvent, AddPartyState>
-    with CreatePartyNotifier {
+    with AddPartyNotifier {
   final CreatePartyUseCase createPartyUseCase;
 
   AddPartyBloc({required this.createPartyUseCase})
       : super(const AddPartyState()) {
-    on<AddNewParty>(_onNewPartyEvent);
+    on<AddNewParty>(_onAddNewParty);
   }
 
-  FutureOr<void> _onNewPartyEvent(
+  FutureOr<void> _onAddNewParty(
       AddNewParty event, Emitter<AddPartyState> emit) async {
     emit(const AddPartyState(status: AddPartyStatus.LOADING));
     try {
-      final savedParty =
-          await createPartyUseCase(party: event.partyPresentation);
+      final savedParty = await createPartyUseCase(party: event.party);
       await Future.delayed(const Duration(seconds: 1));
       emit(const AddPartyState(status: AddPartyStatus.COMPLETED));
       notifySubscriber(

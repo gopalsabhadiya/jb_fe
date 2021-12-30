@@ -16,24 +16,31 @@ class UpdatePartyBloc extends Bloc<UpdatePartyEvent, UpdatePartyState>
 
   UpdatePartyBloc({required this.updatePartyUseCase})
       : super(const UpdatePartyState()) {
-    on<UpdateParty>(_onUpdatePartyEvent);
+    on<UpdateParty>(_onUpdateParty);
   }
 
-  FutureOr<void> _onUpdatePartyEvent(
+  FutureOr<void> _onUpdateParty(
       UpdateParty event, Emitter<UpdatePartyState> emit) async {
-    emit(const UpdatePartyState(updateStatus: UpdatePartyStatus.LOADING));
+    emit(
+      const UpdatePartyState(
+        updateStatus: UpdatePartyStatus.LOADING,
+      ),
+    );
     try {
-      updatePartyUseCase(party: event.partyPresentation);
-      emit(const UpdatePartyState(updateStatus: UpdatePartyStatus.COMPLETED));
+      await updatePartyUseCase(party: event.party);
+      emit(
+        const UpdatePartyState(
+          updateStatus: UpdatePartyStatus.COMPLETED,
+        ),
+      );
       notifySubscriber(
         notification: UpdatePartyNotification(
-          party: event.partyPresentation,
+          party: event.party,
         ),
       );
     } catch (e) {
-      emit(const UpdatePartyState(updateStatus: UpdatePartyStatus.ERROR));
+      emit(const UpdatePartyState(updateStatus: UpdatePartyStatus.ERROR,),);
       return null;
     }
   }
-
 }

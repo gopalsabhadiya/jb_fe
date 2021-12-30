@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:jb_fe/backend_integration/dto/item/item_presentation.dart';
 import 'package:jb_fe/constants/colors.dart';
 import 'package:jb_fe/widgets/body/authenticated/inventory/add_edit/mid_section.dart';
 import 'package:jb_fe/widgets/body/authenticated/inventory/add_edit/top_section.dart';
@@ -6,7 +7,10 @@ import 'package:jb_fe/widgets/body/authenticated/inventory/add_edit/top_section.
 import 'extras_section.dart';
 
 class ItemForm extends StatelessWidget {
-  const ItemForm({Key? key}) : super(key: key);
+  final ItemPresentation _item;
+  const ItemForm({Key? key, required item})
+      : _item = item,
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {

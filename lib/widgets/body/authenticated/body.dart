@@ -9,6 +9,8 @@ import 'package:jb_fe/util/screen_size.dart';
 import 'package:jb_fe/widgets/body/authenticated/dashboard/dashboard.dart';
 import 'package:jb_fe/widgets/body/authenticated/inventory/inventory.dart';
 import 'package:jb_fe/widgets/body/authenticated/orders/orders.dart';
+import 'package:jb_fe/widgets/body/authenticated/pages/inventory.dart';
+import 'package:jb_fe/widgets/body/authenticated/pages/party.dart';
 import 'package:jb_fe/widgets/body/authenticated/party/party.dart';
 import 'package:jb_fe/widgets/body/authenticated/payments/payments.dart';
 import 'package:jb_fe/widgets/body/authenticated/shop_expenses/shop_expenses.dart';
@@ -46,37 +48,9 @@ class AppBodyAuthenticated extends StatelessWidget {
             ],
           );
         case AuthenticatedSidePanelState.PARTY:
-          return MultiBlocProvider(
-            providers: [
-              BlocProvider<PartyBloc>(
-                create: (BuildContext context) => serviceLocator<PartyBloc>()
-                  ..add(
-                    FetchPartyFirstPage(),
-                  ),
-              ),
-              BlocProvider<PartyFormToggleCubit>(
-                create: (BuildContext context) =>
-                    serviceLocator<PartyFormToggleCubit>(),
-              )
-            ],
-            child: Column(
-              children: [
-                ScreenSizeUtil.getIsHamburgerNavbar(context)
-                    ? const HamburgerTopAuthenticatedNavbar()
-                    : const RegularTopAuthenticatedNavbar(),
-                const Party(),
-              ],
-            ),
-          );
+          return const PartyPage();
         case AuthenticatedSidePanelState.INVENTORY:
-          return Column(
-            children: [
-              ScreenSizeUtil.getIsHamburgerNavbar(context)
-                  ? const HamburgerTopAuthenticatedNavbar()
-                  : const RegularTopAuthenticatedNavbar(),
-              const Inventory(),
-            ],
-          );
+          return const InventoryPage();
         case AuthenticatedSidePanelState.ORDERS:
           return Column(
             children: [

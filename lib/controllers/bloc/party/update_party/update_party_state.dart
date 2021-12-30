@@ -6,8 +6,10 @@ class UpdatePartyState extends Equatable {
   final UpdatePartyStatus updateStatus;
   final PartyPresentation? partyToBeUpdated;
 
-  const UpdatePartyState(
-      {this.updateStatus = UpdatePartyStatus.COMPLETED, this.partyToBeUpdated});
+  const UpdatePartyState({
+    this.updateStatus = UpdatePartyStatus.COMPLETED,
+    this.partyToBeUpdated,
+  });
 
   UpdatePartyState copyWith({
     UpdatePartyStatus? updateStatus,
@@ -20,5 +22,5 @@ class UpdatePartyState extends Equatable {
   }
 
   @override
-  List<Object> get props => [updateStatus];
+  List<Object?> get props => [updateStatus, partyToBeUpdated];
 }

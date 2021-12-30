@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jb_fe/constants/texts/item_text.dart';
+import 'package:jb_fe/controllers/bloc/inventory/search_item/search_item_bloc.dart';
 import 'package:jb_fe/controllers/bloc/party/search_party/search_party_bloc.dart';
 import 'package:jb_fe/widgets/common/inputs/search_input.dart';
 
@@ -26,7 +27,7 @@ class ItemSearchBar extends StatelessWidget {
   }
 
   _clearSearchTerm(BuildContext context) {
-    BlocProvider.of<SearchPartyBloc>(context).add(ClearSearchTerm());
+    BlocProvider.of<SearchItemBloc>(context).add(ClearSearchItemTerm());
   }
 
   _onInventorySearchChange(String value) {

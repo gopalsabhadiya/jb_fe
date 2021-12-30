@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:jb_fe/backend_integration/domain/entities/party.dart';
+import 'package:jb_fe/backend_integration/domain/entities/party/party.dart';
 
 abstract class PartyRepository {
   Future<List<PartyEntity>> getPartyPage(int pageNumber);

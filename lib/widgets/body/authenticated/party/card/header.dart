@@ -6,7 +6,7 @@ import 'package:jb_fe/widgets/calligraphy/app_text.dart';
 
 class PartyCardHeader extends StatelessWidget {
   final String _name;
-  final int _partyId;
+  final String _partyId;
   const PartyCardHeader({Key? key, required name, required partyId})
       : _name = name,
         _partyId = partyId,

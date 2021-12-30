@@ -26,7 +26,7 @@ class PaymentSearchBar extends StatelessWidget {
   }
 
   _clearSearchTerm(BuildContext context) {
-    BlocProvider.of<SearchPartyBloc>(context).add(ClearSearchTerm());
+    print("Clear Payment search term here");
   }
 
   _onPaymentSearchChange(String value) {
