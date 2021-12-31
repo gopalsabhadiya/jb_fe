@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:jb_fe/backend_integration/dto/item/item_presentation.dart';
 import 'package:jb_fe/constants/colors.dart';
-import 'package:jb_fe/widgets/body/authenticated/inventory/add_edit/mid_section.dart';
-import 'package:jb_fe/widgets/body/authenticated/inventory/add_edit/top_section.dart';
+import 'package:jb_fe/widgets/body/authenticated/inventory/add_edit/section/mid/mid_section.dart';
+import 'package:jb_fe/widgets/body/authenticated/inventory/add_edit/section/top/top_section.dart';
 
-import 'extras_section.dart';
+import 'section/extras/extras_section.dart';
 
 class ItemForm extends StatelessWidget {
   final ItemPresentation _item;
@@ -18,38 +18,26 @@ class ItemForm extends StatelessWidget {
       padding: const EdgeInsets.all(20),
       child: Container(
           padding: const EdgeInsets.all(20),
-          constraints: BoxConstraints(maxWidth: 1000),
+          constraints: const BoxConstraints(maxWidth: 1000),
           decoration: BoxDecoration(
             color: AppColors.white,
             borderRadius: BorderRadius.circular(5),
-            // boxShadow: const [
-            //   BoxShadow(
-            //       // offset: Offset(2, 2),
-            //       color: AppColors.grey_3, //edited
-            //       spreadRadius: -2,
-            //       blurRadius: 10 //edited
-            //       )
-            // ],
           ),
           child: Column(
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const ItemInputTopSection(),
+              ItemInputTopSection(item: _item),
               const SizedBox(
                 height: 30,
               ),
-              ItemInputMedSection(),
+              ItemInputMidSection(item: _item),
               const SizedBox(
                 height: 30,
               ),
-              ItemInputExtrasSection()
+              ItemInputExtrasSection(item: _item)
             ],
           )),
     );
-  }
-
-  _onPublicPrivateChangge(bool newValue) {
-    print("Checkbox changed to $newValue");
   }
 }

@@ -59,8 +59,7 @@ class ItemBloc extends Bloc<ItemEvent, ItemState>
       ),
     );
     try {
-      final itemList = await getItemPageUseCase(pageNumber: 1);
-      print("Returning Item List: $itemList");
+      final itemList = await getItemPageUseCase();
       emit(
         state.copyWith(
           status: ItemStatus.SUCCESS,
@@ -80,7 +79,6 @@ class ItemBloc extends Bloc<ItemEvent, ItemState>
 
   FutureOr<void> _fetchNextItemPage(
       FetchNextItemPage event, Emitter<ItemState> emit) async {
-    print("Fetch next page");
     if (state.hasReachedMax == true) {
       return null;
     }
@@ -91,8 +89,7 @@ class ItemBloc extends Bloc<ItemEvent, ItemState>
       return null;
     }
 
-    final itemList =
-        await getItemPageUseCase(pageNumber: (state.itemList.length ~/ 20) + 1);
+    final itemList = await getItemPageUseCase(skip: state.itemList.length);
     emit(
       state.copyWith(
         hasReachedMax: itemList.length < 20,

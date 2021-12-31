@@ -6,14 +6,16 @@ part of 'item_extra.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-ItemExtra _$ItemExtraFromJson(Map<String, dynamic> json) => ItemExtra(
+ItemExtraEntity _$ItemExtraEntityFromJson(Map<String, dynamic> json) =>
+    ItemExtraEntity(
       rate: (json['rate'] as num?)?.toDouble(),
-      pieces: json['pieces'] as int,
+      pieces: json['pieces'] as int?,
       labourCharge: (json['labourCharge'] as num?)?.toDouble(),
-      type: json['type'] as String,
+      type: json['type'] as String?,
     );
 
-Map<String, dynamic> _$ItemExtraToJson(ItemExtra instance) => <String, dynamic>{
+Map<String, dynamic> _$ItemExtraEntityToJson(ItemExtraEntity instance) =>
+    <String, dynamic>{
       'rate': instance.rate,
       'pieces': instance.pieces,
       'labourCharge': instance.labourCharge,

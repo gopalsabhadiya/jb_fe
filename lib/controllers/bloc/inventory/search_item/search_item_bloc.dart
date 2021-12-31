@@ -36,7 +36,6 @@ class SearchItemBloc extends Bloc<SearchItemEvent, SearchItemState>
       final searchResult = await searchItemUseCase(
         searchTerm: event.searchTerm,
       );
-      print("Searched items: ${searchResult.length}");
       emit(
         state.copyWith(
           searchStatus: SearchItemStatus.COMPLETED,
@@ -62,7 +61,6 @@ class SearchItemBloc extends Bloc<SearchItemEvent, SearchItemState>
 
   FutureOr<void> _onClearSearchTerm(
       ClearSearchItemTerm event, Emitter<SearchItemState> emit) {
-    print("Clearing search term");
     emit(
       state.copyWith(
         result: <ItemPresentation>[],
@@ -78,7 +76,6 @@ class SearchItemBloc extends Bloc<SearchItemEvent, SearchItemState>
 
   @override
   void update({required ItemOperationNotification notification}) async {
-    print("Search next page: $notification");
     final searchResult = await searchItemUseCase(
       searchTerm: state.searchTerm,
       pageNumber: (state.result.length ~/ 20) + 1,

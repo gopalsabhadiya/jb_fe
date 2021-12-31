@@ -1,15 +1,19 @@
 import 'package:get_it/get_it.dart';
+import 'package:jb_fe/backend_integration/data/datasource/business_remote_ds.dart';
 import 'package:jb_fe/backend_integration/data/datasource/item_remote_ds.dart';
 import 'package:jb_fe/backend_integration/data/datasource/party_remote_ds.dart';
+import 'package:jb_fe/backend_integration/data/repositories/business_repository_impl.dart';
 import 'package:jb_fe/backend_integration/data/repositories/item_repository_impl.dart';
 import 'package:jb_fe/backend_integration/data/repositories/party_repository_impl.dart';
 import 'package:jb_fe/backend_integration/domain/repositories/party_repository.dart';
+import 'package:jb_fe/backend_integration/domain/usecase/business/get_business_data.dart';
 import 'package:jb_fe/backend_integration/domain/usecase/inventory/get_item_page.dart';
 import 'package:jb_fe/backend_integration/domain/usecase/party/create_party.dart';
 import 'package:jb_fe/backend_integration/domain/usecase/party/delete_party.dart';
 import 'package:jb_fe/backend_integration/domain/usecase/party/get_party_page.dart';
 import 'package:jb_fe/backend_integration/domain/usecase/party/search_party.dart';
 import 'package:jb_fe/backend_integration/domain/usecase/party/update_party.dart';
+import 'package:jb_fe/controllers/bloc/business/business_data_bloc.dart';
 import 'package:jb_fe/controllers/bloc/inventory/item_bloc/item_bloc.dart';
 import 'package:jb_fe/controllers/bloc/inventory/item_form_toggle/item_form_toggle_cubit.dart';
 import 'package:jb_fe/controllers/bloc/party/new_party/add_party_bloc.dart';
@@ -17,6 +21,7 @@ import 'package:jb_fe/controllers/bloc/party/party_form_toggle/party_form_toggle
 import 'package:jb_fe/controllers/bloc/party/search_party/search_party_bloc.dart';
 import 'package:jb_fe/controllers/bloc/party/update_party/update_party_bloc.dart';
 
+import 'backend_integration/domain/repositories/business_repository.dart';
 import 'backend_integration/domain/repositories/item_repository.dart';
 import 'backend_integration/domain/usecase/inventory/create_item.dart';
 import 'backend_integration/domain/usecase/inventory/delete_item.dart';
@@ -33,6 +38,11 @@ final serviceLocator = GetIt.instance;
 
 void init() {
   //bloc
+  //Business
+  serviceLocator.registerFactory<BusinessDataBloc>(
+    () => BusinessDataBloc(getBusinessDataUseCase: serviceLocator()),
+  );
+
   //party
   serviceLocator.registerFactory<PartyBloc>(
     () => PartyBloc(
@@ -95,6 +105,13 @@ void init() {
 
   //-----------------------------------------------------------------------------------------------------------------
   //usecases
+  //Business
+  serviceLocator.registerLazySingleton<GetBusinessDataUseCase>(
+    () => GetBusinessDataUseCase(
+      repository: serviceLocator(),
+    ),
+  );
+
   //party
   serviceLocator.registerLazySingleton<GetPartyPageUseCase>(
     () => GetPartyPageUseCase(
@@ -151,6 +168,11 @@ void init() {
 
   //------------------------------------------------------------------------------------------------------------------
   //repository
+  serviceLocator.registerLazySingleton<BusinessRepository>(
+    () => BusinessRepositoryImpl(
+      remoteDataSource: serviceLocator(),
+    ),
+  );
   serviceLocator.registerLazySingleton<PartyRepository>(
     () => PartyRepositoryImpl(
       remoteDataSource: serviceLocator(),
@@ -163,6 +185,9 @@ void init() {
   );
 
   //data sources
+  serviceLocator.registerLazySingleton<BusinessRemoteDataSource>(
+    () => BusinessRemoteDataSourceImpl(),
+  );
   serviceLocator.registerLazySingleton<PartyRemoteDataSource>(
     () => PartyRemoteDataSourceImpl(),
   );

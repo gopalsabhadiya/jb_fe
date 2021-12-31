@@ -7,7 +7,7 @@ class EndpointUri {
   static const String _PATH_BUSINESS_ID = "{BUSINESS_ID}";
   static const String _PATH_PARTY_ID = "{PARTY_ID}";
   static const String _PATH_ITEM_ID = "{ITEM_ID}";
-  static const String _PAGE = "{PAGE}";
+  static const String _SKIP = "{SKIP}";
   static const String _SEARCH_TERM = "{SEARCH_TERM}";
 
   static const String _BASE_URL = "$_SERVER_ADDRESS/api";
@@ -18,16 +18,16 @@ class EndpointUri {
   static const String _BASE_BUSINESS = "$_BASE_URL/business";
 
   static const String _BASE_PARTY = "$_BASE_URL/party";
-  static const String _PARTY_PAGE = "$_BASE_PARTY/?page=$_PAGE";
+  static const String _PARTY_SKIP = "$_BASE_PARTY/?skip=$_SKIP";
   static const String _DELETE_PARTY = "$_BASE_PARTY/$_PATH_PARTY_ID";
   static const String _SEARCH_PARTY =
-      "$_BASE_PARTY/?page=$_PAGE&searchTerm=$_SEARCH_TERM";
+      "$_BASE_PARTY/?skip=$_SKIP&searchTerm=$_SEARCH_TERM";
 
   static const String _BASE_ITEM = "$_BASE_URL/item";
-  static const String _ITEM_PAGE = "$_BASE_ITEM/?page=$_PAGE";
+  static const String _ITEM_SKIP = "$_BASE_ITEM/?skip=$_SKIP";
   static const String _DELETE_ITEM = "$_BASE_ITEM/$_PATH_ITEM_ID";
   static const String _SEARCH_ITEM =
-      "$_BASE_ITEM/?page=$_PAGE&searchTerm=$_SEARCH_TERM";
+      "$_BASE_ITEM/?skip=$_SKIP&searchTerm=$_SEARCH_TERM";
 
   static const String _BASE_ORDER = "$_BASE_URL/order";
   static const String _BASE_BILL = "$_BASE_URL/bill";
@@ -65,6 +65,10 @@ class EndpointUri {
     return Uri.parse(_VALIDATE_AUTH);
   }
 
+  static Uri getGetBusinessURL() {
+    return Uri.parse(_BASE_BUSINESS);
+  }
+
   static Uri getRegisterBusinessURL() {
     return Uri.parse(_BASE_BUSINESS);
   }
@@ -90,31 +94,36 @@ class EndpointUri {
     return Uri.parse(_DELETE_PARTY.replaceAll(_PATH_PARTY_ID, partyId));
   }
 
-  static Uri getPartyPage(int pageNumber) {
-    return Uri.parse(_PARTY_PAGE.replaceAll(_PAGE, pageNumber.toString()));
+  static Uri getPartyPage(int skip) {
+    print("Returning URI party page: $skip");
+    return Uri.parse(_PARTY_SKIP.replaceAll(_SKIP, skip.toString()));
   }
 
-  static Uri getSearchPartyURL(int pageNumber, String searchTerm) {
+  static Uri getSearchPartyURL(int skip, String searchTerm) {
     return Uri.parse(_SEARCH_PARTY
-        .replaceAll(_PAGE, pageNumber.toString())
+        .replaceAll(_SKIP, skip.toString())
         .replaceAll(_SEARCH_TERM, searchTerm));
   }
 
-  static Uri getBaseItem() {
+  static Uri getBaseItemURL() {
     return Uri.parse(_BASE_ITEM);
   }
 
-  static Uri getDeleteITEMURL(String itemId) {
+  static Uri getAddItemURL() {
+    return Uri.parse(_BASE_ITEM);
+  }
+
+  static Uri getDeleteItemURL(String itemId) {
     return Uri.parse(_DELETE_ITEM.replaceAll(_PATH_ITEM_ID, itemId));
   }
 
-  static Uri getItemPage(int pageNumber) {
-    return Uri.parse(_ITEM_PAGE.replaceAll(_PAGE, pageNumber.toString()));
+  static Uri getItemPage(int skip) {
+    return Uri.parse(_ITEM_SKIP.replaceAll(_SKIP, skip.toString()));
   }
 
-  static Uri getSearchItemURL(int pageNumber, String searchTerm) {
+  static Uri getSearchItemURL(int skip, String searchTerm) {
     return Uri.parse(_SEARCH_ITEM
-        .replaceAll(_PAGE, pageNumber.toString())
+        .replaceAll(_SKIP, skip.toString())
         .replaceAll(_SEARCH_TERM, searchTerm));
   }
 }

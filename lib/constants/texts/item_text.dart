@@ -8,7 +8,7 @@ class ItemText {
   static final String CLEAR_IMAGES_INPUT_TEXT = "Clear";
   static final String CATEGORY_INPUT_TEXT = "Select Category";
   static final String TYPE_INPUT_TEXT = "Select Type";
-  static final String HUID_IINPUT_TEXT = "Enter HUID";
+  static final String HUID_INPUT_TEXT = "Enter HUID";
   static final String PIECE_INPUT_TEXT = "Number of Pieces";
   static final String GW_INPUT_TEXT = "Gross Weight";
   static final String NW_INPUT_TEXT = "Net Weight";

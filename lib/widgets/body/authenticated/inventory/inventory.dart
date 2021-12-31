@@ -44,7 +44,6 @@ class _InventoryState extends State<Inventory> {
                   controller: _scrollController,
                   child: BlocBuilder<ItemBloc, ItemState>(
                     builder: (BuildContext context, ItemState state) {
-                      print("Into Builder");
                       switch (state.status) {
                         case ItemStatus.INITIAL:
                           return const Center(

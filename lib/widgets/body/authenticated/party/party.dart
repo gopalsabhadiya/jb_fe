@@ -44,7 +44,6 @@ class _PartyState extends State<Party> with TickerProviderStateMixin {
                   controller: _scrollController,
                   child: BlocBuilder<PartyBloc, PartyState>(
                     builder: (BuildContext context, PartyState state) {
-                      print("Into buildeer");
                       switch (state.status) {
                         case PartyStatus.INITIAL:
                           return const Center(

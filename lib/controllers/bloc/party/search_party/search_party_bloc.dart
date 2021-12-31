@@ -61,7 +61,6 @@ class SearchPartyBloc extends Bloc<SearchPartyEvent, SearchPartyState>
 
   FutureOr<void> _onClearSearchTerm(
       ClearSearchPartyTerm event, Emitter<SearchPartyState> emit) {
-    print("Clearin search term");
     emit(
       state.copyWith(
         result: <PartyPresentation>[],
@@ -77,10 +76,9 @@ class SearchPartyBloc extends Bloc<SearchPartyEvent, SearchPartyState>
 
   @override
   void update({required PartyOperationNotification notification}) async {
-    print("Search next page: ${notification}");
     final searchResult = await searchPartyUseCase(
       searchTerm: state.searchTerm,
-      pageNumber: (state.result.length ~/ 20) + 1,
+      skip: state.result.length,
     );
     notifySubscriber(
       notification: SearchPartyCompleteNotification(

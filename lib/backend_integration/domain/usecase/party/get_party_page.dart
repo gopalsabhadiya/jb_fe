@@ -7,9 +7,8 @@ class GetPartyPageUseCase {
 
   GetPartyPageUseCase({required this.repository});
 
-  Future<List<PartyPresentation>> call({required int pageNumber}) async {
-    List<PartyEntity> partyEntityList =
-        await repository.getPartyPage(pageNumber);
+  Future<List<PartyPresentation>> call({int skip = 0}) async {
+    List<PartyEntity> partyEntityList = await repository.getPartyPage(skip);
     List<PartyPresentation> partyPresentationList =
         partyEntityList.map((party) => PartyPresentation(party)).toList();
     return partyPresentationList;

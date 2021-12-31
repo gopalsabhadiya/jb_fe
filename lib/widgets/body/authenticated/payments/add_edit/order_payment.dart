@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jb_fe/constants/colors.dart';
 import 'package:jb_fe/constants/texts/payment_text.dart';
-import 'package:jb_fe/widgets/common/inputs/button.dart';
+import 'package:jb_fe/widgets/common/buttons/button.dart';
 import 'package:jb_fe/widgets/common/inputs/text_field.dart';
 import 'package:jb_fe/widgets/common/key_value_display.dart';
 

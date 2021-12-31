@@ -59,7 +59,7 @@ class PartyBloc extends Bloc<PartyEvent, PartyState>
       ),
     );
     try {
-      final partyList = await getPartyPageUseCase(pageNumber: 1);
+      final partyList = await getPartyPageUseCase();
       emit(
         state.copyWith(
           status: PartyStatus.SUCCESS,
@@ -88,8 +88,7 @@ class PartyBloc extends Bloc<PartyEvent, PartyState>
       return null;
     }
 
-    final partyList = await getPartyPageUseCase(
-        pageNumber: (state.partyList.length ~/ 20) + 1);
+    final partyList = await getPartyPageUseCase(skip: state.partyList.length);
     emit(
       state.copyWith(
         hasReachedMax: partyList.length < 20,

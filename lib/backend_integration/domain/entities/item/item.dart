@@ -19,18 +19,18 @@ class ItemEntity extends Equatable {
     toJson: ignoreIfEmpty,
   )
   final String? id;
-  final int? itemId;
+  final String? itemId;
   final String category;
   final String type;
   final String name;
   final double grossWeight;
   final double netWeight;
   final double? carat;
-  final Labour? labour;
+  final LabourEntity? labour;
   final double? itemAmount;
   final double? netAmount;
   final int stockPieces;
-  final List<ItemExtra>? extras;
+  final List<ItemExtraEntity>? extras;
   final String? huid;
 
   const ItemEntity({
@@ -80,5 +80,10 @@ class ItemEntity extends Equatable {
         (party) => ItemEntity.fromJson(party),
       ),
     );
+  }
+
+  @override
+  String toString() {
+    return 'ItemEntity{id: $id, itemId: $itemId, category: $category, type: $type, name: $name, grossWeight: $grossWeight, netWeight: $netWeight, carat: $carat, labour: $labour, itemAmount: $itemAmount, netAmount: $netAmount, stockPieces: $stockPieces, extras: $extras, huid: $huid}';
   }
 }

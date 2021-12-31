@@ -23,14 +23,14 @@ class UpdatePartyBloc extends Bloc<UpdatePartyEvent, UpdatePartyState>
       UpdateParty event, Emitter<UpdatePartyState> emit) async {
     emit(
       const UpdatePartyState(
-        updateStatus: UpdatePartyStatus.LOADING,
+        status: UpdatePartyStatus.LOADING,
       ),
     );
     try {
       await updatePartyUseCase(party: event.party);
       emit(
         const UpdatePartyState(
-          updateStatus: UpdatePartyStatus.COMPLETED,
+          status: UpdatePartyStatus.COMPLETED,
         ),
       );
       notifySubscriber(
@@ -39,7 +39,11 @@ class UpdatePartyBloc extends Bloc<UpdatePartyEvent, UpdatePartyState>
         ),
       );
     } catch (e) {
-      emit(const UpdatePartyState(updateStatus: UpdatePartyStatus.ERROR,),);
+      emit(
+        const UpdatePartyState(
+          status: UpdatePartyStatus.ERROR,
+        ),
+      );
       return null;
     }
   }

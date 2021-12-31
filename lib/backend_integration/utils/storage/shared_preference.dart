@@ -5,7 +5,6 @@ class AppSharedPreference {
       SharedPreferences.getInstance();
 
   static void saveString({required String key, required String value}) async {
-    print("Saving: $key $value");
     (await _pref).setString(key, value);
   }
 

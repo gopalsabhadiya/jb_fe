@@ -6,12 +6,13 @@ part of 'labour.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Labour _$LabourFromJson(Map<String, dynamic> json) => Labour(
-      value: (json['value'] as num).toDouble(),
+LabourEntity _$LabourEntityFromJson(Map<String, dynamic> json) => LabourEntity(
+      value: (json['value'] as num?)?.toDouble(),
       type: json['type'] as String,
     );
 
-Map<String, dynamic> _$LabourToJson(Labour instance) => <String, dynamic>{
+Map<String, dynamic> _$LabourEntityToJson(LabourEntity instance) =>
+    <String, dynamic>{
       'value': instance.value,
       'type': instance.type,
     };

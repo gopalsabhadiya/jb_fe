@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jb_fe/controllers/bloc/authenticated_sidepanel.dart';
+import 'package:jb_fe/controllers/bloc/business/business_data_bloc.dart';
 import 'package:jb_fe/controllers/bloc/party/party_bloc/party_bloc.dart';
 import 'package:jb_fe/controllers/bloc/party/party_form_toggle/party_form_toggle_cubit.dart';
 import 'package:jb_fe/controllers/bloc/state/authenticated_sidepanel.dart';
@@ -34,51 +35,59 @@ class AppBodyAuthenticated extends StatelessWidget {
   }
 
   _getContentSection() {
-    return BlocBuilder<AuthenticatedSidePanelCubit,
-            AuthenticatedSidePanelState>(
+    return BlocProvider(
+      lazy: false,
+      create: (BuildContext context) => serviceLocator<BusinessDataBloc>()
+        ..add(
+          FetchBusinessData(),
+        ),
+      child:
+          BlocBuilder<AuthenticatedSidePanelCubit, AuthenticatedSidePanelState>(
         builder: (BuildContext context, AuthenticatedSidePanelState state) {
-      switch (state) {
-        case AuthenticatedSidePanelState.DASHBOARD:
-          return Column(
-            children: [
-              ScreenSizeUtil.getIsHamburgerNavbar(context)
-                  ? const HamburgerTopAuthenticatedNavbar()
-                  : const RegularTopAuthenticatedNavbar(),
-              const Dashboard(),
-            ],
-          );
-        case AuthenticatedSidePanelState.PARTY:
-          return const PartyPage();
-        case AuthenticatedSidePanelState.INVENTORY:
-          return const InventoryPage();
-        case AuthenticatedSidePanelState.ORDERS:
-          return Column(
-            children: [
-              ScreenSizeUtil.getIsHamburgerNavbar(context)
-                  ? const HamburgerTopAuthenticatedNavbar()
-                  : const RegularTopAuthenticatedNavbar(),
-              const Orders(),
-            ],
-          );
-        case AuthenticatedSidePanelState.PAYMENTS:
-          return Column(
-            children: [
-              ScreenSizeUtil.getIsHamburgerNavbar(context)
-                  ? const HamburgerTopAuthenticatedNavbar()
-                  : const RegularTopAuthenticatedNavbar(),
-              const Payments(),
-            ],
-          );
-        case AuthenticatedSidePanelState.SHOP_EXPENSES:
-          return Column(
-            children: [
-              ScreenSizeUtil.getIsHamburgerNavbar(context)
-                  ? const HamburgerTopAuthenticatedNavbar()
-                  : const RegularTopAuthenticatedNavbar(),
-              const ShopExpenses(),
-            ],
-          );
-      }
-    });
+          switch (state) {
+            case AuthenticatedSidePanelState.DASHBOARD:
+              return Column(
+                children: [
+                  ScreenSizeUtil.getIsHamburgerNavbar(context)
+                      ? const HamburgerTopAuthenticatedNavbar()
+                      : const RegularTopAuthenticatedNavbar(),
+                  const Dashboard(),
+                ],
+              );
+            case AuthenticatedSidePanelState.PARTY:
+              return const PartyPage();
+            case AuthenticatedSidePanelState.INVENTORY:
+              return const InventoryPage();
+            case AuthenticatedSidePanelState.ORDERS:
+              return Column(
+                children: [
+                  ScreenSizeUtil.getIsHamburgerNavbar(context)
+                      ? const HamburgerTopAuthenticatedNavbar()
+                      : const RegularTopAuthenticatedNavbar(),
+                  const Orders(),
+                ],
+              );
+            case AuthenticatedSidePanelState.PAYMENTS:
+              return Column(
+                children: [
+                  ScreenSizeUtil.getIsHamburgerNavbar(context)
+                      ? const HamburgerTopAuthenticatedNavbar()
+                      : const RegularTopAuthenticatedNavbar(),
+                  const Payments(),
+                ],
+              );
+            case AuthenticatedSidePanelState.SHOP_EXPENSES:
+              return Column(
+                children: [
+                  ScreenSizeUtil.getIsHamburgerNavbar(context)
+                      ? const HamburgerTopAuthenticatedNavbar()
+                      : const RegularTopAuthenticatedNavbar(),
+                  const ShopExpenses(),
+                ],
+              );
+          }
+        },
+      ),
+    );
   }
 }

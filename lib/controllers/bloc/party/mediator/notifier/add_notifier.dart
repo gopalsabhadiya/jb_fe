@@ -16,7 +16,6 @@ class AddPartyNotifier implements PartyOperationNotifier {
 
   @override
   void notifySubscriber({required PartyOperationNotification notification}) {
-    print("Notifying subscribers: ${_subscribers.length}");
     for (final subscriber in _subscribers) {
       subscriber.update(notification: notification);
     }

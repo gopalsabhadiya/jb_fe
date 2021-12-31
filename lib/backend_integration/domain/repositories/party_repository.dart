@@ -8,5 +8,5 @@ abstract class PartyRepository {
   Future<PartyEntity> addParty(PartyEntity party);
   Future<PartyEntity> updateParty(PartyEntity party);
   Future<void> deleteParty(String partyId);
-  Future<List<PartyEntity>> searchParty(String searchTerm, int pageNumber);
+  Future<List<PartyEntity>> searchParty(String searchTerm, int skip);
 }

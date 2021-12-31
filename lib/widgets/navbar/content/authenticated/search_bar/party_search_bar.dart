@@ -14,13 +14,10 @@ class PartySearchBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) {
-        print("Providing bloc");
+      create: (BuildContext context) {
         final SearchPartyBloc searchPartyBloc =
             serviceLocator<SearchPartyBloc>()
               ..subscribe(subscriber: BlocProvider.of<PartyBloc>(context));
-        print(
-            "PartyBlocState: ${BlocProvider.of<PartyBloc>(context).state.partyList.length}");
         BlocProvider.of<PartyBloc>(context)
             .subscribe(subscriber: searchPartyBloc);
         return searchPartyBloc;
@@ -43,21 +40,23 @@ class PartySearchBar extends StatelessWidget {
       //   );
       //   return searchPartyBloc;
       // },
-      child: Builder(builder: (context) {
-        return SizedBox(
-          width: 300,
-          child: AppSearchInput(
-            prefixIcon: Icons.account_circle,
-            hint: PartyText.SEARCH_PARTY_HINT,
-            tooltip: PartyText.SEARCH_PARTY_TOOLTIP,
-            onChanged: _onPartySearchChange,
-            searchSubmitHandler: (String value) {
-              _partySearchClickHandler(context, value);
-            },
-            clearSearchResult: () => _clearSearchTerm(context),
-          ),
-        );
-      }),
+      child: Builder(
+        builder: (BuildContext context) {
+          return SizedBox(
+            width: 300,
+            child: AppSearchInput(
+              prefixIcon: Icons.account_circle,
+              hint: PartyText.SEARCH_PARTY_HINT,
+              tooltip: PartyText.SEARCH_PARTY_TOOLTIP,
+              onChanged: _onPartySearchChange,
+              searchSubmitHandler: (String value) {
+                _partySearchClickHandler(context, value);
+              },
+              clearSearchResult: () => _clearSearchTerm(context),
+            ),
+          );
+        },
+      ),
     );
   }
 

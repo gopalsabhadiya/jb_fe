@@ -4,15 +4,21 @@ import 'package:json_annotation/json_annotation.dart';
 part 'labour.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class Labour extends Equatable {
-  final double value;
+class LabourEntity extends Equatable {
+  final double? value;
   final String type;
 
-  const Labour({required this.value, required this.type});
+  const LabourEntity({required this.value, required this.type});
 
-  factory Labour.fromJson(Map<String, dynamic> json) => _$LabourFromJson(json);
-  Map<String, dynamic> toJson() => _$LabourToJson(this);
+  factory LabourEntity.fromJson(Map<String, dynamic> json) =>
+      _$LabourEntityFromJson(json);
+  Map<String, dynamic> toJson() => _$LabourEntityToJson(this);
 
   @override
   List<Object?> get props => [value, type];
+
+  @override
+  String toString() {
+    return 'LabourEntity{value: $value, type: $type}';
+  }
 }

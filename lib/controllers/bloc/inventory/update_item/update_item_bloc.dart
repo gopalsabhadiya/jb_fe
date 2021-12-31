@@ -22,16 +22,17 @@ class UpdateItemBloc extends Bloc<UpdateItemEvent, UpdateItemState>
 
   FutureOr<void> _onUpdateItem(
       UpdateItem event, Emitter<UpdateItemState> emit) async {
+    print("Updating item");
     emit(
       const UpdateItemState(
-        updateStatus: UpdateItemStatus.LOADING,
+        status: UpdateItemStatus.LOADING,
       ),
     );
     try {
       await updateItemUseCase(item: event.item);
       emit(
         const UpdateItemState(
-          updateStatus: UpdateItemStatus.COMPLETED,
+          status: UpdateItemStatus.COMPLETED,
         ),
       );
       notifySubscriber(
@@ -40,9 +41,10 @@ class UpdateItemBloc extends Bloc<UpdateItemEvent, UpdateItemState>
         ),
       );
     } catch (e) {
+      print("Error");
       emit(
         const UpdateItemState(
-          updateStatus: UpdateItemStatus.ERROR,
+          status: UpdateItemStatus.ERROR,
         ),
       );
     }

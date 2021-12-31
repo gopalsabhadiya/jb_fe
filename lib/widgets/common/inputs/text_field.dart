@@ -17,20 +17,20 @@ class AppTextInput extends StatelessWidget {
   final Function(String) onChanged;
   final String? Function(String?)? validator;
 
-  const AppTextInput(
-      {Key? key,
-      required this.prefixIcon,
-      required this.hint,
-      required this.onChanged,
-      this.initialValue,
-      this.suffixIcon,
-      this.obscureText,
-      this.isNumberInput = false,
-      this.tooltip,
-      this.suffixIconClickHandler,
-      this.alternateSuffixIcon,
-      this.validator})
-      : super(key: key);
+  const AppTextInput({
+    Key? key,
+    required this.prefixIcon,
+    required this.hint,
+    required this.onChanged,
+    this.initialValue,
+    this.suffixIcon,
+    this.obscureText,
+    this.isNumberInput = false,
+    this.tooltip,
+    this.suffixIconClickHandler,
+    this.alternateSuffixIcon,
+    this.validator,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +43,7 @@ class AppTextInput extends StatelessWidget {
           message: tooltip ?? hint,
           textStyle: const TextStyle(fontSize: 14, color: AppColors.blue_1),
           padding: const EdgeInsets.all(5),
-          margin: EdgeInsets.all(10),
+          margin: const EdgeInsets.all(10),
           triggerMode: TooltipTriggerMode.longPress,
           enableFeedback: true,
           decoration: BoxDecoration(

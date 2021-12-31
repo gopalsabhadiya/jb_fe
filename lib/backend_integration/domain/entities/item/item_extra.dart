@@ -4,23 +4,28 @@ import 'package:json_annotation/json_annotation.dart';
 part 'item_extra.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class ItemExtra extends Equatable {
+class ItemExtraEntity extends Equatable {
   final double? rate;
-  final int pieces;
+  final int? pieces;
   final double? labourCharge;
-  final String type;
+  final String? type;
 
-  const ItemExtra({
+  const ItemExtraEntity({
     this.rate,
-    required this.pieces,
+    this.pieces,
     this.labourCharge,
-    required this.type,
+    this.type,
   });
 
-  factory ItemExtra.fromJson(Map<String, dynamic> json) =>
-      _$ItemExtraFromJson(json);
-  Map<String, dynamic> toJson() => _$ItemExtraToJson(this);
+  factory ItemExtraEntity.fromJson(Map<String, dynamic> json) =>
+      _$ItemExtraEntityFromJson(json);
+  Map<String, dynamic> toJson() => _$ItemExtraEntityToJson(this);
 
   @override
   List<Object?> get props => [rate, pieces, labourCharge, type];
+
+  @override
+  String toString() {
+    return 'ItemExtraEntity{rate: $rate, pieces: $pieces, labourCharge: $labourCharge, type: $type}';
+  }
 }

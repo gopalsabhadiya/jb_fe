@@ -2,8 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jb_fe/constants/texts/item_text.dart';
+import 'package:jb_fe/controllers/bloc/inventory/item_bloc/item_bloc.dart';
 import 'package:jb_fe/controllers/bloc/inventory/search_item/search_item_bloc.dart';
-import 'package:jb_fe/controllers/bloc/party/search_party/search_party_bloc.dart';
+import 'package:jb_fe/controllers/bloc/party/party_bloc/party_bloc.dart';
+import 'package:jb_fe/injection_container.dart';
 import 'package:jb_fe/widgets/common/inputs/search_input.dart';
 
 class ItemSearchBar extends StatelessWidget {
@@ -11,18 +13,29 @@ class ItemSearchBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 300,
-      child: AppSearchInput(
-        prefixIcon: Icons.inventory,
-        hint: ItemText.SEARCH_ITEM_HINT,
-        tooltip: ItemText.SEARCH_ITEM_TOOLTIP,
-        onChanged: _onInventorySearchChange,
-        searchSubmitHandler: (String value) {
-          _inventorySearchClickHandler(context, value);
-        },
-        clearSearchResult: () => _clearSearchTerm(context),
-      ),
+    return BlocProvider<SearchItemBloc>(
+      create: (BuildContext context) {
+        final SearchItemBloc searchItemBloc = serviceLocator<SearchItemBloc>()
+          ..subscribe(subscriber: BlocProvider.of<ItemBloc>(context));
+        BlocProvider.of<ItemBloc>(context)
+            .subscribe(subscriber: searchItemBloc);
+        return searchItemBloc;
+      },
+      child: Builder(builder: (BuildContext context) {
+        return SizedBox(
+          width: 300,
+          child: AppSearchInput(
+            prefixIcon: Icons.inventory,
+            hint: ItemText.SEARCH_ITEM_HINT,
+            tooltip: ItemText.SEARCH_ITEM_TOOLTIP,
+            onChanged: _onInventorySearchChange,
+            searchSubmitHandler: (String value) {
+              _inventorySearchClickHandler(context, value);
+            },
+            clearSearchResult: () => _clearSearchTerm(context),
+          ),
+        );
+      }),
     );
   }
 
@@ -34,7 +47,9 @@ class ItemSearchBar extends StatelessWidget {
     print("Inventory Search: $value");
   }
 
-  _inventorySearchClickHandler(BuildContext context, String searchText) {
-    print("Searching Items: $searchText");
+  _inventorySearchClickHandler(BuildContext context, String searchTerm) {
+    print("Add event");
+    BlocProvider.of<SearchItemBloc>(context)
+        .add(SearchItem(searchTerm: searchTerm));
   }
 }

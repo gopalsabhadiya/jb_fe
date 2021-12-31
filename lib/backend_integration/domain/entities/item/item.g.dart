@@ -8,7 +8,7 @@ part of 'item.dart';
 
 ItemEntity _$ItemEntityFromJson(Map<String, dynamic> json) => ItemEntity(
       id: json['_id'] as String?,
-      itemId: json['itemId'] as int?,
+      itemId: json['itemId'] as String?,
       category: json['category'] as String,
       type: json['type'] as String,
       name: json['name'] as String,
@@ -17,12 +17,12 @@ ItemEntity _$ItemEntityFromJson(Map<String, dynamic> json) => ItemEntity(
       carat: (json['carat'] as num?)?.toDouble(),
       labour: json['labour'] == null
           ? null
-          : Labour.fromJson(json['labour'] as Map<String, dynamic>),
+          : LabourEntity.fromJson(json['labour'] as Map<String, dynamic>),
       itemAmount: (json['itemAmount'] as num?)?.toDouble(),
       netAmount: (json['netAmount'] as num?)?.toDouble(),
       stockPieces: json['stockPieces'] as int,
       extras: (json['extras'] as List<dynamic>?)
-          ?.map((e) => ItemExtra.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => ItemExtraEntity.fromJson(e as Map<String, dynamic>))
           .toList(),
       huid: json['huid'] as String?,
     );

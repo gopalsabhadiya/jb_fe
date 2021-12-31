@@ -7,11 +7,10 @@ class GetItemPageUseCase {
 
   GetItemPageUseCase({required this.repository});
 
-  Future<List<ItemPresentation>> call({required int pageNumber}) async {
-    List<ItemEntity> itemEntityList = await repository.getItemPage(pageNumber);
+  Future<List<ItemPresentation>> call({int skip = 0}) async {
+    List<ItemEntity> itemEntityList = await repository.getItemPage(skip);
     List<ItemPresentation> itemPresentationList =
         itemEntityList.map((item) => ItemPresentation(item)).toList();
-    print("PartyPresentation: $itemPresentationList");
     return itemPresentationList;
   }
 }

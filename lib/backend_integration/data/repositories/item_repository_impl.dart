@@ -33,7 +33,7 @@ class ItemRepositoryImpl implements ItemRepository {
   }
 
   @override
-  Future<List<ItemEntity>> getItemPage(int pageNumber) async {
-    return await remoteDataSource.getItemPage(pageNumber);
+  Future<List<ItemEntity>> getItemPage(int skip) async {
+    return await remoteDataSource.getItemPage(skip);
   }
 }

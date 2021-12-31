@@ -7,6 +7,7 @@ import 'package:jb_fe/constants/typography/font_weight.dart';
 import 'package:jb_fe/controllers/bloc/inventory/update_item/update_item_bloc.dart';
 import 'package:jb_fe/widgets/calligraphy/app_text.dart';
 import 'package:jb_fe/widgets/common/buttons/icon_button.dart';
+import 'package:jb_fe/widgets/common/save_cancel_bar.dart';
 
 import 'item_form.dart';
 
@@ -35,38 +36,37 @@ class _EditItemState extends State<EditItem> {
       color: AppColors.grey_2,
       child: Column(
         mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Container(
-            color: AppColors.blue_5,
-            height: 50,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  AppIconButtonBuilder(Icons.arrow_back)
-                      .size(25)
-                      .onClickHandler(_cancelSave)
-                      .color(AppColors.grey_1)
-                      .build(),
-                  InkWell(
-                    onTap: _updateItem,
-                    child: AppTextBuilder("Save")
-                        .size(20)
-                        .weight(AppFontWeight.BOLD)
-                        .color(AppColors.grey_1)
-                        .paddingHorizontal(20)
-                        .build(),
-                  )
-                ],
-              ),
-            ),
+          SaveCancelBar(
+            cancelCallback: _cancelSave,
+            saveCallback: _updateItem,
           ),
-          Expanded(
-            child: ItemForm(
-              item: widget._item,
-            ),
+          BlocConsumer<UpdateItemBloc, UpdateItemState>(
+            listener: (BuildContext context, UpdateItemState state) {
+              if (state.status == UpdateItemStatus.COMPLETED) {
+                widget._closeDrawer();
+              }
+            },
+            builder: (BuildContext context, UpdateItemState state) {
+              switch (state.status) {
+                case UpdateItemStatus.LOADING:
+                  return const Center(child: CircularProgressIndicator());
+                case UpdateItemStatus.COMPLETED:
+                  return Expanded(
+                    child: Form(
+                      key: _formKey,
+                      child: ItemForm(
+                        item: widget._item,
+                      ),
+                    ),
+                  );
+                case UpdateItemStatus.ERROR:
+                  return AppTextBuilder("Opps Something went wrong").build();
+              }
+            },
           ),
+          Container(),
         ],
       ),
     );
@@ -74,7 +74,6 @@ class _EditItemState extends State<EditItem> {
 
   void _updateItem() {
     if (_formKey.currentState!.validate()) {
-      print("Updating party");
       BlocProvider.of<UpdateItemBloc>(context).add(UpdateItem(
         item: widget._item,
       ));

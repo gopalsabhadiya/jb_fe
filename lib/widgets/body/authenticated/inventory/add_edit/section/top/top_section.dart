@@ -1,14 +1,20 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:jb_fe/backend_integration/dto/item/item_presentation.dart';
 import 'package:jb_fe/constants/colors.dart';
 import 'package:jb_fe/constants/texts/item_text.dart';
 import 'package:jb_fe/widgets/calligraphy/app_text.dart';
-import 'package:jb_fe/widgets/common/inputs/button.dart';
+import 'package:jb_fe/widgets/common/buttons/button.dart';
 import 'package:jb_fe/widgets/common/inputs/checkbox.dart';
 
 class ItemInputTopSection extends StatelessWidget {
-  const ItemInputTopSection({Key? key}) : super(key: key);
+  final ItemPresentation _item;
+  const ItemInputTopSection({
+    Key? key,
+    required item,
+  })  : _item = item,
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {

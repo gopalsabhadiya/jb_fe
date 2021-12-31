@@ -29,6 +29,7 @@ class _AddItemState extends State<AddItem> {
 
   @override
   Widget build(BuildContext context) {
+    print("Buidling add item form: ${widget._item}");
     return Container(
       color: AppColors.grey_1,
       child: Column(

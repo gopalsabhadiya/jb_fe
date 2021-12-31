@@ -38,7 +38,6 @@ class PartyRemoteDataSourceImpl implements PartyRemoteDataSource {
         EndpointUri.getDeletePartyURL(partyId),
         headers: {"content-type": "application/json"},
       );
-      print("Party Deleted: ${response.statusCode}");
     } catch (e) {
       print("Exception");
     }
@@ -51,11 +50,9 @@ class PartyRemoteDataSourceImpl implements PartyRemoteDataSource {
   }
 
   @override
-  Future<List<PartyEntity>> searchParty(
-      String searchTerm, int pageNumber) async {
-    print("Search party API");
+  Future<List<PartyEntity>> searchParty(String searchTerm, int skip) async {
     final response = await _http.get(
-      EndpointUri.getSearchPartyURL(pageNumber, searchTerm),
+      EndpointUri.getSearchPartyURL(skip, searchTerm),
       headers: {
         "content-type": "application/json",
       },
@@ -79,9 +76,9 @@ class PartyRemoteDataSourceImpl implements PartyRemoteDataSource {
   }
 
   @override
-  Future<List<PartyEntity>> getPartyPage(int pageNumber) async {
+  Future<List<PartyEntity>> getPartyPage(int skip) async {
     final response = await _http.get(
-      EndpointUri.getPartyPage(pageNumber),
+      EndpointUri.getPartyPage(skip),
       headers: {
         "content-type": "application/json",
       },
