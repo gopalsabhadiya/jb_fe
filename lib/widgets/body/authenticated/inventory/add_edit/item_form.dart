@@ -24,7 +24,7 @@ class ItemForm extends StatelessWidget {
             borderRadius: BorderRadius.circular(5),
           ),
           child: Column(
-            mainAxisSize: MainAxisSize.max,
+            mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               ItemInputTopSection(item: _item),

@@ -14,8 +14,10 @@ import 'package:jb_fe/backend_integration/domain/usecase/party/get_party_page.da
 import 'package:jb_fe/backend_integration/domain/usecase/party/search_party.dart';
 import 'package:jb_fe/backend_integration/domain/usecase/party/update_party.dart';
 import 'package:jb_fe/controllers/bloc/business/business_data_bloc.dart';
+import 'package:jb_fe/controllers/bloc/common/binary/binary_cubit.dart';
 import 'package:jb_fe/controllers/bloc/inventory/item_bloc/item_bloc.dart';
 import 'package:jb_fe/controllers/bloc/inventory/item_form_toggle/item_form_toggle_cubit.dart';
+import 'package:jb_fe/controllers/bloc/inventory/pieces_enabler/pieces_enabler_cubit.dart';
 import 'package:jb_fe/controllers/bloc/party/new_party/add_party_bloc.dart';
 import 'package:jb_fe/controllers/bloc/party/party_form_toggle/party_form_toggle_cubit.dart';
 import 'package:jb_fe/controllers/bloc/party/search_party/search_party_bloc.dart';
@@ -38,6 +40,7 @@ final serviceLocator = GetIt.instance;
 
 void init() {
   //bloc
+
   //Business
   serviceLocator.registerFactory<BusinessDataBloc>(
     () => BusinessDataBloc(getBusinessDataUseCase: serviceLocator()),
@@ -101,6 +104,10 @@ void init() {
     () => AddItemBloc(
       createItemUseCase: serviceLocator(),
     ),
+  );
+
+  serviceLocator.registerFactory<PiecesEnablerCubit>(
+    () => PiecesEnablerCubit(),
   );
 
   //-----------------------------------------------------------------------------------------------------------------

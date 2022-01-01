@@ -72,7 +72,16 @@ class ItemPresentation {
         _newHuid = entity.huid,
         super();
 
-  ItemPresentation.empty() : super();
+  ItemPresentation.empty()
+      : _newCategory = DefaultTexts.EMPTY,
+        _newType = DefaultTexts.EMPTY,
+        _newHuid = DefaultTexts.EMPTY,
+        _newStockPieces = 1,
+        _newLabour = LabourPresentation.empty(),
+        _newExtras = [ItemExtraPresentation.empty()],
+        _newGrossWeight = 0,
+        _newNetWeight = 0,
+        super();
 
   String? get id => _id;
 
@@ -253,7 +262,13 @@ class ItemPresentation {
       netAmount: _netAmount,
       stockPieces: _stockPieces,
       extras: _extras != null
-          ? _extras!.map((extra) => extra.getEntity()).toList()
+          ? _extras!
+              .where((extra) =>
+                  extra.rate != null &&
+                  extra.pieces != null &&
+                  extra.labourCharge != null)
+              .map((extra) => extra.getEntity())
+              .toList()
           : null,
       huid: _huid,
     );

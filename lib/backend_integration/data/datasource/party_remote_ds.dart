@@ -66,7 +66,7 @@ class PartyRemoteDataSourceImpl implements PartyRemoteDataSource {
   @override
   Future<PartyEntity> updateParty(PartyEntity party) async {
     final response = await _http.put(
-      EndpointUri.getBaseParty(),
+      EndpointUri.getUpdatePartyURL(),
       body: jsonEncode(party.toJson()),
       headers: {
         "content-type": "application/json",

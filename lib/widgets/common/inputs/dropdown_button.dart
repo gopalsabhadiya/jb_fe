@@ -11,15 +11,17 @@ class AppDropDownButton extends StatefulWidget {
   final void Function(String) _onSetValue;
   final String _hint;
   final String? Function(String?) _validator;
+  final TextEditingController? _textEditingController;
 
   const AppDropDownButton({
     Key? key,
-    initialValue,
+    String? initialValue,
     required IconData prefixIcon,
     required List<String> items,
     required void Function(String) onSetValue,
     required String hint,
     required String? Function(String?) validator,
+    TextEditingController? textEditingController,
   })  : assert(items.length > 0),
         _initialValue = initialValue,
         _prefixIcon = prefixIcon,
@@ -27,6 +29,7 @@ class AppDropDownButton extends StatefulWidget {
         _onSetValue = onSetValue,
         _hint = hint,
         _validator = validator,
+        _textEditingController = textEditingController,
         super(key: key);
 
   @override
@@ -34,7 +37,7 @@ class AppDropDownButton extends StatefulWidget {
 }
 
 class _AppDropDownButtonState extends State<AppDropDownButton> {
-  final TextEditingController _textFieldController = TextEditingController();
+  late final TextEditingController _textFieldController;
   late int _selectedIndex;
 
   final FocusNode _focusNode = FocusNode();
@@ -45,7 +48,9 @@ class _AppDropDownButtonState extends State<AppDropDownButton> {
 
   @override
   void initState() {
-    if (widget._initialValue != null) {
+    _textFieldController =
+        widget._textEditingController ?? TextEditingController();
+    if (widget._initialValue != null || widget._initialValue!.isNotEmpty) {
       _selectedIndex = widget._items.indexOf(widget._initialValue!);
       _textFieldController.text = widget._initialValue!;
     } else {
@@ -62,16 +67,6 @@ class _AppDropDownButtonState extends State<AppDropDownButton> {
       }
     });
     super.initState();
-  }
-
-  @override
-  void didUpdateWidget(AppDropDownButton oldWidget) {
-    print("Updated widget: ${widget._initialValue}");
-    if (oldWidget._items != widget._items) {
-      _textFieldController.text = widget._initialValue!;
-    }
-
-    super.didUpdateWidget(oldWidget);
   }
 
   OverlayEntry _createOverlayEntry() {
@@ -104,8 +99,7 @@ class _AppDropDownButtonState extends State<AppDropDownButton> {
 
   @override
   Widget build(BuildContext context) {
-    print("Building: ${widget._initialValue}");
-    // _textFieldController.text = widget._initialValue;
+    print("Building dropdown for: ${widget._items} ${widget._initialValue}");
     return CompositedTransformTarget(
       link: _layerLink,
       child: TextFormField(

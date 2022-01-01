@@ -16,6 +16,7 @@ class AppTextInput extends StatelessWidget {
   final VoidCallback? suffixIconClickHandler;
   final Function(String) onChanged;
   final String? Function(String?)? validator;
+  final bool enabled;
 
   const AppTextInput({
     Key? key,
@@ -30,11 +31,13 @@ class AppTextInput extends StatelessWidget {
     this.suffixIconClickHandler,
     this.alternateSuffixIcon,
     this.validator,
+    this.enabled = true,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final key = GlobalKey<State<Tooltip>>();
+    print("Building input for: $hint");
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -65,11 +68,12 @@ class AppTextInput extends StatelessWidget {
             autovalidateMode: AutovalidateMode.onUserInteraction,
             decoration: InputDecoration(
               filled: true,
-              fillColor: AppColors.white,
+              fillColor: enabled ? AppColors.white : AppColors.grey_1,
               hoverColor: AppColors.blue_1,
               errorBorder: const OutlineInputBorder(
                 borderSide: BorderSide(color: AppColors.red_2, width: 4),
               ),
+              enabled: enabled,
               focusedErrorBorder: const OutlineInputBorder(
                 borderSide: BorderSide(color: AppColors.red_2, width: 1.5),
               ),
@@ -79,13 +83,18 @@ class AppTextInput extends StatelessWidget {
               enabledBorder: const OutlineInputBorder(
                 borderSide: BorderSide(color: AppColors.blue_5, width: 1.5),
               ),
+              disabledBorder: const OutlineInputBorder(
+                borderSide: BorderSide(color: AppColors.grey_3, width: 1.5),
+              ),
               hintStyle: const TextStyle(color: AppColors.grey_3, fontSize: 16),
               errorStyle: const TextStyle(fontSize: 0.001),
               prefixIcon: Padding(
                 padding: const EdgeInsets.all(10),
                 child: Icon(
                   prefixIcon,
-                  color: AppColors.blue5WithOpacity(0.7),
+                  color: enabled
+                      ? AppColors.blue5WithOpacity(0.7)
+                      : AppColors.grey4WithOpacity(0.7),
                   size: 25,
                 ),
               ),

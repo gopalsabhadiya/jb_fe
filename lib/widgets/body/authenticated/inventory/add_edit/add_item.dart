@@ -4,9 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jb_fe/backend_integration/dto/item/item_presentation.dart';
 import 'package:jb_fe/constants/colors.dart';
 import 'package:jb_fe/controllers/bloc/inventory/add_item/add_item_bloc.dart';
-import 'package:jb_fe/widgets/body/authenticated/inventory/add_edit/item_form.dart';
 import 'package:jb_fe/widgets/calligraphy/app_text.dart';
 import 'package:jb_fe/widgets/common/save_cancel_bar.dart';
+
+import 'item_form.dart';
 
 class AddItem extends StatefulWidget {
   final VoidCallback _closeDrawer;
@@ -29,15 +30,15 @@ class _AddItemState extends State<AddItem> {
 
   @override
   Widget build(BuildContext context) {
-    print("Buidling add item form: ${widget._item}");
     return Container(
-      color: AppColors.grey_1,
+      color: AppColors.grey_2,
       child: Column(
+        mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           SaveCancelBar(
             cancelCallback: _cancelSave,
-            saveCallback: _updateItem,
+            saveCallback: _addItem,
           ),
           BlocConsumer<AddItemBloc, AddItemState>(
             listener: (BuildContext context, AddItemState state) {
@@ -48,14 +49,14 @@ class _AddItemState extends State<AddItem> {
             builder: (BuildContext context, AddItemState state) {
               switch (state.status) {
                 case AddItemStatus.LOADING:
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
+                  return const Center(child: CircularProgressIndicator());
                 case AddItemStatus.COMPLETED:
-                  return Form(
-                    key: _formKey,
-                    child: ItemForm(
-                      item: widget._item,
+                  return Expanded(
+                    child: Form(
+                      key: _formKey,
+                      child: ItemForm(
+                        item: widget._item,
+                      ),
                     ),
                   );
                 case AddItemStatus.ERROR:
@@ -63,13 +64,13 @@ class _AddItemState extends State<AddItem> {
               }
             },
           ),
-          Container()
+          Container(),
         ],
       ),
     );
   }
 
-  void _updateItem() {
+  void _addItem() {
     if (_formKey.currentState!.validate()) {
       BlocProvider.of<AddItemBloc>(context).add(
         AddNewItem(

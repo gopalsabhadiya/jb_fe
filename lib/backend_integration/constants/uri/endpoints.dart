@@ -82,11 +82,11 @@ class EndpointUri {
         _DELETE_BUSINESS.replaceAll(_PATH_BUSINESS_ID, businessId));
   }
 
-  static Uri getGetItemCollectionURL() {
-    return Uri.parse(_ITEM_COLLECTION);
+  static Uri getBaseParty() {
+    return Uri.parse(_BASE_PARTY);
   }
 
-  static Uri getBaseParty() {
+  static Uri getUpdatePartyURL() {
     return Uri.parse(_BASE_PARTY);
   }
 
@@ -105,11 +105,11 @@ class EndpointUri {
         .replaceAll(_SEARCH_TERM, searchTerm));
   }
 
-  static Uri getBaseItemURL() {
+  static Uri getAddItemURL() {
     return Uri.parse(_BASE_ITEM);
   }
 
-  static Uri getAddItemURL() {
+  static Uri getUpdateItemURL() {
     return Uri.parse(_BASE_ITEM);
   }
 

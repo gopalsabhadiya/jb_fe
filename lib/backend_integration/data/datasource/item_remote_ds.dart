@@ -76,9 +76,16 @@ class ItemRemoteDataSourceImpl implements ItemRemoteDataSource {
   }
 
   @override
-  Future<ItemEntity> updateItem(ItemEntity item) {
+  Future<ItemEntity> updateItem(ItemEntity item) async {
     print("Update this item: $item");
-    // TODO: implement updateItem
-    throw UnimplementedError();
+    final response = await _http.put(
+      EndpointUri.getUpdateItemURL(),
+      body: jsonEncode(item.toJson()),
+      headers: {
+        "content-type": "application/json",
+      },
+    );
+    print("Update item response: ${response.body}");
+    return ItemEntity.fromJson(jsonDecode(response.body));
   }
 }

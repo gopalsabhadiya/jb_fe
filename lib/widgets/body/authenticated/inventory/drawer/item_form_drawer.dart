@@ -27,8 +27,6 @@ class _ItemFormDrawerState extends State<ItemFormDrawer>
 
   @override
   void initState() {
-    super.initState();
-
     animationController = AnimationController(
       vsync: this,
       duration: AnimationDuration.SHORT,
@@ -41,6 +39,7 @@ class _ItemFormDrawerState extends State<ItemFormDrawer>
         curve: Curves.easeOut,
       ),
     );
+    super.initState();
   }
 
   @override
@@ -94,11 +93,11 @@ class _ItemFormDrawerState extends State<ItemFormDrawer>
 
   void _closeDrawer() {
     animationController.reverse();
+    BlocProvider.of<ItemFormToggleCubit>(context).closeDrawer();
   }
 
   _cancelUpdate() {
     _closeDrawer();
-    BlocProvider.of<ItemFormToggleCubit>(context).closeDrawer();
   }
 
   @override

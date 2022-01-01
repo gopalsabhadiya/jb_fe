@@ -89,6 +89,7 @@ class _ItemInputExtrasSectionState extends State<ItemInputExtrasSection> {
   }
 
   _getExtraItemForm() {
+    print("Returnin Extra items: ${widget._item.newExtras}");
     final extrasForms = <Widget>[];
     for (ItemExtraPresentation extra in widget._item.newExtras!) {
       extrasForms.add(
@@ -104,11 +105,13 @@ class _ItemInputExtrasSectionState extends State<ItemInputExtrasSection> {
   }
 
   void _onAddExtra() {
+    print("Add Extra called");
     widget._item.addNewExtra();
     setState(() {});
   }
 
   void _onRemoveExtra(String uuid) {
+    print("Remove Extra called");
     widget._item.removeNewExtra(uuid);
     setState(() {});
   }

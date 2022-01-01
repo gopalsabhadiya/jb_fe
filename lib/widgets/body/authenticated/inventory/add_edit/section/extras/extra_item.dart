@@ -25,6 +25,7 @@ class ExtraItemForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("Building extra item");
     return Padding(
       padding: const EdgeInsets.only(bottom: 15, top: 5, right: 5, left: 5),
       child: Container(
@@ -46,10 +47,12 @@ class ExtraItemForm extends StatelessWidget {
             children: [
               Expanded(
                 child: Column(
-                  mainAxisSize: MainAxisSize.max,
                   children: [
                     AppDropDownButton(
-                      initialValue: _extra.newType,
+                      initialValue:
+                          _extra.newType != null && _extra.newType!.isNotEmpty
+                              ? _extra.newType
+                              : "Diamond",
                       items: _extraTypes,
                       prefixIcon: AppIcons.crystal,
                       onSetValue: _extra.setNewType,
@@ -76,7 +79,6 @@ class ExtraItemForm extends StatelessWidget {
               ),
               Expanded(
                 child: Column(
-                  mainAxisSize: MainAxisSize.max,
                   children: [
                     AppTextInput(
                         initialValue: _extra.newLabourCharge != null

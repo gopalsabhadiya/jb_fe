@@ -25,17 +25,23 @@ class CategoryTypeSelector extends StatefulWidget {
 class _CategoryTypeSelectorState extends State<CategoryTypeSelector> {
   late String _category;
   late String _type;
+  late TextEditingController _typeEditingController;
 
   @override
   void initState() {
-    _category = widget._item.newCategory;
-    _type = widget._item.newType;
+    print("Category type: ");
+    _typeEditingController = TextEditingController();
+    _category = widget._item.newCategory.isNotEmpty
+        ? widget._item.newCategory
+        : widget._itemCollection.keys.first;
+    _type = widget._item.newType.isNotEmpty
+        ? widget._item.newType
+        : widget._itemCollection[_category]!.first;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    print("Building category type");
     return Row(
       children: [
         Expanded(
@@ -59,6 +65,7 @@ class _CategoryTypeSelectorState extends State<CategoryTypeSelector> {
             onSetValue: _setType,
             hint: ItemText.TYPE_INPUT_TEXT,
             validator: widget._item.newTypeValidator,
+            textEditingController: _typeEditingController,
           ),
         ),
       ],
@@ -80,22 +87,20 @@ class _CategoryTypeSelectorState extends State<CategoryTypeSelector> {
   }
 
   void _setCategory(String? category) {
-    print("Setting category");
+    print("SetCategory: $category");
     if (category != null) {
-      print("Setting state category");
       setState(() {
         _category = category;
         _type = widget._itemCollection[category]!.first;
       });
-      print("Set state category complete");
+      _typeEditingController.text = _type;
       widget._item.setNewCategory(_category);
       widget._item.setNewType(_type);
-      print("Setting new type and category");
     }
   }
 
   void _setType(String? type) {
-    print("Setting type");
+    print("SetType: $type");
     if (type != null) {
       widget._item.setNewType(type);
       setState(() {

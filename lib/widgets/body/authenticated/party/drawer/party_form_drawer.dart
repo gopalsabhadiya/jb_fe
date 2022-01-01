@@ -28,8 +28,6 @@ class _PartyFormDrawerState extends State<PartyFormDrawer>
 
   @override
   void initState() {
-    super.initState();
-
     animationController = AnimationController(
       vsync: this,
       duration: AnimationDuration.SHORT,
@@ -42,6 +40,7 @@ class _PartyFormDrawerState extends State<PartyFormDrawer>
         curve: Curves.easeOut,
       ),
     );
+    super.initState();
   }
 
   @override

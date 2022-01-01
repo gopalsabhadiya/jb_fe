@@ -10,11 +10,15 @@ class ItemFormToggleCubit extends Cubit<ItemFormToggleState> {
           const ItemFormToggleState(),
         );
 
-  void openDrawer({required ToggleForItem toggleForItem}) => emit(
-        ItemFormToggleState(
-          toggleForItem: toggleForItem,
-        ),
-      );
+  void openDrawer({required ToggleForItem toggleForItem}) {
+    print("OpenDrawerRequested: ${DateTime.now().millisecondsSinceEpoch}");
+    emit(
+      ItemFormToggleState(
+        toggleForItem: toggleForItem,
+      ),
+    );
+  }
+
   void closeDrawer() => emit(
         const ItemFormToggleState(
           toggleForItem: DoNotToggle(),
