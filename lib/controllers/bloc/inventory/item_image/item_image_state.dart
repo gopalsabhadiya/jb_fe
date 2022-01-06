@@ -9,23 +9,23 @@ enum ItemImageStatus {
 
 class ItemImageState extends Equatable {
   final ItemImageStatus status;
-  final List<Uint8List> imageList;
+  final Map<String, Uint8List> imageMap;
 
   const ItemImageState({
     this.status = ItemImageStatus.LOADING,
-    this.imageList = const <Uint8List>[],
+    this.imageMap = const <String, Uint8List>{},
   });
 
   ItemImageState copyWith({
     ItemImageStatus? status,
-    List<Uint8List>? imageList,
+    Map<String, Uint8List>? imageMap,
   }) {
     return ItemImageState(
       status: status ?? this.status,
-      imageList: imageList ?? this.imageList,
+      imageMap: imageMap ?? this.imageMap,
     );
   }
 
   @override
-  List<Object> get props => [status, imageList];
+  List<Object> get props => [status, imageMap];
 }

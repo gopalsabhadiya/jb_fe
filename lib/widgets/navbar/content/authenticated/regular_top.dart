@@ -12,9 +12,6 @@ import 'package:jb_fe/widgets/navbar/content/authenticated/add_button/add_item_b
 import 'package:jb_fe/widgets/navbar/content/authenticated/add_button/add_order_button.dart';
 import 'package:jb_fe/widgets/navbar/content/authenticated/add_button/add_party_button.dart';
 import 'package:jb_fe/widgets/navbar/content/authenticated/add_button/add_payment_button.dart';
-import 'package:jb_fe/widgets/navbar/content/authenticated/filter_button/filter_item_button.dart';
-import 'package:jb_fe/widgets/navbar/content/authenticated/filter_button/filter_order_button.dart';
-import 'package:jb_fe/widgets/navbar/content/authenticated/filter_button/filter_party_button.dart';
 import 'package:jb_fe/widgets/navbar/content/authenticated/search_bar/item_seearch_bar.dart';
 import 'package:jb_fe/widgets/navbar/content/authenticated/search_bar/order_search_bar.dart';
 import 'package:jb_fe/widgets/navbar/content/authenticated/search_bar/party_search_bar.dart';
@@ -115,25 +112,25 @@ class RegularTopAuthenticatedNavbar extends StatelessWidget {
       case AuthenticatedSidePanelState.PARTY:
         return [
           const PartySearchBar(),
-          const FilterPartyButton(),
+          // const FilterPartyButton(),
           const AddPartyButton()
         ];
       case AuthenticatedSidePanelState.INVENTORY:
         return [
           const ItemSearchBar(),
-          const FilterItemButton(),
+          // const FilterItemButton(),
           const AddItemButton()
         ];
       case AuthenticatedSidePanelState.ORDERS:
         return [
           const OrderSearchBar(),
-          const FilterOrderButton(),
+          // const FilterOrderButton(),
           const AddOrderButton()
         ];
       case AuthenticatedSidePanelState.PAYMENTS:
         return [
           const PartySearchBar(),
-          const FilterPartyButton(),
+          // const FilterPartyButton(),
           const AddPaymentButton()
         ];
       case AuthenticatedSidePanelState.SHOP_EXPENSES:

@@ -11,7 +11,7 @@ class ItemImageContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ItemImageBloc, ItemImageState>(
-      builder: (context, state) {
+      builder: (BuildContext context, ItemImageState state) {
         switch (state.status) {
           case ItemImageStatus.LOADING:
             return SizedBox(
@@ -32,7 +32,7 @@ class ItemImageContent extends StatelessWidget {
             return SizedBox(
               width: 250,
               height: 250,
-              child: Image.memory(state.imageList.first),
+              child: Image.memory(state.imageMap.values.first),
             );
           case ItemImageStatus.SUCCESS_WITH_NO_IMAGES:
             return const SizedBox(

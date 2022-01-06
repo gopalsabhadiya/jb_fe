@@ -27,18 +27,19 @@ class ItemCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       constraints: const BoxConstraints(
-          minWidth: 250, minHeight: 350, maxWidth: 250, maxHeight: 350),
+          minWidth: 250, minHeight: 340, maxWidth: 250, maxHeight: 340),
       decoration: BoxDecoration(
-          color: AppColors.white,
-          borderRadius: BorderRadius.circular(5),
-          boxShadow: const [
-            BoxShadow(
-                offset: Offset(2, 2),
-                color: AppColors.grey_3, //edited
-                spreadRadius: 1,
-                blurRadius: 5 //edited
-                )
-          ]),
+        color: AppColors.blue_1,
+        borderRadius: BorderRadius.circular(5),
+        // boxShadow: const [
+        //   BoxShadow(
+        //       offset: Offset(2, 2),
+        //       color: AppColors.grey_3, //edited
+        //       spreadRadius: 1,
+        //       blurRadius: 5 //edited
+        //       )
+        // ],
+      ),
       child: BlocProvider<ItemImageBloc>(
         lazy: false,
         create: (BuildContext context) => serviceLocator<ItemImageBloc>()

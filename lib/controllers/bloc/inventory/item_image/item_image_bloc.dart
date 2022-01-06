@@ -20,13 +20,12 @@ class ItemImageBloc extends Bloc<ItemImageEvent, ItemImageState> {
       FetchImages event, Emitter<ItemImageState> emit) async {
     try {
       if (event.item.hasImages) {
-        final List<Uint8List> imageList =
+        final Map<String, Uint8List> imageMap =
             await fetchItemImagesUseCase(itemId: event.item.id!);
-        print("Success with images: ${imageList.length} ${event.item.id}");
         emit(
           state.copyWith(
             status: ItemImageStatus.SUCCESS_WITH_IMAGES,
-            imageList: imageList,
+            imageMap: imageMap,
           ),
         );
       } else {

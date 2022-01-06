@@ -7,6 +7,8 @@ import 'package:jb_fe/backend_integration/dto/login.dart';
 import 'package:jb_fe/backend_integration/dto/responses/auth_response.dart';
 import 'package:jb_fe/backend_integration/utils/storage/shared_preference.dart';
 
+import '../../injection_container.dart';
+
 class AuthenticationAPI {
   static final AuthenticationAPI _singleton = AuthenticationAPI._internal();
   factory AuthenticationAPI() {
@@ -23,7 +25,8 @@ class AuthenticationAPI {
   }
 
   Future<bool> validateAuthentication() async {
-    final String csrfToken = await AppSharedPreference.getString(key: "csrf");
+    final String csrfToken =
+        await serviceLocator<AppSharedPreference>().getString(key: "csrf");
     if (csrfToken.isNotEmpty) {
       AuthResponse authResponse = AuthResponse(csrfToken, false);
       final response = await _http.post(

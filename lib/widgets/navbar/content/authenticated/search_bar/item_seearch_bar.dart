@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jb_fe/constants/texts/item_text.dart';
 import 'package:jb_fe/controllers/bloc/inventory/item_bloc/item_bloc.dart';
 import 'package:jb_fe/controllers/bloc/inventory/search_item/search_item_bloc.dart';
-import 'package:jb_fe/controllers/bloc/party/party_bloc/party_bloc.dart';
 import 'package:jb_fe/injection_container.dart';
 import 'package:jb_fe/widgets/common/inputs/search_input.dart';
 

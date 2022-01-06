@@ -7,9 +7,9 @@ class FetchItemImagesUseCase {
 
   FetchItemImagesUseCase({required this.repository});
 
-  Future<List<Uint8List>> call({required String itemId}) async {
-    return await repository.downloadImages(itemId);
-
-    throw UnimplementedError();
+  Future<Map<String, Uint8List>> call({required String itemId}) async {
+    final Map<String, Uint8List> images =
+        await repository.downloadImages(itemId);
+    return images;
   }
 }

@@ -1,10 +1,5 @@
 import 'dart:convert';
-import 'dart:typed_data';
 
-//import 'package:http_parser/http_parser.dart';
-import 'package:archive/archive.dart';
-import 'package:file_picker/file_picker.dart';
-import 'package:http/http.dart' as http;
 import 'package:jb_fe/backend_integration/client/http_client.dart';
 import 'package:jb_fe/backend_integration/constants/uri/endpoints.dart';
 import 'package:jb_fe/backend_integration/domain/entities/item/item.dart';
@@ -16,8 +11,8 @@ abstract class ItemRemoteDataSource {
   Future<ItemEntity> updateItem(ItemEntity item);
   Future<void> deleteItem(String itemId);
   Future<List<ItemEntity>> searchItem(String searchTerm, int skip);
-  Future<bool> uploadImages(List<PlatformFile> images, String itemId);
-  Future<List<Uint8List>> downloadImages(String itemId);
+  Future<bool> uploadImages(Map<String, String> images, String itemId);
+  Future<Map<String, String>> downloadImages(String itemId);
 }
 
 class ItemRemoteDataSourceImpl implements ItemRemoteDataSource {
@@ -94,36 +89,22 @@ class ItemRemoteDataSourceImpl implements ItemRemoteDataSource {
   }
 
   @override
-  Future<bool> uploadImages(List<PlatformFile> images, String itemId) async {
+  Future<bool> uploadImages(Map<String, String> images, String itemId) async {
     final response = await _http.get(
       EndpointUri.getUploadImageSignedItemURL(itemId),
       headers: {
         "content-type": "application/json",
       },
     );
-    try {
-      var myString = 'myString';
-      print(myString);
 
-      var stringBytes = utf8.encode(myString);
-      var gzipBytes = GZipEncoder().encode(stringBytes);
-      print(gzipBytes);
-
-      var compressedString = base64.encode(gzipBytes!);
-      print(compressedString);
-    } catch (e) {
-      print("EX: $e");
-    }
+    // Map<String, String> imageMap = {
+    //   for (PlatformFile image in images)
+    //     image.name: base64.encode(GZipEncoder().encode(image.bytes!.toList())!)
+    // };
 
     final uploadResponse = await _http.put(
       Uri.parse(json.decode(response.body)["url"]),
-      body: json.encode(
-        images
-            .map(
-              (e) => base64.encode(GZipEncoder().encode(e.bytes!.toList())!),
-            )
-            .toList(),
-      ),
+      body: json.encode(images),
     );
     return uploadResponse.statusCode == 200;
   }
@@ -177,7 +158,7 @@ class ItemRemoteDataSourceImpl implements ItemRemoteDataSource {
   // }
 
   @override
-  Future<List<Uint8List>> downloadImages(String itemId) async {
+  Future<Map<String, String>> downloadImages(String itemId) async {
     final response = await _http.get(
       EndpointUri.getDownloadImageSignedItemURL(itemId),
     );
@@ -188,19 +169,21 @@ class ItemRemoteDataSourceImpl implements ItemRemoteDataSource {
       },
     );
 
+    // print("DownloadResponse: ${downloadResponse.statusCode}");
 
-    print("DownloadResponse: ${downloadResponse.statusCode}");
+    // print("Json type: ${downloadResponse.body}");
 
-    print("Json type: ${downloadResponse.body}");
     // base64.encode(GZipEncoder().encode(e.bytes!.toList())!)
 
-    List<Uint8List> imageList = <Uint8List>[];
-    for (String imageString in json.decode(downloadResponse.body)) {
+    Map<String, String> imageMap = <String, String>{};
+    for (MapEntry imageEntry
+        in (json.decode(downloadResponse.body) as Map).entries) {
       // List<int> intMappedList = image.map((e) => e as int).toList();
-      Uint8List imageUint = Uint8List.fromList(GZipDecoder().decodeBytes(base64.decode(imageString)));
-      imageList.add(imageUint);
+      // imageMap[imageEntry.key] = Uint8List.fromList(
+      //     GZipDecoder().decodeBytes(base64.decode(imageEntry.value)));
+      imageMap[imageEntry.key] = imageEntry.value;
     }
-    return imageList;
+    return imageMap;
   }
 
   // @override

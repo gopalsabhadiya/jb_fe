@@ -11,5 +11,5 @@ abstract class ItemRepository {
   Future<void> deleteItem(String itemId);
   Future<List<ItemEntity>> searchItem(String searchTerm, int pageNumber);
   Future<bool> uploadImages(List<PlatformFile> images, String itemId);
-  Future<List<Uint8List>> downloadImages(String itemId);
+  Future<Map<String, Uint8List>> downloadImages(String itemId);
 }

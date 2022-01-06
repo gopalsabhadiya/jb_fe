@@ -14,6 +14,7 @@ import 'package:jb_fe/backend_integration/domain/usecase/party/delete_party.dart
 import 'package:jb_fe/backend_integration/domain/usecase/party/get_party_page.dart';
 import 'package:jb_fe/backend_integration/domain/usecase/party/search_party.dart';
 import 'package:jb_fe/backend_integration/domain/usecase/party/update_party.dart';
+import 'package:jb_fe/backend_integration/utils/storage/shared_preference.dart';
 import 'package:jb_fe/controllers/bloc/business/business_data_bloc.dart';
 import 'package:jb_fe/controllers/bloc/inventory/form_build_status/form_build_cubit.dart';
 import 'package:jb_fe/controllers/bloc/inventory/item_bloc/item_bloc.dart';
@@ -214,5 +215,10 @@ void init() {
   );
   serviceLocator.registerLazySingleton<ItemRemoteDataSource>(
     () => ItemRemoteDataSourceImpl(),
+  );
+
+  //Other
+  serviceLocator.registerLazySingleton(
+    () => AppSharedPreference(),
   );
 }
