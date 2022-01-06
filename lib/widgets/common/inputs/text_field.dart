@@ -37,7 +37,6 @@ class AppTextInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final key = GlobalKey<State<Tooltip>>();
-    print("Building input for: $hint");
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[

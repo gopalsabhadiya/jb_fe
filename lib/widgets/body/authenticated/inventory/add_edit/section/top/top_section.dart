@@ -1,4 +1,7 @@
+import 'dart:ui';
+
 import 'package:dotted_border/dotted_border.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jb_fe/backend_integration/dto/item/item_presentation.dart';
@@ -8,7 +11,7 @@ import 'package:jb_fe/widgets/calligraphy/app_text.dart';
 import 'package:jb_fe/widgets/common/buttons/button.dart';
 import 'package:jb_fe/widgets/common/inputs/checkbox.dart';
 
-class ItemInputTopSection extends StatelessWidget {
+class ItemInputTopSection extends StatefulWidget {
   final ItemPresentation _item;
   const ItemInputTopSection({
     Key? key,
@@ -16,6 +19,11 @@ class ItemInputTopSection extends StatelessWidget {
   })  : _item = item,
         super(key: key);
 
+  @override
+  State<ItemInputTopSection> createState() => _ItemInputTopSectionState();
+}
+
+class _ItemInputTopSectionState extends State<ItemInputTopSection> {
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -35,12 +43,12 @@ class ItemInputTopSection extends StatelessWidget {
                 children: [
                   AppButton(
                     hint: ItemText.SELECT_IMAGE_INPUT_TEXT,
-                    onClick: _onButtonClick,
+                    onClick: _onSelectImageClick,
                     colorScheme: ButtonColorScheme.BLUE,
                   ),
                   AppButton(
                     hint: ItemText.CLEAR_IMAGES_INPUT_TEXT,
-                    onClick: _onButtonClick,
+                    onClick: _onClearImageClick,
                     colorScheme: ButtonColorScheme.RED,
                   ),
                 ],
@@ -49,7 +57,9 @@ class ItemInputTopSection extends StatelessWidget {
                 padding: const EdgeInsets.only(left: 30),
                 child: Opacity(
                   opacity: 0.5,
-                  child: DottedBorder(
+                  child: InkWell(
+                    onTap: _onSelectImageClick,
+                    child: DottedBorder(
                       dashPattern: const [4, 3],
                       strokeWidth: 2,
                       strokeCap: StrokeCap.butt,
@@ -71,34 +81,66 @@ class ItemInputTopSection extends StatelessWidget {
                               size: 65,
                               color: AppColors.blue_5,
                             ),
-                            AppTextBuilder("Drop Image Here")
+                            AppTextBuilder("Select Images")
                                 .size(20)
                                 .color(AppColors.blue_5)
                                 .build()
                           ],
                         ),
-                      )),
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ],
           ),
         ),
         Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            AppTextBuilder("Ring.jpg").color(AppColors.blue_5).size(16).build(),
-            AppTextBuilder("Chain.jpg")
-                .color(AppColors.blue_5)
-                .size(16)
-                .build(),
-          ],
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: _getImages(),
         )
       ],
     );
   }
 
-  void _onButtonClick() {
-    print("Button clicked");
+  List<Widget> _getImages() {
+    List<Widget> imageNames = <Widget>[];
+    if (widget._item.newImages != null) {
+      for (final PlatformFile imageFile in widget._item.newImages!) {
+        imageNames.add(AppTextBuilder(imageFile.name)
+            .color(AppColors.blue_5)
+            .size(16)
+            .build());
+      }
+    }
+    return imageNames;
+  }
+
+  void _onSelectImageClick() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['jpg', 'png', 'jpeg'],
+      allowMultiple: true,
+    );
+    if (result != null) {
+      for (var element in result.files) {
+        if (!widget._item.addNewImage(element)) {
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: AppColors.red_2,
+            content: Text("Maximum 4 images are allowed"),
+          ));
+          break;
+        } else {
+          setState(() {});
+        }
+      }
+    }
+  }
+
+  void _onClearImageClick() {
+    widget._item.clearNewImages();
+    setState(() {});
   }
 
   _onPublicPrivateChange(bool newValue) {

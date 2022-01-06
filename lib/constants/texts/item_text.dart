@@ -1,4 +1,8 @@
 class ItemText {
+  static final String DELETE_ITEM_ALERT_HEADER = "Delete Item";
+  static final String DELETE_ITEM_ALERT_MESSAGE =
+      "Are you sure you want to delete: ";
+
   static final String SEARCH_ITEM_HINT = "Search Item Here";
   static final String SEARCH_ITEM_TOOLTIP =
       "You can search item by: Name,Id, HUID";

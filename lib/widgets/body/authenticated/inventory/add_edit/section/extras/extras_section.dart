@@ -27,6 +27,13 @@ class _ItemInputExtrasSectionState extends State<ItemInputExtrasSection> {
   final ScrollController controller = ScrollController();
 
   @override
+  void initState() {
+    WidgetsBinding.instance!.addPostFrameCallback((_) => print(
+        "Extras section built: ${DateTime.now().millisecondsSinceEpoch}"));
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Expanded(
       child: Container(
@@ -89,7 +96,6 @@ class _ItemInputExtrasSectionState extends State<ItemInputExtrasSection> {
   }
 
   _getExtraItemForm() {
-    print("Returnin Extra items: ${widget._item.newExtras}");
     final extrasForms = <Widget>[];
     for (ItemExtraPresentation extra in widget._item.newExtras!) {
       extrasForms.add(

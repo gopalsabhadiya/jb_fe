@@ -30,6 +30,11 @@ class LabourPresentation {
         _newType = ItemText.LABOUR_TYPE_LIST.first,
         super();
 
+  void updateValues() {
+    _type = _newType;
+    _value = _newValue;
+  }
+
   double? get value => _value;
 
   double? get newValue => _newValue;

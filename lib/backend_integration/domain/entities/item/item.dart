@@ -32,6 +32,7 @@ class ItemEntity extends Equatable {
   final int stockPieces;
   final List<ItemExtraEntity>? extras;
   final String? huid;
+  final bool hasImages;
 
   const ItemEntity({
     this.id,
@@ -48,6 +49,7 @@ class ItemEntity extends Equatable {
     required this.stockPieces,
     this.extras,
     this.huid,
+    required this.hasImages,
   });
 
   @override
@@ -65,6 +67,7 @@ class ItemEntity extends Equatable {
         stockPieces,
         extras,
         huid,
+        hasImages,
       ];
 
   factory ItemEntity.fromJson(Map<String, dynamic> json) =>
@@ -84,6 +87,6 @@ class ItemEntity extends Equatable {
 
   @override
   String toString() {
-    return 'ItemEntity{id: $id, itemId: $itemId, category: $category, type: $type, name: $name, grossWeight: $grossWeight, netWeight: $netWeight, carat: $carat, labour: $labour, itemAmount: $itemAmount, netAmount: $netAmount, stockPieces: $stockPieces, extras: $extras, huid: $huid}';
+    return 'ItemEntity{id: $id, itemId: $itemId, category: $category, type: $type, name: $name, grossWeight: $grossWeight, netWeight: $netWeight, carat: $carat, labour: $labour, itemAmount: $itemAmount, netAmount: $netAmount, stockPieces: $stockPieces, extras: $extras, huid: $huid, hasImages: $hasImages}';
   }
 }

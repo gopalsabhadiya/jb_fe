@@ -1,12 +1,13 @@
 import 'package:get_it/get_it.dart';
-import 'package:jb_fe/backend_integration/data/datasource/business_remote_ds.dart';
-import 'package:jb_fe/backend_integration/data/datasource/item_remote_ds.dart';
-import 'package:jb_fe/backend_integration/data/datasource/party_remote_ds.dart';
+import 'package:jb_fe/backend_integration/data/datasource/remote/business_remote_ds.dart';
+import 'package:jb_fe/backend_integration/data/datasource/remote/item_remote_ds.dart';
+import 'package:jb_fe/backend_integration/data/datasource/remote/party_remote_ds.dart';
 import 'package:jb_fe/backend_integration/data/repositories/business_repository_impl.dart';
 import 'package:jb_fe/backend_integration/data/repositories/item_repository_impl.dart';
 import 'package:jb_fe/backend_integration/data/repositories/party_repository_impl.dart';
 import 'package:jb_fe/backend_integration/domain/repositories/party_repository.dart';
 import 'package:jb_fe/backend_integration/domain/usecase/business/get_business_data.dart';
+import 'package:jb_fe/backend_integration/domain/usecase/inventory/fetch_item_images.dart';
 import 'package:jb_fe/backend_integration/domain/usecase/inventory/get_item_page.dart';
 import 'package:jb_fe/backend_integration/domain/usecase/party/create_party.dart';
 import 'package:jb_fe/backend_integration/domain/usecase/party/delete_party.dart';
@@ -14,9 +15,10 @@ import 'package:jb_fe/backend_integration/domain/usecase/party/get_party_page.da
 import 'package:jb_fe/backend_integration/domain/usecase/party/search_party.dart';
 import 'package:jb_fe/backend_integration/domain/usecase/party/update_party.dart';
 import 'package:jb_fe/controllers/bloc/business/business_data_bloc.dart';
-import 'package:jb_fe/controllers/bloc/common/binary/binary_cubit.dart';
+import 'package:jb_fe/controllers/bloc/inventory/form_build_status/form_build_cubit.dart';
 import 'package:jb_fe/controllers/bloc/inventory/item_bloc/item_bloc.dart';
 import 'package:jb_fe/controllers/bloc/inventory/item_form_toggle/item_form_toggle_cubit.dart';
+import 'package:jb_fe/controllers/bloc/inventory/item_image/item_image_bloc.dart';
 import 'package:jb_fe/controllers/bloc/inventory/pieces_enabler/pieces_enabler_cubit.dart';
 import 'package:jb_fe/controllers/bloc/party/new_party/add_party_bloc.dart';
 import 'package:jb_fe/controllers/bloc/party/party_form_toggle/party_form_toggle_cubit.dart';
@@ -105,9 +107,16 @@ void init() {
       createItemUseCase: serviceLocator(),
     ),
   );
-
+  serviceLocator.registerFactory<ItemImageBloc>(
+    () => ItemImageBloc(
+      fetchItemImagesUseCase: serviceLocator(),
+    ),
+  );
   serviceLocator.registerFactory<PiecesEnablerCubit>(
     () => PiecesEnablerCubit(),
+  );
+  serviceLocator.registerFactory<FormBuildCubit>(
+    () => FormBuildCubit(),
   );
 
   //-----------------------------------------------------------------------------------------------------------------
@@ -169,6 +178,11 @@ void init() {
   );
   serviceLocator.registerLazySingleton<CreateItemUseCase>(
     () => CreateItemUseCase(
+      repository: serviceLocator(),
+    ),
+  );
+  serviceLocator.registerLazySingleton<FetchItemImagesUseCase>(
+    () => FetchItemImagesUseCase(
       repository: serviceLocator(),
     ),
   );

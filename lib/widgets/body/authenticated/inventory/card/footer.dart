@@ -55,12 +55,12 @@ class ItemCardFooter extends StatelessWidget {
             ),
             Row(
               children: [
-                AppIconButtonBuilder(Icons.visibility)
-                    .size(25)
-                    .onClickHandler(_onItemView)
-                    .padding(EdgeInsets.all(3))
-                    .color(AppColors.green_1)
-                    .build(),
+                // AppIconButtonBuilder(Icons.visibility)
+                //     .size(25)
+                //     .onClickHandler(_onItemView)
+                //     .padding(EdgeInsets.all(3))
+                //     .color(AppColors.green_1)
+                //     .build(),
                 AppIconButtonBuilder(Icons.edit)
                     .size(25)
                     .onClickHandler(_onItemEdit)

@@ -47,6 +47,12 @@ class _AppDropDownButtonState extends State<AppDropDownButton> {
   final LayerLink _layerLink = LayerLink();
 
   @override
+  void dispose() {
+    _textFieldController.dispose();
+    super.dispose();
+  }
+
+  @override
   void initState() {
     _textFieldController =
         widget._textEditingController ?? TextEditingController();
@@ -99,7 +105,6 @@ class _AppDropDownButtonState extends State<AppDropDownButton> {
 
   @override
   Widget build(BuildContext context) {
-    print("Building dropdown for: ${widget._items} ${widget._initialValue}");
     return CompositedTransformTarget(
       link: _layerLink,
       child: TextFormField(

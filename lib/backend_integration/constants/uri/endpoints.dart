@@ -7,6 +7,7 @@ class EndpointUri {
   static const String _PATH_BUSINESS_ID = "{BUSINESS_ID}";
   static const String _PATH_PARTY_ID = "{PARTY_ID}";
   static const String _PATH_ITEM_ID = "{ITEM_ID}";
+  static const String _ID = "{ID}";
   static const String _SKIP = "{SKIP}";
   static const String _SEARCH_TERM = "{SEARCH_TERM}";
 
@@ -28,6 +29,11 @@ class EndpointUri {
   static const String _DELETE_ITEM = "$_BASE_ITEM/$_PATH_ITEM_ID";
   static const String _SEARCH_ITEM =
       "$_BASE_ITEM/?skip=$_SKIP&searchTerm=$_SEARCH_TERM";
+  static const String _ITEM_IMAGE_URL = "$_BASE_URL/image/item";
+  static const String _UPLOAD_IMAGE_SIGNED_URL =
+      "$_ITEM_IMAGE_URL/post_signed_url?id=$_ID";
+  static const String _DOWNLOAD_IMAGE_SIGNED_URL =
+      "$_ITEM_IMAGE_URL/fetch_signed_url?id=$_ID";
 
   static const String _BASE_ORDER = "$_BASE_URL/order";
   static const String _BASE_BILL = "$_BASE_URL/bill";
@@ -111,6 +117,14 @@ class EndpointUri {
 
   static Uri getUpdateItemURL() {
     return Uri.parse(_BASE_ITEM);
+  }
+
+  static Uri getUploadImageSignedItemURL(String itemId) {
+    return Uri.parse(_UPLOAD_IMAGE_SIGNED_URL.replaceAll(_ID, itemId));
+  }
+
+  static Uri getDownloadImageSignedItemURL(String itemId) {
+    return Uri.parse(_DOWNLOAD_IMAGE_SIGNED_URL.replaceAll(_ID, itemId));
   }
 
   static Uri getDeleteItemURL(String itemId) {

@@ -29,7 +29,6 @@ class _CategoryTypeSelectorState extends State<CategoryTypeSelector> {
 
   @override
   void initState() {
-    print("Category type: ");
     _typeEditingController = TextEditingController();
     _category = widget._item.newCategory.isNotEmpty
         ? widget._item.newCategory
@@ -37,7 +36,16 @@ class _CategoryTypeSelectorState extends State<CategoryTypeSelector> {
     _type = widget._item.newType.isNotEmpty
         ? widget._item.newType
         : widget._itemCollection[_category]!.first;
+
+    widget._item.setNewCategory(_category);
+    widget._item.setNewType(_type);
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    // _typeEditingController.dispose();
+    super.dispose();
   }
 
   @override

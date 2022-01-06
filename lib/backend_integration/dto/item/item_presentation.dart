@@ -1,3 +1,4 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:jb_fe/backend_integration/domain/entities/item/item.dart';
 import 'package:jb_fe/backend_integration/dto/item/item_extra_presentation.dart';
 import 'package:jb_fe/backend_integration/dto/item/labour_presentation.dart';
@@ -31,6 +32,9 @@ class ItemPresentation {
   List<ItemExtraPresentation>? _newExtras;
   String? _huid;
   String? _newHuid;
+  List<PlatformFile>? _newImages;
+  bool _hasImages;
+  bool _newHasImages;
 
   ItemPresentation(ItemEntity entity)
       : _id = entity.id,
@@ -70,6 +74,8 @@ class ItemPresentation {
             : <ItemExtraPresentation>[ItemExtraPresentation.empty()],
         _huid = entity.huid,
         _newHuid = entity.huid,
+        _hasImages = entity.hasImages,
+        _newHasImages = entity.hasImages,
         super();
 
   ItemPresentation.empty()
@@ -81,6 +87,9 @@ class ItemPresentation {
         _newExtras = [ItemExtraPresentation.empty()],
         _newGrossWeight = 0,
         _newNetWeight = 0,
+        _newImages = <PlatformFile>[],
+        _hasImages = false,
+        _newHasImages = false,
         super();
 
   String? get id => _id;
@@ -132,6 +141,38 @@ class ItemPresentation {
   List<ItemExtraPresentation>? get extras => _extras;
 
   String? get huid => _huid;
+
+  List<PlatformFile>? get newImages => _newImages;
+
+  bool get hasImages => _hasImages;
+
+  bool get newHasImages => _newHasImages;
+
+  void setNewHasImages(bool value) {
+    _newHasImages = value;
+  }
+
+  void setHasImages(bool value) {
+    _hasImages = value;
+  }
+
+  bool addNewImage(PlatformFile imageFile) {
+    _newImages ??= <PlatformFile>[];
+    if (_newImages!
+            .where((element) => element.name == imageFile.name)
+            .isEmpty &&
+        _newImages!.length < 4) {
+      _newImages!.add(imageFile);
+      _newHasImages = true;
+      return true;
+    }
+    return false;
+  }
+
+  void clearNewImages() {
+    _newImages = <PlatformFile>[];
+    _newHasImages = false;
+  }
 
   void setNewCategory(String value) {
     _newCategory = value;
@@ -236,6 +277,9 @@ class ItemPresentation {
     _grossWeight = _newGrossWeight;
     _netWeight = _newNetWeight;
     _carat = _newCarat;
+    if (_newLabour != null) {
+      _newLabour!.updateValues();
+    }
     _labour = _newLabour;
     _itemAmount = _newItemAmount;
     _netAmount = _newNetAmount;
@@ -245,6 +289,7 @@ class ItemPresentation {
     }
     _extras = _newExtras;
     _huid = _newHuid;
+    _hasImages = _newHasImages;
   }
 
   ItemEntity getEntity() {
@@ -271,11 +316,12 @@ class ItemPresentation {
               .toList()
           : null,
       huid: _huid,
+      hasImages: _hasImages,
     );
   }
 
   @override
   String toString() {
-    return 'ItemPresentation{uuid: $uuid, _id: $_id, _itemId: $_itemId, _category: $_category, _newCategory: $_newCategory, _type: $_type, _newType: $_newType, _name: $_name, _grossWeight: $_grossWeight, _newGrossWeight: $_newGrossWeight, _netWeight: $_netWeight, _newNetWeight: $_newNetWeight, _carat: $_carat, _newCarat: $_newCarat, _labour: $_labour, _newLabour: $_newLabour, _itemAmount: $_itemAmount, _newItemAmount: $_newItemAmount, _netAmount: $_netAmount, _newNetAmount: $_newNetAmount, _stockPieces: $_stockPieces, _newStockPieces: $_newStockPieces, _extras: $_extras, _newExtras: $_newExtras, _huid: $_huid, _newHuid: $_newHuid}';
+    return 'ItemPresentation{uuid: $uuid, _id: $_id, _itemId: $_itemId, _category: $_category, _newCategory: $_newCategory, _type: $_type, _newType: $_newType, _name: $_name, _grossWeight: $_grossWeight, _newGrossWeight: $_newGrossWeight, _netWeight: $_netWeight, _newNetWeight: $_newNetWeight, _carat: $_carat, _newCarat: $_newCarat, _labour: $_labour, _newLabour: $_newLabour, _itemAmount: $_itemAmount, _newItemAmount: $_newItemAmount, _netAmount: $_netAmount, _newNetAmount: $_newNetAmount, _stockPieces: $_stockPieces, _newStockPieces: $_newStockPieces, _extras: $_extras, _newExtras: $_newExtras, _huid: $_huid, _newHuid: $_newHuid, _newImages: $_newImages, _hasImages: $_hasImages, _newHasImages: $_newHasImages}';
   }
 }

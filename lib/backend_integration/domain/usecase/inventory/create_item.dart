@@ -8,6 +8,8 @@ class CreateItemUseCase {
 
   Future<ItemPresentation> call({required ItemPresentation item}) async {
     item.updateValues();
+    print("Saving item: ${item}");
+
     final itemEntity = await repository.addItem(item.getEntity());
     return ItemPresentation(itemEntity);
   }

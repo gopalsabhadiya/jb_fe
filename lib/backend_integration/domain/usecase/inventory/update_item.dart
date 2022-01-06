@@ -10,6 +10,10 @@ class UpdateItemUseCase {
   Future<ItemPresentation> call({required ItemPresentation item}) async {
     item.updateValues();
     final ItemEntity entity = await repository.updateItem(item.getEntity());
+    print("New item has images: ${entity.hasImages}");
+    if (item.newImages != null) {
+      await repository.uploadImages(item.newImages!, item.id!);
+    }
     return ItemPresentation(entity);
   }
 }

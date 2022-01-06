@@ -22,6 +22,8 @@ dependencies:
   get_it:
   equatable:
   uuid:
+  file_picker:
+  archive:
 
 
 dev_dependencies:

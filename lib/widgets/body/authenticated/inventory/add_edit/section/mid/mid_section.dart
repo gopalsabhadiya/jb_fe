@@ -34,6 +34,8 @@ class _ItemInputMidSectionState extends State<ItemInputMidSection> {
 
   @override
   void initState() {
+    WidgetsBinding.instance!.addPostFrameCallback((_) =>
+        print("Midsectionbuilt: ${DateTime.now().millisecondsSinceEpoch}"));
     _piecesEnabled =
         widget._item.newHuid == null || widget._item.newHuid!.isEmpty;
     _labourTypeSelections[
@@ -43,6 +45,7 @@ class _ItemInputMidSectionState extends State<ItemInputMidSection> {
 
   @override
   Widget build(BuildContext context) {
+    print("Building mid section: ${DateTime.now().millisecondsSinceEpoch}");
     return BlocProvider(
       create: (BuildContext context) {
         final PiecesEnablerCubit cubit = serviceLocator<PiecesEnablerCubit>();
@@ -57,16 +60,16 @@ class _ItemInputMidSectionState extends State<ItemInputMidSection> {
             children: [
               Row(
                 children: [
-                  // Expanded(
-                  //   flex: 2,
-                  //   child: CategoryTypeSelector(
-                  //     item: widget._item,
-                  //     itemCollection: BlocProvider.of<BusinessDataBloc>(context)
-                  //         .state
-                  //         .business!
-                  //         .itemCollection,
-                  //   ),
-                  // ),
+                  Expanded(
+                    flex: 2,
+                    child: CategoryTypeSelector(
+                      item: widget._item,
+                      itemCollection: BlocProvider.of<BusinessDataBloc>(context)
+                          .state
+                          .business!
+                          .itemCollection,
+                    ),
+                  ),
                   const SizedBox(
                     width: 15,
                   ),
@@ -153,7 +156,10 @@ class _ItemInputMidSectionState extends State<ItemInputMidSection> {
                   ),
                   Expanded(
                     child: AppTextInput(
-                      initialValue: widget._item.newLabour!.value.toString(),
+                      initialValue: widget._item.newLabour != null &&
+                              widget._item.newLabour!.value != null
+                          ? widget._item.newLabour!.value.toString()
+                          : DefaultTexts.EMPTY,
                       prefixIcon: Icons.engineering,
                       hint: ItemText.LABOUR_INPUT_TEXT,
                       onChanged: widget._item.newLabour!.setNewValue,
@@ -163,21 +169,21 @@ class _ItemInputMidSectionState extends State<ItemInputMidSection> {
                   const SizedBox(
                     width: 15,
                   ),
-                  // Expanded(
-                  //   child: ToggleButtons(
-                  //     isSelected: _labourTypeSelections,
-                  //     color: AppColors.blue_5,
-                  //     fillColor: AppColors.blue_5,
-                  //     borderRadius: BorderRadius.circular(100),
-                  //     selectedBorderColor: AppColors.blue_5,
-                  //     borderWidth: 2,
-                  //     highlightColor: AppColors.blue_1,
-                  //     borderColor: AppColors.blue_5,
-                  //     splashColor: AppColors.blue_5,
-                  //     children: _getLabourTypes(),
-                  //     onPressed: _onLabourTypeChange,
-                  //   ),
-                  // )
+                  Expanded(
+                    child: ToggleButtons(
+                      isSelected: _labourTypeSelections,
+                      color: AppColors.blue_5,
+                      fillColor: AppColors.blue_5,
+                      borderRadius: BorderRadius.circular(100),
+                      selectedBorderColor: AppColors.blue_5,
+                      borderWidth: 2,
+                      highlightColor: AppColors.blue_1,
+                      borderColor: AppColors.blue_5,
+                      splashColor: AppColors.blue_5,
+                      children: _getLabourTypes(),
+                      onPressed: _onLabourTypeChange,
+                    ),
+                  )
                 ],
               )
             ],
@@ -223,7 +229,7 @@ class _ItemInputMidSectionState extends State<ItemInputMidSection> {
       BlocProvider.of<PiecesEnablerCubit>(context).negative();
     } else {
       _piecesEnabled = true;
-      BlocProvider.of<BinaryCubit>(context).positive();
+      BlocProvider.of<PiecesEnablerCubit>(context).positive();
     }
     widget._item.setNewHuid(newHuid);
   }

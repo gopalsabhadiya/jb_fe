@@ -1,4 +1,7 @@
-import 'package:jb_fe/backend_integration/data/datasource/item_remote_ds.dart';
+import 'dart:typed_data';
+
+import 'package:file_picker/file_picker.dart';
+import 'package:jb_fe/backend_integration/data/datasource/remote/item_remote_ds.dart';
 import 'package:jb_fe/backend_integration/domain/entities/item/item.dart';
 import 'package:jb_fe/backend_integration/domain/repositories/item_repository.dart';
 
@@ -33,7 +36,17 @@ class ItemRepositoryImpl implements ItemRepository {
   }
 
   @override
+  Future<bool> uploadImages(List<PlatformFile> images, String itemId) async {
+    return await remoteDataSource.uploadImages(images, itemId);
+  }
+
+  @override
   Future<List<ItemEntity>> getItemPage(int skip) async {
     return await remoteDataSource.getItemPage(skip);
+  }
+
+  @override
+  Future<List<Uint8List>> downloadImages(String itemId) async {
+    return await remoteDataSource.downloadImages(itemId);
   }
 }

@@ -2,10 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jb_fe/backend_integration/dto/item/item_presentation.dart';
 import 'package:jb_fe/constants/colors.dart';
-import 'package:jb_fe/constants/location/assets.dart';
 import 'package:jb_fe/constants/texts/defaults.dart';
+import 'package:jb_fe/widgets/body/authenticated/inventory/card/image_content.dart';
 import 'package:jb_fe/widgets/calligraphy/app_text.dart';
-import 'package:jb_fe/widgets/svg/diamond_svg.dart';
 
 class InventoryCardContent extends StatelessWidget {
   final ItemPresentation _item;
@@ -18,13 +17,7 @@ class InventoryCardContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Container(
-          color: AppColors.white,
-          constraints: const BoxConstraints(
-              minHeight: 250, maxHeight: 250, minWidth: 250, maxWidth: 250),
-          // child: const DiamondSVG(),
-          child: const DiamondSVG(),
-        ),
+        const ItemImageContent(),
         Positioned.fill(
           child: Align(
             alignment: Alignment.bottomCenter,
@@ -55,7 +48,7 @@ class InventoryCardContent extends StatelessWidget {
                   ),
                   Row(
                     children: [
-                      Icon(
+                      const Icon(
                         Icons.layers,
                         color: AppColors.blue_5,
                       ),

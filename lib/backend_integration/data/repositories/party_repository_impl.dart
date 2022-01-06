@@ -1,4 +1,4 @@
-import 'package:jb_fe/backend_integration/data/datasource/party_remote_ds.dart';
+import 'package:jb_fe/backend_integration/data/datasource/remote/party_remote_ds.dart';
 import 'package:jb_fe/backend_integration/domain/entities/party/party.dart';
 import 'package:jb_fe/backend_integration/domain/repositories/party_repository.dart';
 
@@ -23,8 +23,7 @@ class PartyRepositoryImpl implements PartyRepository {
   }
 
   @override
-  Future<List<PartyEntity>> searchParty(
-      String searchTerm, int skip) async {
+  Future<List<PartyEntity>> searchParty(String searchTerm, int skip) async {
     return await remoteDataSource.searchParty(searchTerm, skip);
   }
 

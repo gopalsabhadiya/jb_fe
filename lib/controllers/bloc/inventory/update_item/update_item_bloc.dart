@@ -41,7 +41,7 @@ class UpdateItemBloc extends Bloc<UpdateItemEvent, UpdateItemState>
         ),
       );
     } catch (e) {
-      print("Error");
+      print("Error: $e");
       emit(
         const UpdateItemState(
           status: UpdateItemStatus.ERROR,

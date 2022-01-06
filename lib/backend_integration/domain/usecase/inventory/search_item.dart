@@ -8,9 +8,9 @@ class SearchItemUseCase {
   SearchItemUseCase({required this.repository});
 
   Future<List<ItemPresentation>> call(
-      {required String searchTerm, int pageNumber = 1}) async {
+      {required String searchTerm, int skip = 0}) async {
     List<ItemEntity> itemEntityList =
-        await repository.searchItem(searchTerm, pageNumber);
+        await repository.searchItem(searchTerm, skip);
 
     List<ItemPresentation> itemPresentationList =
         itemEntityList.map((item) => ItemPresentation(item)).toList();

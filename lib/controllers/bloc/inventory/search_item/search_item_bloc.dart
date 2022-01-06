@@ -78,7 +78,7 @@ class SearchItemBloc extends Bloc<SearchItemEvent, SearchItemState>
   void update({required ItemOperationNotification notification}) async {
     final searchResult = await searchItemUseCase(
       searchTerm: state.searchTerm,
-      pageNumber: (state.result.length ~/ 20) + 1,
+      skip: state.result.length,
     );
     notifySubscriber(
       notification: SearchItemCompleteNotification(
