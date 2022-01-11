@@ -24,7 +24,7 @@ class AppIconButton extends StatelessWidget {
           constraints: const BoxConstraints(),
           focusNode: _focusNode,
           disabledColor: AppColors.grey_2,
-          color: AppColors.blue_5,
+          color: _color,
           // hoverColor: AppColors.blue_1,
           onPressed: _disabled ? null : _onClickHandler,
           icon: Icon(
@@ -67,7 +67,6 @@ class AppIconButtonBuilder {
   }
 
   AppIconButtonBuilder addFocusNode(FocusNode focusNode) {
-    print("Focus node added");
     _focusNode = focusNode;
     return this;
   }

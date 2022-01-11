@@ -66,7 +66,9 @@ class AppTextInput extends StatelessWidget {
             obscureText: obscureText ?? false,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             decoration: InputDecoration(
+              contentPadding:  const EdgeInsets.all(0),
               filled: true,
+              isDense: true,
               fillColor: enabled ? AppColors.white : AppColors.grey_1,
               hoverColor: AppColors.blue_1,
               errorBorder: const OutlineInputBorder(
@@ -88,7 +90,7 @@ class AppTextInput extends StatelessWidget {
               hintStyle: const TextStyle(color: AppColors.grey_3, fontSize: 16),
               errorStyle: const TextStyle(fontSize: 0.001),
               prefixIcon: Padding(
-                padding: const EdgeInsets.all(10),
+                padding: const EdgeInsets.all(1),
                 child: Icon(
                   prefixIcon,
                   color: enabled
@@ -97,16 +99,18 @@ class AppTextInput extends StatelessWidget {
                   size: 25,
                 ),
               ),
-              suffixIcon: IconButton(
-                icon: Icon(
-                  suffixIcon,
-                  color: AppColors.blue_5,
-                  size: 25,
-                ),
-                onPressed: () {
-                  suffixIconClickHandler!();
-                },
-              ),
+              suffixIcon: suffixIcon != null
+                  ? IconButton(
+                      icon: Icon(
+                        suffixIcon,
+                        color: AppColors.blue_5,
+                        size: 25,
+                      ),
+                      onPressed: () {
+                        suffixIconClickHandler!();
+                      },
+                    )
+                  : null,
               hintText: hint,
             ),
           ),

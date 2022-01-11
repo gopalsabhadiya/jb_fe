@@ -9,6 +9,7 @@ class GetItemPageUseCase {
 
   Future<List<ItemPresentation>> call({int skip = 0}) async {
     List<ItemEntity> itemEntityList = await repository.getItemPage(skip);
+    print("items: $itemEntityList");
     List<ItemPresentation> itemPresentationList =
         itemEntityList.map((item) => ItemPresentation(item)).toList();
     return itemPresentationList;

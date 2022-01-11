@@ -9,12 +9,15 @@ class AddItemButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppIconButtonCircleBuilder(Icons.add)
-        .onClickHandler(
-          () => BlocProvider.of<ItemFormToggleCubit>(context).openDrawer(
-            toggleForItem: const ToggleForNewItem(),
-          ),
-        )
-        .build();
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: AppIconButtonCircleBuilder(Icons.add)
+          .onClickHandler(
+            () => BlocProvider.of<ItemFormToggleCubit>(context).openDrawer(
+              toggleForItem: const ToggleForNewItem(),
+            ),
+          )
+          .build(),
+    );
   }
 }

@@ -12,6 +12,7 @@ class ItemExtraPresentation {
   double? _newLabourCharge;
   String? _type;
   String? _newType;
+  double? _amount;
 
   ItemExtraPresentation(ItemExtraEntity entity)
       : _rate = entity.rate,
@@ -22,6 +23,13 @@ class ItemExtraPresentation {
         _newLabourCharge = entity.labourCharge,
         _type = entity.type,
         _newType = entity.type,
+        _amount = entity.pieces != null &&
+                entity.labourCharge != null &&
+                entity.pieces != 0 &&
+                entity.labourCharge != 0
+            ? ((entity.rate! * entity.pieces!) +
+                (entity.rate! * entity.pieces!))
+            : entity.rate ?? 0,
         super();
 
   ItemExtraEntity getEntity() {
@@ -34,6 +42,7 @@ class ItemExtraPresentation {
   }
 
   void updateValues() {
+    print("Updating extra values");
     _rate = _newRate;
     _pieces = _newPieces;
     _labourCharge = _newLabourCharge;
@@ -57,6 +66,8 @@ class ItemExtraPresentation {
   String? get type => _type;
 
   String? get newType => _newType;
+
+  double? get amount => _amount;
 
   void setNewType(String value) {
     _newType = value;

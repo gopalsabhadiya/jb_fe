@@ -64,7 +64,7 @@ class ItemCardFooter extends StatelessWidget {
                 AppIconButtonBuilder(Icons.edit)
                     .size(25)
                     .onClickHandler(_onItemEdit)
-                    .padding(EdgeInsets.all(3))
+                    .padding(const EdgeInsets.all(3))
                     .color(AppColors.blue_5)
                     .build(),
                 AppIconButtonBuilder(Icons.delete)

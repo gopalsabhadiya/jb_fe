@@ -143,6 +143,6 @@ class ScreenSizeUtil {
         getNavbarContentPadding().right +
         getNavbarContentPadding().left -
         getNavbarPreferredSize(context).height -
-        20;
+        30;
   }
 }

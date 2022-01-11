@@ -36,6 +36,13 @@ class SearchItemBloc extends Bloc<SearchItemEvent, SearchItemState>
       final searchResult = await searchItemUseCase(
         searchTerm: event.searchTerm,
       );
+      for (final ItemPresentation searchItem in searchResult) {
+        for (final ItemPresentation cartItem in event.cartItems) {
+          if (searchItem.id == cartItem.id) {
+            searchItem.setNewStockPieces(cartItem.newStockPieces.toString());
+          }
+        }
+      }
       emit(
         state.copyWith(
           searchStatus: SearchItemStatus.COMPLETED,
@@ -69,7 +76,8 @@ class SearchItemBloc extends Bloc<SearchItemEvent, SearchItemState>
       ),
     );
     notifySubscriber(
-      notification: const SearchItemTermClearedNotification(),
+      notification:
+          SearchItemTermClearedNotification(cartItems: event.cartItems),
     );
     return null;
   }

@@ -7,6 +7,9 @@ class FilterPartyButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppIconButtonCircleBuilder(Icons.filter_alt).build();
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: AppIconButtonCircleBuilder(Icons.filter_alt).build(),
+    );
   }
 }

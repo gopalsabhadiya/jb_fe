@@ -61,7 +61,7 @@ class _ItemFormDrawerState extends State<ItemFormDrawer>
                         subscriber: BlocProvider.of<ItemBloc>(context),
                       ),
                 child: EditItem(
-                  closeDrawer: _cancelUpdate,
+                  closeDrawer: _closeDrawer,
                   item: (state.toggleForItem as ToggleForItemUpdate)
                       .itemToBeUpdated,
                 ),
@@ -94,10 +94,6 @@ class _ItemFormDrawerState extends State<ItemFormDrawer>
   void _closeDrawer() {
     animationController.reverse();
     BlocProvider.of<ItemFormToggleCubit>(context).closeDrawer();
-  }
-
-  _cancelUpdate() {
-    _closeDrawer();
   }
 
   @override

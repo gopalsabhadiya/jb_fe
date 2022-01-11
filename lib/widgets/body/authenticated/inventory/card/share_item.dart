@@ -30,7 +30,6 @@ class _ShareItemState extends State<ShareItem> {
   @override
   void initState() {
     _focusNode.addListener(() {
-      print("Focus node listener called: ${_focusNode.hasFocus}");
       if (_focusNode.hasFocus) {
         _overlayEntry = _createOverlayEntry();
         Overlay.of(context)!.insert(_overlayEntry);
@@ -118,7 +117,6 @@ class _ShareItemState extends State<ShareItem> {
 
   void _shareThisItem(BuildContext context) async {
     if (Theme.of(context).platform == TargetPlatform.windows && kIsWeb) {
-      print("Windows web platform");
       _focusNode.requestFocus();
     }
     // await Share.shareFiles(["./assets/Ring_1.jpg"], text: "Sharing this text");

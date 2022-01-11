@@ -114,6 +114,7 @@ class _AppDropDownButtonState extends State<AppDropDownButton> {
         onFieldSubmitted: _dropDownSubmitted,
         decoration: InputDecoration(
           filled: true,
+          isDense: true,
           fillColor: AppColors.white,
           hoverColor: AppColors.blue_1,
           errorBorder: const OutlineInputBorder(
@@ -131,7 +132,7 @@ class _AppDropDownButtonState extends State<AppDropDownButton> {
           hintStyle: const TextStyle(color: AppColors.grey_3, fontSize: 16),
           errorStyle: const TextStyle(fontSize: 0.001),
           prefixIcon: Padding(
-            padding: const EdgeInsets.all(10),
+            padding: const EdgeInsets.all(1),
             child: Icon(
               widget._prefixIcon,
               color: AppColors.blue5WithOpacity(0.7),

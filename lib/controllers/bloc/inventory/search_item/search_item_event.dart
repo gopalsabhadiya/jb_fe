@@ -6,14 +6,18 @@ abstract class SearchItemEvent extends Equatable {
 
 class SearchItem extends SearchItemEvent {
   final String searchTerm;
+  final List<ItemPresentation> cartItems;
 
-  const SearchItem({required this.searchTerm});
+  const SearchItem({required this.searchTerm, required this.cartItems});
 
   @override
   List<Object?> get props => [searchTerm];
 }
 
 class ClearSearchItemTerm extends SearchItemEvent {
+  final List<ItemPresentation> cartItems;
+
+  const ClearSearchItemTerm({required this.cartItems});
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [cartItems];
 }

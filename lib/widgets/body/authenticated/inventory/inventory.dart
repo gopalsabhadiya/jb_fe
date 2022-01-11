@@ -83,16 +83,6 @@ class _InventoryState extends State<Inventory> {
               ),
             ),
           ),
-          // AnimatedPositioned(
-          //   width: ScreenSizeUtil.getBottomDrawerWidth(context),
-          //   height: ScreenSizeUtil.getBottomDrawerHeight(context),
-          //   curve: Curves.easeOut,
-          //   duration: AnimationDuration.SHORT,
-          //   top: showEditItemDrawer ? 0 : MediaQuery.of(context).size.height,
-          //   child: EditItem(
-          //     toggleDrawer: _toggleDrawer,
-          //   ),
-          // ),
           const ItemFormDrawer()
         ],
       ),

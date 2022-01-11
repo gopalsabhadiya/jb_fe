@@ -33,7 +33,19 @@ class _DisplaySearchItemResult extends ItemEvent {
   const _DisplaySearchItemResult({required this.result});
 }
 
-class _ClearSearchTerm extends ItemEvent {}
+class _ClearSearchTerm extends ItemEvent {
+  final List<ItemPresentation> cartItems;
+
+  const _ClearSearchTerm({required this.cartItems});
+
+  @override
+  List<Object?> get props => [cartItems];
+}
+
+class _UpdateItemFromCart extends ItemEvent {
+  final ItemPresentation item;
+  const _UpdateItemFromCart({required this.item});
+}
 
 class ItemBloc extends Bloc<ItemEvent, ItemState>
     with ItemOperationSubscriber, SearchNextItemPageNotifier {
@@ -49,6 +61,7 @@ class ItemBloc extends Bloc<ItemEvent, ItemState>
     on<_DeleteItem>(_removeItemFromList);
     on<_UpdateItem>(_updateItem);
     on<_AddItem>(_addItem);
+    on<_UpdateItemFromCart>(_updateItemFromCart);
   }
 
   FutureOr<void> _onFetchItemFirstPage(
@@ -60,6 +73,13 @@ class ItemBloc extends Bloc<ItemEvent, ItemState>
     );
     try {
       final itemList = await getItemPageUseCase();
+      for (final ItemPresentation pageItem in itemList) {
+        for (final ItemPresentation cartItem in event.cartItems) {
+          if (pageItem.id == cartItem.id) {
+            pageItem.setNewStockPieces(cartItem.newStockPieces.toString());
+          }
+        }
+      }
       emit(
         state.copyWith(
           status: ItemStatus.SUCCESS,
@@ -126,7 +146,7 @@ class ItemBloc extends Bloc<ItemEvent, ItemState>
         needToSearch: false,
       ),
     );
-    add(FetchItemFirstPage());
+    add(FetchItemFirstPage(cartItems: event.cartItems));
   }
 
   FutureOr<void> _removeItemFromList(
@@ -171,6 +191,28 @@ class ItemBloc extends Bloc<ItemEvent, ItemState>
     );
   }
 
+  FutureOr<void> _updateItemFromCart(
+      _UpdateItemFromCart event, Emitter<ItemState> emit) {
+    emit(
+      state.copyWith(
+        status: ItemStatus.LOADING,
+      ),
+    );
+
+    emit(
+      state.copyWith(
+        status: ItemStatus.SUCCESS,
+        itemList: state.itemList.map((item) {
+          if (item.id == event.item.id) {
+            item.setNewStockPieces(
+                (item.stockPieces - event.item.cartQuantity).toString());
+          }
+          return item;
+        }).toList(),
+      ),
+    );
+  }
+
   @override
   void update({required ItemOperationNotification notification}) {
     switch (notification.notificationType) {
@@ -203,7 +245,18 @@ class ItemBloc extends Bloc<ItemEvent, ItemState>
         );
         break;
       case ItemNotificationType.ITEM_SEARCH_CLEARED:
-        add(_ClearSearchTerm());
+        add(_ClearSearchTerm(
+            cartItems:
+                (notification as SearchItemTermClearedNotification).cartItems));
+        break;
+      case ItemNotificationType.ITEM_UPDATE_FROM_CART_REQUEST:
+        // print(
+        //     "ItemAddedToCart: ${(notification as AddItemToCartNotification).item.id}");
+        add(
+          _UpdateItemFromCart(
+            item: (notification as UpdateItemFromCartNotification).item,
+          ),
+        );
         break;
     }
   }

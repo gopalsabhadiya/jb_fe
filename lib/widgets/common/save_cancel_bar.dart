@@ -28,7 +28,7 @@ class SaveCancelBar extends StatelessWidget {
             AppIconButtonBuilder(Icons.arrow_back)
                 .size(25)
                 .onClickHandler(_cancelSave)
-                .color(AppColors.grey_1)
+                .color(AppColors.blue_1)
                 .build(),
             InkWell(
               onTap: _save,

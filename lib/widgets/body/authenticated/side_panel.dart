@@ -61,7 +61,6 @@ class _SidePanelState extends State<SidePanel> {
   }
 
   List<Widget> _getLinks(BuildContext context) {
-    //return [SidePanelLink(icon: Icons.ac_unit, text: "Hello")];
     return AuthenticatedNavbarLinks.LINKS.entries
         .map<Widget>(
           (entry) => Column(

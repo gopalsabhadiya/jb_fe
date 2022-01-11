@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jb_fe/controllers/bloc/cart/cart/cart_bloc.dart';
 import 'package:jb_fe/controllers/bloc/inventory/item_bloc/item_bloc.dart';
 import 'package:jb_fe/controllers/bloc/inventory/item_form_toggle/item_form_toggle_cubit.dart';
 import 'package:jb_fe/injection_container.dart';
@@ -15,11 +16,19 @@ class InventoryPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(
-          create: (BuildContext context) => serviceLocator<ItemBloc>()
-            ..add(
-              FetchItemFirstPage(),
-            ),
+        BlocProvider<ItemBloc>(
+          create: (BuildContext context) {
+            final ItemBloc itemBloc = serviceLocator<ItemBloc>()
+              ..add(
+                FetchItemFirstPage(
+                  cartItems: BlocProvider.of<CartBloc>(context).state.itemList,
+                ),
+              );
+            BlocProvider.of<CartBloc>(context)
+                .unSubscribe<ItemBloc>(subscriber: itemBloc);
+            BlocProvider.of<CartBloc>(context).subscribe(subscriber: itemBloc);
+            return itemBloc;
+          },
         ),
         BlocProvider(
           create: (BuildContext context) =>

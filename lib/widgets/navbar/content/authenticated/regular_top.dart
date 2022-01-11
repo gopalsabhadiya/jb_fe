@@ -4,17 +4,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jb_fe/constants/colors.dart';
 import 'package:jb_fe/constants/typography/font_weight.dart';
 import 'package:jb_fe/controllers/bloc/authenticated_sidepanel.dart';
+import 'package:jb_fe/controllers/bloc/cart/cart/cart_bloc.dart';
+import 'package:jb_fe/controllers/bloc/cart/cart_form_toggle/cart_form_toggle_cubit.dart';
 import 'package:jb_fe/controllers/bloc/state/authenticated_sidepanel.dart';
-import 'package:jb_fe/util/global_keys.dart';
 import 'package:jb_fe/widgets/calligraphy/app_text.dart';
 import 'package:jb_fe/widgets/common/buttons/icon_button.dart';
-import 'package:jb_fe/widgets/navbar/content/authenticated/add_button/add_item_button.dart';
-import 'package:jb_fe/widgets/navbar/content/authenticated/add_button/add_order_button.dart';
-import 'package:jb_fe/widgets/navbar/content/authenticated/add_button/add_party_button.dart';
-import 'package:jb_fe/widgets/navbar/content/authenticated/add_button/add_payment_button.dart';
-import 'package:jb_fe/widgets/navbar/content/authenticated/search_bar/item_seearch_bar.dart';
-import 'package:jb_fe/widgets/navbar/content/authenticated/search_bar/order_search_bar.dart';
-import 'package:jb_fe/widgets/navbar/content/authenticated/search_bar/party_search_bar.dart';
+import 'package:jb_fe/widgets/navbar/content/authenticated/dashboard/navbar_dashboard_content.dart';
+import 'package:jb_fe/widgets/navbar/content/authenticated/inventory/navbar_inventory_content.dart';
+import 'package:jb_fe/widgets/navbar/content/authenticated/order/navbar_order_content.dart';
+import 'package:jb_fe/widgets/navbar/content/authenticated/partry/navbar_party_content.dart';
+import 'package:jb_fe/widgets/navbar/content/authenticated/payments/navbar_payment_content.dart';
+import 'package:jb_fe/widgets/navbar/content/authenticated/shop_expenses/navbar_shop_expenses_content.dart';
 
 class RegularTopAuthenticatedNavbar extends StatelessWidget {
   const RegularTopAuthenticatedNavbar({Key? key}) : super(key: key);
@@ -24,10 +24,10 @@ class RegularTopAuthenticatedNavbar extends StatelessWidget {
     const int counter = 1;
 
     void _accountOnClickHandler() {
-      if (AppGlobalKeys.AUTH_BODY_SCAFFOLD.currentState!.isEndDrawerOpen) {
+      if (Scaffold.of(context).isEndDrawerOpen) {
         Navigator.pop(context);
       } else {
-        AppGlobalKeys.AUTH_BODY_SCAFFOLD.currentState!.openEndDrawer();
+        Scaffold.of(context).openEndDrawer();
       }
     }
 
@@ -41,9 +41,20 @@ class RegularTopAuthenticatedNavbar extends StatelessWidget {
             BlocBuilder<AuthenticatedSidePanelCubit,
                 AuthenticatedSidePanelState>(
               builder: (context, state) {
-                return Row(
-                  children: _getPageActions(state),
-                );
+                switch (state) {
+                  case AuthenticatedSidePanelState.DASHBOARD:
+                    return const NavbarDashboardContent();
+                  case AuthenticatedSidePanelState.PARTY:
+                    return const NavbarPartyContent();
+                  case AuthenticatedSidePanelState.INVENTORY:
+                    return const NavbarInventoryContent();
+                  case AuthenticatedSidePanelState.ORDERS:
+                    return const NavbarOrderContent();
+                  case AuthenticatedSidePanelState.PAYMENTS:
+                    return const NavbarPaymentContent();
+                  case AuthenticatedSidePanelState.SHOP_EXPENSES:
+                    return const NavbarShopExpensesContent();
+                }
               },
             ),
             Row(
@@ -56,32 +67,58 @@ class RegularTopAuthenticatedNavbar extends StatelessWidget {
                         .color(AppColors.blue_5)
                         .padding(const EdgeInsets.only(left: 8, right: 8))
                         .build(),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 8),
-                      child: Container(
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          color: AppColors.red_1,
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        constraints: const BoxConstraints(
-                          maxHeight: 16,
-                          maxWidth: 16,
-                        ),
-                        child: AppTextBuilder("5")
-                            .size(10)
-                            .weight(AppFontWeight.BOLD)
-                            .color(AppColors.grey_1)
-                            .build(),
+                    Container(
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: AppColors.red_1,
+                        borderRadius: BorderRadius.circular(20),
                       ),
-                    )
+                      constraints: const BoxConstraints(
+                        maxHeight: 16,
+                        maxWidth: 16,
+                      ),
+                      child: AppTextBuilder("5")
+                          .size(10)
+                          .weight(AppFontWeight.BOLD)
+                          .color(AppColors.grey_1)
+                          .build(),
+                    ),
                   ],
                 ),
-                AppIconButtonBuilder(Icons.shopping_cart)
-                    .size(30)
-                    .color(AppColors.blue_5)
-                    .padding(const EdgeInsets.only(left: 8, right: 8))
-                    .build(),
+                Stack(
+                  alignment: Alignment.topRight,
+                  children: [
+                    AppIconButtonBuilder(Icons.shopping_cart)
+                        .size(30)
+                        .color(AppColors.blue_5)
+                        .padding(const EdgeInsets.only(left: 8, right: 8))
+                        .onClickHandler(() => _openCart(context))
+                        .build(),
+                    BlocBuilder<CartBloc, CartState>(
+                      builder: (BuildContext context, CartState state) {
+                        if (state.itemList.isEmpty) {
+                          return Container();
+                        }
+                        return Container(
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            color: AppColors.red_1,
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          constraints: const BoxConstraints(
+                            maxHeight: 16,
+                            maxWidth: 16,
+                          ),
+                          child: AppTextBuilder(state.totalItemCount.toString())
+                              .size(10)
+                              .weight(AppFontWeight.BOLD)
+                              .color(AppColors.grey_1)
+                              .build(),
+                        );
+                      },
+                    ),
+                  ],
+                ),
                 AppIconButtonBuilder(Icons.account_circle)
                     .size(30)
                     .color(AppColors.blue_5)
@@ -105,36 +142,7 @@ class RegularTopAuthenticatedNavbar extends StatelessWidget {
     );
   }
 
-  _getPageActions(AuthenticatedSidePanelState state) {
-    switch (state) {
-      case AuthenticatedSidePanelState.DASHBOARD:
-        return [Container()];
-      case AuthenticatedSidePanelState.PARTY:
-        return [
-          const PartySearchBar(),
-          // const FilterPartyButton(),
-          const AddPartyButton()
-        ];
-      case AuthenticatedSidePanelState.INVENTORY:
-        return [
-          const ItemSearchBar(),
-          // const FilterItemButton(),
-          const AddItemButton()
-        ];
-      case AuthenticatedSidePanelState.ORDERS:
-        return [
-          const OrderSearchBar(),
-          // const FilterOrderButton(),
-          const AddOrderButton()
-        ];
-      case AuthenticatedSidePanelState.PAYMENTS:
-        return [
-          const PartySearchBar(),
-          // const FilterPartyButton(),
-          const AddPaymentButton()
-        ];
-      case AuthenticatedSidePanelState.SHOP_EXPENSES:
-        return [Container()];
-    }
+  _openCart(BuildContext context) {
+    BlocProvider.of<CartFormToggleCubit>(context).openDrawer();
   }
 }

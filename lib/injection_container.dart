@@ -16,10 +16,13 @@ import 'package:jb_fe/backend_integration/domain/usecase/party/search_party.dart
 import 'package:jb_fe/backend_integration/domain/usecase/party/update_party.dart';
 import 'package:jb_fe/backend_integration/utils/storage/shared_preference.dart';
 import 'package:jb_fe/controllers/bloc/business/business_data_bloc.dart';
+import 'package:jb_fe/controllers/bloc/cart/cart/cart_bloc.dart';
+import 'package:jb_fe/controllers/bloc/cart/cart_form_toggle/cart_form_toggle_cubit.dart';
 import 'package:jb_fe/controllers/bloc/inventory/form_build_status/form_build_cubit.dart';
 import 'package:jb_fe/controllers/bloc/inventory/item_bloc/item_bloc.dart';
 import 'package:jb_fe/controllers/bloc/inventory/item_form_toggle/item_form_toggle_cubit.dart';
 import 'package:jb_fe/controllers/bloc/inventory/item_image/item_image_bloc.dart';
+import 'package:jb_fe/controllers/bloc/inventory/party_search_for_order/party_search_for_order_bloc.dart';
 import 'package:jb_fe/controllers/bloc/inventory/pieces_enabler/pieces_enabler_cubit.dart';
 import 'package:jb_fe/controllers/bloc/party/new_party/add_party_bloc.dart';
 import 'package:jb_fe/controllers/bloc/party/party_form_toggle/party_form_toggle_cubit.dart';
@@ -118,6 +121,19 @@ void init() {
   );
   serviceLocator.registerFactory<FormBuildCubit>(
     () => FormBuildCubit(),
+  );
+
+  //Cart
+  serviceLocator.registerFactory<CartBloc>(
+    () => CartBloc(),
+  );
+  serviceLocator.registerFactory<CartFormToggleCubit>(
+    () => CartFormToggleCubit(),
+  );
+  serviceLocator.registerFactory(
+    () => PartySearchForOrderBloc(
+      searchPartyUseCase: serviceLocator(),
+    ),
   );
 
   //-----------------------------------------------------------------------------------------------------------------

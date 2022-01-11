@@ -7,6 +7,9 @@ class AddOrderButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppIconButtonCircleBuilder(Icons.add).build();
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: AppIconButtonCircleBuilder(Icons.add).build(),
+    );
   }
 }

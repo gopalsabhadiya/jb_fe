@@ -13,6 +13,7 @@ class AppGlobalKeys {
   static final GlobalKey<ScaffoldState> AUTH_APPBAR_SCAFFOLD =
       GlobalKey<ScaffoldState>();
 
+  //ToDo: Remove this with Scaffold.of(context)
   static getBodyScaffoldKey(ScreenTypeEnum type) {
     switch (type) {
       case ScreenTypeEnum.AUTHENTICATED:

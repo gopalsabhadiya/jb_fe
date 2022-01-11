@@ -6,6 +6,7 @@ enum ItemNotificationType {
   ITEM_UPDATED,
   ITEM_CREATED,
   ITEM_ADD_REQUEST,
+  ITEM_UPDATE_FROM_CART_REQUEST,
   ITEM_SEARCH_COMPLETE,
   ITEM_SEARCH_CLEARED,
   ITEM_GET_NEXT_PAGE
@@ -64,8 +65,12 @@ class SearchItemCompleteNotification extends ItemOperationNotification {
 }
 
 class SearchItemTermClearedNotification extends ItemOperationNotification {
-  const SearchItemTermClearedNotification()
+  final List<ItemPresentation> cartItems;
+  const SearchItemTermClearedNotification({required this.cartItems})
       : super(notificationType: ItemNotificationType.ITEM_SEARCH_CLEARED);
+
+  @override
+  List<Object?> get props => [cartItems];
 }
 
 class SearchNextItemPageRequestNotification extends ItemOperationNotification {
@@ -77,3 +82,24 @@ class AddItemRequestNotification extends ItemOperationNotification {
   const AddItemRequestNotification()
       : super(notificationType: ItemNotificationType.ITEM_ADD_REQUEST);
 }
+
+class UpdateItemFromCartNotification extends ItemOperationNotification {
+  final ItemPresentation item;
+  const UpdateItemFromCartNotification({required this.item})
+      : super(
+            notificationType:
+                ItemNotificationType.ITEM_UPDATE_FROM_CART_REQUEST);
+  @override
+  List<Object?> get props => [item];
+}
+
+// class RemoveItemFromCartNotification extends ItemOperationNotification {
+//   final ItemPresentation item;
+//   const RemoveItemFromCartNotification({required this.item})
+//       : super(
+//             notificationType:
+//                 ItemNotificationType.ITEM_REMOVED_FROM_CART_REQUEST);
+//
+//   @override
+//   List<Object?> get props => [item];
+// }

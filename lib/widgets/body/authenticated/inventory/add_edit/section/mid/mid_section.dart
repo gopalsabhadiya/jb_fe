@@ -6,7 +6,6 @@ import 'package:jb_fe/constants/colors.dart';
 import 'package:jb_fe/constants/texts/defaults.dart';
 import 'package:jb_fe/constants/texts/item_text.dart';
 import 'package:jb_fe/controllers/bloc/business/business_data_bloc.dart';
-import 'package:jb_fe/controllers/bloc/common/binary/binary_cubit.dart';
 import 'package:jb_fe/controllers/bloc/inventory/pieces_enabler/pieces_enabler_cubit.dart';
 import 'package:jb_fe/injection_container.dart';
 import 'package:jb_fe/widgets/body/authenticated/inventory/add_edit/section/mid/category_type.dart';
@@ -71,7 +70,7 @@ class _ItemInputMidSectionState extends State<ItemInputMidSection> {
                     ),
                   ),
                   const SizedBox(
-                    width: 15,
+                    width: 10,
                   ),
                   Expanded(
                     child: AppTextInput(
@@ -84,7 +83,7 @@ class _ItemInputMidSectionState extends State<ItemInputMidSection> {
                 ],
               ),
               const SizedBox(
-                height: 15,
+                height: 10,
               ),
               Row(
                 children: [
@@ -105,7 +104,7 @@ class _ItemInputMidSectionState extends State<ItemInputMidSection> {
                     ),
                   ),
                   const SizedBox(
-                    width: 15,
+                    width: 10,
                   ),
                   Expanded(
                     child: AppTextInput(
@@ -119,7 +118,7 @@ class _ItemInputMidSectionState extends State<ItemInputMidSection> {
                     ),
                   ),
                   const SizedBox(
-                    width: 15,
+                    width: 10,
                   ),
                   Expanded(
                     child: AppTextInput(
@@ -135,7 +134,7 @@ class _ItemInputMidSectionState extends State<ItemInputMidSection> {
                 ],
               ),
               const SizedBox(
-                height: 15,
+                height: 10,
               ),
               Row(
                 children: [
@@ -152,7 +151,7 @@ class _ItemInputMidSectionState extends State<ItemInputMidSection> {
                     ),
                   ),
                   const SizedBox(
-                    width: 15,
+                    width: 10,
                   ),
                   Expanded(
                     child: AppTextInput(
@@ -167,7 +166,7 @@ class _ItemInputMidSectionState extends State<ItemInputMidSection> {
                     ),
                   ),
                   const SizedBox(
-                    width: 15,
+                    width: 10,
                   ),
                   Expanded(
                     child: ToggleButtons(
@@ -200,13 +199,13 @@ class _ItemInputMidSectionState extends State<ItemInputMidSection> {
         _items.add(AppTextBuilder(ItemText.LABOUR_TYPE_LIST[i])
             .color(AppColors.white)
             .size(16)
-            .paddingAll(12)
+            .paddingAll(10)
             .build());
       } else {
         _items.add(AppTextBuilder(ItemText.LABOUR_TYPE_LIST[i])
             .color(AppColors.blue_5)
             .size(16)
-            .paddingAll(12)
+            .paddingAll(10)
             .build());
       }
     }

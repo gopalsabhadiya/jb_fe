@@ -2,17 +2,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jb_fe/controllers/bloc/authenticated_sidepanel.dart';
 import 'package:jb_fe/controllers/bloc/business/business_data_bloc.dart';
-import 'package:jb_fe/controllers/bloc/party/party_bloc/party_bloc.dart';
-import 'package:jb_fe/controllers/bloc/party/party_form_toggle/party_form_toggle_cubit.dart';
+import 'package:jb_fe/controllers/bloc/cart/cart/cart_bloc.dart';
+import 'package:jb_fe/controllers/bloc/cart/cart_form_toggle/cart_form_toggle_cubit.dart';
 import 'package:jb_fe/controllers/bloc/state/authenticated_sidepanel.dart';
 import 'package:jb_fe/injection_container.dart';
 import 'package:jb_fe/util/screen_size.dart';
-import 'package:jb_fe/widgets/body/authenticated/dashboard/dashboard.dart';
-import 'package:jb_fe/widgets/body/authenticated/inventory/inventory.dart';
+import 'package:jb_fe/widgets/body/authenticated/cart/cart_form_drawer.dart';
 import 'package:jb_fe/widgets/body/authenticated/orders/orders.dart';
+import 'package:jb_fe/widgets/body/authenticated/pages/dashboard.dart';
 import 'package:jb_fe/widgets/body/authenticated/pages/inventory.dart';
 import 'package:jb_fe/widgets/body/authenticated/pages/party.dart';
-import 'package:jb_fe/widgets/body/authenticated/party/party.dart';
 import 'package:jb_fe/widgets/body/authenticated/payments/payments.dart';
 import 'package:jb_fe/widgets/body/authenticated/shop_expenses/shop_expenses.dart';
 import 'package:jb_fe/widgets/body/authenticated/side_panel.dart';
@@ -28,7 +27,22 @@ class AppBodyAuthenticated extends StatelessWidget {
       children: [
         !ScreenSizeUtil.displayDrawer(context) ? SidePanel() : Container(),
         Expanded(
-          child: _getContentSection(),
+          child: MultiBlocProvider(
+            providers: [
+              BlocProvider<CartBloc>(
+                create: (BuildContext context) => serviceLocator<CartBloc>(),
+              ),
+              BlocProvider<CartFormToggleCubit>(
+                create: (context) => CartFormToggleCubit(),
+              )
+            ],
+            child: Stack(
+              children: [
+                _getContentSection(),
+                const CartFormDrawer(),
+              ],
+            ),
+          ),
         ),
       ],
     );
@@ -46,14 +60,7 @@ class AppBodyAuthenticated extends StatelessWidget {
         builder: (BuildContext context, AuthenticatedSidePanelState state) {
           switch (state) {
             case AuthenticatedSidePanelState.DASHBOARD:
-              return Column(
-                children: [
-                  ScreenSizeUtil.getIsHamburgerNavbar(context)
-                      ? const HamburgerTopAuthenticatedNavbar()
-                      : const RegularTopAuthenticatedNavbar(),
-                  const Dashboard(),
-                ],
-              );
+              return const DashboardPage();
             case AuthenticatedSidePanelState.PARTY:
               return const PartyPage();
             case AuthenticatedSidePanelState.INVENTORY:

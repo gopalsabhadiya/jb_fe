@@ -7,7 +7,14 @@ abstract class ItemEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class FetchItemFirstPage extends ItemEvent {}
+class FetchItemFirstPage extends ItemEvent {
+  final List<ItemPresentation> cartItems;
+
+  const FetchItemFirstPage({required this.cartItems});
+
+  @override
+  List<Object?> get props => [cartItems];
+}
 
 class FetchNextItemPage extends ItemEvent {}
 

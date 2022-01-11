@@ -28,6 +28,7 @@ class ItemPresentation {
   double? _newNetAmount;
   late int _stockPieces;
   late int _newStockPieces;
+  late int _cartQuantity;
   List<ItemExtraPresentation>? _extras;
   List<ItemExtraPresentation>? _newExtras;
   String? _huid;
@@ -66,16 +67,17 @@ class ItemPresentation {
             ? entity.extras!
                 .map((extra) => ItemExtraPresentation(extra))
                 .toList()
-            : <ItemExtraPresentation>[ItemExtraPresentation.empty()],
+            : <ItemExtraPresentation>[],
         _newExtras = entity.extras != null && entity.extras!.isNotEmpty
             ? entity.extras!
                 .map((extra) => ItemExtraPresentation(extra))
                 .toList()
-            : <ItemExtraPresentation>[ItemExtraPresentation.empty()],
+            : <ItemExtraPresentation>[],
         _huid = entity.huid,
         _newHuid = entity.huid,
         _hasImages = entity.hasImages,
         _newHasImages = entity.hasImages,
+        _cartQuantity = 0,
         super();
 
   ItemPresentation.empty()
@@ -147,6 +149,12 @@ class ItemPresentation {
   bool get hasImages => _hasImages;
 
   bool get newHasImages => _newHasImages;
+
+  int get cartQuantity => _cartQuantity;
+
+  void setCartQuantity(int value) {
+    _cartQuantity = value;
+  }
 
   void setNewHasImages(bool value) {
     _newHasImages = value;
@@ -284,10 +292,29 @@ class ItemPresentation {
     _itemAmount = _newItemAmount;
     _netAmount = _newNetAmount;
     _stockPieces = _newStockPieces;
-    for (var extra in _newExtras!) {
-      extra.updateValues();
-    }
+    print("New Extras: $_newExtras");
+    _newExtras = _newExtras!
+        .where((element) =>
+            element.newLabourCharge != null ||
+            element.newPieces != null ||
+            element.newRate != null)
+        .toList();
+    print("New Extras after filte: $_newExtras");
+    _newExtras!.forEach((e) => e.updateValues());
     _extras = _newExtras;
+    print("New Extras after update: $_extras");
+    // for (var extra in _newExtras!) {
+    //   extra.updateValues();
+    // }
+    // for (var element in _newExtras!) {
+    //   if (element.labourCharge != null ||
+    //       element.pieces != null ||
+    //       element.rate != null) {
+    //     print("Adding extra item: $element");
+    //     _extras!.add(element);
+    //   }
+    // }
+    // _extras = _newExtras;
     _huid = _newHuid;
     _hasImages = _newHasImages;
   }
@@ -306,15 +333,7 @@ class ItemPresentation {
       itemAmount: _itemAmount,
       netAmount: _netAmount,
       stockPieces: _stockPieces,
-      extras: _extras != null
-          ? _extras!
-              .where((extra) =>
-                  extra.rate != null &&
-                  extra.pieces != null &&
-                  extra.labourCharge != null)
-              .map((extra) => extra.getEntity())
-              .toList()
-          : null,
+      extras: _extras!.map((extra) => extra.getEntity()).toList(),
       huid: _huid,
       hasImages: _hasImages,
     );

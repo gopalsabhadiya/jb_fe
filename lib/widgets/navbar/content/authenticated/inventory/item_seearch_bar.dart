@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jb_fe/constants/texts/item_text.dart';
+import 'package:jb_fe/controllers/bloc/cart/cart/cart_bloc.dart';
 import 'package:jb_fe/controllers/bloc/inventory/item_bloc/item_bloc.dart';
 import 'package:jb_fe/controllers/bloc/inventory/search_item/search_item_bloc.dart';
 import 'package:jb_fe/injection_container.dart';
@@ -39,7 +40,11 @@ class ItemSearchBar extends StatelessWidget {
   }
 
   _clearSearchTerm(BuildContext context) {
-    BlocProvider.of<SearchItemBloc>(context).add(ClearSearchItemTerm());
+    BlocProvider.of<SearchItemBloc>(context).add(
+      ClearSearchItemTerm(
+        cartItems: BlocProvider.of<CartBloc>(context).state.itemList,
+      ),
+    );
   }
 
   _onInventorySearchChange(String value) {
@@ -48,7 +53,11 @@ class ItemSearchBar extends StatelessWidget {
 
   _inventorySearchClickHandler(BuildContext context, String searchTerm) {
     print("Add event");
-    BlocProvider.of<SearchItemBloc>(context)
-        .add(SearchItem(searchTerm: searchTerm));
+    BlocProvider.of<SearchItemBloc>(context).add(
+      SearchItem(
+        searchTerm: searchTerm,
+        cartItems: BlocProvider.of<CartBloc>(context).state.itemList,
+      ),
+    );
   }
 }

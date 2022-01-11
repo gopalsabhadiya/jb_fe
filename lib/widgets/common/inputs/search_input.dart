@@ -11,6 +11,8 @@ class AppSearchInput extends StatefulWidget {
   final Function(String) onChanged;
   final String? Function(String?)? validator;
   final Function() clearSearchResult;
+  final FocusNode? focusNode;
+  final TextEditingController? controller;
 
   const AppSearchInput({
     Key? key,
@@ -22,6 +24,8 @@ class AppSearchInput extends StatefulWidget {
     required this.searchSubmitHandler,
     required this.clearSearchResult,
     this.validator,
+    this.focusNode,
+    this.controller,
   }) : super(key: key);
 
   @override
@@ -30,7 +34,13 @@ class AppSearchInput extends StatefulWidget {
 
 class _AppSearchInputState extends State<AppSearchInput> {
   IconData suffixIcon = Icons.search;
-  final _controller = TextEditingController();
+  late final TextEditingController _controller;
+
+  @override
+  void initState() {
+    _controller = widget.controller ?? TextEditingController();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,13 +51,17 @@ class _AppSearchInputState extends State<AppSearchInput> {
           message: widget.tooltip ?? widget.hint,
           textStyle: const TextStyle(fontSize: 14, color: AppColors.blue_1),
           padding: const EdgeInsets.all(5),
-          margin: EdgeInsets.all(10),
+          margin: const EdgeInsets.all(10),
           triggerMode: TooltipTriggerMode.longPress,
           enableFeedback: true,
           decoration: BoxDecoration(
-              color: AppColors.blue5WithOpacity(0.9),
-              borderRadius: const BorderRadius.all(Radius.circular(5))),
+            color: AppColors.blue5WithOpacity(0.9),
+            borderRadius: const BorderRadius.all(
+              Radius.circular(5),
+            ),
+          ),
           child: TextFormField(
+            focusNode: widget.focusNode,
             controller: _controller,
             onFieldSubmitted: widget.searchSubmitHandler,
             validator: widget.validator,
@@ -60,7 +74,7 @@ class _AppSearchInputState extends State<AppSearchInput> {
             obscureText: widget.obscureText ?? false,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             decoration: InputDecoration(
-              contentPadding: EdgeInsets.all(0),
+              contentPadding: const EdgeInsets.all(0),
               isDense: true,
               filled: true,
               fillColor: AppColors.white,

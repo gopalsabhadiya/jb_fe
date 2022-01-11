@@ -12,7 +12,7 @@ class SearchItemNotifier implements ItemOperationNotifier {
       _subscribers.add(subscriber);
 
   @override
-  void unSubscribe({required ItemOperationSubscriber subscriber}) =>
+  void unSubscribe<T>({required ItemOperationSubscriber subscriber}) =>
       _subscribers.removeWhere((element) => element.id == subscriber.id);
 
   @override
