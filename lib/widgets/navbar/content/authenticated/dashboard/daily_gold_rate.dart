@@ -1,10 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:jb_fe/backend_integration/dto/daily_gold_rate/daily_gold_rate_presentation.dart';
 import 'package:jb_fe/constants/texts/dashboard.dart';
+import 'package:jb_fe/constants/texts/defaults.dart';
 import 'package:jb_fe/widgets/common/inputs/text_field.dart';
 
 class DailyGoldRateInput extends StatelessWidget {
-  const DailyGoldRateInput({Key? key}) : super(key: key);
+  final DailyGoldRatePresentation _dailyGoldRate;
+  const DailyGoldRateInput({Key? key, required dailyGoldRate})
+      : _dailyGoldRate = dailyGoldRate,
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,8 +19,11 @@ class DailyGoldRateInput extends StatelessWidget {
         prefixIcon: Icons.account_circle,
         hint: DashboardText.ADD_DAILY_GOLD_RATE_HINT,
         tooltip: DashboardText.ADD_DAILY_GOLD_RATE_TOOLTIP,
-        onChanged: _onGoldRateChange,
+        onChanged: _dailyGoldRate.setNewRate,
         isNumberInput: true,
+        initialValue: _dailyGoldRate.newRate != null
+            ? _dailyGoldRate.newRate.toString()
+            : DefaultTexts.EMPTY,
       ),
     );
   }

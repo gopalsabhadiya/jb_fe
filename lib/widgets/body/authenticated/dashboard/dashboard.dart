@@ -11,7 +11,7 @@ class Dashboard extends StatelessWidget {
       children: [
         Container(
           color: AppColors.grey_1,
-          padding: EdgeInsets.all(20),
+          padding: const EdgeInsets.all(20),
           child: AppTextBuilder("Dashboard").build(),
         ),
       ],

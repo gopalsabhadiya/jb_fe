@@ -35,6 +35,8 @@ class EndpointUri {
   static const String _DOWNLOAD_IMAGE_SIGNED_URL =
       "$_ITEM_IMAGE_URL/fetch_signed_url?id=$_ID";
 
+  static const String _BASE_DAILY_GOLD_RATE = "$_BASE_URL/daily_gold_rate";
+
   static const String _BASE_ORDER = "$_BASE_URL/order";
   static const String _BASE_BILL = "$_BASE_URL/bill";
   static const String _BASE_RECEIPT = "$_BASE_URL/receipt";
@@ -139,5 +141,13 @@ class EndpointUri {
     return Uri.parse(_SEARCH_ITEM
         .replaceAll(_SKIP, skip.toString())
         .replaceAll(_SEARCH_TERM, searchTerm));
+  }
+
+  static Uri getCreateDailyGoldRateURL() {
+    return Uri.parse(_BASE_DAILY_GOLD_RATE);
+  }
+
+  static Uri getGetTodayGoldRateURL() {
+    return Uri.parse(_BASE_DAILY_GOLD_RATE);
   }
 }
