@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jb_fe/backend_integration/constants/enum/labour_type_enum.dart';
 import 'package:jb_fe/backend_integration/dto/item/item_presentation.dart';
 import 'package:jb_fe/constants/colors.dart';
 import 'package:jb_fe/constants/texts/defaults.dart';
@@ -28,7 +29,7 @@ class ItemInputMidSection extends StatefulWidget {
 
 class _ItemInputMidSectionState extends State<ItemInputMidSection> {
   final List<bool> _labourTypeSelections =
-      List.generate(ItemText.LABOUR_TYPE_LIST.length, (index) => false);
+      List.generate(LabourTypeEnum.values.length, (index) => false);
   late bool _piecesEnabled;
 
   @override
@@ -38,7 +39,7 @@ class _ItemInputMidSectionState extends State<ItemInputMidSection> {
     _piecesEnabled =
         widget._item.newHuid == null || widget._item.newHuid!.isEmpty;
     _labourTypeSelections[
-        ItemText.LABOUR_TYPE_LIST.indexOf(widget._item.newLabour!.type)] = true;
+        LabourTypeEnum.values.indexOf(widget._item.newLabour!.type)] = true;
     super.initState();
   }
 
@@ -194,15 +195,16 @@ class _ItemInputMidSectionState extends State<ItemInputMidSection> {
 
   List<Widget> _getLabourTypes() {
     List<Widget> _items = [];
-    for (int i = 0; i < ItemText.LABOUR_TYPE_LIST.length; i++) {
+
+    for (int i = 0; i < LabourTypeEnum.values.length; i++) {
       if (_labourTypeSelections[i]) {
-        _items.add(AppTextBuilder(ItemText.LABOUR_TYPE_LIST[i])
+        _items.add(AppTextBuilder(LabourTypeEnum.values[i].name())
             .color(AppColors.white)
             .size(16)
             .paddingAll(10)
             .build());
       } else {
-        _items.add(AppTextBuilder(ItemText.LABOUR_TYPE_LIST[i])
+        _items.add(AppTextBuilder(LabourTypeEnum.values[i].name())
             .color(AppColors.blue_5)
             .size(16)
             .paddingAll(10)
@@ -213,7 +215,7 @@ class _ItemInputMidSectionState extends State<ItemInputMidSection> {
   }
 
   void _onLabourTypeChange(int index) {
-    widget._item.newLabour!.setNewType(ItemText.LABOUR_TYPE_LIST[index]);
+    widget._item.newLabour!.setNewType(LabourTypeEnum.values[index]);
     setState(() {
       for (int i = 0; i < _labourTypeSelections.length; i++) {
         _labourTypeSelections[i] = i == index ? true : false;

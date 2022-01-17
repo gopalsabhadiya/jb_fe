@@ -21,7 +21,8 @@ class InventoryPage extends StatelessWidget {
             final ItemBloc itemBloc = serviceLocator<ItemBloc>()
               ..add(
                 FetchItemFirstPage(
-                  cartItems: BlocProvider.of<CartBloc>(context).state.itemList,
+                  cartItems:
+                      BlocProvider.of<CartBloc>(context).state.order.items,
                 ),
               );
             BlocProvider.of<CartBloc>(context)

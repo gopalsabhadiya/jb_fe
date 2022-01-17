@@ -19,8 +19,10 @@ class ItemCardHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if ((_item.id == "61cd4ef75fbb600016d1831b" && _item.newStockPieces > 0) ||
-        (_item.id == "61cd4ecb5fbb600016d18303" && _item.newStockPieces > 19)) {
+    if ((_item.id == "61cd4ee25fbb600016d1830f" &&
+            _item.newStockPieces - _item.cartQuantity > 0) ||
+        (_item.id == "61cd4ecb5fbb600016d18303" &&
+            _item.newStockPieces - _item.cartQuantity > 19)) {
       print("Addin item to cart from item header");
       _addItemToCart(context);
     }
@@ -54,7 +56,7 @@ class ItemCardHeader extends StatelessWidget {
                   .color(AppColors.blue_5)
                   .onClickHandler(() => _addItemToCart(context))
                   .padding(const EdgeInsets.symmetric(horizontal: 5))
-                  .isDisabled(_item.newStockPieces == 0)
+                  .isDisabled(_item.newStockPieces - _item.cartQuantity == 0)
                   .build(),
               ShareItem(item: _item)
             ],

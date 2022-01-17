@@ -52,7 +52,7 @@ class ExtraItemForm extends StatelessWidget {
                       initialValue:
                           _extra.newType != null && _extra.newType!.isNotEmpty
                               ? _extra.newType
-                              : "Diamond",
+                              : DefaultTexts.EMPTY,
                       items: _extraTypes,
                       prefixIcon: AppIcons.crystal,
                       onSetValue: _extra.setNewType,

@@ -13,7 +13,7 @@ class DailyGoldRateEntity extends Equatable {
     toJson: ignoreIfEmpty,
   )
   final String? id;
-  final int rate;
+  final double rate;
   final DateTime date;
 
   const DailyGoldRateEntity({

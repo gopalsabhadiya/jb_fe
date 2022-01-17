@@ -1,6 +1,6 @@
+import 'package:jb_fe/backend_integration/constants/enum/labour_type_enum.dart';
 import 'package:jb_fe/backend_integration/domain/entities/item/labour.dart';
 import 'package:jb_fe/constants/texts/defaults.dart';
-import 'package:jb_fe/constants/texts/item_text.dart';
 import 'package:uuid/uuid.dart';
 
 class LabourPresentation {
@@ -8,8 +8,8 @@ class LabourPresentation {
 
   double? _value;
   double? _newValue;
-  String _type;
-  String _newType;
+  LabourTypeEnum _type;
+  LabourTypeEnum _newType;
 
   LabourPresentation(LabourEntity entity)
       : _value = entity.value,
@@ -26,8 +26,8 @@ class LabourPresentation {
   }
 
   LabourPresentation.empty()
-      : _type = ItemText.LABOUR_TYPE_LIST.first,
-        _newType = ItemText.LABOUR_TYPE_LIST.first,
+      : _type = LabourTypeEnum.PERCENTAGE,
+        _newType = LabourTypeEnum.PERCENTAGE,
         super();
 
   void updateValues() {
@@ -39,11 +39,12 @@ class LabourPresentation {
 
   double? get newValue => _newValue;
 
-  String get type => _type;
+  LabourTypeEnum get type => _type;
 
-  String get newType => _newType;
+  LabourTypeEnum get newType => _newType;
 
-  void setNewType(String value) {
+  void setNewType(LabourTypeEnum value) {
+    print("Setting new labour type");
     _newType = value;
   }
 

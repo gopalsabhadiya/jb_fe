@@ -23,14 +23,18 @@ class ItemExtraPresentation {
         _newLabourCharge = entity.labourCharge,
         _type = entity.type,
         _newType = entity.type,
-        _amount = entity.pieces != null &&
-                entity.labourCharge != null &&
-                entity.pieces != 0 &&
-                entity.labourCharge != 0
-            ? ((entity.rate! * entity.pieces!) +
-                (entity.rate! * entity.pieces!))
-            : entity.rate ?? 0,
+        _amount = entity.pieces == null && entity.labourCharge == null
+            ? entity.rate ?? 0
+            : (((entity.rate ?? 0) * (entity.pieces ?? 0)) +
+                ((entity.pieces ?? 0) * (entity.labourCharge ?? 0))),
         super();
+
+  _calculateAndSetAmount() {
+    _amount = _newPieces == null && _newLabourCharge == null
+        ? _newRate ?? 0
+        : (((_newRate ?? 0) * (_newPieces ?? 0)) +
+            ((_newPieces ?? 0) * (_newLabourCharge ?? 0)));
+  }
 
   ItemExtraEntity getEntity() {
     return ItemExtraEntity(
@@ -74,7 +78,8 @@ class ItemExtraPresentation {
   }
 
   String? newTypeValidator(String? value) {
-    if (value != null) {
+    print("New type validator executed: $value");
+    if (value != null && value.isNotEmpty) {
       return null;
     }
     return DefaultTexts.EMPTY;
@@ -82,6 +87,7 @@ class ItemExtraPresentation {
 
   void setNewLabourCharge(String value) {
     _newLabourCharge = double.tryParse(value) ?? _newLabourCharge;
+    _calculateAndSetAmount();
   }
 
   String? newLabourValidator(String? value) {
@@ -93,6 +99,7 @@ class ItemExtraPresentation {
 
   void setNewPieces(String value) {
     _newPieces = int.tryParse(value) ?? _newPieces;
+    _calculateAndSetAmount();
   }
 
   String? newPiecesValidator(String? value) {
@@ -104,6 +111,7 @@ class ItemExtraPresentation {
 
   void setNewRate(String value) {
     _newRate = double.tryParse(value) ?? _newRate;
+    _calculateAndSetAmount();
   }
 
   String? newRateValidator(String? value) {

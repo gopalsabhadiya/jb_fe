@@ -13,12 +13,15 @@ class AppDecorations {
   }
 
   static BoxDecoration withOffset() {
-    return const BoxDecoration(boxShadow: [
-      BoxShadow(
+    return const BoxDecoration(
+      boxShadow: [
+        BoxShadow(
           color: AppColors.grey_4,
           offset: Offset(5, 6),
           blurRadius: 20,
-          spreadRadius: -10)
-    ]);
+          spreadRadius: -10,
+        ),
+      ],
+    );
   }
 }

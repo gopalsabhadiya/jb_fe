@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jb_fe/constants/enum/screen.dart';
 import 'package:jb_fe/controllers/bloc/authenticated_sidepanel.dart';
+import 'package:jb_fe/controllers/bloc/dashboard/daily_gold_rate/daily_gold_rate_bloc.dart';
 import 'package:jb_fe/controllers/bloc/drawer.dart';
 import 'package:jb_fe/controllers/bloc/events/drawer.dart';
 import 'package:jb_fe/controllers/bloc/state/authenticated_sidepanel.dart';
@@ -14,6 +15,8 @@ import 'package:jb_fe/util/screen_size.dart';
 import 'package:jb_fe/widgets/body/authenticated/body.dart';
 import 'package:jb_fe/widgets/navbar/content/authenticated/drawer.dart';
 import 'package:jb_fe/widgets/navbar/content/authenticated/end_drawer.dart';
+
+import '../../injection_container.dart';
 
 class AuthenticatedHomeScreen extends StatelessWidget {
   const AuthenticatedHomeScreen({Key? key}) : super(key: key);
@@ -31,9 +34,13 @@ class AuthenticatedHomeScreen extends StatelessWidget {
             lazy: false, create: (context) => DrawerBloc(DrawerState.CLOSED)),
         BlocProvider<AuthenticatedSidePanelCubit>(
           create: (context) => AuthenticatedSidePanelCubit(
-            AuthenticatedSidePanelState.DASHBOARD,
+            AuthenticatedSidePanelState.INVENTORY,
           ),
-        )
+        ),
+        BlocProvider<DailyGoldRateBloc>(
+            create: (context) =>
+                serviceLocator<DailyGoldRateBloc>()..add(GetTodayGoldRate()),
+            lazy: false),
       ],
       child: Builder(builder: (context) {
         return Scaffold(

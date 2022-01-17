@@ -25,7 +25,7 @@ class ItemPresentation {
   double? _itemAmount;
   double? _newItemAmount;
   double? _netAmount;
-  double? _newNetAmount;
+  double _newNetAmount;
   late int _stockPieces;
   late int _newStockPieces;
   late int _cartQuantity;
@@ -60,7 +60,7 @@ class ItemPresentation {
         _itemAmount = entity.itemAmount,
         _newItemAmount = entity.itemAmount,
         _netAmount = entity.netAmount,
-        _newNetAmount = entity.netAmount,
+        _newNetAmount = entity.netAmount ?? 0,
         _stockPieces = entity.stockPieces,
         _newStockPieces = entity.stockPieces,
         _extras = entity.extras != null && entity.extras!.isNotEmpty
@@ -92,6 +92,7 @@ class ItemPresentation {
         _newImages = <PlatformFile>[],
         _hasImages = false,
         _newHasImages = false,
+        _newNetAmount = 0,
         super();
 
   String? get id => _id;
@@ -130,7 +131,7 @@ class ItemPresentation {
 
   double? get netAmount => _netAmount;
 
-  double? get newNetAmount => _newNetAmount;
+  double get newNetAmount => _newNetAmount;
 
   int get stockPieces => _stockPieces;
 

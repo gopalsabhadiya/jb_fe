@@ -40,6 +40,7 @@ class DailyGoldRateBloc extends Bloc<DailyGoldRateEvent, DailyGoldRateState>
 
   FutureOr<void> _getTodayGoldRate(
       GetTodayGoldRate event, Emitter<DailyGoldRateState> emit) async {
+    print("Trying to read daily gold rate");
     emit(
       state.copyWith(
         status: DailyGoldRateStatus.LOADING,

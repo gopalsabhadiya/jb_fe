@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jb_fe/constants/colors.dart';
 import 'package:jb_fe/constants/durations/animation_durations.dart';
-import 'package:jb_fe/controllers/bloc/cart/cart/cart_bloc.dart';
 import 'package:jb_fe/controllers/bloc/cart/cart_form_toggle/cart_form_toggle_cubit.dart';
 import 'package:jb_fe/util/screen_size.dart';
 
@@ -54,7 +53,6 @@ class _CartFormDrawerState extends State<CartFormDrawer>
                 color: AppColors.blue_1,
                 child: CartDrawerContent(
                   closeDrawer: _closeDrawer,
-                  cartItems: BlocProvider.of<CartBloc>(context).state.itemList,
                 ),
               ),
             ),

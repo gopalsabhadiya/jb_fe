@@ -1,27 +1,32 @@
 part of 'cart_bloc.dart';
 
+enum CartStatus { LOADING, COMPLETED, ERROR }
+
 class CartState extends Equatable {
+  final CartStatus status;
   final int totalItemCount;
-  final List<ItemPresentation> itemList;
+  final OrderPresentation order;
   final PartyPresentation? party;
   const CartState({
-    this.itemList = const <ItemPresentation>[],
+    this.status = CartStatus.COMPLETED,
     this.totalItemCount = 0,
+    required this.order,
     this.party,
   });
 
   CartState copyWith({
-    List<ItemPresentation>? itemList,
+    CartStatus? status,
     int? totalItemCount,
     PartyPresentation? party,
+    OrderPresentation? order,
   }) {
     return CartState(
-      itemList: itemList ?? this.itemList,
-      totalItemCount: totalItemCount ?? this.totalItemCount,
-      party: party,
-    );
+        status: status ?? this.status,
+        totalItemCount: totalItemCount ?? this.totalItemCount,
+        party: party,
+        order: order ?? this.order);
   }
 
   @override
-  List<Object?> get props => [itemList, totalItemCount, party];
+  List<Object?> get props => [status, totalItemCount, party];
 }

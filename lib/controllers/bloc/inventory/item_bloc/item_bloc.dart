@@ -73,6 +73,7 @@ class ItemBloc extends Bloc<ItemEvent, ItemState>
     );
     try {
       final itemList = await getItemPageUseCase();
+      print("A");
       for (final ItemPresentation pageItem in itemList) {
         for (final ItemPresentation cartItem in event.cartItems) {
           if (pageItem.id == cartItem.id) {
@@ -80,6 +81,7 @@ class ItemBloc extends Bloc<ItemEvent, ItemState>
           }
         }
       }
+      print("Emitting new item list");
       emit(
         state.copyWith(
           status: ItemStatus.SUCCESS,
@@ -202,13 +204,6 @@ class ItemBloc extends Bloc<ItemEvent, ItemState>
     emit(
       state.copyWith(
         status: ItemStatus.SUCCESS,
-        itemList: state.itemList.map((item) {
-          if (item.id == event.item.id) {
-            item.setNewStockPieces(
-                (item.stockPieces - event.item.cartQuantity).toString());
-          }
-          return item;
-        }).toList(),
       ),
     );
   }

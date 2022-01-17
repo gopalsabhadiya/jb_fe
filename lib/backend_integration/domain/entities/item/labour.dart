@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:jb_fe/backend_integration/constants/enum/labour_type_enum.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'labour.g.dart';
@@ -6,7 +7,7 @@ part 'labour.g.dart';
 @JsonSerializable(explicitToJson: true)
 class LabourEntity extends Equatable {
   final double? value;
-  final String type;
+  final LabourTypeEnum type;
 
   const LabourEntity({required this.value, required this.type});
 

@@ -30,28 +30,26 @@ class OrderFormItemSection extends StatelessWidget {
           child: Row(
             mainAxisSize: MainAxisSize.max,
             children: [
-              Container(
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 30, vertical: 70),
-                  child: Column(
-                    children: [
-                      AppTextBuilder(OrderText.ITEMS_SECTION_HEADER)
-                          .size(30)
-                          .color(AppColors.blue_5)
-                          .build(),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      SizedBox(
-                        width: 200,
-                        child: AppSearchBarInput(
-                            hint: OrderText.SEARCH_ITEM_INPUT,
-                            onChanged: _onChange,
-                            suffixIconClickHandler: _onButtonClick),
-                      )
-                    ],
-                  ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 30, vertical: 70),
+                child: Column(
+                  children: [
+                    AppTextBuilder(OrderText.ITEMS_SECTION_HEADER)
+                        .size(30)
+                        .color(AppColors.blue_5)
+                        .build(),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    SizedBox(
+                      width: 200,
+                      child: AppSearchBarInput(
+                          hint: OrderText.SEARCH_ITEM_INPUT,
+                          onChanged: _onChange,
+                          suffixIconClickHandler: _onButtonClick),
+                    )
+                  ],
                 ),
               ),
               Expanded(

@@ -8,11 +8,17 @@ part of 'labour.dart';
 
 LabourEntity _$LabourEntityFromJson(Map<String, dynamic> json) => LabourEntity(
       value: (json['value'] as num?)?.toDouble(),
-      type: json['type'] as String,
+      type: $enumDecode(_$LabourTypeEnumEnumMap, json['type']),
     );
 
 Map<String, dynamic> _$LabourEntityToJson(LabourEntity instance) =>
     <String, dynamic>{
       'value': instance.value,
-      'type': instance.type,
+      'type': _$LabourTypeEnumEnumMap[instance.type],
     };
+
+const _$LabourTypeEnumEnumMap = {
+  LabourTypeEnum.PERCENTAGE: 'PERCENTAGE',
+  LabourTypeEnum.PER_GRAM: 'PER_GRAM',
+  LabourTypeEnum.TOTAL: 'TOTAL',
+};

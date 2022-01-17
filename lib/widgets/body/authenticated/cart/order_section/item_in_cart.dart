@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jb_fe/backend_integration/constants/enum/labour_type_enum.dart';
 import 'package:jb_fe/backend_integration/dto/item/item_extra_presentation.dart';
 import 'package:jb_fe/backend_integration/dto/item/item_presentation.dart';
 import 'package:jb_fe/constants/colors.dart';
@@ -45,7 +46,7 @@ class ItemInCart extends StatelessWidget {
                     .build(),
                 AppTextBuilder(DefaultTexts.RUPEE_SYMBOL +
                         DefaultTexts.SPACE +
-                        _item.category)
+                        _item.newNetAmount.toString())
                     .color(AppColors.red_2)
                     .weight(AppFontWeight.BOLD)
                     .paddingAll(10)
@@ -73,96 +74,84 @@ class ItemInCart extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 15),
-            child: Wrap(
-              spacing: 10,
-              runSpacing: 10,
-              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                AppChip(
-                    text: _item.grossWeight.toString(),
-                    icon: AppIcons.gross_weight),
-                AppChip(
-                    text: _item.netWeight.toString(),
-                    icon: AppIcons.net_weight),
-                AppChip(
-                    text: _item.carat != null
-                        ? _item.carat.toString()
-                        : DefaultTexts.NULL_STRING,
-                    icon: AppIcons.karat),
-                _item.labour != null
-                    ? AppChip(
-                        text: _item.labour!.value.toString() +
-                            DefaultTexts.SPACE +
-                            _item.labour!.type,
-                        icon: Icons.engineering)
-                    : Container(),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 15),
-            child: Wrap(
-              spacing: 10,
-              runSpacing: 10,
-              children: _getItemExtras(),
-              // children: [
-              //   KeyValueDisplay(
-              //     textKey: OrderText.DIAMOND,
-              //     value: "₹ 250",
-              //   ),
-              //   KeyValueDisplay(
-              //     textKey: OrderText.RHODIUM,
-              //     value: "₹ 150",
-              //   ),
-              //   KeyValueDisplay(
-              //     textKey: OrderText.HALL_MARK,
-              //     value: "₹ 200",
-              //   ),
-              //   KeyValueDisplay(
-              //     textKey: OrderText.RUBY,
-              //     value: "₹ 2,500",
-              //   ),
-              //   KeyValueDisplay(
-              //     textKey: OrderText.STONE,
-              //     value: "₹ 50",
-              //   ),
-              // ],
-            ),
-          ),
-          Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Container(
-                  decoration: const BoxDecoration(
-                    color: AppColors.blue_2,
-                    borderRadius: BorderRadius.all(Radius.circular(100)),
-                  ),
-                  child: Row(
+            child: IntrinsicHeight(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(),
+                  Column(
                     children: [
-                      AppIconButtonCircleBuilder(Icons.add)
-                          .backgroundColor(AppColors.green_1)
-                          .padding(const EdgeInsets.all(5))
-                          .disabled(_item.newStockPieces <= 0)
-                          .onClickHandler(() => _increaseQuantity(context))
-                          .color(AppColors.grey_1)
-                          .build(),
-                      AppTextBuilder(_item.cartQuantity.toString())
-                          .paddingHorizontal(10)
-                          .weight(AppFontWeight.BOLD)
-                          .build(),
-                      AppIconButtonCircleBuilder(Icons.remove)
-                          .backgroundColor(AppColors.red_2)
-                          .padding(const EdgeInsets.all(5))
-                          .onClickHandler(() => _decreaseQuantity(context))
-                          .color(AppColors.grey_1)
-                          .build(),
+                      Wrap(
+                        spacing: 10,
+                        runSpacing: 10,
+                        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          AppChip(
+                              text: _item.grossWeight.toString(),
+                              icon: AppIcons.gross_weight),
+                          AppChip(
+                              text: _item.netWeight.toString(),
+                              icon: AppIcons.net_weight),
+                          AppChip(
+                              text: _item.carat != null
+                                  ? _item.carat.toString()
+                                  : DefaultTexts.NULL_STRING,
+                              icon: AppIcons.karat),
+                          _item.labour != null
+                              ? AppChip(
+                                  text: _item.labour!.value.toString() +
+                                      DefaultTexts.SPACE +
+                                      _item.labour!.type.name(),
+                                  icon: Icons.engineering)
+                              : Container(),
+                        ],
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8),
+                        child: Wrap(
+                          spacing: 10,
+                          runSpacing: 10,
+                          children: _getItemExtras(),
+                        ),
+                      ),
                     ],
                   ),
-                )
-              ],
+                  Container(
+                    padding: const EdgeInsets.symmetric(vertical: 5),
+                    decoration: const BoxDecoration(
+                      color: AppColors.blue_2,
+                      borderRadius: BorderRadius.all(Radius.circular(100)),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        AppIconButtonCircleBuilder(Icons.add)
+                            .backgroundColor(AppColors.green_1)
+                            .size(18)
+                            .padding(const EdgeInsets.all(2))
+                            .disabled(
+                                _item.newStockPieces - _item.cartQuantity <= 0)
+                            .onClickHandler(() => _increaseQuantity(context))
+                            .color(AppColors.grey_1)
+                            .build(),
+                        AppTextBuilder(_item.cartQuantity.toString())
+                            .paddingHorizontal(10)
+                            .weight(AppFontWeight.BOLD)
+                            .build(),
+                        AppIconButtonCircleBuilder(Icons.remove)
+                            .backgroundColor(AppColors.red_2)
+                            .size(18)
+                            .padding(const EdgeInsets.all(2))
+                            .disabled(_item.cartQuantity <= 1)
+                            .onClickHandler(() => _decreaseQuantity(context))
+                            .color(AppColors.grey_1)
+                            .build(),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ],

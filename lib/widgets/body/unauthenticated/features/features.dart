@@ -34,7 +34,7 @@ class AppFeatures extends StatelessWidget {
                   FeatureCard(featureType: FeaturesEnum.INVENTORY),
                   FeatureCard(featureType: FeaturesEnum.LATEST_UI),
                   FeatureCard(featureType: FeaturesEnum.ALL_DEVICES),
-                  FeatureCard(featureType: FeaturesEnum.SPECIALISED)
+                  FeatureCard(featureType: FeaturesEnum.SPECIALISED),
                 ],
               ),
             ),

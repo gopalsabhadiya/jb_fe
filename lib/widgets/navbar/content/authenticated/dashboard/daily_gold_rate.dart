@@ -16,7 +16,7 @@ class DailyGoldRateInput extends StatelessWidget {
     return SizedBox(
       width: 300,
       child: AppTextInput(
-        prefixIcon: Icons.account_circle,
+        prefixIcon: Icons.sell,
         hint: DashboardText.ADD_DAILY_GOLD_RATE_HINT,
         tooltip: DashboardText.ADD_DAILY_GOLD_RATE_TOOLTIP,
         onChanged: _dailyGoldRate.setNewRate,

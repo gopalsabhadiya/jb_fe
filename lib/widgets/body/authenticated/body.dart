@@ -4,6 +4,7 @@ import 'package:jb_fe/controllers/bloc/authenticated_sidepanel.dart';
 import 'package:jb_fe/controllers/bloc/business/business_data_bloc.dart';
 import 'package:jb_fe/controllers/bloc/cart/cart/cart_bloc.dart';
 import 'package:jb_fe/controllers/bloc/cart/cart_form_toggle/cart_form_toggle_cubit.dart';
+import 'package:jb_fe/controllers/bloc/dashboard/daily_gold_rate/daily_gold_rate_bloc.dart';
 import 'package:jb_fe/controllers/bloc/state/authenticated_sidepanel.dart';
 import 'package:jb_fe/injection_container.dart';
 import 'package:jb_fe/util/screen_size.dart';
@@ -39,7 +40,19 @@ class AppBodyAuthenticated extends StatelessWidget {
             child: Stack(
               children: [
                 _getContentSection(),
-                const CartFormDrawer(),
+                BlocBuilder<DailyGoldRateBloc, DailyGoldRateState>(
+                  builder: (BuildContext context, DailyGoldRateState state) {
+                    if (state.todayGoldRate != null) {
+                      print("This executed again");
+                      BlocProvider.of<CartBloc>(context).add(
+                        AddGoldRate(
+                          goldRate: state.todayGoldRate!.rate,
+                        ),
+                      );
+                    }
+                    return const CartFormDrawer();
+                  },
+                ),
               ],
             ),
           ),

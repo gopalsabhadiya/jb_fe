@@ -96,7 +96,7 @@ class RegularTopAuthenticatedNavbar extends StatelessWidget {
                         .build(),
                     BlocBuilder<CartBloc, CartState>(
                       builder: (BuildContext context, CartState state) {
-                        if (state.itemList.isEmpty) {
+                        if (state.order.items.isEmpty) {
                           return Container();
                         }
                         return Container(

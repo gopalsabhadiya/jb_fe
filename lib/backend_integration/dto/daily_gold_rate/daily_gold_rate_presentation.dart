@@ -2,8 +2,8 @@ import 'package:jb_fe/backend_integration/domain/entities/daily_gold_rate/daily_
 
 class DailyGoldRatePresentation {
   String? _id;
-  late int _rate;
-  int? _newRate;
+  late double _rate;
+  double? _newRate;
   late DateTime _date;
 
   DailyGoldRatePresentation(DailyGoldRateEntity entity)
@@ -15,14 +15,14 @@ class DailyGoldRatePresentation {
 
   DateTime get date => _date;
 
-  int? get newRate => _newRate;
+  double? get newRate => _newRate;
 
-  int get rate => _rate;
+  double get rate => _rate;
 
   String? get id => _id;
 
   void setNewRate(String value) {
-    _newRate = int.tryParse(value) ?? _newRate;
+    _newRate = double.tryParse(value) ?? _newRate;
   }
 
   DailyGoldRatePresentation.empty()

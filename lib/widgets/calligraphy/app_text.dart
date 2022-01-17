@@ -41,7 +41,7 @@ class AppTextBuilder {
   late EdgeInsets _padding = EdgeInsets.zero;
   late TextAlign _textAlign = TextAlign.center;
 
-  AppTextBuilder(this._text);
+  AppTextBuilder(this._text, {String? abc});
 
   AppTextBuilder color(Color color) {
     _textColor = color;

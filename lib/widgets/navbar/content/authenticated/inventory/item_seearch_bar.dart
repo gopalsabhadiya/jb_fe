@@ -42,7 +42,7 @@ class ItemSearchBar extends StatelessWidget {
   _clearSearchTerm(BuildContext context) {
     BlocProvider.of<SearchItemBloc>(context).add(
       ClearSearchItemTerm(
-        cartItems: BlocProvider.of<CartBloc>(context).state.itemList,
+        cartItems: BlocProvider.of<CartBloc>(context).state.order.items,
       ),
     );
   }
@@ -52,11 +52,10 @@ class ItemSearchBar extends StatelessWidget {
   }
 
   _inventorySearchClickHandler(BuildContext context, String searchTerm) {
-    print("Add event");
     BlocProvider.of<SearchItemBloc>(context).add(
       SearchItem(
         searchTerm: searchTerm,
-        cartItems: BlocProvider.of<CartBloc>(context).state.itemList,
+        cartItems: BlocProvider.of<CartBloc>(context).state.order.items,
       ),
     );
   }

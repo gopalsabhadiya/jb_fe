@@ -39,3 +39,12 @@ class AddPartyToCart extends CartEvent {
   @override
   List<Object?> get props => [party];
 }
+
+class AddGoldRate extends CartEvent {
+  final double goldRate;
+
+  const AddGoldRate({required this.goldRate});
+
+  @override
+  List<Object?> get props => [goldRate];
+}

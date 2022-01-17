@@ -30,9 +30,9 @@ class ItemText {
   static final String EXTRA_LABOUR_INPUT_TEXT = "Enter Labour Value";
   static final String EXTRA_ITEM_RATE_INPUT_TEXT = "Extra Item Rate per piece";
 
-  static final List<String> LABOUR_TYPE_LIST = [
-    "Percentage",
-    "Per Gram",
-    "Total"
-  ];
+  // static final List<String> LABOUR_TYPE_LIST = [
+  //   "Percentage",
+  //   "Per Gram",
+  //   "Total"
+  // ];
 }

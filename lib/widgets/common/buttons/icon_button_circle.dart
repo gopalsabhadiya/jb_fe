@@ -38,6 +38,7 @@ class AppIconButtonCircle extends StatelessWidget {
             padding: _padding,
             child: Icon(
               _icon,
+              size: _size,
               color: _color,
             ),
           ),
@@ -95,7 +96,7 @@ class AppIconButtonCircleBuilder {
   AppIconButtonCircle build() {
     return AppIconButtonCircle._builder(
       _icon,
-      _size ?? 18,
+      _size ?? 22,
       _color ?? AppColors.blue_5,
       _onClickHandler ?? _onClickHandlerNull,
       _padding ?? const EdgeInsets.all(8),

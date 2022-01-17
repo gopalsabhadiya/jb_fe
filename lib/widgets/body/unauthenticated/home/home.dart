@@ -12,52 +12,47 @@ class AppHome extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: AppColors.white,
-      child: Padding(
-        padding: EdgeInsets.all(ScreenSizeUtil.getContentPadding(context)),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(
-                      bottom: 20 +
-                          ScreenSizeUtil.getWidthWidthAddition(context, 60)),
-                  child: const BookSVG(),
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(
-                  width:
-                      300 + ScreenSizeUtil.getWidthWidthAddition(context, 550),
-                  child: AppTextBuilder(HomeTexts.HEADING)
-                      .size(18 +
-                          ScreenSizeUtil.getWidthWidthAddition(context, 10))
-                      .weight(FontWeight.bold)
-                      .build(),
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(
-                  width:
-                      300 + ScreenSizeUtil.getWidthWidthAddition(context, 350),
-                  child: AppTextBuilder(HomeTexts.SUB_HEADING)
-                      .opacity(0.6)
-                      .size(
-                          16 + ScreenSizeUtil.getWidthWidthAddition(context, 2))
-                      .paddingAll(10)
-                      .build(),
-                ),
-              ],
-            )
-          ],
-        ),
+      padding: EdgeInsets.all(ScreenSizeUtil.getContentPadding(context)),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(
+                    bottom:
+                        20 + ScreenSizeUtil.getWidthWidthAddition(context, 60)),
+                child: const BookSVG(),
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: 300 + ScreenSizeUtil.getWidthWidthAddition(context, 550),
+                child: AppTextBuilder(HomeTexts.HEADING)
+                    .size(
+                        18 + ScreenSizeUtil.getWidthWidthAddition(context, 10))
+                    .weight(FontWeight.bold)
+                    .build(),
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: 300 + ScreenSizeUtil.getWidthWidthAddition(context, 350),
+                child: AppTextBuilder(HomeTexts.SUB_HEADING)
+                    .opacity(0.6)
+                    .size(16 + ScreenSizeUtil.getWidthWidthAddition(context, 2))
+                    .paddingAll(10)
+                    .build(),
+              ),
+            ],
+          )
+        ],
       ),
     );
   }

@@ -1,19 +1,20 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'daily_gold_rate.dart';
+part of 'scrap.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-DailyGoldRateEntity _$DailyGoldRateEntityFromJson(Map<String, dynamic> json) =>
-    DailyGoldRateEntity(
+ScrapEntity _$ScrapEntityFromJson(Map<String, dynamic> json) => ScrapEntity(
       id: json['_id'] as String?,
+      netWeight: (json['netWeight'] as num).toDouble(),
+      touch: (json['touch'] as num).toDouble(),
       rate: (json['rate'] as num).toDouble(),
-      date: DateTime.parse(json['date'] as String),
+      netAmmount: (json['netAmmount'] as num).toDouble(),
     );
 
-Map<String, dynamic> _$DailyGoldRateEntityToJson(DailyGoldRateEntity instance) {
+Map<String, dynamic> _$ScrapEntityToJson(ScrapEntity instance) {
   final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {
@@ -23,7 +24,9 @@ Map<String, dynamic> _$DailyGoldRateEntityToJson(DailyGoldRateEntity instance) {
   }
 
   writeNotNull('_id', ignoreIfEmpty(instance.id));
+  val['netWeight'] = instance.netWeight;
+  val['touch'] = instance.touch;
   val['rate'] = instance.rate;
-  val['date'] = instance.date.toIso8601String();
+  val['netAmmount'] = instance.netAmmount;
   return val;
 }
