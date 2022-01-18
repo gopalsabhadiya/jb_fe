@@ -2,9 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jb_fe/constants/colors.dart';
 import 'package:jb_fe/controllers/bloc/cart/cart/cart_bloc.dart';
-import 'package:jb_fe/widgets/body/authenticated/cart/order_section/order_details.dart';
 import 'package:jb_fe/widgets/body/authenticated/cart/order_section/order_item_section.dart';
-import 'package:jb_fe/widgets/body/authenticated/cart/order_section/scrap_details.dart';
+
+import 'order_bottom_section.dart';
+import 'order_details_section.dart';
 
 class OrderSectionForCart extends StatelessWidget {
   final VoidCallback _closeDrawer;
@@ -23,16 +24,20 @@ class OrderSectionForCart extends StatelessWidget {
       ),
       child: BlocBuilder<CartBloc, CartState>(
         builder: (BuildContext context, CartState state) {
-          return Column(
-            children: [
-              OrderDetailsInCart(
-                order: state.order,
-              ),
-              OrderItemSection(
-                closeDrawer: _closeDrawer,
-              ),
-              const ScrapDetails(),
-            ],
+          return Form(
+            child: Column(
+              children: [
+                OrderDetailsSectionInCart(
+                  order: state.order,
+                ),
+                OrderItemSection(
+                  closeDrawer: _closeDrawer,
+                ),
+                OrderBottomSection(
+                  order: state.order,
+                ),
+              ],
+            ),
           );
         },
       ),

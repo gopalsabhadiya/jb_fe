@@ -30,14 +30,8 @@ class CartBloc extends Bloc<CartEvent, CartState> with AddItemToCartNotifier {
     ));
 
     ItemPresentation eventItem = event.item;
-
     eventItem.setCartQuantity(event.item.cartQuantity + 1);
-
-    ItemUtils.calculateAndSetItemPriceDetails(
-        item: eventItem, goldRate: state.order.goldRate);
-
     OrderPresentation order = state.order;
-
     if (order.items.where((item) => item.id == event.item.id).isEmpty) {
       order.addItem(event.item);
     } else {
@@ -46,6 +40,9 @@ class CartBloc extends Bloc<CartEvent, CartState> with AddItemToCartNotifier {
           .first
           .setCartQuantity(event.item.cartQuantity);
     }
+    ItemUtils.calculateAndSetItemPriceDetails(
+        item: eventItem, goldRate: state.order.goldRate);
+    ItemUtils.calculateAndSetOrderPriceDetails(order: state.order);
 
     emit(
       state.copyWith(
@@ -68,9 +65,12 @@ class CartBloc extends Bloc<CartEvent, CartState> with AddItemToCartNotifier {
         status: CartStatus.LOADING,
       ),
     );
+
     event.item.setCartQuantity(0);
     OrderPresentation order = state.order;
     order.removeItem(event.item);
+    ItemUtils.calculateAndSetOrderPriceDetails(order: order);
+
     emit(
       state.copyWith(
         status: CartStatus.COMPLETED,
@@ -97,10 +97,12 @@ class CartBloc extends Bloc<CartEvent, CartState> with AddItemToCartNotifier {
         .where((item) => item.id == event.item.id)
         .first
         .setCartQuantity(event.item.cartQuantity - 1);
+
     ItemUtils.calculateAndSetItemPriceDetails(
       item: order.items.where((item) => item.id == event.item.id).first,
       goldRate: state.order.goldRate,
     );
+    ItemUtils.calculateAndSetOrderPriceDetails(order: order);
 
     emit(
       state.copyWith(
@@ -126,16 +128,19 @@ class CartBloc extends Bloc<CartEvent, CartState> with AddItemToCartNotifier {
 
   FutureOr<void> _setGoldRate(AddGoldRate event, Emitter<CartState> emit) {
     OrderPresentation order = state.order;
-    order.setGoldRate(event.goldRate);
+    order.setGoldRate(event.goldRate.toString());
     emit(
       state.copyWith(status: CartStatus.LOADING),
     );
+
     for (ItemPresentation item in order.items) {
       ItemUtils.calculateAndSetItemPriceDetails(
         item: item,
         goldRate: state.order.goldRate,
       );
     }
+    ItemUtils.calculateAndSetOrderPriceDetails(order: state.order);
+
     emit(
       state.copyWith(status: CartStatus.COMPLETED, order: order),
     );

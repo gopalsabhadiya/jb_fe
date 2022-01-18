@@ -1,4 +1,5 @@
 import 'package:jb_fe/backend_integration/domain/entities/order/scrap.dart';
+import 'package:jb_fe/constants/texts/defaults.dart';
 
 class ScrapPresentation {
   String? _id;
@@ -28,16 +29,37 @@ class ScrapPresentation {
   double get rate => _rate;
   double get netAmmount => _netAmmount;
 
-  void setNetWeight(double value) {
-    _netWeight = value;
+  void setNetWeight(String value) {
+    _netWeight = double.tryParse(value) ?? _netWeight;
   }
 
-  void setTouch(double value) {
-    _touch = value;
+  String? netWeightValidator(String? value) {
+    if (_netWeight >= 0 && value != null && double.tryParse(value) != null) {
+      return null;
+    }
+    return DefaultTexts.EMPTY;
+  }
+
+  void setTouch(String value) {
+    _touch = double.tryParse(value) ?? _touch;
+  }
+
+  String? touchValidator(String? value) {
+    if (_touch >= 0 &&
+        _touch <= 100 &&
+        value != null &&
+        double.tryParse(value) != null) {
+      return null;
+    }
+    return DefaultTexts.EMPTY;
   }
 
   void setRate(double value) {
     _rate = value;
+  }
+
+  void setNetAmmount(double value) {
+    _netAmmount = value;
   }
 
   ScrapEntity getEntity() {

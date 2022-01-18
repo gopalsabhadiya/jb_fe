@@ -46,7 +46,7 @@ class ItemInCart extends StatelessWidget {
                     .build(),
                 AppTextBuilder(DefaultTexts.RUPEE_SYMBOL +
                         DefaultTexts.SPACE +
-                        _item.newNetAmount.toString())
+                        _item.newNetAmount.toStringAsFixed(2))
                     .color(AppColors.red_2)
                     .weight(AppFontWeight.BOLD)
                     .paddingAll(10)

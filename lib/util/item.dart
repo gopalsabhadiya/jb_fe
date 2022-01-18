@@ -1,7 +1,57 @@
 import 'package:jb_fe/backend_integration/constants/enum/labour_type_enum.dart';
 import 'package:jb_fe/backend_integration/dto/item/item_presentation.dart';
+import 'package:jb_fe/backend_integration/dto/order/gst_presentation.dart';
+import 'package:jb_fe/backend_integration/dto/order/order_presentation.dart';
+import 'package:jb_fe/backend_integration/dto/order/scrap_presentation.dart';
 
 class ItemUtils {
+  static void calculateAndSetOrderPriceDetails(
+      {required OrderPresentation order}) {
+    print("Order prices calculating: ${order.items.length}");
+    if (order.items.isEmpty) {
+      return;
+    }
+    order.setNetAmmount(
+      order.items
+          .map(
+            (item) => item.newNetAmount,
+          )
+          .reduce(
+            (value, element) => value + element,
+          ),
+    );
+    print("Order net prices calculated: ${order.netAmmount}");
+    for (GSTPresentation gst in order.gst) {
+      calculateAndSetGSTAmount(gst: gst, amount: order.netAmmount);
+    }
+    print("Order gst prices calculated: ${order.gst}");
+    order.setTotalAmmount(
+      order.netAmmount +
+          order.gst
+              .map(
+                (gst) => gst.ammount,
+              )
+              .reduce(
+                (value, element) => value + element,
+              ),
+    );
+    print("Order total prices calculated: ${order.totalAmmount}");
+    calculateAndSetScrapAmount(scrap: order.scrap, goldRate: order.goldRate);
+    print("Order scrap prices calculated: ${order.scrap}");
+    order.setScrapAmmount(order.scrap.netAmmount);
+    order.setFinalAmmount(order.totalAmmount - order.scrapAmmount);
+  }
+
+  static void calculateAndSetGSTAmount(
+      {required GSTPresentation gst, required double amount}) {
+    gst.setAmmount(amount * gst.value * 0.01);
+  }
+
+  static void calculateAndSetScrapAmount(
+      {required ScrapPresentation scrap, required double goldRate}) {
+    scrap.setNetAmmount(scrap.netWeight * goldRate * 0.1);
+  }
+
   static void calculateAndSetItemPriceDetails(
       {required ItemPresentation item, required double goldRate}) {
     item.setNewItemAmount(calculateItemAmount(item: item, goldRate: goldRate));

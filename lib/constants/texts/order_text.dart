@@ -1,4 +1,8 @@
 class OrderText {
+  static final String SCRAP_NET_WEIGHT_INPUT = "Enter Scrap net weight";
+  static final String SCRAP_TOUCH_INPUT = "Enter Scrap Touch";
+  static final String KASAR_INPUT = "Enter Discount (Kasar) value";
+
   static final String SEARCH_ORDER_HINT = "Search Order Here";
   static final String SEARCH_ORDER_TOOLTIP =
       "You can search order by: Party Name, Id";

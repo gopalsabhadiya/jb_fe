@@ -36,6 +36,10 @@ class GSTPresentation {
     _value = value;
   }
 
+  void setAmmount(double value) {
+    _ammount = value;
+  }
+
   GSTEntity getEntity() {
     return GSTEntity(
       id: _id,

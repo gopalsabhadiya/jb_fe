@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jb_fe/backend_integration/dto/order/order_presentation.dart';
 import 'package:jb_fe/constants/colors.dart';
 import 'package:jb_fe/constants/texts/dashboard.dart';
@@ -7,12 +8,13 @@ import 'package:jb_fe/constants/texts/defaults.dart';
 import 'package:jb_fe/constants/texts/item_text.dart';
 import 'package:jb_fe/constants/texts/order_text.dart';
 import 'package:jb_fe/constants/typography/font_weight.dart';
+import 'package:jb_fe/controllers/bloc/cart/cart/cart_bloc.dart';
 import 'package:jb_fe/widgets/calligraphy/app_text.dart';
 import 'package:jb_fe/widgets/common/inputs/text_field.dart';
 
-class OrderDetailsInCart extends StatelessWidget {
+class OrderDetailsSectionInCart extends StatelessWidget {
   final OrderPresentation _order;
-  const OrderDetailsInCart({Key? key, required order})
+  const OrderDetailsSectionInCart({Key? key, required order})
       : _order = order,
         super(key: key);
 
@@ -31,15 +33,20 @@ class OrderDetailsInCart extends StatelessWidget {
                   prefixIcon: Icons.sell,
                   hint: DashboardText.ADD_DAILY_GOLD_RATE_HINT,
                   tooltip: DashboardText.ADD_DAILY_GOLD_RATE_TOOLTIP,
-                  onChanged: (String value) =>
-                      print("Set new gold rate for order"),
+                  onChanged: _order.setGoldRate,
+                  initialValue: _order.goldRate.toStringAsFixed(3),
                   isNumberInput: true,
-                  initialValue: _order.goldRate.toString(),
+                  validator: _order.goldRateValidator,
+                  onRemoveFocus: () => BlocProvider.of<CartBloc>(context).add(
+                    AddGoldRate(
+                      goldRate: _order.goldRate,
+                    ),
+                  ),
                 ),
               ),
               AppTextBuilder(DefaultTexts.RUPEE_SYMBOL +
                       DefaultTexts.SPACE +
-                      _order.finalAmmount.toString())
+                      _order.finalAmmount.toStringAsFixed(2))
                   .weight(FontWeight.bold)
                   .size(25)
                   .color(AppColors.blue_5)
@@ -69,7 +76,7 @@ class OrderDetailsInCart extends StatelessWidget {
                       .build(),
                   AppTextBuilder(DefaultTexts.RUPEE_SYMBOL +
                           DefaultTexts.SPACE +
-                          _order.netAmmount.toString())
+                          _order.netAmmount.toStringAsFixed(2))
                       .weight(AppFontWeight.BOLD)
                       .color(AppColors.red_2)
                       .build()
@@ -84,7 +91,7 @@ class OrderDetailsInCart extends StatelessWidget {
                       .build(),
                   AppTextBuilder(DefaultTexts.RUPEE_SYMBOL +
                           DefaultTexts.SPACE +
-                          _order.gst.first.ammount.toString())
+                          _order.gst.first.ammount.toStringAsFixed(2))
                       .weight(AppFontWeight.BOLD)
                       .color(AppColors.red_2)
                       .build()
@@ -99,7 +106,7 @@ class OrderDetailsInCart extends StatelessWidget {
                       .build(),
                   AppTextBuilder(DefaultTexts.RUPEE_SYMBOL +
                           DefaultTexts.SPACE +
-                          _order.gst[1].ammount.toString())
+                          _order.gst[1].ammount.toStringAsFixed(2))
                       .weight(AppFontWeight.BOLD)
                       .color(AppColors.red_2)
                       .build()
@@ -114,7 +121,7 @@ class OrderDetailsInCart extends StatelessWidget {
                       .build(),
                   AppTextBuilder(DefaultTexts.RUPEE_SYMBOL +
                           DefaultTexts.SPACE +
-                          _order.totalAmmount.toString())
+                          _order.totalAmmount.toStringAsFixed(2))
                       .weight(AppFontWeight.BOLD)
                       .color(AppColors.blue_5)
                       .build()
@@ -129,7 +136,7 @@ class OrderDetailsInCart extends StatelessWidget {
                       .build(),
                   AppTextBuilder(DefaultTexts.RUPEE_SYMBOL +
                           DefaultTexts.SPACE +
-                          _order.scrapAmmount.toString())
+                          _order.scrapAmmount.toStringAsFixed(2))
                       .weight(AppFontWeight.BOLD)
                       .color(AppColors.green_1)
                       .build()

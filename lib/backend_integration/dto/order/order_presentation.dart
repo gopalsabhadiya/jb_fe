@@ -86,8 +86,8 @@ class OrderPresentation {
     _billOutstanding = value;
   }
 
-  void setKasar(double value) {
-    _kasar = value;
+  void setKasar(String value) {
+    _kasar = double.tryParse(value) ?? _kasar;
   }
 
   void setFinalAmmount(double value) {
@@ -130,8 +130,15 @@ class OrderPresentation {
     _items = _items.where((e) => e.id != item.id).toList();
   }
 
-  void setGoldRate(double value) {
-    _goldRate = value;
+  void setGoldRate(String value) {
+    _goldRate = double.tryParse(value) ?? _goldRate;
+  }
+
+  String? goldRateValidator(String? value) {
+    if (_goldRate >= 0 && value != null && double.tryParse(value) != null) {
+      return null;
+    }
+    return DefaultTexts.EMPTY;
   }
 
   OrderEntity getEntity() {
