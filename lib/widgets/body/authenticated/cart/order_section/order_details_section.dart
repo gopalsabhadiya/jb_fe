@@ -10,6 +10,7 @@ import 'package:jb_fe/constants/texts/order_text.dart';
 import 'package:jb_fe/constants/typography/font_weight.dart';
 import 'package:jb_fe/controllers/bloc/cart/cart/cart_bloc.dart';
 import 'package:jb_fe/widgets/calligraphy/app_text.dart';
+import 'package:jb_fe/widgets/common/inputs/date_picker.dart';
 import 'package:jb_fe/widgets/common/inputs/text_field.dart';
 
 class OrderDetailsSectionInCart extends StatelessWidget {
@@ -34,12 +35,12 @@ class OrderDetailsSectionInCart extends StatelessWidget {
                   hint: DashboardText.ADD_DAILY_GOLD_RATE_HINT,
                   tooltip: DashboardText.ADD_DAILY_GOLD_RATE_TOOLTIP,
                   onChanged: _order.setGoldRate,
-                  initialValue: _order.goldRate.toStringAsFixed(3),
+                  initialValue: _order.goldRate!.toStringAsFixed(3),
                   isNumberInput: true,
                   validator: _order.goldRateValidator,
                   onRemoveFocus: () => BlocProvider.of<CartBloc>(context).add(
                     AddGoldRate(
-                      goldRate: _order.goldRate,
+                      goldRate: _order.goldRate!,
                     ),
                   ),
                 ),
@@ -53,10 +54,16 @@ class OrderDetailsSectionInCart extends StatelessWidget {
                   .build(),
               SizedBox(
                 width: 300,
-                child: AppTextInput(
-                  prefixIcon: Icons.category,
+                // child: AppTextInput(
+                //   prefixIcon: Icons.today,
+                //   hint: ItemText.TYPE_INPUT_TEXT,
+                //   onChanged: (String value) => print("Dumbo"),
+                // ),
+                child: AppDatePicker(
+                  prefixIcon: Icons.today,
                   hint: ItemText.TYPE_INPUT_TEXT,
-                  onChanged: (String value) => print("Dumbo"),
+                  onSetValue: _order.setDate,
+                  initialValue: _order.date,
                 ),
               ),
             ],
@@ -136,7 +143,7 @@ class OrderDetailsSectionInCart extends StatelessWidget {
                       .build(),
                   AppTextBuilder(DefaultTexts.RUPEE_SYMBOL +
                           DefaultTexts.SPACE +
-                          _order.scrapAmmount.toStringAsFixed(2))
+                          _order.scrapAmmount!.toStringAsFixed(2))
                       .weight(AppFontWeight.BOLD)
                       .color(AppColors.green_1)
                       .build()

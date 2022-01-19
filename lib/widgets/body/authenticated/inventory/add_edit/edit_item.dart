@@ -3,10 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jb_fe/backend_integration/dto/item/item_presentation.dart';
 import 'package:jb_fe/constants/colors.dart';
-import 'package:jb_fe/constants/typography/font_weight.dart';
 import 'package:jb_fe/controllers/bloc/inventory/update_item/update_item_bloc.dart';
 import 'package:jb_fe/widgets/calligraphy/app_text.dart';
-import 'package:jb_fe/widgets/common/buttons/icon_button.dart';
 import 'package:jb_fe/widgets/common/save_cancel_bar.dart';
 
 import 'item_form.dart';
@@ -81,7 +79,6 @@ class _EditItemState extends State<EditItem> {
   }
 
   void _cancelSave() {
-    print("Cancel Save Item");
     widget._closeDrawer();
   }
 }

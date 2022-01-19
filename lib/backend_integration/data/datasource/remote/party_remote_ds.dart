@@ -18,7 +18,6 @@ class PartyRemoteDataSourceImpl implements PartyRemoteDataSource {
 
   @override
   Future<PartyEntity> addParty(PartyEntity party) async {
-    print("add party here");
     final response = await _http.post(
       EndpointUri.getBaseParty(),
       body: jsonEncode(party.toJson()),
@@ -26,13 +25,11 @@ class PartyRemoteDataSourceImpl implements PartyRemoteDataSource {
         "content-type": "application/json",
       },
     );
-    print("response: ${response.body}");
     return PartyEntity.fromJson(jsonDecode(response.body));
   }
 
   @override
   Future<void> deleteParty(String partyId) async {
-    print("Deleting party in ds: $partyId");
     try {
       final response = await _http.delete(
         EndpointUri.getDeletePartyURL(partyId),

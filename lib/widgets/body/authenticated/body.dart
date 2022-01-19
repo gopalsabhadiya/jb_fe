@@ -43,7 +43,6 @@ class AppBodyAuthenticated extends StatelessWidget {
                 BlocBuilder<DailyGoldRateBloc, DailyGoldRateState>(
                   builder: (BuildContext context, DailyGoldRateState state) {
                     if (state.todayGoldRate != null) {
-                      print("This executed again");
                       BlocProvider.of<CartBloc>(context).add(
                         AddGoldRate(
                           goldRate: state.todayGoldRate!.rate,

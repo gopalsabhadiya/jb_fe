@@ -34,7 +34,10 @@ class ScrapPresentation {
   }
 
   String? netWeightValidator(String? value) {
-    if (_netWeight >= 0 && value != null && double.tryParse(value) != null) {
+    if (_netWeight == 0 || value == null) {
+      return null;
+    }
+    if (_netWeight >= 0 && double.tryParse(value) != null) {
       return null;
     }
     return DefaultTexts.EMPTY;
@@ -45,10 +48,10 @@ class ScrapPresentation {
   }
 
   String? touchValidator(String? value) {
-    if (_touch >= 0 &&
-        _touch <= 100 &&
-        value != null &&
-        double.tryParse(value) != null) {
+    if (_touch == 0 || value == null) {
+      return null;
+    }
+    if (_touch >= 0 && _touch <= 100 && double.tryParse(value) != null) {
       return null;
     }
     return DefaultTexts.EMPTY;

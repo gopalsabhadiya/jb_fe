@@ -29,10 +29,11 @@ class ItemEntity extends Equatable {
   final LabourEntity? labour;
   final double? itemAmount;
   final double? netAmount;
-  final int stockPieces;
+  final int? stockPieces;
   final List<ItemExtraEntity>? extras;
   final String? huid;
-  final bool hasImages;
+  final bool? hasImages;
+  final int? pieces;
 
   const ItemEntity({
     this.id,
@@ -46,10 +47,11 @@ class ItemEntity extends Equatable {
     this.labour,
     this.itemAmount,
     this.netAmount,
-    required this.stockPieces,
+    this.stockPieces,
     this.extras,
     this.huid,
-    required this.hasImages,
+    this.hasImages,
+    this.pieces,
   });
 
   @override
@@ -68,6 +70,7 @@ class ItemEntity extends Equatable {
         extras,
         huid,
         hasImages,
+        pieces,
       ];
 
   factory ItemEntity.fromJson(Map<String, dynamic> json) =>
@@ -87,6 +90,6 @@ class ItemEntity extends Equatable {
 
   @override
   String toString() {
-    return 'ItemEntity{id: $id, itemId: $itemId, category: $category, type: $type, name: $name, grossWeight: $grossWeight, netWeight: $netWeight, carat: $carat, labour: $labour, itemAmount: $itemAmount, netAmount: $netAmount, stockPieces: $stockPieces, extras: $extras, huid: $huid, hasImages: $hasImages}';
+    return 'ItemEntity{id: $id, itemId: $itemId, category: $category, type: $type, name: $name, grossWeight: $grossWeight, netWeight: $netWeight, carat: $carat, labour: $labour, itemAmount: $itemAmount, netAmount: $netAmount, stockPieces: $stockPieces, extras: $extras, huid: $huid, hasImages: $hasImages, pieces: $pieces}';
   }
 }

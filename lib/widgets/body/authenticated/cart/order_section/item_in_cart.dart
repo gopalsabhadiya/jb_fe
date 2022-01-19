@@ -131,7 +131,7 @@ class ItemInCart extends StatelessWidget {
                             .size(18)
                             .padding(const EdgeInsets.all(2))
                             .disabled(
-                                _item.newStockPieces - _item.cartQuantity <= 0)
+                                _item.newStockPieces! - _item.cartQuantity <= 0)
                             .onClickHandler(() => _increaseQuantity(context))
                             .color(AppColors.grey_1)
                             .build(),

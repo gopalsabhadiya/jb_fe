@@ -44,7 +44,6 @@ class LabourPresentation {
   LabourTypeEnum get newType => _newType;
 
   void setNewType(LabourTypeEnum value) {
-    print("Setting new labour type");
     _newType = value;
   }
 

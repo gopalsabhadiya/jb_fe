@@ -23,32 +23,36 @@ class OrderEntity extends Equatable {
   final String? orderId;
   final List<ItemEntity> items;
   final List<GSTEntity> gst;
-  final ScrapEntity scrap;
+  final ScrapEntity? scrap;
   final List<String> receipts;
   final double netAmmount;
   final double totalAmmount;
-  final double scrapAmmount;
+  final double? scrapAmmount;
   final double finalAmmount;
-  final double kasar;
+  final double? kasar;
   final double billOutstanding;
   final String party;
   final bool fulfilled;
+  final DateTime date;
+  final double? goldRate;
 
   const OrderEntity({
     this.id,
     this.orderId,
     required this.items,
     required this.gst,
-    required this.scrap,
+    this.scrap,
     required this.receipts,
     required this.netAmmount,
     required this.totalAmmount,
-    required this.scrapAmmount,
+    this.scrapAmmount,
     required this.finalAmmount,
-    required this.kasar,
+    this.kasar,
     required this.billOutstanding,
     required this.party,
     required this.fulfilled,
+    required this.date,
+    this.goldRate,
   });
 
   factory OrderEntity.fromJson(Map<String, dynamic> json) =>
@@ -71,10 +75,12 @@ class OrderEntity extends Equatable {
         billOutstanding,
         party,
         fulfilled,
+        date,
+        goldRate,
       ];
 
   @override
   String toString() {
-    return 'OrderEntity{id: $id, orderId: $orderId, items: $items, gst: $gst, scrap: $scrap, receipts: $receipts, netAmmount: $netAmmount, totalAmmount: $totalAmmount, scrapAmmount: $scrapAmmount, finalAmmount: $finalAmmount, kasar: $kasar, billOutstanding: $billOutstanding, party: $party, fulfilled: $fulfilled}';
+    return 'OrderEntity{id: $id, orderId: $orderId, items: $items, gst: $gst, scrap: $scrap, receipts: $receipts, netAmmount: $netAmmount, totalAmmount: $totalAmmount, scrapAmmount: $scrapAmmount, finalAmmount: $finalAmmount, kasar: $kasar, billOutstanding: $billOutstanding, party: $party, fulfilled: $fulfilled, date: $date, goldRate: $goldRate}';
   }
 }

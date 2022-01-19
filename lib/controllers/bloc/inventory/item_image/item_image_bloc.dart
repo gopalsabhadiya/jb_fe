@@ -19,7 +19,7 @@ class ItemImageBloc extends Bloc<ItemImageEvent, ItemImageState> {
   FutureOr<void> _fetchItemImages(
       FetchImages event, Emitter<ItemImageState> emit) async {
     try {
-      if (event.item.hasImages) {
+      if (event.item.hasImages ?? false) {
         final Map<String, Uint8List> imageMap =
             await fetchItemImagesUseCase(itemId: event.item.id!);
         emit(
@@ -34,7 +34,6 @@ class ItemImageBloc extends Bloc<ItemImageEvent, ItemImageState> {
         );
       }
     } catch (e) {
-      print("Error in bloc: $e");
       emit(
         state.copyWith(status: ItemImageStatus.FAILURE),
       );

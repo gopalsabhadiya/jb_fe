@@ -23,14 +23,16 @@ class ItemExtraPresentation {
         _newLabourCharge = entity.labourCharge,
         _type = entity.type,
         _newType = entity.type,
-        _amount = entity.pieces == null && entity.labourCharge == null
+        _amount = (entity.pieces == null || entity.pieces == 0) &&
+                (entity.labourCharge == null || entity.labourCharge == 0)
             ? entity.rate ?? 0
             : (((entity.rate ?? 0) * (entity.pieces ?? 0)) +
                 ((entity.pieces ?? 0) * (entity.labourCharge ?? 0))),
         super();
 
-  _calculateAndSetAmount() {
-    _amount = _newPieces == null && _newLabourCharge == null
+  calculateAndSetAmount() {
+    _amount = (_newPieces == null || _newPieces == 0) &&
+            (_newLabourCharge == null || _newLabourCharge == 0)
         ? _newRate ?? 0
         : (((_newRate ?? 0) * (_newPieces ?? 0)) +
             ((_newPieces ?? 0) * (_newLabourCharge ?? 0)));
@@ -87,7 +89,7 @@ class ItemExtraPresentation {
 
   void setNewLabourCharge(String value) {
     _newLabourCharge = double.tryParse(value) ?? _newLabourCharge;
-    _calculateAndSetAmount();
+    calculateAndSetAmount();
   }
 
   String? newLabourValidator(String? value) {
@@ -99,7 +101,7 @@ class ItemExtraPresentation {
 
   void setNewPieces(String value) {
     _newPieces = int.tryParse(value) ?? _newPieces;
-    _calculateAndSetAmount();
+    calculateAndSetAmount();
   }
 
   String? newPiecesValidator(String? value) {
@@ -111,7 +113,7 @@ class ItemExtraPresentation {
 
   void setNewRate(String value) {
     _newRate = double.tryParse(value) ?? _newRate;
-    _calculateAndSetAmount();
+    calculateAndSetAmount();
   }
 
   String? newRateValidator(String? value) {
@@ -123,6 +125,6 @@ class ItemExtraPresentation {
 
   @override
   String toString() {
-    return 'ItemExtraPresentation{uuid: $uuid, _rate: $_rate, _newRate: $_newRate, _pieces: $_pieces, _newPieces: $_newPieces, _labourCharge: $_labourCharge, _newLabourCharge: $_newLabourCharge, _type: $_type, _newType: $_newType}';
+    return 'ItemExtraPresentation{uuid: $uuid, _rate: $_rate, _newRate: $_newRate, _pieces: $_pieces, _newPieces: $_newPieces, _labourCharge: $_labourCharge, _newLabourCharge: $_newLabourCharge, _type: $_type, _newType: $_newType, _amount: $_amount}';
   }
 }

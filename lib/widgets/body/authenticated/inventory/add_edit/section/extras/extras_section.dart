@@ -111,13 +111,11 @@ class _ItemInputExtrasSectionState extends State<ItemInputExtrasSection> {
   }
 
   void _onAddExtra() {
-    print("Add Extra called");
     widget._item.addNewExtra();
     setState(() {});
   }
 
   void _onRemoveExtra(String uuid) {
-    print("Remove Extra called");
     widget._item.removeNewExtra(uuid);
     setState(() {});
   }

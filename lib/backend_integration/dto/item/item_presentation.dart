@@ -26,16 +26,16 @@ class ItemPresentation {
   double? _newItemAmount;
   double? _netAmount;
   double _newNetAmount;
-  late int _stockPieces;
-  late int _newStockPieces;
+  late int? _stockPieces;
+  late int? _newStockPieces;
   late int _cartQuantity;
   List<ItemExtraPresentation>? _extras;
   List<ItemExtraPresentation>? _newExtras;
   String? _huid;
   String? _newHuid;
   List<PlatformFile>? _newImages;
-  bool _hasImages;
-  bool _newHasImages;
+  bool? _hasImages;
+  bool? _newHasImages;
 
   ItemPresentation(ItemEntity entity)
       : _id = entity.id,
@@ -133,9 +133,9 @@ class ItemPresentation {
 
   double get newNetAmount => _newNetAmount;
 
-  int get stockPieces => _stockPieces;
+  int? get stockPieces => _stockPieces;
 
-  int get newStockPieces => _newStockPieces;
+  int? get newStockPieces => _newStockPieces;
 
   List<ItemExtraPresentation>? get newExtras => _newExtras;
 
@@ -147,9 +147,9 @@ class ItemPresentation {
 
   List<PlatformFile>? get newImages => _newImages;
 
-  bool get hasImages => _hasImages;
+  bool? get hasImages => _hasImages;
 
-  bool get newHasImages => _newHasImages;
+  bool? get newHasImages => _newHasImages;
 
   int get cartQuantity => _cartQuantity;
 
@@ -257,7 +257,10 @@ class ItemPresentation {
   }
 
   String? newStockPiecesValidator(String? value) {
-    if (_newStockPieces >= 0 && value != null && int.tryParse(value) != null) {
+    if (_newStockPieces != null &&
+        _newStockPieces! >= 0 &&
+        value != null &&
+        int.tryParse(value) != null) {
       return null;
     }
     return DefaultTexts.EMPTY;
@@ -340,8 +343,29 @@ class ItemPresentation {
     );
   }
 
+  ItemEntity getEntityForOrder() {
+    return ItemEntity(
+      id: id,
+      itemId: _itemId,
+      category: _category,
+      type: _type,
+      name: _name,
+      grossWeight: _grossWeight,
+      netWeight: _netWeight,
+      carat: _carat,
+      labour: _labour != null ? _labour!.getEntity() : null,
+      itemAmount: _itemAmount,
+      netAmount: _netAmount,
+      stockPieces: _stockPieces,
+      pieces: _cartQuantity,
+      extras: _extras!.map((extra) => extra.getEntity()).toList(),
+      huid: _huid,
+      hasImages: _hasImages,
+    );
+  }
+
   @override
   String toString() {
-    return 'ItemPresentation{uuid: $uuid, _id: $_id, _itemId: $_itemId, _category: $_category, _newCategory: $_newCategory, _type: $_type, _newType: $_newType, _name: $_name, _grossWeight: $_grossWeight, _newGrossWeight: $_newGrossWeight, _netWeight: $_netWeight, _newNetWeight: $_newNetWeight, _carat: $_carat, _newCarat: $_newCarat, _labour: $_labour, _newLabour: $_newLabour, _itemAmount: $_itemAmount, _newItemAmount: $_newItemAmount, _netAmount: $_netAmount, _newNetAmount: $_newNetAmount, _stockPieces: $_stockPieces, _newStockPieces: $_newStockPieces, _extras: $_extras, _newExtras: $_newExtras, _huid: $_huid, _newHuid: $_newHuid, _newImages: $_newImages, _hasImages: $_hasImages, _newHasImages: $_newHasImages}';
+    return 'ItemPresentation{uuid: $uuid, _id: $_id, _itemId: $_itemId, _category: $_category, _newCategory: $_newCategory, _type: $_type, _newType: $_newType, _name: $_name, _grossWeight: $_grossWeight, _newGrossWeight: $_newGrossWeight, _netWeight: $_netWeight, _newNetWeight: $_newNetWeight, _carat: $_carat, _newCarat: $_newCarat, _labour: $_labour, _newLabour: $_newLabour, _itemAmount: $_itemAmount, _newItemAmount: $_newItemAmount, _netAmount: $_netAmount, _newNetAmount: $_newNetAmount, _stockPieces: $_stockPieces, _newStockPieces: $_newStockPieces, _cartQuantity: $_cartQuantity, _extras: $_extras, _newExtras: $_newExtras, _huid: $_huid, _newHuid: $_newHuid, _newImages: $_newImages, _hasImages: $_hasImages, _newHasImages: $_newHasImages}';
   }
 }

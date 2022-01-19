@@ -52,8 +52,9 @@ class InventoryCardContent extends StatelessWidget {
                         Icons.layers,
                         color: AppColors.blue_5,
                       ),
-                      AppTextBuilder((_item.newStockPieces - _item.cartQuantity)
-                              .toString())
+                      AppTextBuilder(
+                              (_item.newStockPieces! - _item.cartQuantity)
+                                  .toString())
                           .size(14)
                           .color(AppColors.blue_5)
                           .build(),

@@ -48,3 +48,13 @@ class AddGoldRate extends CartEvent {
   @override
   List<Object?> get props => [goldRate];
 }
+
+class UpdateScrapAndKasar extends CartEvent {
+  @override
+  List<Object?> get props => [];
+}
+
+class SaveOrder extends CartEvent {
+  @override
+  List<Object?> get props => [];
+}

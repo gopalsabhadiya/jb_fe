@@ -10,24 +10,25 @@ class OrderPresentation {
   String? _orderId;
   late List<ItemPresentation> _items;
   late List<GSTPresentation> _gst;
-  late ScrapPresentation _scrap;
+  late ScrapPresentation? _scrap;
   late List<String> _receipts;
-  late double _goldRate;
+  late double? _goldRate;
   late double _netAmmount;
   late double _totalAmmount;
-  late double _scrapAmmount;
+  late double? _scrapAmmount;
   late double _finalAmmount;
-  late double _kasar;
+  late double? _kasar;
   late double _billOutstanding;
   late String _party;
   late bool _fulfilled;
+  late DateTime _date;
 
   OrderPresentation(OrderEntity entity)
       : _id = entity.id,
         _orderId = entity.orderId,
         _items = entity.items.map((e) => ItemPresentation(e)).toList(),
         _gst = entity.gst.map((e) => GSTPresentation(e)).toList(),
-        _scrap = ScrapPresentation(entity.scrap),
+        _scrap = entity.scrap != null ? ScrapPresentation(entity.scrap!) : null,
         _receipts = entity.receipts,
         _netAmmount = entity.netAmmount,
         _totalAmmount = entity.totalAmmount,
@@ -37,6 +38,8 @@ class OrderPresentation {
         _billOutstanding = entity.billOutstanding,
         _party = entity.party,
         _fulfilled = entity.fulfilled,
+        _date = entity.date,
+        _goldRate = entity.goldRate,
         super();
 
   OrderPresentation.empty()
@@ -56,23 +59,25 @@ class OrderPresentation {
         _party = DefaultTexts.EMPTY,
         _fulfilled = false,
         _goldRate = 0,
+        _date = DateTime.now(),
         super();
 
   bool get fulfilled => _fulfilled;
   String get party => _party;
   double get billOutstanding => _billOutstanding;
-  double get kasar => _kasar;
+  double? get kasar => _kasar;
   double get finalAmmount => _finalAmmount;
-  double get scrapAmmount => _scrapAmmount;
+  double? get scrapAmmount => _scrapAmmount;
   double get totalAmmount => _totalAmmount;
   double get netAmmount => _netAmmount;
   List<String> get receipts => _receipts;
-  ScrapPresentation get scrap => _scrap;
+  ScrapPresentation? get scrap => _scrap;
   List<GSTPresentation> get gst => _gst;
   List<ItemPresentation> get items => _items;
   String? get orderId => _orderId;
   String? get id => _id;
-  double get goldRate => _goldRate;
+  double? get goldRate => _goldRate;
+  DateTime get date => _date;
 
   void setFulfilled(bool value) {
     _fulfilled = value;
@@ -135,19 +140,26 @@ class OrderPresentation {
   }
 
   String? goldRateValidator(String? value) {
-    if (_goldRate >= 0 && value != null && double.tryParse(value) != null) {
+    if (_goldRate != null &&
+        _goldRate! >= 0 &&
+        value != null &&
+        double.tryParse(value) != null) {
       return null;
     }
     return DefaultTexts.EMPTY;
+  }
+
+  void setDate(DateTime value) {
+    _date = value;
   }
 
   OrderEntity getEntity() {
     return OrderEntity(
       id: _id,
       orderId: _orderId,
-      items: _items.map((e) => e.getEntity()).toList(),
+      items: _items.map((e) => e.getEntityForOrder()).toList(),
       gst: _gst.map((e) => e.getEntity()).toList(),
-      scrap: _scrap.getEntity(),
+      scrap: _scrap != null ? _scrap!.getEntity() : null,
       receipts: _receipts,
       netAmmount: _netAmmount,
       totalAmmount: _totalAmmount,
@@ -157,11 +169,13 @@ class OrderPresentation {
       billOutstanding: _billOutstanding,
       party: _party,
       fulfilled: _fulfilled,
+      date: _date,
+      goldRate: _goldRate,
     );
   }
 
   @override
   String toString() {
-    return 'OrderPresentation{_id: $_id, _orderId: $_orderId, _items: $_items, _gst: $_gst, _scrap: $_scrap, _receipts: $_receipts, _netAmmount: $_netAmmount, _totalAmmount: $_totalAmmount, _scrapAmmount: $_scrapAmmount, _finalAmmount: $_finalAmmount, _kasar: $_kasar, _billOutstanding: $_billOutstanding, _party: $_party, _fulfilled: $_fulfilled}';
+    return 'OrderPresentation{_id: $_id, _orderId: $_orderId, _items: $_items, _gst: $_gst, _scrap: $_scrap, _receipts: $_receipts, _goldRate: $_goldRate, _netAmmount: $_netAmmount, _totalAmmount: $_totalAmmount, _scrapAmmount: $_scrapAmmount, _finalAmmount: $_finalAmmount, _kasar: $_kasar, _billOutstanding: $_billOutstanding, _party: $_party, _fulfilled: $_fulfilled, _date: $_date}';
   }
 }

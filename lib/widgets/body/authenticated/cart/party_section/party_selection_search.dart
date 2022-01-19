@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jb_fe/backend_integration/dto/party/party_presentation.dart';
 import 'package:jb_fe/constants/colors.dart';
+import 'package:jb_fe/constants/texts/defaults.dart';
 import 'package:jb_fe/constants/texts/party_text.dart';
+import 'package:jb_fe/controllers/bloc/cart/cart/cart_bloc.dart';
 import 'package:jb_fe/controllers/bloc/inventory/party_search_for_order/party_search_for_order_bloc.dart';
 import 'package:jb_fe/widgets/calligraphy/app_text.dart';
 import 'package:jb_fe/widgets/common/inputs/search_input.dart';
@@ -49,6 +51,7 @@ class _PartySelectionSearchState extends State<PartySelectionSearch> {
     return CompositedTransformTarget(
       link: _layerLink,
       child: AppSearchInput(
+        validator: _partySelectionValidator,
         prefixIcon: Icons.account_circle,
         hint: PartyText.SEARCH_PARTY_HINT,
         tooltip: PartyText.SEARCH_PARTY_TOOLTIP,
@@ -126,7 +129,6 @@ class _PartySelectionSearchState extends State<PartySelectionSearch> {
   }
 
   _onPartySearchChange(String value) {
-    print("Party searched: $value");
     if (value.length > 3) {
       BlocProvider.of<PartySearchForOrderBloc>(context)
           .add(SearchPartyForOrder(searchTerm: value));
@@ -139,5 +141,12 @@ class _PartySelectionSearchState extends State<PartySelectionSearch> {
 
   _clearSearchTerm() {
     print("Search term cleared");
+  }
+
+  String? _partySelectionValidator(String? p1) {
+    if (BlocProvider.of<CartBloc>(context).state.party != null) {
+      return null;
+    }
+    return DefaultTexts.EMPTY;
   }
 }

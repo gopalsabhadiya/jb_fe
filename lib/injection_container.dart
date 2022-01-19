@@ -2,16 +2,20 @@ import 'package:get_it/get_it.dart';
 import 'package:jb_fe/backend_integration/data/datasource/remote/business_remote_ds.dart';
 import 'package:jb_fe/backend_integration/data/datasource/remote/daily_gold_rate_remote_ds.dart';
 import 'package:jb_fe/backend_integration/data/datasource/remote/item_remote_ds.dart';
+import 'package:jb_fe/backend_integration/data/datasource/remote/order_remote_ds.dart';
 import 'package:jb_fe/backend_integration/data/datasource/remote/party_remote_ds.dart';
 import 'package:jb_fe/backend_integration/data/repositories/business_repository_impl.dart';
 import 'package:jb_fe/backend_integration/data/repositories/daily_gold_rate_repository_impl.dart';
 import 'package:jb_fe/backend_integration/data/repositories/item_repository_impl.dart';
+import 'package:jb_fe/backend_integration/data/repositories/order_repository_impl.dart';
 import 'package:jb_fe/backend_integration/data/repositories/party_repository_impl.dart';
+import 'package:jb_fe/backend_integration/domain/repositories/order_repository.dart';
 import 'package:jb_fe/backend_integration/domain/repositories/party_repository.dart';
 import 'package:jb_fe/backend_integration/domain/usecase/business/get_business_data.dart';
 import 'package:jb_fe/backend_integration/domain/usecase/daily_gold_rate/create_daily_gold_rate.dart';
 import 'package:jb_fe/backend_integration/domain/usecase/inventory/fetch_item_images.dart';
 import 'package:jb_fe/backend_integration/domain/usecase/inventory/get_item_page.dart';
+import 'package:jb_fe/backend_integration/domain/usecase/order/create_order.dart';
 import 'package:jb_fe/backend_integration/domain/usecase/party/create_party.dart';
 import 'package:jb_fe/backend_integration/domain/usecase/party/delete_party.dart';
 import 'package:jb_fe/backend_integration/domain/usecase/party/get_party_page.dart';
@@ -134,7 +138,9 @@ void init() {
 
   //Cart
   serviceLocator.registerFactory<CartBloc>(
-    () => CartBloc(),
+    () => CartBloc(
+      createOrderUseCase: serviceLocator(),
+    ),
   );
   serviceLocator.registerFactory<CartFormToggleCubit>(
     () => CartFormToggleCubit(),
@@ -244,6 +250,13 @@ void init() {
     ),
   );
 
+  //order
+  serviceLocator.registerLazySingleton<CreateOrderUseCase>(
+    () => CreateOrderUseCase(
+      repository: serviceLocator(),
+    ),
+  );
+
   //------------------------------------------------------------------------------------------------------------------
   //repository
   serviceLocator.registerLazySingleton<BusinessRepository>(
@@ -266,6 +279,11 @@ void init() {
       remoteDataSource: serviceLocator(),
     ),
   );
+  serviceLocator.registerLazySingleton<OrderRepository>(
+    () => OrderRepositoryImpl(
+      remoteDataSource: serviceLocator(),
+    ),
+  );
 
   //data sources
   serviceLocator.registerLazySingleton<BusinessRemoteDataSource>(
@@ -276,6 +294,9 @@ void init() {
   );
   serviceLocator.registerLazySingleton<ItemRemoteDataSource>(
     () => ItemRemoteDataSourceImpl(),
+  );
+  serviceLocator.registerLazySingleton<OrderRemoteDataSource>(
+    () => OrderRemoteDataSourceImpl(),
   );
 
   //daily gold rate

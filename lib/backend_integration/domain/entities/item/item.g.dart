@@ -20,12 +20,13 @@ ItemEntity _$ItemEntityFromJson(Map<String, dynamic> json) => ItemEntity(
           : LabourEntity.fromJson(json['labour'] as Map<String, dynamic>),
       itemAmount: (json['itemAmount'] as num?)?.toDouble(),
       netAmount: (json['netAmount'] as num?)?.toDouble(),
-      stockPieces: json['stockPieces'] as int,
+      stockPieces: json['stockPieces'] as int?,
       extras: (json['extras'] as List<dynamic>?)
           ?.map((e) => ItemExtraEntity.fromJson(e as Map<String, dynamic>))
           .toList(),
       huid: json['huid'] as String?,
-      hasImages: json['hasImages'] as bool,
+      hasImages: json['hasImages'] as bool?,
+      pieces: json['pieces'] as int?,
     );
 
 Map<String, dynamic> _$ItemEntityToJson(ItemEntity instance) {
@@ -52,5 +53,6 @@ Map<String, dynamic> _$ItemEntityToJson(ItemEntity instance) {
   val['extras'] = instance.extras?.map((e) => e.toJson()).toList();
   val['huid'] = instance.huid;
   val['hasImages'] = instance.hasImages;
+  val['pieces'] = instance.pieces;
   return val;
 }

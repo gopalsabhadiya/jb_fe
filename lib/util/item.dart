@@ -7,7 +7,6 @@ import 'package:jb_fe/backend_integration/dto/order/scrap_presentation.dart';
 class ItemUtils {
   static void calculateAndSetOrderPriceDetails(
       {required OrderPresentation order}) {
-    print("Order prices calculating: ${order.items.length}");
     if (order.items.isEmpty) {
       return;
     }
@@ -20,11 +19,9 @@ class ItemUtils {
             (value, element) => value + element,
           ),
     );
-    print("Order net prices calculated: ${order.netAmmount}");
     for (GSTPresentation gst in order.gst) {
       calculateAndSetGSTAmount(gst: gst, amount: order.netAmmount);
     }
-    print("Order gst prices calculated: ${order.gst}");
     order.setTotalAmmount(
       order.netAmmount +
           order.gst
@@ -35,11 +32,15 @@ class ItemUtils {
                 (value, element) => value + element,
               ),
     );
-    print("Order total prices calculated: ${order.totalAmmount}");
-    calculateAndSetScrapAmount(scrap: order.scrap, goldRate: order.goldRate);
-    print("Order scrap prices calculated: ${order.scrap}");
-    order.setScrapAmmount(order.scrap.netAmmount);
-    order.setFinalAmmount(order.totalAmmount - order.scrapAmmount);
+    if (order.scrap != null) {
+      calculateAndSetScrapAmount(
+          scrap: order.scrap!, goldRate: order.goldRate!);
+      order.setScrapAmmount(order.scrap!.netAmmount);
+      order.setFinalAmmount(
+          order.totalAmmount - order.scrapAmmount! - (order.kasar ?? 0));
+    } else {
+      order.setFinalAmmount(order.totalAmmount - (order.kasar ?? 0));
+    }
   }
 
   static void calculateAndSetGSTAmount(
@@ -49,7 +50,12 @@ class ItemUtils {
 
   static void calculateAndSetScrapAmount(
       {required ScrapPresentation scrap, required double goldRate}) {
-    scrap.setNetAmmount(scrap.netWeight * goldRate * 0.1);
+    if (scrap.touch == 0) {
+      scrap.setNetAmmount(scrap.netWeight * goldRate * 0.1);
+    } else {
+      scrap
+          .setNetAmmount(scrap.netWeight * goldRate * 0.1 * scrap.touch * 0.01);
+    }
   }
 
   static void calculateAndSetItemPriceDetails(
@@ -79,6 +85,9 @@ class ItemUtils {
     if (item.extras == null || item.extras!.isEmpty) {
       return 0;
     }
+    for (var extra in item.extras!) {
+      extra.calculateAndSetAmount();
+    }
     return (item.extras!
                 .where((extra) => extra.amount != null)
                 .map((e) => e.amount)
@@ -96,7 +105,7 @@ class ItemUtils {
 
     switch (item.labour!.type) {
       case LabourTypeEnum.PERCENTAGE:
-        return (item.itemAmount! * item.labour!.value! * 0.01) *
+        return (item.newItemAmount! * item.labour!.value! * 0.01) *
             item.cartQuantity;
       case LabourTypeEnum.PER_GRAM:
         return item.netWeight * item.labour!.value! * item.cartQuantity;

@@ -143,6 +143,10 @@ class EndpointUri {
         .replaceAll(_SEARCH_TERM, searchTerm));
   }
 
+  static Uri getAddOrderURL() {
+    return Uri.parse(_BASE_ORDER);
+  }
+
   static Uri getCreateDailyGoldRateURL() {
     return Uri.parse(_BASE_DAILY_GOLD_RATE);
   }
