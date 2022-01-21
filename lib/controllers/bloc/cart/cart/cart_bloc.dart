@@ -157,7 +157,19 @@ class CartBloc extends Bloc<CartEvent, CartState> with AddItemToCartNotifier {
     emit(state.copyWith(status: CartStatus.COMPLETED));
   }
 
-  FutureOr<void> _saveOrder(SaveOrder event, Emitter<CartState> emit) {
-    _createOrderUseCase(order: state.order);
+  FutureOr<void> _saveOrder(SaveOrder event, Emitter<CartState> emit) async {
+    emit(
+      state.copyWith(
+        status: CartStatus.LOADING,
+      ),
+    );
+    OrderPresentation orderPresentation =
+        await _createOrderUseCase(order: state.order);
+    emit(
+      state.copyWith(
+        status: CartStatus.COMPLETED,
+        order: orderPresentation,
+      ),
+    );
   }
 }

@@ -27,6 +27,7 @@ dependencies:
   url_launcher:
   share_plus:
   syncfusion_flutter_datepicker:
+  printing:
 
 
 dev_dependencies:

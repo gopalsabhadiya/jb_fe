@@ -6,16 +6,14 @@ import 'package:jb_fe/controllers/bloc/cart/cart_form_toggle/cart_form_toggle_cu
 import 'package:jb_fe/controllers/bloc/order/order_form_toggle/order_form_toggle_cubit.dart';
 import 'package:jb_fe/util/screen_size.dart';
 
-import 'cart_drawer_content.dart';
-
-class CartFormDrawer extends StatefulWidget {
-  const CartFormDrawer({Key? key}) : super(key: key);
+class OrderFormDrawer extends StatefulWidget {
+  const OrderFormDrawer({Key? key}) : super(key: key);
 
   @override
-  State<CartFormDrawer> createState() => _CartFormDrawerState();
+  State<OrderFormDrawer> createState() => _OrderFormDrawerState();
 }
 
-class _CartFormDrawerState extends State<CartFormDrawer>
+class _OrderFormDrawerState extends State<OrderFormDrawer>
     with TickerProviderStateMixin {
   late Animation<Offset> animation;
 

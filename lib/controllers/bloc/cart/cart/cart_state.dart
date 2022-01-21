@@ -21,10 +21,11 @@ class CartState extends Equatable {
     OrderPresentation? order,
   }) {
     return CartState(
-        status: status ?? this.status,
-        totalItemCount: totalItemCount ?? this.totalItemCount,
-        party: party,
-        order: order ?? this.order);
+      status: status ?? this.status,
+      totalItemCount: totalItemCount ?? this.totalItemCount,
+      party: party,
+      order: order ?? this.order,
+    );
   }
 
   @override
