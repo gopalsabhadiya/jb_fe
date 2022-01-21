@@ -57,10 +57,11 @@ class _PartyFormDrawerState extends State<PartyFormDrawer>
               _openDrawer();
 
               return BlocProvider<UpdatePartyBloc>(
-                create: (context) => serviceLocator<UpdatePartyBloc>()
-                  ..subscribe(
-                    subscriber: BlocProvider.of<PartyBloc>(context),
-                  ),
+                create: (BuildContext context) =>
+                    serviceLocator<UpdatePartyBloc>()
+                      ..subscribe(
+                        subscriber: BlocProvider.of<PartyBloc>(context),
+                      ),
                 child: EditParty(
                   party: (state.toggleForParty as ToggleForPartyUpdate)
                       .partyToBeUpdated,

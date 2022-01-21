@@ -41,7 +41,7 @@ class _AddPartyState extends State<AddParty> {
           BlocConsumer<AddPartyBloc, AddPartyState>(
             listener: (BuildContext context, AddPartyState state) {
               if (state.status == AddPartyStatus.COMPLETED) {
-                widget._closeDrawer();
+                _cancelSave();
               }
             },
             builder: (BuildContext context, AddPartyState state) {

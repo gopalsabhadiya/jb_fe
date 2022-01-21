@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jb_fe/constants/colors.dart';
 import 'package:jb_fe/constants/typography/font_weight.dart';
 import 'package:jb_fe/controllers/bloc/authenticated_sidepanel.dart';
-import 'package:jb_fe/controllers/bloc/cart/cart/cart_bloc.dart';
-import 'package:jb_fe/controllers/bloc/cart/cart_form_toggle/cart_form_toggle_cubit.dart';
+import 'package:jb_fe/controllers/bloc/order/new_order/add_order_bloc.dart';
+import 'package:jb_fe/controllers/bloc/order/order_form_toggle/order_form_toggle_cubit.dart';
 import 'package:jb_fe/controllers/bloc/state/authenticated_sidepanel.dart';
 import 'package:jb_fe/widgets/calligraphy/app_text.dart';
 import 'package:jb_fe/widgets/common/buttons/icon_button.dart';
@@ -94,8 +94,8 @@ class RegularTopAuthenticatedNavbar extends StatelessWidget {
                         .padding(const EdgeInsets.only(left: 8, right: 8))
                         .onClickHandler(() => _openCart(context))
                         .build(),
-                    BlocBuilder<CartBloc, CartState>(
-                      builder: (BuildContext context, CartState state) {
+                    BlocBuilder<AddOrderBloc, AddOrderState>(
+                      builder: (BuildContext context, AddOrderState state) {
                         if (state.order.items.isEmpty) {
                           return Container();
                         }
@@ -143,6 +143,7 @@ class RegularTopAuthenticatedNavbar extends StatelessWidget {
   }
 
   _openCart(BuildContext context) {
-    BlocProvider.of<CartFormToggleCubit>(context).openDrawer();
+    BlocProvider.of<OrderFormToggleCubit>(context)
+        .openDrawer(toggleForOrder: const ToggleForNewOrder());
   }
 }

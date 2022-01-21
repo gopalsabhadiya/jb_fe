@@ -198,6 +198,7 @@ class OrderBloc extends Bloc<OrderEvent, OrderState>
         add(_ClearSearchTerm());
         break;
       case OrderNotificationType.ORDER_CREATED:
+        print("Order created");
         add(
           _AddOrder(
             addedOrder: (notification as NewOrderNotification).order,

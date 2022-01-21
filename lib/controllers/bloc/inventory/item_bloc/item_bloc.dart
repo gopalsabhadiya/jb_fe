@@ -249,7 +249,7 @@ class ItemBloc extends Bloc<ItemEvent, ItemState>
         //     "ItemAddedToCart: ${(notification as AddItemToCartNotification).item.id}");
         add(
           _UpdateItemFromCart(
-            item: (notification as UpdateItemFromCartNotification).item,
+            item: (notification as UpdateItemFromOrderNotification).item,
           ),
         );
         break;

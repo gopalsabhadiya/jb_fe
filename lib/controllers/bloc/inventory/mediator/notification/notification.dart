@@ -83,9 +83,9 @@ class AddItemRequestNotification extends ItemOperationNotification {
       : super(notificationType: ItemNotificationType.ITEM_ADD_REQUEST);
 }
 
-class UpdateItemFromCartNotification extends ItemOperationNotification {
+class UpdateItemFromOrderNotification extends ItemOperationNotification {
   final ItemPresentation item;
-  const UpdateItemFromCartNotification({required this.item})
+  const UpdateItemFromOrderNotification({required this.item})
       : super(
             notificationType:
                 ItemNotificationType.ITEM_UPDATE_FROM_CART_REQUEST);

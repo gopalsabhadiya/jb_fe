@@ -15,9 +15,12 @@ class OrderFormToggleCubit extends Cubit<OrderFormToggleState> {
           toggleForOrder: toggleForOrder,
         ),
       );
-  void closeDrawer() => emit(
-        const OrderFormToggleState(
-          toggleForOrder: DoNotToggle(),
-        ),
-      );
+  void closeDrawer() {
+    print("Close drawer called");
+    emit(
+      const OrderFormToggleState(
+        toggleForOrder: DoNotToggle(),
+      ),
+    );
+  }
 }

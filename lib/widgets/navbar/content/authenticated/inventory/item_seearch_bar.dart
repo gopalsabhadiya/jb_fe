@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jb_fe/constants/texts/item_text.dart';
-import 'package:jb_fe/controllers/bloc/cart/cart/cart_bloc.dart';
 import 'package:jb_fe/controllers/bloc/inventory/item_bloc/item_bloc.dart';
 import 'package:jb_fe/controllers/bloc/inventory/search_item/search_item_bloc.dart';
+import 'package:jb_fe/controllers/bloc/order/new_order/add_order_bloc.dart';
 import 'package:jb_fe/injection_container.dart';
 import 'package:jb_fe/widgets/common/inputs/search_input.dart';
 
@@ -42,7 +42,7 @@ class ItemSearchBar extends StatelessWidget {
   _clearSearchTerm(BuildContext context) {
     BlocProvider.of<SearchItemBloc>(context).add(
       ClearSearchItemTerm(
-        cartItems: BlocProvider.of<CartBloc>(context).state.order.items,
+        cartItems: BlocProvider.of<AddOrderBloc>(context).state.order.items,
       ),
     );
   }
@@ -55,7 +55,7 @@ class ItemSearchBar extends StatelessWidget {
     BlocProvider.of<SearchItemBloc>(context).add(
       SearchItem(
         searchTerm: searchTerm,
-        cartItems: BlocProvider.of<CartBloc>(context).state.order.items,
+        cartItems: BlocProvider.of<AddOrderBloc>(context).state.order.items,
       ),
     );
   }

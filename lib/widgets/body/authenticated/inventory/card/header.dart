@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jb_fe/backend_integration/dto/item/item_presentation.dart';
 import 'package:jb_fe/constants/colors.dart';
 import 'package:jb_fe/constants/typography/font_weight.dart';
-import 'package:jb_fe/controllers/bloc/cart/cart/cart_bloc.dart';
+import 'package:jb_fe/controllers/bloc/order/new_order/add_order_bloc.dart';
 import 'package:jb_fe/widgets/body/authenticated/inventory/card/share_item.dart';
 import 'package:jb_fe/widgets/calligraphy/app_text.dart';
 import 'package:jb_fe/widgets/calligraphy/text_marquee.dart';
@@ -66,6 +66,6 @@ class ItemCardHeader extends StatelessWidget {
   }
 
   _addItemToCart(BuildContext context) {
-    BlocProvider.of<CartBloc>(context).add(AddItemToCart(item: _item));
+    BlocProvider.of<AddOrderBloc>(context).add(AddItemToOrder(item: _item));
   }
 }

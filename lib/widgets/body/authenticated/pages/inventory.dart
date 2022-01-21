@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:jb_fe/controllers/bloc/cart/cart/cart_bloc.dart';
 import 'package:jb_fe/controllers/bloc/inventory/item_bloc/item_bloc.dart';
 import 'package:jb_fe/controllers/bloc/inventory/item_form_toggle/item_form_toggle_cubit.dart';
+import 'package:jb_fe/controllers/bloc/order/new_order/add_order_bloc.dart';
 import 'package:jb_fe/injection_container.dart';
 import 'package:jb_fe/util/screen_size.dart';
 import 'package:jb_fe/widgets/body/authenticated/inventory/inventory.dart';
@@ -22,12 +22,13 @@ class InventoryPage extends StatelessWidget {
               ..add(
                 FetchItemFirstPage(
                   cartItems:
-                      BlocProvider.of<CartBloc>(context).state.order.items,
+                      BlocProvider.of<AddOrderBloc>(context).state.order.items,
                 ),
               );
-            BlocProvider.of<CartBloc>(context)
-                .unSubscribe<ItemBloc>(subscriber: itemBloc);
-            BlocProvider.of<CartBloc>(context).subscribe(subscriber: itemBloc);
+            BlocProvider.of<AddOrderBloc>(context)
+                .unSubscribeForItemOperation(itemOperationSubscriber: itemBloc);
+            BlocProvider.of<AddOrderBloc>(context)
+                .subscribeForItemOperation(itemOperationSubscriber: itemBloc);
             return itemBloc;
           },
         ),
