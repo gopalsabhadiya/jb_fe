@@ -1,7 +1,7 @@
-import 'package:equatable/equatable.dart';
-
-part 'cart_form_toggle_state.dart';
-
+// import 'package:equatable/equatable.dart';
+//
+// part 'cart_form_toggle_state.dart';
+//
 // class CartFormToggleCubit extends Cubit<CartFormToggleState> {
 //   CartFormToggleCubit() : super(const CartFormToggleState());
 //   void openDrawer() {

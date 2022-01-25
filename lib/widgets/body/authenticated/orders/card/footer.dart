@@ -1,22 +1,23 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:jb_fe/backend_integration/dto/order/details/order_details_presentation.dart';
 import 'package:jb_fe/constants/colors.dart';
 import 'package:jb_fe/widgets/calligraphy/app_text.dart';
 import 'package:jb_fe/widgets/common/buttons/icon_button.dart';
 
 class OrderCardFooter extends StatelessWidget {
+  final OrderDetailsPresentation _order;
   final VoidCallback _onOrderView;
-  final VoidCallback _onOrderEdit;
   final VoidCallback _onOrderDelete;
 
   const OrderCardFooter(
       {Key? key,
       required onOrderView,
-      required onOrderEdit,
-      required onOrderDelete})
+      required onOrderDelete,
+      required OrderDetailsPresentation order})
       : _onOrderView = onOrderView,
-        _onOrderEdit = onOrderEdit,
         _onOrderDelete = onOrderDelete,
+        _order = order,
         super(key: key);
 
   @override
@@ -42,7 +43,7 @@ class OrderCardFooter extends StatelessWidget {
                     .color(AppColors.blue_5)
                     .size(16)
                     .build(),
-                AppTextBuilder("₹ 4,30,000")
+                AppTextBuilder(_order.billOutstanding.toString())
                     .weight(FontWeight.bold)
                     .color(AppColors.red_2)
                     .size(16)
@@ -57,12 +58,12 @@ class OrderCardFooter extends StatelessWidget {
                     .padding(EdgeInsets.all(3))
                     .color(AppColors.green_1)
                     .build(),
-                AppIconButtonBuilder(Icons.edit)
-                    .size(25)
-                    .onClickHandler(_onOrderEdit)
-                    .padding(EdgeInsets.all(3))
-                    .color(AppColors.blue_5)
-                    .build(),
+                // AppIconButtonBuilder(Icons.edit)
+                //     .size(25)
+                //     .onClickHandler(_onOrderEdit)
+                //     .padding(EdgeInsets.all(3))
+                //     .color(AppColors.blue_5)
+                //     .build(),
                 AppIconButtonBuilder(Icons.delete)
                     .size(25)
                     .onClickHandler(_onOrderDelete)

@@ -1,3 +1,4 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jb_fe/controllers/bloc/inventory/mediator/notification/notification.dart';
 import 'package:jb_fe/controllers/bloc/inventory/mediator/subscriber/operation_subscriber.dart';
 import 'package:jb_fe/controllers/bloc/order/mediator/notification/notification.dart';
@@ -30,11 +31,23 @@ class AddOrderNotifier implements OrderOperationNotifier {
   @override
   void notifySubscriber({required OrderOperationNotification notification}) {
     for (final subscriber in _subscribers) {
-      subscriber.update(notification: notification);
+      print((subscriber as Bloc).isClosed);
+      if (!(subscriber as Bloc).isClosed) {
+        subscriber.update(notification: notification);
+      }
     }
   }
 
   void notifySubscriberForItemOperation(
+      {required ItemOperationNotification notification}) {
+    for (final subscriber in _itemSubscriber) {
+      if (!(subscriber as Bloc).isClosed) {
+        subscriber.update(notification: notification);
+      }
+    }
+  }
+
+  void notifySubscriberForPlacedOrder(
       {required ItemOperationNotification notification}) {
     for (final subscriber in _itemSubscriber) {
       subscriber.update(notification: notification);

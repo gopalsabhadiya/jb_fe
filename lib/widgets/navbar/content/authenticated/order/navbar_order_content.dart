@@ -12,7 +12,7 @@ class NavbarOrderContent extends StatelessWidget {
       children: const [
         OrderSearchBar(),
         // const FilterOrderButton(),
-        AddOrderButton()
+        // AddOrderButton()
       ],
     );
   }

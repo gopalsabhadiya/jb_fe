@@ -7,6 +7,7 @@ class EndpointUri {
   static const String _PATH_BUSINESS_ID = "{BUSINESS_ID}";
   static const String _PATH_PARTY_ID = "{PARTY_ID}";
   static const String _PATH_ITEM_ID = "{ITEM_ID}";
+  static const String _PATH_ORDER_ID = "{ORDER_ID}";
   static const String _ID = "{ID}";
   static const String _SKIP = "{SKIP}";
   static const String _SEARCH_TERM = "{SEARCH_TERM}";
@@ -23,6 +24,7 @@ class EndpointUri {
   static const String _DELETE_PARTY = "$_BASE_PARTY/$_PATH_PARTY_ID";
   static const String _SEARCH_PARTY =
       "$_BASE_PARTY/?skip=$_SKIP&searchTerm=$_SEARCH_TERM";
+  static const String _GET_PARTY_BY_ID = "$_BASE_PARTY/id/$_PATH_PARTY_ID";
 
   static const String _BASE_ITEM = "$_BASE_URL/item";
   static const String _ITEM_SKIP = "$_BASE_ITEM/?skip=$_SKIP";
@@ -38,6 +40,12 @@ class EndpointUri {
   static const String _BASE_DAILY_GOLD_RATE = "$_BASE_URL/daily_gold_rate";
 
   static const String _BASE_ORDER = "$_BASE_URL/order";
+  static const String _ORDER_SKIP = "$_BASE_ORDER/details?skip=$_SKIP";
+  static const String _SEARCH_ORDER =
+      "$_BASE_ORDER/details?skip=$_SKIP&searchTerm=$_SEARCH_TERM";
+  static const String _DELETE_ORDER = "$_BASE_ORDER/$_PATH_ORDER_ID";
+  static const String _GET_ORDER_BY_ID = "$_BASE_ORDER/id/$_PATH_ORDER_ID";
+
   static const String _BASE_BILL = "$_BASE_URL/bill";
   static const String _BASE_RECEIPT = "$_BASE_URL/receipt";
 
@@ -113,6 +121,10 @@ class EndpointUri {
         .replaceAll(_SEARCH_TERM, searchTerm));
   }
 
+  static Uri getPartyByIdURL(String orderId) {
+    return Uri.parse(_GET_PARTY_BY_ID.replaceAll(_PATH_PARTY_ID, orderId));
+  }
+
   static Uri getAddItemURL() {
     return Uri.parse(_BASE_ITEM);
   }
@@ -145,6 +157,24 @@ class EndpointUri {
 
   static Uri getAddOrderURL() {
     return Uri.parse(_BASE_ORDER);
+  }
+
+  static Uri getOrderPageURL(int skip) {
+    return Uri.parse(_ORDER_SKIP.replaceAll(_SKIP, skip.toString()));
+  }
+
+  static Uri getSearchOrderURL(int skip, String searchTerm) {
+    return Uri.parse(_SEARCH_ORDER
+        .replaceAll(_SKIP, skip.toString())
+        .replaceAll(_SEARCH_TERM, searchTerm));
+  }
+
+  static Uri getDeleteOrderURL(String orderId) {
+    return Uri.parse(_DELETE_ORDER.replaceAll(_PATH_ORDER_ID, orderId));
+  }
+
+  static Uri getOrderByIdURL(String orderId) {
+    return Uri.parse(_GET_ORDER_BY_ID.replaceAll(_PATH_ORDER_ID, orderId));
   }
 
   static Uri getCreateDailyGoldRateURL() {

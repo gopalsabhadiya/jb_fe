@@ -83,7 +83,7 @@ class ItemEntity extends Equatable {
     }
     return List<ItemEntity>.from(
       json.map(
-        (party) => ItemEntity.fromJson(party),
+        (item) => ItemEntity.fromJson(item),
       ),
     );
   }

@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:jb_fe/backend_integration/domain/usecase/order/search_order.dart';
-import 'package:jb_fe/backend_integration/dto/order/order_presentation.dart';
+import 'package:jb_fe/backend_integration/dto/order/details/order_details_presentation.dart';
 import 'package:jb_fe/constants/texts/defaults.dart';
 import 'package:jb_fe/controllers/bloc/order/mediator/notification/notification.dart';
 import 'package:jb_fe/controllers/bloc/order/mediator/notifier/search_notifier.dart';
@@ -50,6 +50,7 @@ class SearchOrderBloc extends Bloc<SearchOrderEvent, SearchOrderState>
         ),
       );
     } catch (e) {
+      print("Error: $e");
       emit(
         state.copyWith(
           searchStatus: SearchOrderStatus.ERROR,
@@ -63,7 +64,7 @@ class SearchOrderBloc extends Bloc<SearchOrderEvent, SearchOrderState>
       ClearSearchOrderTerm event, Emitter<SearchOrderState> emit) {
     emit(
       state.copyWith(
-        result: <OrderPresentation>[],
+        result: <OrderDetailsPresentation>[],
         searchTerm: DefaultTexts.EMPTY,
         searchStatus: SearchOrderStatus.COMPLETED,
       ),

@@ -36,7 +36,6 @@ class DailyGoldRateRemoteDataSourceImpl extends DailyGoldRateRemoteDataSource {
         "content-type": "application/json",
       },
     );
-    print("Response: ${response.statusCode} ${response.body}");
     return DailyGoldRateEntity.fromJson(jsonDecode(response.body));
   }
 

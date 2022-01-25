@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jb_fe/constants/colors.dart';
 import 'package:jb_fe/constants/texts/defaults.dart';
+import 'package:jb_fe/util/date_util.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class AppDatePicker extends StatefulWidget {
@@ -55,8 +56,7 @@ class _AppDatePickerState extends State<AppDatePicker> {
 
     if (widget._initialValue != null) {
       DateTime dateTime = widget._initialValue!;
-      _textFieldController.text =
-          "${dateTime.day.toString().padLeft(2, '0')}/${dateTime.month.toString().padLeft(2, '0')}/${dateTime.year.toString()}";
+      _textFieldController.text = DateUtil.dateToString(dateTime);
     } else {
       _textFieldController.text = DefaultTexts.EMPTY;
     }
@@ -150,8 +150,7 @@ class _AppDatePickerState extends State<AppDatePicker> {
 
   _onSubmit(DateRangePickerSelectionChangedArgs pickedDate) {
     DateTime dateTime = pickedDate.value as DateTime;
-    _textFieldController.text =
-        "${dateTime.day.toString().padLeft(2, '0')}/${dateTime.month.toString().padLeft(2, '0')}/${dateTime.year.toString()}";
+    _textFieldController.text = DateUtil.dateToString(dateTime);
     widget._onSetValue(dateTime);
     _focusNode.unfocus();
   }

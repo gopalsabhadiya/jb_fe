@@ -11,6 +11,7 @@ import 'package:jb_fe/util/screen_size.dart';
 import 'package:jb_fe/widgets/body/authenticated/orders/orders.dart';
 import 'package:jb_fe/widgets/body/authenticated/pages/dashboard.dart';
 import 'package:jb_fe/widgets/body/authenticated/pages/inventory.dart';
+import 'package:jb_fe/widgets/body/authenticated/pages/order.dart';
 import 'package:jb_fe/widgets/body/authenticated/pages/party.dart';
 import 'package:jb_fe/widgets/body/authenticated/payments/payments.dart';
 import 'package:jb_fe/widgets/body/authenticated/shop_expenses/shop_expenses.dart';
@@ -81,14 +82,7 @@ class AppBodyAuthenticated extends StatelessWidget {
             case AuthenticatedSidePanelState.INVENTORY:
               return const InventoryPage();
             case AuthenticatedSidePanelState.ORDERS:
-              return Column(
-                children: [
-                  ScreenSizeUtil.getIsHamburgerNavbar(context)
-                      ? const HamburgerTopAuthenticatedNavbar()
-                      : const RegularTopAuthenticatedNavbar(),
-                  const Orders(),
-                ],
-              );
+              return const OrderPage();
             case AuthenticatedSidePanelState.PAYMENTS:
               return Column(
                 children: [

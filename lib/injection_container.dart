@@ -16,8 +16,11 @@ import 'package:jb_fe/backend_integration/domain/usecase/daily_gold_rate/create_
 import 'package:jb_fe/backend_integration/domain/usecase/inventory/fetch_item_images.dart';
 import 'package:jb_fe/backend_integration/domain/usecase/inventory/get_item_page.dart';
 import 'package:jb_fe/backend_integration/domain/usecase/order/create_order.dart';
+import 'package:jb_fe/backend_integration/domain/usecase/order/delete_order.dart';
+import 'package:jb_fe/backend_integration/domain/usecase/order/get_order_page.dart';
 import 'package:jb_fe/backend_integration/domain/usecase/party/create_party.dart';
 import 'package:jb_fe/backend_integration/domain/usecase/party/delete_party.dart';
+import 'package:jb_fe/backend_integration/domain/usecase/party/fetcch_party.dart';
 import 'package:jb_fe/backend_integration/domain/usecase/party/get_party_page.dart';
 import 'package:jb_fe/backend_integration/domain/usecase/party/search_party.dart';
 import 'package:jb_fe/backend_integration/domain/usecase/party/update_party.dart';
@@ -47,11 +50,17 @@ import 'backend_integration/domain/usecase/inventory/create_item.dart';
 import 'backend_integration/domain/usecase/inventory/delete_item.dart';
 import 'backend_integration/domain/usecase/inventory/search_item.dart';
 import 'backend_integration/domain/usecase/inventory/update_item.dart';
+import 'backend_integration/domain/usecase/order/fetch_order.dart';
+import 'backend_integration/domain/usecase/order/search_order.dart';
 import 'controllers/bloc/dashboard/update_daily_gold_rate/update_daily_gold_rate_bloc.dart';
 import 'controllers/bloc/inventory/add_item/add_item_bloc.dart';
 import 'controllers/bloc/inventory/delete_item/delete_item_bloc.dart';
 import 'controllers/bloc/inventory/search_item/search_item_bloc.dart';
 import 'controllers/bloc/inventory/update_item/update_item_bloc.dart';
+import 'controllers/bloc/order/delete_order/delete_order_bloc.dart';
+import 'controllers/bloc/order/fetch_order/fetch_order_bloc.dart';
+import 'controllers/bloc/order/order_bloc/order_bloc.dart';
+import 'controllers/bloc/order/search_order/search_order_bloc.dart';
 import 'controllers/bloc/party/delete_party/delete_party_bloc.dart';
 import 'controllers/bloc/party/party_bloc/party_bloc.dart';
 
@@ -137,6 +146,11 @@ void init() {
   );
 
   //order
+  serviceLocator.registerFactory<OrderBloc>(
+    () => OrderBloc(
+      getOrderPageUseCase: serviceLocator(),
+    ),
+  );
   serviceLocator.registerFactory<AddOrderBloc>(
     () => AddOrderBloc(
       createOrderUseCase: serviceLocator(),
@@ -148,6 +162,22 @@ void init() {
   serviceLocator.registerFactory<PartySearchForOrderBloc>(
     () => PartySearchForOrderBloc(
       searchPartyUseCase: serviceLocator(),
+    ),
+  );
+  serviceLocator.registerFactory<SearchOrderBloc>(
+    () => SearchOrderBloc(
+      searchOrderUseCase: serviceLocator(),
+    ),
+  );
+  serviceLocator.registerFactory<DeleteOrderBloc>(
+    () => DeleteOrderBloc(
+      deleteOrderUseCase: serviceLocator(),
+    ),
+  );
+  serviceLocator.registerFactory<FetchOrderBloc>(
+    () => FetchOrderBloc(
+      fetchOrderUseCase: serviceLocator(),
+      fetchPartyUseCase: serviceLocator(),
     ),
   );
 
@@ -210,6 +240,11 @@ void init() {
       repository: serviceLocator(),
     ),
   );
+  serviceLocator.registerLazySingleton<FetchPartyUseCase>(
+    () => FetchPartyUseCase(
+      repository: serviceLocator(),
+    ),
+  );
 
   //inventory
   serviceLocator.registerLazySingleton<GetItemPageUseCase>(
@@ -261,8 +296,28 @@ void init() {
   );
 
   //order
+  serviceLocator.registerLazySingleton<GetOrderPageUseCase>(
+    () => GetOrderPageUseCase(
+      repository: serviceLocator(),
+    ),
+  );
   serviceLocator.registerLazySingleton<CreateOrderUseCase>(
     () => CreateOrderUseCase(
+      repository: serviceLocator(),
+    ),
+  );
+  serviceLocator.registerLazySingleton<SearchOrderUseCase>(
+    () => SearchOrderUseCase(
+      repository: serviceLocator(),
+    ),
+  );
+  serviceLocator.registerLazySingleton<DeleteOrderUseCase>(
+    () => DeleteOrderUseCase(
+      repository: serviceLocator(),
+    ),
+  );
+  serviceLocator.registerLazySingleton<FetchOrderUseCase>(
+    () => FetchOrderUseCase(
       repository: serviceLocator(),
     ),
   );

@@ -1,8 +1,13 @@
 import 'package:flutter/cupertino.dart';
-import 'package:jb_fe/constants/durations/animation_durations.dart';
-import 'package:jb_fe/util/screen_size.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jb_fe/backend_integration/dto/order/details/order_details_presentation.dart';
+import 'package:jb_fe/controllers/bloc/order/delete_order/delete_order_bloc.dart';
+import 'package:jb_fe/controllers/bloc/order/order_bloc/order_bloc.dart';
+import 'package:jb_fe/controllers/bloc/order/order_form_toggle/order_form_toggle_cubit.dart';
+import 'package:jb_fe/injection_container.dart';
 import 'package:jb_fe/widgets/body/authenticated/orders/card/order_card.dart';
-import 'package:jb_fe/widgets/body/authenticated/orders/edit/edit_order.dart';
+import 'package:jb_fe/widgets/calligraphy/app_text.dart';
 
 class Orders extends StatefulWidget {
   const Orders({Key? key}) : super(key: key);
@@ -14,6 +19,15 @@ class Orders extends StatefulWidget {
 class _OrdersState extends State<Orders> {
   bool showEditOrderDrawer = false;
 
+  late ScrollController _scrollController;
+
+  @override
+  void initState() {
+    _scrollController = ScrollController();
+    _scrollController.addListener(_onScroll);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -22,41 +36,50 @@ class _OrdersState extends State<Orders> {
           SizedBox(
             height: double.infinity,
             width: double.infinity,
-            child: Padding(
+            child: Container(
               padding: const EdgeInsets.all(20),
-              child: Container(
-                padding: EdgeInsets.all(20),
-                child: SingleChildScrollView(
-                  child: Wrap(
-                    clipBehavior: Clip.hardEdge,
-                    spacing: 40,
-                    runSpacing: 40,
-                    crossAxisAlignment: WrapCrossAlignment.center,
-                    alignment: WrapAlignment.center,
-                    children: [
-                      OrderCard(onOrderEdit: _onOrderEdit, orderId: "1"),
-                      OrderCard(onOrderEdit: _onOrderEdit, orderId: "2"),
-                      OrderCard(onOrderEdit: _onOrderEdit, orderId: "3"),
-                      OrderCard(onOrderEdit: _onOrderEdit, orderId: "4"),
-                      OrderCard(onOrderEdit: _onOrderEdit, orderId: "5"),
-                      OrderCard(onOrderEdit: _onOrderEdit, orderId: "6"),
-                      OrderCard(onOrderEdit: _onOrderEdit, orderId: "7"),
-                      OrderCard(onOrderEdit: _onOrderEdit, orderId: "8"),
-                      OrderCard(onOrderEdit: _onOrderEdit, orderId: "9")
-                    ],
-                  ),
+              child: SingleChildScrollView(
+                controller: _scrollController,
+                child: BlocBuilder<OrderBloc, OrderState>(
+                  builder: (BuildContext context, OrderState state) {
+                    switch (state.status) {
+                      case OrderStatus.INITIAL:
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      case OrderStatus.LOADING:
+                        _scrollController
+                            .jumpTo(_scrollController.position.minScrollExtent);
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      case OrderStatus.SUCCESS:
+                        return BlocProvider<DeleteOrderBloc>(
+                          create: (context) => serviceLocator<DeleteOrderBloc>()
+                            ..subscribe(
+                              subscriber: BlocProvider.of<OrderBloc>(context),
+                            ),
+                          child: Wrap(
+                            clipBehavior: Clip.hardEdge,
+                            spacing: 40,
+                            runSpacing: 40,
+                            crossAxisAlignment: WrapCrossAlignment.center,
+                            alignment: WrapAlignment.center,
+                            // children: [
+                            //   OrderCard(onOrderEdit: _onOrderEdit, orderId: "1"),
+                            // ],
+                            children: _getOrders(state.orderList),
+                          ),
+                        );
+                      case OrderStatus.FAILURE:
+                        return Center(
+                          child:
+                              AppTextBuilder("Failed to fetch Orders").build(),
+                        );
+                    }
+                  },
                 ),
               ),
-            ),
-          ),
-          AnimatedPositioned(
-            width: ScreenSizeUtil.getBottomDrawerWidth(context),
-            height: ScreenSizeUtil.getBottomDrawerHeight(context),
-            curve: Curves.easeOut,
-            duration: AnimationDuration.SHORT,
-            top: showEditOrderDrawer ? 0 : MediaQuery.of(context).size.height,
-            child: EditOrder(
-              toggleDrawer: _toggleDrawer,
             ),
           ),
         ],
@@ -64,16 +87,33 @@ class _OrdersState extends State<Orders> {
     );
   }
 
-  _toggleDrawer() {
-    setState(() {
-      showEditOrderDrawer = !showEditOrderDrawer;
-    });
+  void _onScroll() {
+    if (_isBottom && _scrollController.position.extentAfter == 0) {
+      BlocProvider.of<OrderBloc>(context).add(FetchNextOrderPage());
+    }
   }
 
-  _onOrderEdit(String id) {
-    setState(() {
-      showEditOrderDrawer = !showEditOrderDrawer;
-    });
-    print("Edit Order: $id");
+  bool get _isBottom {
+    if (!_scrollController.hasClients) return false;
+    final maxScroll = _scrollController.position.maxScrollExtent;
+    final currentScroll = _scrollController.offset;
+    return currentScroll >= (maxScroll * 0.9);
+  }
+
+  _onViewOrder(String orderId) {
+    BlocProvider.of<OrderFormToggleCubit>(context).openDrawer(
+      toggleForOrder: ToggleForOrderDisplay(orderId: orderId),
+    );
+  }
+
+  List<Widget> _getOrders(List<OrderDetailsPresentation> orderList) {
+    return orderList
+        .map(
+          (order) => OrderCard(
+            onViewOrder: () => _onViewOrder(order.id),
+            order: order,
+          ),
+        )
+        .toList();
   }
 }

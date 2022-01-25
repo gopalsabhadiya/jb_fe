@@ -30,8 +30,8 @@ class ItemRepositoryImpl implements ItemRepository {
   }
 
   @override
-  Future<List<ItemEntity>> searchItem(String searchTerm, int pageNumber) async {
-    return await remoteDataSource.searchItem(searchTerm, pageNumber);
+  Future<List<ItemEntity>> searchItem(String searchTerm, int skip) async {
+    return await remoteDataSource.searchItem(searchTerm, skip);
   }
 
   @override

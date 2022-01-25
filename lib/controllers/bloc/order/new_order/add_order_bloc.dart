@@ -63,7 +63,7 @@ class AddOrderBloc extends Bloc<AddOrderEvent, AddOrderState>
       ),
     );
     notifySubscriberForItemOperation(
-      notification: UpdateItemFromOrderNotification(
+      notification: UpdateItemFromCartNotification(
         item: event.item,
       ),
     );
@@ -89,7 +89,7 @@ class AddOrderBloc extends Bloc<AddOrderEvent, AddOrderState>
       ),
     );
     notifySubscriberForItemOperation(
-      notification: UpdateItemFromOrderNotification(
+      notification: UpdateItemFromCartNotification(
         item: event.item,
       ),
     );
@@ -122,7 +122,7 @@ class AddOrderBloc extends Bloc<AddOrderEvent, AddOrderState>
       ),
     );
     notifySubscriberForItemOperation(
-      notification: UpdateItemFromOrderNotification(
+      notification: UpdateItemFromCartNotification(
         item: event.item,
       ),
     );
@@ -132,6 +132,7 @@ class AddOrderBloc extends Bloc<AddOrderEvent, AddOrderState>
       AddPartyToOrder event, Emitter<AddOrderState> emit) {
     OrderPresentation order = state.order;
     order.setParty(event.party.id!);
+    print("Setting party: ${event.party}");
     emit(
       state.copyWith(
         party: event.party,
@@ -174,15 +175,23 @@ class AddOrderBloc extends Bloc<AddOrderEvent, AddOrderState>
         status: AddOrderStatus.LOADING,
       ),
     );
-    // OrderPresentation orderPresentation =
-    //     await createOrderUseCase(order: state.order);
+    OrderPresentation orderPresentation =
+        await createOrderUseCase(order: state.order);
+    print('Order placed: ${state.party}');
     await Future.delayed(const Duration(seconds: 2));
+
     notifySubscriber(
       notification: NewOrderNotification(
-        order: state.order,
+        order:
+            orderPresentation.getOrderDetailsPresentation(party: state.party!),
       ),
     );
-    launch("http://localhost:8080/api/bill/6166f3a6b785d08ca276fbc6");
+    notifySubscriberForItemOperation(
+      notification: UpdateItemFromPlacedOrderNotification(
+        order: orderPresentation,
+      ),
+    );
+    launch("http://localhost:8080/api/bill/${orderPresentation.id}");
     // FutureOr<Uint8List> pdf =
     //     await Printing.convertHtml(html: state.order.toString());
     // Printing.sharePdf(

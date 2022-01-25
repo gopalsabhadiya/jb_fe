@@ -11,6 +11,7 @@ abstract class PartyRemoteDataSource {
   Future<PartyEntity> updateParty(PartyEntity party);
   Future<void> deleteParty(String partyId);
   Future<List<PartyEntity>> searchParty(String searchTerm, int pageNumber);
+  Future<PartyEntity> fetchParty(String partyId);
 }
 
 class PartyRemoteDataSourceImpl implements PartyRemoteDataSource {
@@ -84,5 +85,22 @@ class PartyRemoteDataSourceImpl implements PartyRemoteDataSource {
       json.decode(response.body),
     );
     return partyPage;
+  }
+
+  @override
+  Future<PartyEntity> fetchParty(String partyId) async {
+    print("Fetching party: $partyId");
+    final response = await _http.get(
+      EndpointUri.getPartyByIdURL(partyId),
+      headers: {
+        "content-type": "application/json",
+      },
+    );
+
+    print("Response: ${response.statusCode} ${response.body}");
+    PartyEntity party = PartyEntity.fromJson(
+      json.decode(response.body),
+    );
+    return party;
   }
 }

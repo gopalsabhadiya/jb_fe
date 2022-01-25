@@ -1,12 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:jb_fe/backend_integration/dto/order/details/order_details_presentation.dart';
 import 'package:jb_fe/constants/colors.dart';
 import 'package:jb_fe/constants/typography/font_weight.dart';
+import 'package:jb_fe/util/date_util.dart';
 import 'package:jb_fe/widgets/calligraphy/app_text.dart';
 import 'package:jb_fe/widgets/svg/icons/app_icons.dart';
 
 class OrderCardContent extends StatelessWidget {
-  const OrderCardContent({Key? key}) : super(key: key);
+  final OrderDetailsPresentation _order;
+  const OrderCardContent({Key? key, required OrderDetailsPresentation order})
+      : _order = order,
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +30,7 @@ class OrderCardContent extends StatelessWidget {
                   color: AppColors.blue_5,
                 ),
               ),
-              AppTextBuilder("10")
+              AppTextBuilder(_order.orderId.toString())
                   .size(16)
                   .textAlign(TextAlign.right)
                   .weight(AppFontWeight.BOLD)
@@ -44,7 +49,7 @@ class OrderCardContent extends StatelessWidget {
                 ),
               ),
               Expanded(
-                child: AppTextBuilder("75,000")
+                child: AppTextBuilder(_order.totalAmmount.toString())
                     .size(16)
                     .textAlign(TextAlign.right)
                     .build(),
@@ -62,14 +67,14 @@ class OrderCardContent extends StatelessWidget {
                   color: AppColors.blue_5,
                 ),
               ),
-              AppTextBuilder("22, Oct 2021")
+              AppTextBuilder(DateUtil.dateToString(_order.date))
                   .size(16)
                   .textAlign(TextAlign.right)
                   .build()
             ]),
             Container(
               color: AppColors.grey_2,
-              constraints: BoxConstraints(minHeight: 2),
+              constraints: const BoxConstraints(minHeight: 2),
             ),
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
               const Padding(
@@ -79,7 +84,7 @@ class OrderCardContent extends StatelessWidget {
                   color: AppColors.blue_5,
                 ),
               ),
-              AppTextBuilder("+91 8000523940").size(16).build()
+              AppTextBuilder(_order.party.contactNo).size(16).build()
             ]),
           ],
         ),

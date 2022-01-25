@@ -1,13 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:jb_fe/backend_integration/dto/order/order_presentation.dart';
 import 'package:jb_fe/constants/colors.dart';
 import 'package:jb_fe/constants/texts/order_text.dart';
-import 'package:jb_fe/widgets/body/authenticated/orders/edit/order_item.dart';
 import 'package:jb_fe/widgets/calligraphy/app_text.dart';
 import 'package:jb_fe/widgets/common/inputs/search_bar.dart';
 
+import 'order_item.dart';
+
 class OrderFormItemSection extends StatelessWidget {
-  const OrderFormItemSection({Key? key}) : super(key: key);
+  final OrderPresentation _order;
+  const OrderFormItemSection({Key? key, required OrderPresentation order})
+      : _order = order,
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {

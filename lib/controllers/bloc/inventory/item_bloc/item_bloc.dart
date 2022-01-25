@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:jb_fe/backend_integration/domain/usecase/inventory/get_item_page.dart';
 import 'package:jb_fe/backend_integration/dto/item/item_presentation.dart';
+import 'package:jb_fe/backend_integration/dto/order/order_presentation.dart';
 import 'package:jb_fe/controllers/bloc/inventory/mediator/notification/notification.dart';
 import 'package:jb_fe/controllers/bloc/inventory/mediator/notifier/next_page_notifier.dart';
 import 'package:jb_fe/controllers/bloc/inventory/mediator/subscriber/operation_subscriber.dart';
@@ -47,6 +48,11 @@ class _UpdateItemFromCart extends ItemEvent {
   const _UpdateItemFromCart({required this.item});
 }
 
+class _UpdateForOrderPlaced extends ItemEvent {
+  final OrderPresentation order;
+  const _UpdateForOrderPlaced({required this.order});
+}
+
 class ItemBloc extends Bloc<ItemEvent, ItemState>
     with ItemOperationSubscriber, SearchNextItemPageNotifier {
   final String _id = const Uuid().v4();
@@ -62,6 +68,7 @@ class ItemBloc extends Bloc<ItemEvent, ItemState>
     on<_UpdateItem>(_updateItem);
     on<_AddItem>(_addItem);
     on<_UpdateItemFromCart>(_updateItemFromCart);
+    on<_UpdateForOrderPlaced>(_updateForPlacedOrder);
   }
 
   FutureOr<void> _onFetchItemFirstPage(
@@ -208,6 +215,12 @@ class ItemBloc extends Bloc<ItemEvent, ItemState>
     );
   }
 
+  FutureOr<void> _updateForPlacedOrder(
+      _UpdateForOrderPlaced event, Emitter<ItemState> emit) {
+    print("Update item for placed order: ${event.order.id}");
+    add(const FetchItemFirstPage(cartItems: <ItemPresentation>[]));
+  }
+
   @override
   void update({required ItemOperationNotification notification}) {
     switch (notification.notificationType) {
@@ -245,14 +258,19 @@ class ItemBloc extends Bloc<ItemEvent, ItemState>
                 (notification as SearchItemTermClearedNotification).cartItems));
         break;
       case ItemNotificationType.ITEM_UPDATE_FROM_CART_REQUEST:
-        // print(
-        //     "ItemAddedToCart: ${(notification as AddItemToCartNotification).item.id}");
         add(
           _UpdateItemFromCart(
-            item: (notification as UpdateItemFromOrderNotification).item,
+            item: (notification as UpdateItemFromCartNotification).item,
           ),
         );
         break;
+      case ItemNotificationType.ITEM_UPDATE_FROM_PLACED_ORDER:
+        add(
+          _UpdateForOrderPlaced(
+            order:
+                (notification as UpdateItemFromPlacedOrderNotification).order,
+          ),
+        );
     }
   }
 

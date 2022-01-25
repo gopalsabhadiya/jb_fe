@@ -29,7 +29,7 @@ class AddOrderState extends Equatable {
     return AddOrderState(
       status: status ?? this.status,
       totalItemCount: totalItemCount ?? this.totalItemCount,
-      party: party,
+      party: party ?? this.party,
       order: order ?? this.order,
     );
   }

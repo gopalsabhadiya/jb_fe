@@ -36,4 +36,9 @@ class PartyRepositoryImpl implements PartyRepository {
   Future<List<PartyEntity>> getPartyPage(int skip) async {
     return await remoteDataSource.getPartyPage(skip);
   }
+
+  @override
+  Future<PartyEntity> fetchParty(String partyId) async {
+    return await remoteDataSource.fetchParty(partyId);
+  }
 }

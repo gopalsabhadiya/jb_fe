@@ -9,9 +9,14 @@ import 'buttons/icon_button.dart';
 class SaveCancelBar extends StatelessWidget {
   final VoidCallback _cancelSave;
   final VoidCallback _save;
+  final String _saveString;
   const SaveCancelBar(
-      {Key? key, required cancelCallback, required saveCallback})
+      {Key? key,
+      required cancelCallback,
+      required saveCallback,
+      String? saveString})
       : _cancelSave = cancelCallback,
+        _saveString = saveString ?? "Save",
         _save = saveCallback,
         super(key: key);
 
@@ -32,7 +37,7 @@ class SaveCancelBar extends StatelessWidget {
                 .build(),
             InkWell(
               onTap: _save,
-              child: AppTextBuilder("Save")
+              child: AppTextBuilder(_saveString)
                   .size(20)
                   .weight(AppFontWeight.BOLD)
                   .color(AppColors.grey_1)

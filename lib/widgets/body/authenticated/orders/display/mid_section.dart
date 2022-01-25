@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:jb_fe/backend_integration/dto/order/order_presentation.dart';
 import 'package:jb_fe/constants/colors.dart';
+import 'package:jb_fe/constants/texts/defaults.dart';
 import 'package:jb_fe/constants/texts/item_text.dart';
 import 'package:jb_fe/constants/texts/order_text.dart';
 import 'package:jb_fe/constants/typography/font_weight.dart';
@@ -8,7 +10,10 @@ import 'package:jb_fe/widgets/calligraphy/app_text.dart';
 import 'package:jb_fe/widgets/common/inputs/text_field.dart';
 
 class OrderFormMidSection extends StatelessWidget {
-  const OrderFormMidSection({Key? key}) : super(key: key);
+  final OrderPresentation _order;
+  const OrderFormMidSection({Key? key, required OrderPresentation order})
+      : _order = order,
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,12 +26,25 @@ class OrderFormMidSection extends StatelessWidget {
             children: [
               SizedBox(
                 width: 300,
-                child: AppTextInput(
-                    prefixIcon: Icons.category,
-                    hint: ItemText.CATEGORY_INPUT_TEXT,
-                    onChanged: _onChange),
+                child: Column(
+                  children: [
+                    AppTextBuilder(OrderText.GOLD_RATE)
+                        .color(AppColors.blue_5)
+                        .size(16)
+                        .paddingVertical(5)
+                        .build(),
+                    AppTextBuilder(DefaultTexts.RUPEE_SYMBOL +
+                            DefaultTexts.SPACE +
+                            _order.goldRate.toString())
+                        .weight(AppFontWeight.BOLD)
+                        .color(AppColors.red_2)
+                        .build()
+                  ],
+                ),
               ),
-              AppTextBuilder("₹ 1,03,000")
+              AppTextBuilder(DefaultTexts.RUPEE_SYMBOL +
+                      DefaultTexts.SPACE +
+                      _order.billOutstanding.toString())
                   .weight(FontWeight.bold)
                   .size(25)
                   .color(AppColors.blue_5)

@@ -16,7 +16,9 @@ class SearchOrderNotifier implements OrderOperationNotifier {
 
   @override
   void notifySubscriber({required OrderOperationNotification notification}) {
+    print('Notifying subscribers');
     for (final subscriber in _subscribers) {
+      print('Notifying subscriber: $subscriber');
       subscriber.update(notification: notification);
     }
   }

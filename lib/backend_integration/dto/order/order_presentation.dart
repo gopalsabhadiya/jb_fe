@@ -1,8 +1,12 @@
 import 'package:jb_fe/backend_integration/constants/enum/gst_type_enum.dart';
+import 'package:jb_fe/backend_integration/domain/entities/order/details/order_details.dart';
+import 'package:jb_fe/backend_integration/domain/entities/order/details/order_party.dart';
 import 'package:jb_fe/backend_integration/domain/entities/order/order.dart';
 import 'package:jb_fe/backend_integration/dto/item/item_presentation.dart';
+import 'package:jb_fe/backend_integration/dto/order/details/order_details_presentation.dart';
 import 'package:jb_fe/backend_integration/dto/order/gst_presentation.dart';
 import 'package:jb_fe/backend_integration/dto/order/scrap_presentation.dart';
+import 'package:jb_fe/backend_integration/dto/party/party_presentation.dart';
 import 'package:jb_fe/constants/texts/defaults.dart';
 
 class OrderPresentation {
@@ -171,6 +175,22 @@ class OrderPresentation {
       fulfilled: _fulfilled,
       date: _date,
       goldRate: _goldRate,
+    );
+  }
+
+  OrderDetailsPresentation getOrderDetailsPresentation(
+      {required PartyPresentation party}) {
+    print("Party in placed order: $party");
+    return OrderDetailsPresentation(
+      OrderDetailsEntity(
+        id: _id!,
+        orderId: _orderId!,
+        totalAmmount: _totalAmmount,
+        billOutstanding: _billOutstanding,
+        party: OrderPartyEntity(
+            id: party.id!, name: party.name, contactNo: party.contactNo),
+        date: _date,
+      ),
     );
   }
 

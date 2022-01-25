@@ -1,21 +1,23 @@
-import 'package:jb_fe/backend_integration/domain/entities/order/order.dart';
+import 'package:jb_fe/backend_integration/domain/entities/order/details/order_details.dart';
 import 'package:jb_fe/backend_integration/domain/repositories/order_repository.dart';
-import 'package:jb_fe/backend_integration/dto/order/order_presentation.dart';
+import 'package:jb_fe/backend_integration/dto/order/details/order_details_presentation.dart';
 
 class SearchOrderUseCase {
   final OrderRepository repository;
 
   SearchOrderUseCase({required this.repository});
 
-  Future<List<OrderPresentation>> call({
+  Future<List<OrderDetailsPresentation>> call({
     required String searchTerm,
     int skip = 0,
   }) async {
-    List<OrderEntity> orderEntityList =
+    List<OrderDetailsEntity> orderEntityList =
         await repository.searchOrder(searchTerm, skip);
+    print("Searched orders: $orderEntityList");
 
-    List<OrderPresentation> orderPresentationList =
-        orderEntityList.map((order) => OrderPresentation(order)).toList();
+    List<OrderDetailsPresentation> orderPresentationList = orderEntityList
+        .map((order) => OrderDetailsPresentation(order))
+        .toList();
 
     return orderPresentationList;
   }

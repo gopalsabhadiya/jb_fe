@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:jb_fe/backend_integration/domain/usecase/order/get_order_page.dart';
+import 'package:jb_fe/backend_integration/dto/order/details/order_details_presentation.dart';
 import 'package:jb_fe/backend_integration/dto/order/order_presentation.dart';
 import 'package:jb_fe/controllers/bloc/order/mediator/notification/notification.dart';
 import 'package:jb_fe/controllers/bloc/order/mediator/notifier/next_page_notifier.dart';
@@ -18,18 +19,13 @@ class _DeleteOrder extends OrderEvent {
   const _DeleteOrder({required this.orderId});
 }
 
-class _UpdateOrder extends OrderEvent {
-  final OrderPresentation updatedOrder;
-  const _UpdateOrder({required this.updatedOrder});
-}
-
 class _AddOrder extends OrderEvent {
-  final OrderPresentation addedOrder;
+  final OrderDetailsPresentation addedOrder;
   const _AddOrder({required this.addedOrder});
 }
 
 class _DisplaySearchOrderResult extends OrderEvent {
-  final List<OrderPresentation> result;
+  final List<OrderDetailsPresentation> result;
   const _DisplaySearchOrderResult({required this.result});
 }
 
@@ -47,7 +43,6 @@ class OrderBloc extends Bloc<OrderEvent, OrderState>
     on<_DisplaySearchOrderResult>(_displaySearchResult);
     on<_ClearSearchTerm>(_clearSearchTerm);
     on<_DeleteOrder>(_removeOrderFromList);
-    on<_UpdateOrder>(_updateOrder);
     on<_AddOrder>(_addOrder);
   }
 
@@ -68,6 +63,7 @@ class OrderBloc extends Bloc<OrderEvent, OrderState>
         ),
       );
     } catch (e) {
+      print("Error: $e");
       emit(
         state.copyWith(
           status: OrderStatus.FAILURE,
@@ -101,6 +97,7 @@ class OrderBloc extends Bloc<OrderEvent, OrderState>
 
   FutureOr<void> _displaySearchResult(
       _DisplaySearchOrderResult event, Emitter<OrderState> emit) {
+    print("Display Search result");
     emit(
       state.copyWith(
         status: OrderStatus.LOADING,
@@ -121,7 +118,7 @@ class OrderBloc extends Bloc<OrderEvent, OrderState>
     emit(
       state.copyWith(
         status: OrderStatus.LOADING,
-        orderList: <OrderPresentation>[],
+        orderList: <OrderDetailsPresentation>[],
         needToSearch: false,
       ),
     );
@@ -130,29 +127,12 @@ class OrderBloc extends Bloc<OrderEvent, OrderState>
 
   FutureOr<void> _removeOrderFromList(
       _DeleteOrder event, Emitter<OrderState> emit) {
-    final newList = <OrderPresentation>[];
+    final newList = <OrderDetailsPresentation>[];
     for (var order in state.orderList) {
       if (order.id != event.orderId) {
         newList.add(order);
       }
     }
-    emit(
-      state.copyWith(
-        status: OrderStatus.SUCCESS,
-        orderList: newList,
-      ),
-    );
-  }
-
-  FutureOr<void> _updateOrder(_UpdateOrder event, Emitter<OrderState> emit) {
-    emit(state.copyWith(status: OrderStatus.LOADING));
-    final newList = <OrderPresentation>[];
-    for (var order in state.orderList) {
-      order.id == event.updatedOrder.id
-          ? newList.add(event.updatedOrder)
-          : newList.add(order);
-    }
-
     emit(
       state.copyWith(
         status: OrderStatus.SUCCESS,
@@ -180,14 +160,8 @@ class OrderBloc extends Bloc<OrderEvent, OrderState>
           ),
         );
         break;
-      case OrderNotificationType.ORDER_UPDATED:
-        add(
-          _UpdateOrder(
-            updatedOrder: (notification as UpdateOrderNotification).order,
-          ),
-        );
-        break;
       case OrderNotificationType.ORDER_SEARCH_COMPLETE:
+        print("Order search complete");
         add(
           _DisplaySearchOrderResult(
             result: (notification as SearchOrderCompleteNotification).result,
@@ -198,7 +172,7 @@ class OrderBloc extends Bloc<OrderEvent, OrderState>
         add(_ClearSearchTerm());
         break;
       case OrderNotificationType.ORDER_CREATED:
-        print("Order created");
+        print("Order created: ${(notification as NewOrderNotification).order}");
         add(
           _AddOrder(
             addedOrder: (notification as NewOrderNotification).order,

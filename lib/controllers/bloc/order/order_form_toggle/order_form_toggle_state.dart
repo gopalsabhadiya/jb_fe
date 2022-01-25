@@ -4,17 +4,15 @@ abstract class ToggleForOrder extends Equatable {
   const ToggleForOrder();
 }
 
-class ToggleForOrderUpdate extends ToggleForOrder {
-  final OrderPresentation orderToBeUpdated;
-
-  const ToggleForOrderUpdate({required this.orderToBeUpdated});
-
-  @override
-  List<Object?> get props => [orderToBeUpdated];
-}
-
 class ToggleForNewOrder extends ToggleForOrder {
   const ToggleForNewOrder();
+  @override
+  List<Object?> get props => [];
+}
+
+class ToggleForOrderDisplay extends ToggleForOrder {
+  final String orderId;
+  const ToggleForOrderDisplay({required this.orderId});
   @override
   List<Object?> get props => [];
 }

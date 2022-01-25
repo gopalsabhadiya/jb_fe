@@ -5,18 +5,18 @@ enum SearchOrderStatus { LOADING, COMPLETED, ERROR }
 class SearchOrderState extends Equatable {
   final SearchOrderStatus searchStatus;
   final String searchTerm;
-  final List<OrderPresentation> result;
+  final List<OrderDetailsPresentation> result;
 
   const SearchOrderState({
     this.searchStatus = SearchOrderStatus.COMPLETED,
     this.searchTerm = DefaultTexts.EMPTY,
-    this.result = const <OrderPresentation>[],
+    this.result = const <OrderDetailsPresentation>[],
   });
 
   SearchOrderState copyWith({
     SearchOrderStatus? searchStatus,
     String? searchTerm,
-    List<OrderPresentation>? result,
+    List<OrderDetailsPresentation>? result,
   }) {
     return SearchOrderState(
       searchStatus: searchStatus ?? this.searchStatus,

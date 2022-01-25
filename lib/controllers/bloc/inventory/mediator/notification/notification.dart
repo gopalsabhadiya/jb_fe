@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:jb_fe/backend_integration/dto/item/item_presentation.dart';
+import 'package:jb_fe/backend_integration/dto/order/order_presentation.dart';
 
 enum ItemNotificationType {
   ITEM_DELETED,
@@ -7,6 +8,7 @@ enum ItemNotificationType {
   ITEM_CREATED,
   ITEM_ADD_REQUEST,
   ITEM_UPDATE_FROM_CART_REQUEST,
+  ITEM_UPDATE_FROM_PLACED_ORDER,
   ITEM_SEARCH_COMPLETE,
   ITEM_SEARCH_CLEARED,
   ITEM_GET_NEXT_PAGE
@@ -83,14 +85,24 @@ class AddItemRequestNotification extends ItemOperationNotification {
       : super(notificationType: ItemNotificationType.ITEM_ADD_REQUEST);
 }
 
-class UpdateItemFromOrderNotification extends ItemOperationNotification {
+class UpdateItemFromCartNotification extends ItemOperationNotification {
   final ItemPresentation item;
-  const UpdateItemFromOrderNotification({required this.item})
+  const UpdateItemFromCartNotification({required this.item})
       : super(
             notificationType:
                 ItemNotificationType.ITEM_UPDATE_FROM_CART_REQUEST);
   @override
   List<Object?> get props => [item];
+}
+
+class UpdateItemFromPlacedOrderNotification extends ItemOperationNotification {
+  final OrderPresentation order;
+  const UpdateItemFromPlacedOrderNotification({required this.order})
+      : super(
+      notificationType:
+      ItemNotificationType.ITEM_UPDATE_FROM_PLACED_ORDER,);
+  @override
+  List<Object?> get props => [order];
 }
 
 // class RemoveItemFromCartNotification extends ItemOperationNotification {

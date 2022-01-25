@@ -1,11 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:jb_fe/backend_integration/dto/order/details/order_details_presentation.dart';
 import 'package:jb_fe/constants/colors.dart';
 import 'package:jb_fe/constants/typography/font_weight.dart';
 import 'package:jb_fe/widgets/calligraphy/app_text.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class OrderCardHeader extends StatelessWidget {
-  const OrderCardHeader({Key? key}) : super(key: key);
+  final OrderDetailsPresentation _order;
+  const OrderCardHeader({Key? key, required OrderDetailsPresentation order})
+      : _order = order,
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,15 +35,16 @@ class OrderCardHeader extends StatelessWidget {
                 child: Icon(Icons.account_circle,
                     size: 35, color: AppColors.blue_5),
               ),
-              AppTextBuilder("Gopal Sabhadiya")
+              AppTextBuilder(_order.party.name)
                   .weight(AppFontWeight.BOLD)
                   .color(AppColors.blue_5)
                   .build(),
             ],
           ),
           IconButton(
-              onPressed: () => print("Assin print function here"),
-              icon: Icon(
+              onPressed: () =>
+                  launch("http://localhost:8080/api/bill/${_order.id}"),
+              icon: const Icon(
                 Icons.print,
                 size: 30,
                 color: AppColors.blue_5,

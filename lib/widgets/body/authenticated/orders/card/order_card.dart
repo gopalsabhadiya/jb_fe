@@ -1,16 +1,25 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jb_fe/backend_integration/dto/order/details/order_details_presentation.dart';
 import 'package:jb_fe/constants/colors.dart';
+import 'package:jb_fe/constants/texts/order_text.dart';
+import 'package:jb_fe/controllers/bloc/order/delete_order/delete_order_bloc.dart';
 import 'package:jb_fe/widgets/body/authenticated/orders/card/content.dart';
 import 'package:jb_fe/widgets/body/authenticated/orders/card/header.dart';
+import 'package:jb_fe/widgets/common/alerts/confirmation_alert.dart';
 
 import 'footer.dart';
 
 class OrderCard extends StatelessWidget {
-  final Function(String) _onOrderEdit;
-  final String _orderId;
-  const OrderCard({Key? key, required onOrderEdit, required orderId})
-      : _onOrderEdit = onOrderEdit,
-        _orderId = orderId,
+  final VoidCallback _onViewOrder;
+  final OrderDetailsPresentation _order;
+  const OrderCard(
+      {Key? key,
+      required OrderDetailsPresentation order,
+      required VoidCallback onViewOrder})
+      : _order = order,
+        _onViewOrder = onViewOrder,
         super(key: key);
 
   @override
@@ -32,27 +41,40 @@ class OrderCard extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const OrderCardHeader(),
-          const OrderCardContent(),
+          OrderCardHeader(
+            order: _order,
+          ),
+          OrderCardContent(
+            order: _order,
+          ),
           OrderCardFooter(
-            onOrderView: _onOrderViewClick,
-            onOrderEdit: _onOrderEditClick,
-            onOrderDelete: _onOrderDeleteClick,
+            order: _order,
+            onOrderView: _onViewOrder,
+            onOrderDelete: () => _onOrderDeleteClick(context),
           ),
         ],
       ),
     );
   }
 
-  _onOrderViewClick() {
-    print("Party favourite: $_orderId");
+  _onOrderDeleteClick(BuildContext parentContext) {
+    showDialog(
+      context: parentContext,
+      builder: (BuildContext context) {
+        return ConfirmationAlert(
+            title: OrderText.DELETE_ORDER_ALERT_HEADER,
+            content: OrderText.DELETE_ORDER_ALERT_MESSAGE,
+            variable: _order.orderId.toString(),
+            continueCallBack: () {
+              Navigator.of(context).pop();
+              _deleteOrder(parentContext);
+            });
+      },
+    );
   }
 
-  _onOrderEditClick() {
-    _onOrderEdit(_orderId);
-  }
-
-  _onOrderDeleteClick() {
-    print("Party Deleted: $_orderId");
+  _deleteOrder(BuildContext context) {
+    BlocProvider.of<DeleteOrderBloc>(context)
+        .add(DeleteOrder(orderIdToBeDeleted: _order.id));
   }
 }

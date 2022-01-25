@@ -1,9 +1,10 @@
 import 'package:equatable/equatable.dart';
+import 'package:jb_fe/backend_integration/domain/entities/order/details/order_details.dart';
+import 'package:jb_fe/backend_integration/dto/order/details/order_details_presentation.dart';
 import 'package:jb_fe/backend_integration/dto/order/order_presentation.dart';
 
 enum OrderNotificationType {
   ORDER_DELETED,
-  ORDER_UPDATED,
   ORDER_CREATED,
   ORDER_ADD_REQUEST,
   ORDER_SEARCH_COMPLETE,
@@ -31,7 +32,7 @@ class DeleteOrderNotification extends OrderOperationNotification {
 }
 
 class NewOrderNotification extends OrderOperationNotification {
-  final OrderPresentation order;
+  final OrderDetailsPresentation order;
 
   const NewOrderNotification({
     required this.order,
@@ -41,19 +42,8 @@ class NewOrderNotification extends OrderOperationNotification {
   List<Object> get props => [order, notificationType];
 }
 
-class UpdateOrderNotification extends OrderOperationNotification {
-  final OrderPresentation order;
-
-  const UpdateOrderNotification({
-    required this.order,
-  }) : super(notificationType: OrderNotificationType.ORDER_UPDATED);
-
-  @override
-  List<Object> get props => [order, notificationType];
-}
-
 class SearchOrderCompleteNotification extends OrderOperationNotification {
-  final List<OrderPresentation> result;
+  final List<OrderDetailsPresentation> result;
   final String searchTerm;
   const SearchOrderCompleteNotification(
       {required this.result, required this.searchTerm})
