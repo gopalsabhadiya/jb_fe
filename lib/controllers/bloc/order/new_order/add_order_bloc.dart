@@ -25,7 +25,6 @@ class AddOrderBloc extends Bloc<AddOrderEvent, AddOrderState>
             order: OrderPresentation.empty(),
           ),
         ) {
-    print("Creating add order bloc");
     on<AddGoldRate>(_setGoldRate);
     on<UpdateScrapAndKasar>(_updateOrder);
     on<AddItemToOrder>(_addItemToOrder);

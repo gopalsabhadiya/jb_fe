@@ -3,11 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:jb_fe/backend_integration/dto/order/order_presentation.dart';
 import 'package:jb_fe/constants/colors.dart';
 import 'package:jb_fe/constants/texts/defaults.dart';
-import 'package:jb_fe/constants/texts/item_text.dart';
 import 'package:jb_fe/constants/texts/order_text.dart';
 import 'package:jb_fe/constants/typography/font_weight.dart';
+import 'package:jb_fe/util/date_util.dart';
 import 'package:jb_fe/widgets/calligraphy/app_text.dart';
-import 'package:jb_fe/widgets/common/inputs/text_field.dart';
 
 class OrderFormMidSection extends StatelessWidget {
   final OrderPresentation _order;
@@ -51,14 +50,26 @@ class OrderFormMidSection extends StatelessWidget {
                   .build(),
               SizedBox(
                 width: 300,
-                child: AppTextInput(
-                    prefixIcon: Icons.category,
-                    hint: ItemText.TYPE_INPUT_TEXT,
-                    onChanged: _onChange),
+                child: Column(
+                  children: [
+                    const Icon(
+                      Icons.event,
+                      size: 25,
+                      color: AppColors.blue_5,
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    AppTextBuilder(DateUtil.dateToString(_order.date))
+                        .weight(AppFontWeight.BOLD)
+                        .color(AppColors.blue_5)
+                        .build()
+                  ],
+                ),
               ),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           Row(
@@ -71,7 +82,9 @@ class OrderFormMidSection extends StatelessWidget {
                       .size(16)
                       .paddingVertical(5)
                       .build(),
-                  AppTextBuilder("₹ 10,300")
+                  AppTextBuilder(DefaultTexts.RUPEE_SYMBOL +
+                          DefaultTexts.SPACE +
+                          _order.netAmmount.toString())
                       .weight(AppFontWeight.BOLD)
                       .color(AppColors.red_2)
                       .build()
@@ -110,7 +123,9 @@ class OrderFormMidSection extends StatelessWidget {
                       .size(16)
                       .paddingVertical(5)
                       .build(),
-                  AppTextBuilder("₹ 1,03,000")
+                  AppTextBuilder(DefaultTexts.RUPEE_SYMBOL +
+                          DefaultTexts.SPACE +
+                          _order.totalAmmount.toString())
                       .weight(AppFontWeight.BOLD)
                       .color(AppColors.blue_5)
                       .build()
@@ -123,7 +138,9 @@ class OrderFormMidSection extends StatelessWidget {
                       .size(16)
                       .paddingVertical(5)
                       .build(),
-                  AppTextBuilder("₹ 50,00")
+                  AppTextBuilder(DefaultTexts.RUPEE_SYMBOL +
+                          DefaultTexts.SPACE +
+                          _order.scrapAmmount.toString())
                       .weight(AppFontWeight.BOLD)
                       .color(AppColors.green_1)
                       .build()
@@ -149,7 +166,9 @@ class OrderFormMidSection extends StatelessWidget {
                       .size(16)
                       .paddingVertical(5)
                       .build(),
-                  AppTextBuilder("₹ 43,000")
+                  AppTextBuilder(DefaultTexts.RUPEE_SYMBOL +
+                          DefaultTexts.SPACE +
+                          _order.billOutstanding.toString())
                       .weight(AppFontWeight.BOLD)
                       .color(AppColors.red_2)
                       .build()

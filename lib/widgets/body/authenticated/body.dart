@@ -8,12 +8,11 @@ import 'package:jb_fe/controllers/bloc/order/order_form_toggle/order_form_toggle
 import 'package:jb_fe/controllers/bloc/state/authenticated_sidepanel.dart';
 import 'package:jb_fe/injection_container.dart';
 import 'package:jb_fe/util/screen_size.dart';
-import 'package:jb_fe/widgets/body/authenticated/orders/orders.dart';
 import 'package:jb_fe/widgets/body/authenticated/pages/dashboard.dart';
 import 'package:jb_fe/widgets/body/authenticated/pages/inventory.dart';
 import 'package:jb_fe/widgets/body/authenticated/pages/order.dart';
 import 'package:jb_fe/widgets/body/authenticated/pages/party.dart';
-import 'package:jb_fe/widgets/body/authenticated/payments/payments.dart';
+import 'package:jb_fe/widgets/body/authenticated/pages/payment.dart';
 import 'package:jb_fe/widgets/body/authenticated/shop_expenses/shop_expenses.dart';
 import 'package:jb_fe/widgets/body/authenticated/side_panel.dart';
 import 'package:jb_fe/widgets/navbar/content/authenticated/hamburger_top.dart';
@@ -84,14 +83,7 @@ class AppBodyAuthenticated extends StatelessWidget {
             case AuthenticatedSidePanelState.ORDERS:
               return const OrderPage();
             case AuthenticatedSidePanelState.PAYMENTS:
-              return Column(
-                children: [
-                  ScreenSizeUtil.getIsHamburgerNavbar(context)
-                      ? const HamburgerTopAuthenticatedNavbar()
-                      : const RegularTopAuthenticatedNavbar(),
-                  const Payments(),
-                ],
-              );
+              return const PaymentPage();
             case AuthenticatedSidePanelState.SHOP_EXPENSES:
               return Column(
                 children: [
