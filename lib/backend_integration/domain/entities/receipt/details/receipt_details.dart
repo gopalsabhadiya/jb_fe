@@ -1,7 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:jb_fe/backend_integration/domain/entities/receipt/details/payment_details.dart';
-import 'package:jb_fe/backend_integration/domain/entities/receipt/details/payment_order_details.dart';
-import 'package:jb_fe/backend_integration/domain/entities/receipt/details/payment_party_details.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'receipt_details.g.dart';
@@ -21,25 +18,21 @@ class ReceiptDetailsEntity extends Equatable {
   final String? id;
   final String? receiptId;
   final double ammount;
-  final List<PaymentDetailsEntity> payments;
-  final String business;
+  final double activeAmmount;
+  final String partyName;
+  final String partyContactNo;
   final String paymentMode;
-  final int activeAmmount;
   final DateTime date;
-  final PaymentPartyDetailsEntity party;
-  final List<PaymentOrderDetailsEntity> orders;
 
   const ReceiptDetailsEntity({
     this.id,
     this.receiptId,
     required this.ammount,
-    required this.payments,
-    required this.business,
-    required this.paymentMode,
     required this.activeAmmount,
+    required this.partyName,
+    required this.partyContactNo,
+    required this.paymentMode,
     required this.date,
-    required this.party,
-    required this.orders,
   }) : super();
 
   @override
@@ -47,13 +40,11 @@ class ReceiptDetailsEntity extends Equatable {
         id,
         receiptId,
         ammount,
-        payments,
-        business,
-        paymentMode,
+        partyName,
+        partyContactNo,
         activeAmmount,
+        paymentMode,
         date,
-        party,
-        orders,
       ];
 
   factory ReceiptDetailsEntity.fromJson(Map<String, dynamic> json) =>

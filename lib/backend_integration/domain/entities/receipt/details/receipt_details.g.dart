@@ -12,19 +12,11 @@ ReceiptDetailsEntity _$ReceiptDetailsEntityFromJson(
       id: json['_id'] as String?,
       receiptId: json['receiptId'] as String?,
       ammount: (json['ammount'] as num).toDouble(),
-      payments: (json['payments'] as List<dynamic>)
-          .map((e) => PaymentDetailsEntity.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      business: json['business'] as String,
+      activeAmmount: (json['activeAmmount'] as num).toDouble(),
+      partyName: json['partyName'] as String,
+      partyContactNo: json['partyContactNo'] as String,
       paymentMode: json['paymentMode'] as String,
-      activeAmmount: json['activeAmmount'] as int,
       date: DateTime.parse(json['date'] as String),
-      party: PaymentPartyDetailsEntity.fromJson(
-          json['party'] as Map<String, dynamic>),
-      orders: (json['orders'] as List<dynamic>)
-          .map((e) =>
-              PaymentOrderDetailsEntity.fromJson(e as Map<String, dynamic>))
-          .toList(),
     );
 
 Map<String, dynamic> _$ReceiptDetailsEntityToJson(
@@ -40,12 +32,10 @@ Map<String, dynamic> _$ReceiptDetailsEntityToJson(
   writeNotNull('_id', ignoreIfEmpty(instance.id));
   val['receiptId'] = instance.receiptId;
   val['ammount'] = instance.ammount;
-  val['payments'] = instance.payments.map((e) => e.toJson()).toList();
-  val['business'] = instance.business;
-  val['paymentMode'] = instance.paymentMode;
   val['activeAmmount'] = instance.activeAmmount;
+  val['partyName'] = instance.partyName;
+  val['partyContactNo'] = instance.partyContactNo;
+  val['paymentMode'] = instance.paymentMode;
   val['date'] = instance.date.toIso8601String();
-  val['party'] = instance.party.toJson();
-  val['orders'] = instance.orders.map((e) => e.toJson()).toList();
   return val;
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:jb_fe/backend_integration/dto/payment/details/receipt_details_presentation.dart';
 import 'package:jb_fe/constants/colors.dart';
 import 'package:jb_fe/widgets/body/authenticated/payments/card/header.dart';
 
@@ -6,11 +7,9 @@ import 'content.dart';
 import 'footer.dart';
 
 class PaymentCard extends StatelessWidget {
-  final Function(String) _onPaymentEdit;
-  final String _paymentId;
-  const PaymentCard({Key? key, required onPaymentEdit, required paymentId})
-      : _onPaymentEdit = onPaymentEdit,
-        _paymentId = paymentId,
+  final ReceiptDetailsPresentation? _receipt;
+  const PaymentCard({Key? key, ReceiptDetailsPresentation? receipt})
+      : _receipt = receipt,
         super(key: key);
 
   @override
@@ -45,14 +44,14 @@ class PaymentCard extends StatelessWidget {
   }
 
   _onPaymentViewClick() {
-    print("Payment View: $_paymentId");
+    print("Payment View: $_receipt");
   }
 
   _onPaymentEditClick() {
-    _onPaymentEdit(_paymentId);
+    // _onPaymentEdit(_receipt);
   }
 
   _onPaymentDeleteClick() {
-    print("Party Deleted: $_paymentId");
+    print("Party Deleted: $_receipt");
   }
 }

@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:jb_fe/backend_integration/dto/payment/details/receipt_details_presentation.dart';
 import 'package:jb_fe/backend_integration/dto/payment/receipt_presentation.dart';
 
 enum ReceiptNotificationType {
@@ -41,7 +42,7 @@ class NewReceiptNotification extends ReceiptOperationNotification {
 }
 
 class SearchReceiptCompleteNotification extends ReceiptOperationNotification {
-  final List<ReceiptPresentation> result;
+  final List<ReceiptDetailsPresentation> result;
   final String searchTerm;
   const SearchReceiptCompleteNotification(
       {required this.result, required this.searchTerm})

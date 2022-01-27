@@ -20,7 +20,6 @@ import 'package:jb_fe/backend_integration/domain/usecase/order/delete_order.dart
 import 'package:jb_fe/backend_integration/domain/usecase/order/get_order_page.dart';
 import 'package:jb_fe/backend_integration/domain/usecase/party/create_party.dart';
 import 'package:jb_fe/backend_integration/domain/usecase/party/delete_party.dart';
-import 'package:jb_fe/backend_integration/domain/usecase/party/fetcch_party.dart';
 import 'package:jb_fe/backend_integration/domain/usecase/party/get_party_page.dart';
 import 'package:jb_fe/backend_integration/domain/usecase/party/search_party.dart';
 import 'package:jb_fe/backend_integration/domain/usecase/party/update_party.dart';
@@ -41,9 +40,12 @@ import 'package:jb_fe/controllers/bloc/party/party_form_toggle/party_form_toggle
 import 'package:jb_fe/controllers/bloc/party/search_party/search_party_bloc.dart';
 import 'package:jb_fe/controllers/bloc/party/update_party/update_party_bloc.dart';
 
+import 'backend_integration/data/datasource/remote/receipt_remote_ds.dart';
+import 'backend_integration/data/repositories/receipt_repository_impl.dart';
 import 'backend_integration/domain/repositories/business_repository.dart';
 import 'backend_integration/domain/repositories/daily_gold_rate_repository.dart';
 import 'backend_integration/domain/repositories/item_repository.dart';
+import 'backend_integration/domain/repositories/receipt_repository.dart';
 import 'backend_integration/domain/usecase/daily_gold_rate/get_today_gold_rate.dart';
 import 'backend_integration/domain/usecase/daily_gold_rate/update_daily_gold_rate.dart';
 import 'backend_integration/domain/usecase/inventory/create_item.dart';
@@ -52,6 +54,11 @@ import 'backend_integration/domain/usecase/inventory/search_item.dart';
 import 'backend_integration/domain/usecase/inventory/update_item.dart';
 import 'backend_integration/domain/usecase/order/fetch_order.dart';
 import 'backend_integration/domain/usecase/order/search_order.dart';
+import 'backend_integration/domain/usecase/party/fetch_party.dart';
+import 'backend_integration/domain/usecase/payment/create_receipt.dart';
+import 'backend_integration/domain/usecase/payment/delete_receipt.dart';
+import 'backend_integration/domain/usecase/payment/get_receipt_page.dart';
+import 'backend_integration/domain/usecase/payment/search_receipt.dart';
 import 'controllers/bloc/dashboard/update_daily_gold_rate/update_daily_gold_rate_bloc.dart';
 import 'controllers/bloc/inventory/add_item/add_item_bloc.dart';
 import 'controllers/bloc/inventory/delete_item/delete_item_bloc.dart';
@@ -63,6 +70,11 @@ import 'controllers/bloc/order/order_bloc/order_bloc.dart';
 import 'controllers/bloc/order/search_order/search_order_bloc.dart';
 import 'controllers/bloc/party/delete_party/delete_party_bloc.dart';
 import 'controllers/bloc/party/party_bloc/party_bloc.dart';
+import 'controllers/bloc/receipt/delete_receipt/delete_receipt_bloc.dart';
+import 'controllers/bloc/receipt/new_receipt/add_receipt_bloc.dart';
+import 'controllers/bloc/receipt/receipt_bloc/receipt_bloc.dart';
+import 'controllers/bloc/receipt/receipt_form_toggle/receipt_form_toggle_cubit.dart';
+import 'controllers/bloc/receipt/search_receipt/search_receipt_bloc.dart';
 
 final serviceLocator = GetIt.instance;
 
@@ -178,6 +190,31 @@ void init() {
     () => FetchOrderBloc(
       fetchOrderUseCase: serviceLocator(),
       fetchPartyUseCase: serviceLocator(),
+    ),
+  );
+
+  //payment
+  serviceLocator.registerFactory<ReceiptBloc>(
+    () => ReceiptBloc(
+      getReceiptPageUseCase: serviceLocator(),
+    ),
+  );
+  serviceLocator.registerFactory<DeleteReceiptBloc>(
+    () => DeleteReceiptBloc(
+      deleteReceiptUseCase: serviceLocator(),
+    ),
+  );
+  serviceLocator.registerFactory<SearchReceiptBloc>(
+    () => SearchReceiptBloc(
+      searchReceiptUseCase: serviceLocator(),
+    ),
+  );
+  serviceLocator.registerFactory<ReceiptFormToggleCubit>(
+    () => ReceiptFormToggleCubit(),
+  );
+  serviceLocator.registerFactory<AddReceiptBloc>(
+    () => AddReceiptBloc(
+      createReceiptUseCase: serviceLocator(),
     ),
   );
 
@@ -322,6 +359,28 @@ void init() {
     ),
   );
 
+  //payment
+  serviceLocator.registerLazySingleton<GetReceiptPageUseCase>(
+    () => GetReceiptPageUseCase(
+      repository: serviceLocator(),
+    ),
+  );
+  serviceLocator.registerLazySingleton<DeleteReceiptUseCase>(
+    () => DeleteReceiptUseCase(
+      repository: serviceLocator(),
+    ),
+  );
+  serviceLocator.registerLazySingleton<SearchReceiptUseCase>(
+    () => SearchReceiptUseCase(
+      repository: serviceLocator(),
+    ),
+  );
+  serviceLocator.registerLazySingleton<CreateReceiptUseCase>(
+    () => CreateReceiptUseCase(
+      repository: serviceLocator(),
+    ),
+  );
+
   //------------------------------------------------------------------------------------------------------------------
   //repository
   serviceLocator.registerLazySingleton<BusinessRepository>(
@@ -349,6 +408,11 @@ void init() {
       remoteDataSource: serviceLocator(),
     ),
   );
+  serviceLocator.registerLazySingleton<ReceiptRepository>(
+    () => ReceiptRepositoryImpl(
+      remoteDataSource: serviceLocator(),
+    ),
+  );
 
   //data sources
   serviceLocator.registerLazySingleton<BusinessRemoteDataSource>(
@@ -362,6 +426,9 @@ void init() {
   );
   serviceLocator.registerLazySingleton<OrderRemoteDataSource>(
     () => OrderRemoteDataSourceImpl(),
+  );
+  serviceLocator.registerLazySingleton<ReceiptRemoteDataSource>(
+    () => ReceiptRemoteDataSourceImpl(),
   );
 
   //daily gold rate

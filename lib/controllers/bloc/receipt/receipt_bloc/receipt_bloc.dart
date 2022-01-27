@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:jb_fe/backend_integration/domain/usecase/payment/get_receipt_page.dart';
+import 'package:jb_fe/backend_integration/dto/payment/details/receipt_details_presentation.dart';
 import 'package:jb_fe/backend_integration/dto/payment/receipt_presentation.dart';
 import 'package:jb_fe/controllers/bloc/receipt/mediator/notification/notification.dart';
 import 'package:jb_fe/controllers/bloc/receipt/mediator/notifier/next_page_notifier.dart';
@@ -24,7 +25,7 @@ class _AddReceipt extends ReceiptEvent {
 }
 
 class _DisplaySearchReceiptResult extends ReceiptEvent {
-  final List<ReceiptPresentation> result;
+  final List<ReceiptDetailsPresentation> result;
   const _DisplaySearchReceiptResult({required this.result});
 }
 
@@ -117,7 +118,7 @@ class ReceiptBloc extends Bloc<ReceiptEvent, ReceiptState>
     emit(
       state.copyWith(
         status: ReceiptStatus.LOADING,
-        receiptList: <ReceiptPresentation>[],
+        receiptList: <ReceiptDetailsPresentation>[],
         needToSearch: false,
       ),
     );
@@ -126,7 +127,7 @@ class ReceiptBloc extends Bloc<ReceiptEvent, ReceiptState>
 
   FutureOr<void> _removeReceiptFromList(
       _DeleteReceipt event, Emitter<ReceiptState> emit) {
-    final newList = <ReceiptPresentation>[];
+    final newList = <ReceiptDetailsPresentation>[];
     for (var receipt in state.receiptList) {
       if (receipt.id != event.receiptId) {
         newList.add(receipt);

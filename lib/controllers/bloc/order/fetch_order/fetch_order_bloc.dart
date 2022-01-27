@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:jb_fe/backend_integration/domain/usecase/order/fetch_order.dart';
-import 'package:jb_fe/backend_integration/domain/usecase/party/fetcch_party.dart';
+import 'package:jb_fe/backend_integration/domain/usecase/party/fetch_party.dart';
 import 'package:jb_fe/backend_integration/dto/order/order_presentation.dart';
 import 'package:jb_fe/backend_integration/dto/party/party_presentation.dart';
 

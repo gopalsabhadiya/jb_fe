@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
-import 'package:jb_fe/constants/durations/animation_durations.dart';
-import 'package:jb_fe/util/screen_size.dart';
-import 'package:jb_fe/widgets/body/authenticated/payments/add_edit/edit_payment.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jb_fe/backend_integration/dto/payment/details/receipt_details_presentation.dart';
+import 'package:jb_fe/controllers/bloc/receipt/receipt_bloc/receipt_bloc.dart';
+import 'package:jb_fe/controllers/bloc/receipt/receipt_form_toggle/receipt_form_toggle_cubit.dart';
 import 'package:jb_fe/widgets/body/authenticated/payments/card/payment_card.dart';
+import 'package:jb_fe/widgets/body/authenticated/payments/drawer/receipt_form_drawer.dart';
 
 class Payments extends StatefulWidget {
   const Payments({Key? key}) : super(key: key);
@@ -12,7 +15,14 @@ class Payments extends StatefulWidget {
 }
 
 class _PaymentsState extends State<Payments> {
-  bool showEditPaymentDrawer = false;
+  late ScrollController _scrollController;
+
+  @override
+  void initState() {
+    _scrollController = ScrollController();
+    _scrollController.addListener(_onScroll);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,55 +35,97 @@ class _PaymentsState extends State<Payments> {
             child: Padding(
               padding: const EdgeInsets.all(20),
               child: Container(
-                padding: EdgeInsets.all(20),
+                padding: const EdgeInsets.all(20),
                 child: SingleChildScrollView(
-                  child: Wrap(
-                    clipBehavior: Clip.hardEdge,
-                    spacing: 40,
-                    runSpacing: 40,
-                    crossAxisAlignment: WrapCrossAlignment.center,
-                    alignment: WrapAlignment.center,
-                    children: [
-                      PaymentCard(onPaymentEdit: _onOrderEdit, paymentId: "1"),
-                      PaymentCard(onPaymentEdit: _onOrderEdit, paymentId: "2"),
-                      PaymentCard(onPaymentEdit: _onOrderEdit, paymentId: "3"),
-                      PaymentCard(onPaymentEdit: _onOrderEdit, paymentId: "4"),
-                      PaymentCard(onPaymentEdit: _onOrderEdit, paymentId: "5"),
-                      PaymentCard(onPaymentEdit: _onOrderEdit, paymentId: "6"),
-                      PaymentCard(onPaymentEdit: _onOrderEdit, paymentId: "7"),
-                      PaymentCard(onPaymentEdit: _onOrderEdit, paymentId: "8"),
-                      PaymentCard(onPaymentEdit: _onOrderEdit, paymentId: "9"),
-                    ],
+                  controller: _scrollController,
+                  child: BlocBuilder<ReceiptBloc, ReceiptState>(
+                    builder: (BuildContext context, ReceiptState state) {
+                      switch (state.status) {
+                        case ReceiptStatus.INITIAL:
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        case ReceiptStatus.LOADING:
+                          _scrollController.jumpTo(
+                              _scrollController.position.minScrollExtent);
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        case ReceiptStatus.SUCCESS:
+                          return Wrap(
+                            clipBehavior: Clip.hardEdge,
+                            spacing: 40,
+                            runSpacing: 40,
+                            crossAxisAlignment: WrapCrossAlignment.center,
+                            alignment: WrapAlignment.center,
+                            children: [
+                              PaymentCard(),
+                            ],
+                            // children: _getReceipts(state.receiptList),
+                          );
+                        case ReceiptStatus.FAILURE:
+                          // return Center(
+                          //   child: AppTextBuilder("Failed to fetch Receipts")
+                          //       .build(),
+                          // );
+                          return Wrap(
+                            clipBehavior: Clip.hardEdge,
+                            spacing: 40,
+                            runSpacing: 40,
+                            crossAxisAlignment: WrapCrossAlignment.center,
+                            alignment: WrapAlignment.center,
+                            children: [
+                              PaymentCard(),
+                            ],
+                            // children: _getReceipts(state.receiptList),
+                          );
+                      }
+                    },
                   ),
                 ),
               ),
             ),
           ),
-          AnimatedPositioned(
-            width: ScreenSizeUtil.getBottomDrawerWidth(context),
-            height: ScreenSizeUtil.getBottomDrawerHeight(context),
-            curve: Curves.easeOut,
-            duration: AnimationDuration.SHORT,
-            top: showEditPaymentDrawer ? 0 : MediaQuery.of(context).size.height,
-            child: EditPayment(
-              toggleDrawer: _toggleDrawer,
-            ),
-          ),
+          const ReceiptFormDrawer(),
         ],
       ),
     );
   }
 
-  _toggleDrawer() {
-    setState(() {
-      showEditPaymentDrawer = !showEditPaymentDrawer;
-    });
+  void _onScroll() {
+    if (_isBottom && _scrollController.position.extentAfter == 0) {
+      BlocProvider.of<ReceiptBloc>(context).add(FetchNextReceiptPage());
+    }
   }
 
-  _onOrderEdit(String id) {
-    setState(() {
-      showEditPaymentDrawer = !showEditPaymentDrawer;
-    });
-    print("Edit Payment: $id");
+  bool get _isBottom {
+    if (!_scrollController.hasClients) return false;
+    final maxScroll = _scrollController.position.maxScrollExtent;
+    final currentScroll = _scrollController.offset;
+    return currentScroll >= (maxScroll * 0.9);
+  }
+
+  _onViewOrder(String receiptId) {
+    BlocProvider.of<ReceiptFormToggleCubit>(context).openDrawer(
+      toggleForReceipt: ToggleForReceiptDisplay(receiptId: receiptId),
+    );
+  }
+
+  @override
+  void dispose() {
+    _scrollController
+      ..removeListener(_onScroll)
+      ..dispose();
+    super.dispose();
+  }
+
+  _getReceipts(List<ReceiptDetailsPresentation> receiptList) {
+    return receiptList
+        .map(
+          (receipt) => PaymentCard(
+            receipt: receipt,
+          ),
+        )
+        .toList();
   }
 }

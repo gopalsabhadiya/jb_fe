@@ -1,17 +1,17 @@
-import 'package:jb_fe/backend_integration/domain/entities/receipt/receipt.dart';
+import 'package:jb_fe/backend_integration/domain/entities/receipt/details/receipt_details.dart';
 import 'package:jb_fe/backend_integration/domain/repositories/receipt_repository.dart';
-import 'package:jb_fe/backend_integration/dto/payment/receipt_presentation.dart';
+import 'package:jb_fe/backend_integration/dto/payment/details/receipt_details_presentation.dart';
 
 class GetReceiptPageUseCase {
   final ReceiptRepository repository;
 
   GetReceiptPageUseCase({required this.repository});
 
-  Future<List<ReceiptPresentation>> call({int skip = 0}) async {
-    List<ReceiptEntity> receiptEntityList =
+  Future<List<ReceiptDetailsPresentation>> call({int skip = 0}) async {
+    List<ReceiptDetailsEntity> receiptEntityList =
         await repository.getReceiptPage(skip);
-    List<ReceiptPresentation> receiptPresentationList = receiptEntityList
-        .map((receipt) => ReceiptPresentation(receipt))
+    List<ReceiptDetailsPresentation> receiptPresentationList = receiptEntityList
+        .map((receipt) => ReceiptDetailsPresentation(receipt))
         .toList();
     return receiptPresentationList;
   }

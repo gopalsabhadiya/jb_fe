@@ -4,20 +4,20 @@ enum ReceiptStatus { INITIAL, LOADING, SUCCESS, FAILURE }
 
 class ReceiptState extends Equatable {
   final ReceiptStatus status;
-  final List<ReceiptPresentation> receiptList;
+  final List<ReceiptDetailsPresentation> receiptList;
   final bool hasReachedMax;
   final bool needToSearch;
 
   const ReceiptState({
     this.status = ReceiptStatus.INITIAL,
-    this.receiptList = const <ReceiptPresentation>[],
+    this.receiptList = const <ReceiptDetailsPresentation>[],
     this.hasReachedMax = false,
     this.needToSearch = false,
   });
 
   ReceiptState copyWith({
     ReceiptStatus? status,
-    List<ReceiptPresentation>? receiptList,
+    List<ReceiptDetailsPresentation>? receiptList,
     bool? hasReachedMax,
     bool? needToSearch,
   }) {

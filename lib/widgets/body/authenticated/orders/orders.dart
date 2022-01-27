@@ -17,8 +17,6 @@ class Orders extends StatefulWidget {
 }
 
 class _OrdersState extends State<Orders> {
-  bool showEditOrderDrawer = false;
-
   late ScrollController _scrollController;
 
   @override

@@ -14,7 +14,7 @@ class ToggleForOrderDisplay extends ToggleForOrder {
   final String orderId;
   const ToggleForOrderDisplay({required this.orderId});
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [orderId];
 }
 
 class DoNotToggle extends ToggleForOrder {
