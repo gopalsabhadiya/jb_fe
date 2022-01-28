@@ -2,11 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jb_fe/constants/colors.dart';
 import 'package:jb_fe/constants/durations/animation_durations.dart';
+import 'package:jb_fe/controllers/bloc/receipt/fetch_receipt/fetch_receipt_bloc.dart';
 import 'package:jb_fe/controllers/bloc/receipt/new_receipt/add_receipt_bloc.dart';
 import 'package:jb_fe/controllers/bloc/receipt/receipt_bloc/receipt_bloc.dart';
 import 'package:jb_fe/controllers/bloc/receipt/receipt_form_toggle/receipt_form_toggle_cubit.dart';
 import 'package:jb_fe/util/screen_size.dart';
 import 'package:jb_fe/widgets/body/authenticated/payments/add_edit/edit_payment.dart';
+import 'package:jb_fe/widgets/body/authenticated/payments/view/display_receipt.dart';
 
 import '../../../../../injection_container.dart';
 
@@ -60,6 +62,23 @@ class _ReceiptFormDrawerState extends State<ReceiptFormDrawer>
                       ),
                 child: EditPayment(
                   toggleDrawer: _openDrawer,
+                ),
+              );
+            }
+            if (state.toggleForReceipt is ToggleForReceiptDisplay) {
+              _openDrawer();
+              return BlocProvider<FetchReceiptBloc>(
+                create: (BuildContext context) =>
+                    serviceLocator<FetchReceiptBloc>()
+                      ..add(
+                        FetchReceipt(
+                          receiptIdToBeFetched: (state.toggleForReceipt
+                                  as ToggleForReceiptDisplay)
+                              .receiptId,
+                        ),
+                      ),
+                child: ViewReceipt(
+                  closeDrawer: _closeDrawer,
                 ),
               );
             }

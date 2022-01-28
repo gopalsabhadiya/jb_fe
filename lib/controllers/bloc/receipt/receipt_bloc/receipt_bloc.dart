@@ -49,13 +49,16 @@ class ReceiptBloc extends Bloc<ReceiptEvent, ReceiptState>
 
   FutureOr<void> _onFetchReceiptFirstPage(
       FetchReceiptFirstPage event, Emitter<ReceiptState> emit) async {
+    print("1");
     emit(
       state.copyWith(
         status: ReceiptStatus.LOADING,
       ),
     );
+    print("2");
     try {
       final receiptList = await getReceiptPageUseCase();
+      print("3");
       emit(
         state.copyWith(
           status: ReceiptStatus.SUCCESS,
@@ -63,6 +66,7 @@ class ReceiptBloc extends Bloc<ReceiptEvent, ReceiptState>
           hasReachedMax: receiptList.length < 20,
         ),
       );
+      print("Your receipt list: $receiptList");
     } catch (e) {
       emit(
         state.copyWith(

@@ -1,12 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:jb_fe/backend_integration/dto/payment/details/receipt_details_presentation.dart';
 import 'package:jb_fe/constants/colors.dart';
 import 'package:jb_fe/constants/typography/font_weight.dart';
+import 'package:jb_fe/util/date_util.dart';
 import 'package:jb_fe/widgets/calligraphy/app_text.dart';
 import 'package:jb_fe/widgets/svg/icons/app_icons.dart';
 
 class PaymentCardContent extends StatelessWidget {
-  const PaymentCardContent({Key? key}) : super(key: key);
+  final ReceiptDetailsPresentation _receipt;
+
+  const PaymentCardContent(
+      {Key? key, required ReceiptDetailsPresentation receipt})
+      : _receipt = receipt,
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +32,7 @@ class PaymentCardContent extends StatelessWidget {
                   color: AppColors.blue_5,
                 ),
               ),
-              AppTextBuilder("10")
+              AppTextBuilder(_receipt.receiptId.toString())
                   .size(16)
                   .textAlign(TextAlign.right)
                   .weight(AppFontWeight.BOLD)
@@ -44,7 +51,7 @@ class PaymentCardContent extends StatelessWidget {
                 ),
               ),
               Expanded(
-                child: AppTextBuilder("75,000")
+                child: AppTextBuilder(_receipt.ammount.toString())
                     .size(16)
                     .textAlign(TextAlign.right)
                     .build(),
@@ -62,7 +69,7 @@ class PaymentCardContent extends StatelessWidget {
                   color: AppColors.blue_5,
                 ),
               ),
-              AppTextBuilder("22, Oct 2021")
+              AppTextBuilder(DateUtil.dateToString(_receipt.date))
                   .size(16)
                   .textAlign(TextAlign.right)
                   .build()
@@ -79,7 +86,7 @@ class PaymentCardContent extends StatelessWidget {
                   color: AppColors.blue_5,
                 ),
               ),
-              AppTextBuilder("CASH").size(16).build()
+              AppTextBuilder(_receipt.paymentMode).size(16).build()
             ]),
             Container(
               color: AppColors.grey_2,
@@ -93,7 +100,7 @@ class PaymentCardContent extends StatelessWidget {
                   color: AppColors.blue_5,
                 ),
               ),
-              AppTextBuilder("+91 8000523940").size(16).build()
+              AppTextBuilder(_receipt.party.contactNo).size(16).build()
             ]),
           ],
         ),

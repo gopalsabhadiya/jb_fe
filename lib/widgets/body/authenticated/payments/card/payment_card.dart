@@ -7,9 +7,14 @@ import 'content.dart';
 import 'footer.dart';
 
 class PaymentCard extends StatelessWidget {
-  final ReceiptDetailsPresentation? _receipt;
-  const PaymentCard({Key? key, ReceiptDetailsPresentation? receipt})
+  final ReceiptDetailsPresentation _receipt;
+  final VoidCallback _onViewReceipt;
+  const PaymentCard(
+      {Key? key,
+      required ReceiptDetailsPresentation receipt,
+      required VoidCallback onViewReceipt})
       : _receipt = receipt,
+        _onViewReceipt = onViewReceipt,
         super(key: key);
 
   @override
@@ -31,10 +36,15 @@ class PaymentCard extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const PaymentCardHeader(),
-          const PaymentCardContent(),
+          PaymentCardHeader(
+            receipt: _receipt,
+          ),
+          PaymentCardContent(
+            receipt: _receipt,
+          ),
           PaymentCardFooter(
-            onPaymentView: _onPaymentViewClick,
+            receipt: _receipt,
+            onPaymentView: _onViewReceipt,
             onPaymentEdit: _onPaymentEditClick,
             onPaymentDelete: _onPaymentDeleteClick,
           ),

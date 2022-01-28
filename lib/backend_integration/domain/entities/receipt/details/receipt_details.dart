@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:jb_fe/backend_integration/domain/entities/receipt/details/receipt_party_details.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'receipt_details.g.dart';
@@ -15,22 +16,20 @@ class ReceiptDetailsEntity extends Equatable {
     includeIfNull: false,
     toJson: ignoreIfEmpty,
   )
-  final String? id;
-  final String? receiptId;
+  final String id;
+  final String receiptId;
   final double ammount;
   final double activeAmmount;
-  final String partyName;
-  final String partyContactNo;
+  final ReceiptPartyDetailsEntity party;
   final String paymentMode;
   final DateTime date;
 
   const ReceiptDetailsEntity({
-    this.id,
-    this.receiptId,
+    required this.id,
+    required this.receiptId,
     required this.ammount,
     required this.activeAmmount,
-    required this.partyName,
-    required this.partyContactNo,
+    required this.party,
     required this.paymentMode,
     required this.date,
   }) : super();
@@ -40,8 +39,7 @@ class ReceiptDetailsEntity extends Equatable {
         id,
         receiptId,
         ammount,
-        partyName,
-        partyContactNo,
+        party,
         activeAmmount,
         paymentMode,
         date,
@@ -50,4 +48,18 @@ class ReceiptDetailsEntity extends Equatable {
   factory ReceiptDetailsEntity.fromJson(Map<String, dynamic> json) =>
       _$ReceiptDetailsEntityFromJson(json);
   Map<String, dynamic> toJson() => _$ReceiptDetailsEntityToJson(this);
+
+  static List<ReceiptDetailsEntity> fromJsonToList(List<dynamic> json) {
+    print("JSON: $json ${json.length}");
+    for (int i = 0; i < json.length; i++) {
+      final ReceiptDetailsEntity entity =
+          ReceiptDetailsEntity.fromJson(json[i]);
+      print("Entity: $entity");
+    }
+    return List<ReceiptDetailsEntity>.from(
+      json.map(
+        (receipt) => ReceiptDetailsEntity.fromJson(receipt),
+      ),
+    );
+  }
 }

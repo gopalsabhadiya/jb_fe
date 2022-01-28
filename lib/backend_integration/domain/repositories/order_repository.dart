@@ -7,4 +7,5 @@ abstract class OrderRepository {
   Future<void> deleteOrder(String orderId);
   Future<List<OrderDetailsEntity>> searchOrder(String searchTerm, int skip);
   Future<OrderEntity> fetchOrder(String orderId);
+  Future<List<OrderEntity>> fetchOrderBatch(List<String> orderIdList);
 }

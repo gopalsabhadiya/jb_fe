@@ -14,14 +14,15 @@ ReceiptEntity _$ReceiptEntityFromJson(Map<String, dynamic> json) =>
       payments: (json['payments'] as List<dynamic>)
           .map((e) => PaymentEntity.fromJson(e as Map<String, dynamic>))
           .toList(),
+      party: json['party'] as String,
       business: json['business'] as String,
       user: json['user'] as String,
       invalidated: json['invalidated'] as bool,
       paymentMode: json['paymentMode'] as String,
-      bank: json['bank'] as String,
-      check: json['check'] as int,
-      pan: json['pan'] as String,
-      aadhar: json['aadhar'] as int,
+      bank: json['bank'] as String?,
+      check: json['check'] as int?,
+      pan: json['pan'] as String?,
+      aadhar: json['aadhar'] as int?,
       activeAmmount: json['activeAmmount'] as int,
       date: DateTime.parse(json['date'] as String),
     );
@@ -39,6 +40,7 @@ Map<String, dynamic> _$ReceiptEntityToJson(ReceiptEntity instance) {
   val['receiptId'] = instance.receiptId;
   val['ammount'] = instance.ammount;
   val['payments'] = instance.payments.map((e) => e.toJson()).toList();
+  val['party'] = instance.party;
   val['business'] = instance.business;
   val['user'] = instance.user;
   val['invalidated'] = instance.invalidated;

@@ -59,6 +59,17 @@ class OrderEntity extends Equatable {
       _$OrderEntityFromJson(json);
   Map<String, dynamic> toJson() => _$OrderEntityToJson(this);
 
+  static List<OrderEntity> fromJsonToList(List<dynamic> json) {
+    for (int i = 0; i < json.length; i++) {
+      OrderEntity.fromJson(json[i]);
+    }
+    return List<OrderEntity>.from(
+      json.map(
+        (order) => OrderEntity.fromJson(order),
+      ),
+    );
+  }
+
   @override
   List<Object?> get props => [
         id,

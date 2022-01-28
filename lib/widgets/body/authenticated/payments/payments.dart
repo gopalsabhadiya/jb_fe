@@ -6,6 +6,7 @@ import 'package:jb_fe/controllers/bloc/receipt/receipt_bloc/receipt_bloc.dart';
 import 'package:jb_fe/controllers/bloc/receipt/receipt_form_toggle/receipt_form_toggle_cubit.dart';
 import 'package:jb_fe/widgets/body/authenticated/payments/card/payment_card.dart';
 import 'package:jb_fe/widgets/body/authenticated/payments/drawer/receipt_form_drawer.dart';
+import 'package:jb_fe/widgets/calligraphy/app_text.dart';
 
 class Payments extends StatefulWidget {
   const Payments({Key? key}) : super(key: key);
@@ -58,26 +59,12 @@ class _PaymentsState extends State<Payments> {
                             runSpacing: 40,
                             crossAxisAlignment: WrapCrossAlignment.center,
                             alignment: WrapAlignment.center,
-                            children: [
-                              PaymentCard(),
-                            ],
-                            // children: _getReceipts(state.receiptList),
+                            children: _getReceipts(state.receiptList),
                           );
                         case ReceiptStatus.FAILURE:
-                          // return Center(
-                          //   child: AppTextBuilder("Failed to fetch Receipts")
-                          //       .build(),
-                          // );
-                          return Wrap(
-                            clipBehavior: Clip.hardEdge,
-                            spacing: 40,
-                            runSpacing: 40,
-                            crossAxisAlignment: WrapCrossAlignment.center,
-                            alignment: WrapAlignment.center,
-                            children: [
-                              PaymentCard(),
-                            ],
-                            // children: _getReceipts(state.receiptList),
+                          return Center(
+                            child: AppTextBuilder("Failed to fetch Receipts")
+                                .build(),
                           );
                       }
                     },
@@ -105,7 +92,8 @@ class _PaymentsState extends State<Payments> {
     return currentScroll >= (maxScroll * 0.9);
   }
 
-  _onViewOrder(String receiptId) {
+  _onViewReceipt(String receiptId) {
+    print("View receipt called");
     BlocProvider.of<ReceiptFormToggleCubit>(context).openDrawer(
       toggleForReceipt: ToggleForReceiptDisplay(receiptId: receiptId),
     );
@@ -123,8 +111,8 @@ class _PaymentsState extends State<Payments> {
     return receiptList
         .map(
           (receipt) => PaymentCard(
-            receipt: receipt,
-          ),
+              receipt: receipt,
+              onViewReceipt: () => _onViewReceipt(receipt.id)),
         )
         .toList();
   }

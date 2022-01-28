@@ -8,6 +8,7 @@ class EndpointUri {
   static const String _PATH_PARTY_ID = "{PARTY_ID}";
   static const String _PATH_ITEM_ID = "{ITEM_ID}";
   static const String _PATH_ORDER_ID = "{ORDER_ID}";
+  static const String _PATH_RECEIPT_ID = "{RECEIPT_ID}";
   static const String _ID = "{ID}";
   static const String _SKIP = "{SKIP}";
   static const String _SEARCH_TERM = "{SEARCH_TERM}";
@@ -45,9 +46,13 @@ class EndpointUri {
       "$_BASE_ORDER/details?skip=$_SKIP&searchTerm=$_SEARCH_TERM";
   static const String _DELETE_ORDER = "$_BASE_ORDER/$_PATH_ORDER_ID";
   static const String _GET_ORDER_BY_ID = "$_BASE_ORDER/id/$_PATH_ORDER_ID";
+  static const String _GET_ORDER_BATCH_BY_ID = "$_BASE_ORDER/batch";
 
   static const String _BASE_BILL = "$_BASE_URL/bill";
   static const String _BASE_RECEIPT = "$_BASE_URL/receipt";
+  static const String _RECEIPT_SKIP = "$_BASE_RECEIPT/details?skip=$_SKIP";
+  static const String _GET_RECEIPT_BY_ID =
+      "$_BASE_RECEIPT/id/$_PATH_RECEIPT_ID";
 
   static const String _GET_USER = _BASE_USER;
   static const String _VERIFY_USER = "$_BASE_USER/verify";
@@ -177,11 +182,24 @@ class EndpointUri {
     return Uri.parse(_GET_ORDER_BY_ID.replaceAll(_PATH_ORDER_ID, orderId));
   }
 
+  static Uri getOrderBatchByIdURL() {
+    return Uri.parse(_GET_ORDER_BATCH_BY_ID);
+  }
+
   static Uri getCreateDailyGoldRateURL() {
     return Uri.parse(_BASE_DAILY_GOLD_RATE);
   }
 
   static Uri getGetTodayGoldRateURL() {
     return Uri.parse(_BASE_DAILY_GOLD_RATE);
+  }
+
+  static Uri getReceiptPageURL(int skip) {
+    return Uri.parse(_RECEIPT_SKIP.replaceAll(_SKIP, skip.toString()));
+  }
+
+  static Uri getReceiptByIdURL(String receiptId) {
+    return Uri.parse(
+        _GET_RECEIPT_BY_ID.replaceAll(_PATH_RECEIPT_ID, receiptId));
   }
 }

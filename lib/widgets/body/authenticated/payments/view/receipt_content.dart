@@ -1,20 +1,23 @@
 import 'package:flutter/cupertino.dart';
 import 'package:jb_fe/backend_integration/dto/order/order_presentation.dart';
 import 'package:jb_fe/backend_integration/dto/party/party_presentation.dart';
+import 'package:jb_fe/backend_integration/dto/payment/receipt_presentation.dart';
 import 'package:jb_fe/constants/colors.dart';
+import 'package:jb_fe/widgets/body/authenticated/payments/view/section/mid_section.dart';
+import 'package:jb_fe/widgets/body/authenticated/payments/view/section/orders_section.dart';
+import 'package:jb_fe/widgets/body/authenticated/payments/view/section/top_section.dart';
 
-import 'header_section.dart';
-import 'item_section.dart';
-import 'mid_section.dart';
-
-class OrderDisplayContent extends StatelessWidget {
-  final OrderPresentation _order;
+class ReceiptDisplayContent extends StatelessWidget {
+  final ReceiptPresentation _receipt;
+  final List<OrderPresentation> _orders;
   final PartyPresentation _party;
-  const OrderDisplayContent(
-      {Key? key,
-      required OrderPresentation order,
-      required PartyPresentation party})
-      : _order = order,
+  const ReceiptDisplayContent({
+    Key? key,
+    required ReceiptPresentation receipt,
+    required List<OrderPresentation> orders,
+    required PartyPresentation party,
+  })  : _receipt = receipt,
+        _orders = orders,
         _party = party,
         super(key: key);
 
@@ -41,9 +44,17 @@ class OrderDisplayContent extends StatelessWidget {
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              OrderFormHeader(party: _party),
-              OrderFormMidSection(order: _order),
-              OrderFormItemSection(order: _order),
+              ViewReceiptTopSection(
+                party: _party,
+              ),
+              ViewReceiptMidSection(
+                receipt: _receipt,
+              ),
+              ViewReceiptOrderSection(
+                receipt: _receipt,
+                orders: _orders,
+              )
+              // AppTextBuilder("Hello").build(),
             ],
           ),
         ),

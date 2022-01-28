@@ -52,11 +52,13 @@ import 'backend_integration/domain/usecase/inventory/create_item.dart';
 import 'backend_integration/domain/usecase/inventory/delete_item.dart';
 import 'backend_integration/domain/usecase/inventory/search_item.dart';
 import 'backend_integration/domain/usecase/inventory/update_item.dart';
+import 'backend_integration/domain/usecase/order/fetch_batch_order.dart';
 import 'backend_integration/domain/usecase/order/fetch_order.dart';
 import 'backend_integration/domain/usecase/order/search_order.dart';
 import 'backend_integration/domain/usecase/party/fetch_party.dart';
 import 'backend_integration/domain/usecase/payment/create_receipt.dart';
 import 'backend_integration/domain/usecase/payment/delete_receipt.dart';
+import 'backend_integration/domain/usecase/payment/fetch_receipt.dart';
 import 'backend_integration/domain/usecase/payment/get_receipt_page.dart';
 import 'backend_integration/domain/usecase/payment/search_receipt.dart';
 import 'controllers/bloc/dashboard/update_daily_gold_rate/update_daily_gold_rate_bloc.dart';
@@ -71,6 +73,7 @@ import 'controllers/bloc/order/search_order/search_order_bloc.dart';
 import 'controllers/bloc/party/delete_party/delete_party_bloc.dart';
 import 'controllers/bloc/party/party_bloc/party_bloc.dart';
 import 'controllers/bloc/receipt/delete_receipt/delete_receipt_bloc.dart';
+import 'controllers/bloc/receipt/fetch_receipt/fetch_receipt_bloc.dart';
 import 'controllers/bloc/receipt/new_receipt/add_receipt_bloc.dart';
 import 'controllers/bloc/receipt/receipt_bloc/receipt_bloc.dart';
 import 'controllers/bloc/receipt/receipt_form_toggle/receipt_form_toggle_cubit.dart';
@@ -217,6 +220,13 @@ void init() {
       createReceiptUseCase: serviceLocator(),
     ),
   );
+  serviceLocator.registerFactory<FetchReceiptBloc>(
+    () => FetchReceiptBloc(
+      fetchReceiptUseCase: serviceLocator(),
+      fetchPartyUseCase: serviceLocator(),
+      fetchOrderBatchUseCase: serviceLocator(),
+    ),
+  );
 
   //Cart
   // serviceLocator.registerFactory<CartBloc>(
@@ -358,6 +368,11 @@ void init() {
       repository: serviceLocator(),
     ),
   );
+  serviceLocator.registerLazySingleton<FetchOrderBatchUseCase>(
+    () => FetchOrderBatchUseCase(
+      repository: serviceLocator(),
+    ),
+  );
 
   //payment
   serviceLocator.registerLazySingleton<GetReceiptPageUseCase>(
@@ -377,6 +392,11 @@ void init() {
   );
   serviceLocator.registerLazySingleton<CreateReceiptUseCase>(
     () => CreateReceiptUseCase(
+      repository: serviceLocator(),
+    ),
+  );
+  serviceLocator.registerLazySingleton(
+    () => FetchReceiptUseCase(
       repository: serviceLocator(),
     ),
   );

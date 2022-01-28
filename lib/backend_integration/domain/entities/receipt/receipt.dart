@@ -20,14 +20,15 @@ class ReceiptEntity extends Equatable {
   final String? receiptId;
   final double ammount;
   final List<PaymentEntity> payments;
+  final String party;
   final String business;
   final String user;
   final bool invalidated;
   final String paymentMode;
-  final String bank;
-  final int check;
-  final String pan;
-  final int aadhar;
+  final String? bank;
+  final int? check;
+  final String? pan;
+  final int? aadhar;
   final int activeAmmount;
   final DateTime date;
 
@@ -36,14 +37,15 @@ class ReceiptEntity extends Equatable {
     this.receiptId,
     required this.ammount,
     required this.payments,
+    required this.party,
     required this.business,
     required this.user,
     required this.invalidated,
     required this.paymentMode,
-    required this.bank,
-    required this.check,
-    required this.pan,
-    required this.aadhar,
+    this.bank,
+    this.check,
+    this.pan,
+    this.aadhar,
     required this.activeAmmount,
     required this.date,
   }) : super();
@@ -53,6 +55,7 @@ class ReceiptEntity extends Equatable {
         id,
         receiptId,
         ammount,
+        party,
         payments,
         business,
         user,

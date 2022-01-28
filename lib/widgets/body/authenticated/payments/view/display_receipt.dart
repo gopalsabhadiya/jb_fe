@@ -2,19 +2,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jb_fe/constants/colors.dart';
-import 'package:jb_fe/controllers/bloc/order/fetch_order/fetch_order_bloc.dart';
+import 'package:jb_fe/controllers/bloc/receipt/fetch_receipt/fetch_receipt_bloc.dart';
+import 'package:jb_fe/widgets/body/authenticated/payments/view/receipt_content.dart';
 import 'package:jb_fe/widgets/calligraphy/app_text.dart';
 import 'package:jb_fe/widgets/common/save_cancel_bar.dart';
 
-import 'order_content.dart';
-
-class DisplayOrder extends StatelessWidget {
-  final String _orderId;
+class ViewReceipt extends StatelessWidget {
   final VoidCallback _closeDrawer;
 
-  const DisplayOrder({Key? key, required closeDrawer, required String orderId})
+  const ViewReceipt({Key? key, required VoidCallback closeDrawer})
       : _closeDrawer = closeDrawer,
-        _orderId = orderId,
         super(key: key);
 
   @override
@@ -30,36 +27,30 @@ class DisplayOrder extends StatelessWidget {
             saveCallback: _cancelSave,
           ),
           // const Expanded(child: OrderForm()),
-          BlocBuilder<FetchOrderBloc, FetchOrderState>(
+          BlocBuilder<FetchReceiptBloc, FetchReceiptState>(
             builder: (context, state) {
-              print("Re rendering: $state");
               switch (state.status) {
-                case FetchOrderStatus.LOADING:
+                case FetchReceiptStatus.LOADING:
                   return const Center(
                     child: CircularProgressIndicator(),
                   );
-                case FetchOrderStatus.COMPLETED:
-                  return OrderDisplayContent(
-                    order: state.order!,
+                case FetchReceiptStatus.COMPLETED:
+                  return ReceiptDisplayContent(
+                    receipt: state.receipt!,
+                    orders: state.orders!,
                     party: state.party!,
                   );
-                case FetchOrderStatus.ERROR:
+                case FetchReceiptStatus.ERROR:
                   return Center(
                     child:
                         AppTextBuilder("Failed to fetch Order Details").build(),
                   );
               }
-              return AppTextBuilder(_orderId).build();
             },
           ),
         ],
       ),
     );
-  }
-
-  void _saveOrder() {
-    print("Save Order");
-    _closeDrawer();
   }
 
   void _cancelSave() {

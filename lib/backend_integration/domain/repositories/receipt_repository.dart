@@ -7,4 +7,6 @@ abstract class ReceiptRepository {
 
   Future<List<ReceiptDetailsEntity>> getReceiptPage(int pageNumber);
   Future<List<ReceiptDetailsEntity>> searchReceipt(String searchTerm, int skip);
+
+  Future<ReceiptEntity> fetchReceipt(String receiptId);
 }

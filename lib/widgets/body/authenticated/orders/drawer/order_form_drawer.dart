@@ -8,7 +8,7 @@ import 'package:jb_fe/controllers/bloc/order/order_form_toggle/order_form_toggle
 import 'package:jb_fe/injection_container.dart';
 import 'package:jb_fe/util/screen_size.dart';
 import 'package:jb_fe/widgets/body/authenticated/orders/add_edit/add_order.dart';
-import 'package:jb_fe/widgets/body/authenticated/orders/display/display_order.dart';
+import 'package:jb_fe/widgets/body/authenticated/orders/view/display_order.dart';
 
 class OrderFormDrawer extends StatefulWidget {
   const OrderFormDrawer({Key? key}) : super(key: key);
@@ -70,10 +70,8 @@ class _OrderFormDrawerState extends State<OrderFormDrawer>
                                 .orderId,
                       ),
                     ),
-                  child: DisplayOrder(
+                  child: ViewOrder(
                     closeDrawer: _closeDrawer,
-                    orderId:
-                        (state.toggleForOrder as ToggleForOrderDisplay).orderId,
                   ),
                 );
               }

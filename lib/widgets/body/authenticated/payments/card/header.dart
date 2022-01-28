@@ -1,11 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:jb_fe/backend_integration/dto/payment/details/receipt_details_presentation.dart';
 import 'package:jb_fe/constants/colors.dart';
 import 'package:jb_fe/constants/typography/font_weight.dart';
 import 'package:jb_fe/widgets/calligraphy/app_text.dart';
 
 class PaymentCardHeader extends StatelessWidget {
-  const PaymentCardHeader({Key? key}) : super(key: key);
+  final ReceiptDetailsPresentation _receipt;
+
+  const PaymentCardHeader({
+    Key? key,
+    required ReceiptDetailsPresentation receipt,
+  })  : _receipt = receipt,
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +37,7 @@ class PaymentCardHeader extends StatelessWidget {
                 child: Icon(Icons.account_circle,
                     size: 35, color: AppColors.blue_5),
               ),
-              AppTextBuilder("Gopal Sabhadiya")
+              AppTextBuilder(_receipt.party.name)
                   .weight(AppFontWeight.BOLD)
                   .color(AppColors.blue_5)
                   .build(),

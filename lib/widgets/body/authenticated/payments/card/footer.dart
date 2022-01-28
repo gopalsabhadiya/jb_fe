@@ -1,20 +1,25 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:jb_fe/backend_integration/dto/payment/details/receipt_details_presentation.dart';
 import 'package:jb_fe/constants/colors.dart';
+import 'package:jb_fe/constants/texts/defaults.dart';
 import 'package:jb_fe/widgets/calligraphy/app_text.dart';
 import 'package:jb_fe/widgets/common/buttons/icon_button.dart';
 
 class PaymentCardFooter extends StatelessWidget {
+  final ReceiptDetailsPresentation _receipt;
   final VoidCallback _onPaymentView;
   final VoidCallback _onPaymentEdit;
   final VoidCallback _onPaymentDelete;
 
-  const PaymentCardFooter(
-      {Key? key,
-      required onPaymentView,
-      required onPaymentEdit,
-      required onPaymentDelete})
-      : _onPaymentView = onPaymentView,
+  const PaymentCardFooter({
+    Key? key,
+    required ReceiptDetailsPresentation receipt,
+    required onPaymentView,
+    required onPaymentEdit,
+    required onPaymentDelete,
+  })  : _receipt = receipt,
+        _onPaymentView = onPaymentView,
         _onPaymentEdit = onPaymentEdit,
         _onPaymentDelete = onPaymentDelete,
         super(key: key);
@@ -38,13 +43,15 @@ class PaymentCardFooter extends StatelessWidget {
           children: [
             Row(
               children: [
-                AppTextBuilder("Due: ")
+                AppTextBuilder("Active: ")
                     .color(AppColors.blue_5)
                     .size(16)
                     .build(),
-                AppTextBuilder("₹ 4,30,000")
+                AppTextBuilder(DefaultTexts.RUPEE_SYMBOL +
+                        DefaultTexts.SPACE +
+                        _receipt.activeAmmount.toString())
                     .weight(FontWeight.bold)
-                    .color(AppColors.red_2)
+                    .color(AppColors.green_1)
                     .size(16)
                     .build(),
               ],

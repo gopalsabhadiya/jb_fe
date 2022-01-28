@@ -21,9 +21,9 @@ class ReceiptRepositoryImpl implements ReceiptRepository {
   }
 
   @override
-  Future<List<ReceiptDetailsEntity>> getReceiptPage(int pageNumber) {
-    // TODO: implement getReceiptPage
-    throw UnimplementedError();
+  Future<List<ReceiptDetailsEntity>> getReceiptPage(int skip) async {
+    print("!");
+    return await remoteDataSource.getReceiptPage(skip);
   }
 
   @override
@@ -31,5 +31,10 @@ class ReceiptRepositoryImpl implements ReceiptRepository {
       String searchTerm, int skip) {
     // TODO: implement searchReceipt
     throw UnimplementedError();
+  }
+
+  @override
+  Future<ReceiptEntity> fetchReceipt(String receiptId) async {
+    return await remoteDataSource.fetchReceipt(receiptId);
   }
 }
