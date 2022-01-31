@@ -15,7 +15,7 @@ import 'package:jb_fe/widgets/common/inputs/text_field.dart';
 
 class OrderDetailsSectionInCart extends StatelessWidget {
   final OrderPresentation _order;
-  const OrderDetailsSectionInCart({Key? key, required order})
+  const OrderDetailsSectionInCart({Key? key, required OrderPresentation order})
       : _order = order,
         super(key: key);
 

@@ -1,10 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:jb_fe/backend_integration/dto/payment/receipt_presentation.dart';
 import 'package:jb_fe/constants/texts/payment_text.dart';
 import 'package:jb_fe/widgets/common/inputs/text_field.dart';
 
-class PaymentFormMidSection extends StatelessWidget {
-  const PaymentFormMidSection({Key? key}) : super(key: key);
+class ReceiptFormMidSection extends StatelessWidget {
+  final ReceiptPresentation _receipt;
+  const ReceiptFormMidSection({Key? key, required ReceiptPresentation receipt})
+      : _receipt = receipt,
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -61,7 +61,7 @@ class _ReceiptFormDrawerState extends State<ReceiptFormDrawer>
                         subscriber: BlocProvider.of<ReceiptBloc>(context),
                       ),
                 child: EditPayment(
-                  toggleDrawer: _openDrawer,
+                  closeDrawer: _cancelAdd,
                 ),
               );
             }
@@ -97,7 +97,7 @@ class _ReceiptFormDrawerState extends State<ReceiptFormDrawer>
     animationController.reverse();
   }
 
-  _cancelUpdate() {
+  _cancelAdd() {
     _closeDrawer();
     BlocProvider.of<ReceiptFormToggleCubit>(context).closeDrawer();
   }

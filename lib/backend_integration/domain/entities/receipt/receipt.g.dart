@@ -23,7 +23,7 @@ ReceiptEntity _$ReceiptEntityFromJson(Map<String, dynamic> json) =>
       check: json['check'] as int?,
       pan: json['pan'] as String?,
       aadhar: json['aadhar'] as int?,
-      activeAmmount: json['activeAmmount'] as int,
+      activeAmmount: (json['activeAmmount'] as num).toDouble(),
       date: DateTime.parse(json['date'] as String),
     );
 

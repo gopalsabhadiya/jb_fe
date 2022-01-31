@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:jb_fe/backend_integration/dto/order/order_presentation.dart';
 import 'package:jb_fe/constants/colors.dart';
 import 'package:jb_fe/controllers/bloc/order/new_order/add_order_bloc.dart';
 import 'package:jb_fe/widgets/calligraphy/app_text.dart';
@@ -11,12 +10,9 @@ import 'order_form.dart';
 
 class AddOrder extends StatefulWidget {
   final VoidCallback _closeDrawer;
-  final OrderPresentation _order;
 
-  const AddOrder(
-      {Key? key, required closeDrawer, required OrderPresentation order})
-      : _order = order,
-        _closeDrawer = closeDrawer,
+  const AddOrder({Key? key, required closeDrawer})
+      : _closeDrawer = closeDrawer,
         super(key: key);
 
   @override
@@ -57,7 +53,6 @@ class _AddOrderState extends State<AddOrder> {
                       child: Form(
                         key: _formKey,
                         child: OrderForm(
-                          order: state.order,
                           closeDrawer: widget._closeDrawer,
                         ),
                       ),

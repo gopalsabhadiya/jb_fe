@@ -1,5 +1,10 @@
+import 'package:jb_fe/backend_integration/domain/entities/receipt/details/receipt_details.dart';
+import 'package:jb_fe/backend_integration/domain/entities/receipt/details/receipt_party_details.dart';
 import 'package:jb_fe/backend_integration/domain/entities/receipt/receipt.dart';
+import 'package:jb_fe/backend_integration/dto/party/party_presentation.dart';
 import 'package:jb_fe/backend_integration/dto/payment/payment_presentation.dart';
+
+import 'details/receipt_details_presentation.dart';
 
 class ReceiptPresentation {
   String? _id;
@@ -15,7 +20,7 @@ class ReceiptPresentation {
   late int? _check;
   late String? _pan;
   late int? _aadhar;
-  late int _activeAmmount;
+  late double _activeAmmount;
   late DateTime _date;
 
   ReceiptEntity getEntity() {
@@ -37,6 +42,31 @@ class ReceiptPresentation {
       date: _date,
     );
   }
+
+  ReceiptDetailsPresentation getReceiptDetailsPresentation(
+      {required PartyPresentation party}) {
+    print("Party in placed order: $party");
+    return ReceiptDetailsPresentation(
+      ReceiptDetailsEntity(
+        id: _id!,
+        receiptId: _receiptId!,
+        activeAmmount: _activeAmmount,
+        ammount: _ammount,
+        paymentMode: _paymentMode,
+        party: ReceiptPartyDetailsEntity(
+          id: party.id,
+          partyId: party.partyId!,
+          name: party.name,
+          contactNo: party.contactNo,
+        ),
+        date: _date,
+      ),
+    );
+  }
+
+  ReceiptPresentation.empty()
+      : _date = DateTime.now(),
+        super();
 
   ReceiptPresentation(ReceiptEntity entity)
       : _id = entity.id,
@@ -69,6 +99,47 @@ class ReceiptPresentation {
   int? get check => _check;
   String? get pan => _pan;
   int? get aadhar => _aadhar;
-  int get activeAmmount => _activeAmmount;
+  double get activeAmmount => _activeAmmount;
   DateTime get date => _date;
+
+  void setParty(String value) {
+    _party = value;
+  }
+
+  setPaymentMode(String value) {
+    _paymentMode = value;
+  }
+
+  void setAmmount(double value) {
+    _ammount = value;
+  }
+
+  void setPan(String value) {
+    _pan = value;
+  }
+
+  void setAadhar(int value) {
+    _aadhar = value;
+  }
+
+  void setCheck(int value) {
+    _check = value;
+  }
+
+  void setBank(String value) {
+    _bank = value;
+  }
+
+  void setPayments(List<PaymentPresentation> value) {
+    _payments = value;
+  }
+
+  void setDate(DateTime value) {
+    _date = value;
+  }
+
+  @override
+  String toString() {
+    return 'ReceiptPresentation{_id: $_id, _receiptId: $_receiptId, _ammount: $_ammount, _payments: $_payments, _party: $_party, _business: $_business, _user: $_user, _invalidated: $_invalidated, _paymentMode: $_paymentMode, _bank: $_bank, _check: $_check, _pan: $_pan, _aadhar: $_aadhar, _activeAmmount: $_activeAmmount, _date: $_date}';
+  }
 }

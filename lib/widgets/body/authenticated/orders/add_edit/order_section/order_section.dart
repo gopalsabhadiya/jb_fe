@@ -10,7 +10,7 @@ import 'order_item_section.dart';
 
 class OrderSectionForCart extends StatelessWidget {
   final VoidCallback _closeDrawer;
-  const OrderSectionForCart({Key? key, required closeDrawer})
+  const OrderSectionForCart({Key? key, required VoidCallback closeDrawer})
       : _closeDrawer = closeDrawer,
         super(key: key);
 

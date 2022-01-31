@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 import 'package:jb_fe/backend_integration/dto/payment/details/receipt_details_presentation.dart';
-import 'package:jb_fe/backend_integration/dto/payment/receipt_presentation.dart';
 
 enum ReceiptNotificationType {
   RECEIPT_DELETED,
@@ -31,7 +30,7 @@ class DeleteReceiptNotification extends ReceiptOperationNotification {
 }
 
 class NewReceiptNotification extends ReceiptOperationNotification {
-  final ReceiptPresentation receipt;
+  final ReceiptDetailsPresentation receipt;
 
   const NewReceiptNotification({
     required this.receipt,

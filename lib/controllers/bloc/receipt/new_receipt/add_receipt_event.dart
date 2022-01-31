@@ -4,11 +4,16 @@ abstract class AddReceiptEvent extends Equatable {
   const AddReceiptEvent();
 }
 
-class AddNewReceipt extends AddReceiptEvent {
-  final ReceiptPresentation receipt;
+class AddPartyToReceipt extends AddReceiptEvent {
+  final PartyPresentation party;
 
-  const AddNewReceipt({required this.receipt});
+  const AddPartyToReceipt({required this.party});
 
   @override
-  List<Object?> get props => [receipt];
+  List<Object?> get props => [party];
+}
+
+class SaveReceipt extends AddReceiptEvent {
+  @override
+  List<Object?> get props => [];
 }

@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:jb_fe/backend_integration/dto/order/order_presentation.dart';
 import 'package:jb_fe/constants/colors.dart';
 import 'package:jb_fe/constants/durations/animation_durations.dart';
 import 'package:jb_fe/controllers/bloc/order/fetch_order/fetch_order_bloc.dart';
@@ -55,8 +54,7 @@ class _OrderFormDrawerState extends State<OrderFormDrawer>
               if (state.toggleForOrder is ToggleForNewOrder) {
                 _openDrawer();
                 return AddOrder(
-                  closeDrawer: _cancelUpdate,
-                  order: OrderPresentation.empty(),
+                  closeDrawer: _cancelAdd,
                 );
               }
               if (state.toggleForOrder is ToggleForOrderDisplay) {
@@ -90,7 +88,7 @@ class _OrderFormDrawerState extends State<OrderFormDrawer>
     animationController.forward();
   }
 
-  _cancelUpdate() {
+  _cancelAdd() {
     _closeDrawer();
     BlocProvider.of<OrderFormToggleCubit>(context).closeDrawer();
   }

@@ -45,20 +45,12 @@ class PaymentCard extends StatelessWidget {
           PaymentCardFooter(
             receipt: _receipt,
             onPaymentView: _onViewReceipt,
-            onPaymentEdit: _onPaymentEditClick,
+            // onPaymentEdit: _onPaymentEditClick,
             onPaymentDelete: _onPaymentDeleteClick,
           ),
         ],
       ),
     );
-  }
-
-  _onPaymentViewClick() {
-    print("Payment View: $_receipt");
-  }
-
-  _onPaymentEditClick() {
-    // _onPaymentEdit(_receipt);
   }
 
   _onPaymentDeleteClick() {

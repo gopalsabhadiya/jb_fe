@@ -9,18 +9,18 @@ import 'package:jb_fe/widgets/common/buttons/icon_button.dart';
 class PaymentCardFooter extends StatelessWidget {
   final ReceiptDetailsPresentation _receipt;
   final VoidCallback _onPaymentView;
-  final VoidCallback _onPaymentEdit;
+  // final VoidCallback _onPaymentEdit;
   final VoidCallback _onPaymentDelete;
 
   const PaymentCardFooter({
     Key? key,
     required ReceiptDetailsPresentation receipt,
     required onPaymentView,
-    required onPaymentEdit,
+    // required onPaymentEdit,
     required onPaymentDelete,
   })  : _receipt = receipt,
         _onPaymentView = onPaymentView,
-        _onPaymentEdit = onPaymentEdit,
+        // _onPaymentEdit = onPaymentEdit,
         _onPaymentDelete = onPaymentDelete,
         super(key: key);
 
@@ -64,12 +64,12 @@ class PaymentCardFooter extends StatelessWidget {
                     .padding(EdgeInsets.all(3))
                     .color(AppColors.green_1)
                     .build(),
-                AppIconButtonBuilder(Icons.edit)
-                    .size(25)
-                    .onClickHandler(_onPaymentEdit)
-                    .padding(EdgeInsets.all(3))
-                    .color(AppColors.blue_5)
-                    .build(),
+                // AppIconButtonBuilder(Icons.edit)
+                //     .size(25)
+                //     .onClickHandler(_onPaymentEdit)
+                //     .padding(EdgeInsets.all(3))
+                //     .color(AppColors.blue_5)
+                //     .build(),
                 AppIconButtonBuilder(Icons.delete)
                     .size(25)
                     .onClickHandler(_onPaymentDelete)

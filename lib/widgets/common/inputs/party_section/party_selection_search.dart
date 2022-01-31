@@ -5,8 +5,8 @@ import 'package:jb_fe/backend_integration/dto/party/party_presentation.dart';
 import 'package:jb_fe/constants/colors.dart';
 import 'package:jb_fe/constants/texts/defaults.dart';
 import 'package:jb_fe/constants/texts/party_text.dart';
-import 'package:jb_fe/controllers/bloc/inventory/party_search_for_order/party_search_for_order_bloc.dart';
 import 'package:jb_fe/controllers/bloc/order/new_order/add_order_bloc.dart';
+import 'package:jb_fe/controllers/bloc/party/search_party/search_party_bloc.dart';
 import 'package:jb_fe/widgets/calligraphy/app_text.dart';
 import 'package:jb_fe/widgets/common/inputs/search_input.dart';
 
@@ -130,8 +130,8 @@ class _PartySelectionSearchState extends State<PartySelectionSearch> {
 
   _onPartySearchChange(String value) {
     if (value.length > 3) {
-      BlocProvider.of<PartySearchForOrderBloc>(context)
-          .add(SearchPartyForOrder(searchTerm: value));
+      BlocProvider.of<SearchPartyBloc>(context)
+          .add(SearchParty(searchTerm: value));
     }
   }
 
@@ -144,6 +144,7 @@ class _PartySelectionSearchState extends State<PartySelectionSearch> {
   }
 
   String? _partySelectionValidator(String? p1) {
+    print("Validator party called");
     if (BlocProvider.of<AddOrderBloc>(context).state.party != null) {
       return null;
     }

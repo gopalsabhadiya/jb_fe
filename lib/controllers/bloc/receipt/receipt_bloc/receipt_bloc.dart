@@ -20,7 +20,7 @@ class _DeleteReceipt extends ReceiptEvent {
 }
 
 class _AddReceipt extends ReceiptEvent {
-  final ReceiptPresentation addedReceipt;
+  final ReceiptDetailsPresentation addedReceipt;
   const _AddReceipt({required this.addedReceipt});
 }
 

@@ -4,22 +4,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jb_fe/backend_integration/dto/party/party_presentation.dart';
 import 'package:jb_fe/constants/colors.dart';
 import 'package:jb_fe/constants/typography/font_weight.dart';
-import 'package:jb_fe/controllers/bloc/inventory/party_search_for_order/party_search_for_order_bloc.dart';
 import 'package:jb_fe/controllers/bloc/order/new_order/add_order_bloc.dart';
-import 'package:jb_fe/widgets/body/authenticated/orders/add_edit/party_section/party_selection_search.dart';
+import 'package:jb_fe/controllers/bloc/party/search_party/search_party_bloc.dart';
 import 'package:jb_fe/widgets/calligraphy/app_text.dart';
+import 'package:jb_fe/widgets/common/inputs/party_section/party_selection_search.dart';
 import 'package:jb_fe/widgets/svg/icons/app_icons.dart';
 
 import '../../../../../../injection_container.dart';
 
-class PartySelectionForOrder extends StatefulWidget {
+class PartySelectionForOrder extends StatelessWidget {
   const PartySelectionForOrder({Key? key}) : super(key: key);
 
-  @override
-  State<PartySelectionForOrder> createState() => _PartySelectionForOrderState();
-}
-
-class _PartySelectionForOrderState extends State<PartySelectionForOrder> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -37,13 +32,13 @@ class _PartySelectionForOrderState extends State<PartySelectionForOrder> {
             Expanded(
               flex: 1,
               child: BlocProvider(
-                create: (context) => serviceLocator<PartySearchForOrderBloc>(),
-                child: BlocBuilder<PartySearchForOrderBloc,
-                    PartySearchForOrderState>(
+                create: (context) => serviceLocator<SearchPartyBloc>(),
+                child: BlocBuilder<SearchPartyBloc, SearchPartyState>(
                   builder: (context, state) {
                     return PartySelectionSearch(
                       partyList: state.result,
-                      onPartySelectCallback: _onPartySelected,
+                      onPartySelectCallback: (PartyPresentation party) =>
+                          _onPartySelected(party, context),
                     );
                   },
                 ),
@@ -129,7 +124,7 @@ class _PartySelectionForOrderState extends State<PartySelectionForOrder> {
     );
   }
 
-  void _onPartySelected(PartyPresentation party) {
+  void _onPartySelected(PartyPresentation party, BuildContext context) {
     BlocProvider.of<AddOrderBloc>(context).add(AddPartyToOrder(party: party));
   }
 }

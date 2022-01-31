@@ -1,17 +1,25 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jb_fe/constants/colors.dart';
-import 'package:jb_fe/constants/typography/font_weight.dart';
+import 'package:jb_fe/controllers/bloc/receipt/new_receipt/add_receipt_bloc.dart';
 import 'package:jb_fe/widgets/body/authenticated/payments/add_edit/payment_form.dart';
 import 'package:jb_fe/widgets/calligraphy/app_text.dart';
-import 'package:jb_fe/widgets/common/buttons/icon_button.dart';
+import 'package:jb_fe/widgets/common/save_cancel_bar.dart';
 
-class EditPayment extends StatelessWidget {
-  final VoidCallback _toggleDrawer;
+class EditPayment extends StatefulWidget {
+  final VoidCallback _closeDrawer;
 
-  const EditPayment({Key? key, required toggleDrawer})
-      : _toggleDrawer = toggleDrawer,
+  const EditPayment({Key? key, required closeDrawer})
+      : _closeDrawer = closeDrawer,
         super(key: key);
+
+  @override
+  State<EditPayment> createState() => _EditPaymentState();
+}
+
+class _EditPaymentState extends State<EditPayment> {
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -20,45 +28,51 @@ class EditPayment extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.max,
         children: [
-          Container(
-            color: AppColors.blue_5,
-            height: 50,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  AppIconButtonBuilder(Icons.arrow_back)
-                      .size(25)
-                      .onClickHandler(_cancelSave)
-                      .color(AppColors.grey_1)
-                      .build(),
-                  InkWell(
-                    onTap: _saveItem,
-                    child: AppTextBuilder("Save")
-                        .size(20)
-                        .weight(AppFontWeight.BOLD)
-                        .color(AppColors.grey_1)
-                        .paddingHorizontal(20)
-                        .build(),
-                  )
-                ],
-              ),
-            ),
+          SaveCancelBar(
+            cancelCallback: _cancelSave,
+            saveCallback: () => _saveCallback(context),
           ),
-          Expanded(child: const PaymentForm()),
+          BlocConsumer<AddReceiptBloc, AddReceiptState>(
+            listener: (context, state) {
+              if (state.status == AddReceiptStatus.COMPLETED) {
+                _cancelSave();
+              }
+            },
+            builder: (context, state) {
+              switch (state.status) {
+                case AddReceiptStatus.LOADING:
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                case AddReceiptStatus.BUILDING:
+                case AddReceiptStatus.COMPLETED:
+                  return Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: Form(
+                        key: _formKey,
+                        child: PaymentForm(closeDrawer: widget._closeDrawer),
+                      ),
+                    ),
+                  );
+                case AddReceiptStatus.ERROR:
+                  return AppTextBuilder("Opps Something went wrong").build();
+              }
+            },
+          ),
         ],
       ),
     );
   }
 
-  void _saveItem() {
-    print("Save Item");
-    _toggleDrawer();
+  _saveCallback(BuildContext context) {
+    if (_formKey.currentState!.validate()) {
+      BlocProvider.of<AddReceiptBloc>(context).add(SaveReceipt());
+    }
   }
 
   void _cancelSave() {
     print("Cancel Save Item");
-    _toggleDrawer();
+    widget._closeDrawer();
   }
 }

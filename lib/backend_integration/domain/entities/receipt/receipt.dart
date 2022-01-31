@@ -29,7 +29,7 @@ class ReceiptEntity extends Equatable {
   final int? check;
   final String? pan;
   final int? aadhar;
-  final int activeAmmount;
+  final double activeAmmount;
   final DateTime date;
 
   const ReceiptEntity({
