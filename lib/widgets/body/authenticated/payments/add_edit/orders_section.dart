@@ -1,18 +1,23 @@
 import 'package:flutter/cupertino.dart';
+import 'package:jb_fe/backend_integration/dto/order/order_presentation.dart';
 import 'package:jb_fe/constants/colors.dart';
-import 'package:jb_fe/constants/texts/payment_text.dart';
-import 'package:jb_fe/widgets/calligraphy/app_text.dart';
+import 'package:jb_fe/widgets/body/authenticated/payments/add_edit/order_section/order_left_panel.dart';
 
 import 'order_payment.dart';
 
 class PaymentFormOrderSection extends StatelessWidget {
-  const PaymentFormOrderSection({Key? key}) : super(key: key);
+  final List<OrderPresentation> _unpaidOrderList;
+  const PaymentFormOrderSection({
+    Key? key,
+    required List<OrderPresentation> unpaidOrderList,
+  })  : _unpaidOrderList = unpaidOrderList,
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(10),
         child: Container(
           decoration: BoxDecoration(
             color: AppColors.white,
@@ -29,37 +34,17 @@ class PaymentFormOrderSection extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 40, vertical: 70),
-                    child: AppTextBuilder(PaymentText.ORDERS_SECTION_HEADER)
-                        .size(30)
-                        .color(AppColors.blue_5)
-                        .build(),
-                  ),
-                ],
-              ),
+              const ReceiptOrderLeftSection(),
               Expanded(
                 child: Container(
-                  padding: EdgeInsets.all(15),
+                  padding: const EdgeInsets.all(15),
                   decoration: const BoxDecoration(
                     color: AppColors.blue_1,
                     borderRadius: BorderRadius.vertical(
                         top: Radius.circular(5), bottom: Radius.circular(5)),
                   ),
                   child: ListView(
-                    children: [
-                      PaymentFormOrderDetails(),
-                      PaymentFormOrderDetails(),
-                      PaymentFormOrderDetails(),
-                      PaymentFormOrderDetails(),
-                      PaymentFormOrderDetails(),
-                      PaymentFormOrderDetails(),
-                      PaymentFormOrderDetails(),
-                      PaymentFormOrderDetails(),
-                    ],
+                    children: _getOrders(),
                   ),
                 ),
               )
@@ -68,5 +53,15 @@ class PaymentFormOrderSection extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  List<Widget> _getOrders() {
+    return _unpaidOrderList
+        .map(
+          (order) => PaymentFormOrderDetails(
+            order: order,
+          ),
+        )
+        .toList();
   }
 }

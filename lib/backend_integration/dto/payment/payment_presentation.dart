@@ -3,7 +3,7 @@ import 'package:jb_fe/backend_integration/domain/entities/receipt/payment.dart';
 class PaymentPresentation {
   String? _id;
   late String _orderId;
-  late int _ammount;
+  late double _ammount;
   late bool _invalidated;
 
   PaymentPresentation(PaymentEntity entity)
@@ -23,7 +23,7 @@ class PaymentPresentation {
   }
 
   bool get invalidated => _invalidated;
-  int get ammount => _ammount;
+  double get ammount => _ammount;
   String get orderId => _orderId;
   String? get id => _id;
 }

@@ -1,3 +1,4 @@
+import 'package:jb_fe/backend_integration/constants/enum/payment_mode_enum.dart';
 import 'package:jb_fe/backend_integration/domain/entities/receipt/details/receipt_details.dart';
 import 'package:jb_fe/backend_integration/dto/payment/details/receipt_party_details_presentation.dart';
 
@@ -7,7 +8,7 @@ class ReceiptDetailsPresentation {
   late double _ammount;
   late double _activeAmmount;
   late ReceiptPartyDetailsPresentation _party;
-  late String _paymentMode;
+  late PaymentModeEnum _paymentMode;
   late DateTime _date;
 
   ReceiptDetailsPresentation(ReceiptDetailsEntity entity)
@@ -21,7 +22,7 @@ class ReceiptDetailsPresentation {
         super();
 
   DateTime get date => _date;
-  String get paymentMode => _paymentMode;
+  PaymentModeEnum get paymentMode => _paymentMode;
   ReceiptPartyDetailsPresentation get party => _party;
   double get activeAmmount => _activeAmmount;
   double get ammount => _ammount;

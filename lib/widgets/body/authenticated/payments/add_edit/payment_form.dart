@@ -20,9 +20,14 @@ class PaymentForm extends StatelessWidget {
       mainAxisSize: MainAxisSize.max,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        PartySelectionAndDisplay(
-          onPartySelected: (PartyPresentation party) =>
-              _onPartySelected(party, context),
+        BlocBuilder<AddReceiptBloc, AddReceiptState>(
+          builder: (context, state) {
+            return PartySelectionAndDisplay(
+              onPartySelected: (PartyPresentation party) =>
+                  _onPartySelected(party, context),
+              party: state.party,
+            );
+          },
         ),
         const SizedBox(
           height: 20,

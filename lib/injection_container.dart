@@ -54,6 +54,7 @@ import 'backend_integration/domain/usecase/inventory/search_item.dart';
 import 'backend_integration/domain/usecase/inventory/update_item.dart';
 import 'backend_integration/domain/usecase/order/fetch_batch_order.dart';
 import 'backend_integration/domain/usecase/order/fetch_order.dart';
+import 'backend_integration/domain/usecase/order/fetch_unpaid_orders.dart';
 import 'backend_integration/domain/usecase/order/search_order.dart';
 import 'backend_integration/domain/usecase/party/fetch_party.dart';
 import 'backend_integration/domain/usecase/payment/create_receipt.dart';
@@ -78,6 +79,7 @@ import 'controllers/bloc/receipt/new_receipt/add_receipt_bloc.dart';
 import 'controllers/bloc/receipt/receipt_bloc/receipt_bloc.dart';
 import 'controllers/bloc/receipt/receipt_form_toggle/receipt_form_toggle_cubit.dart';
 import 'controllers/bloc/receipt/search_receipt/search_receipt_bloc.dart';
+import 'controllers/bloc/receipt/unsorted_amount/unsorted_amount_cubit.dart';
 
 final serviceLocator = GetIt.instance;
 
@@ -218,6 +220,7 @@ void init() {
   serviceLocator.registerFactory<AddReceiptBloc>(
     () => AddReceiptBloc(
       createReceiptUseCase: serviceLocator(),
+      fetchUnpaidOrdersUseCase: serviceLocator(),
     ),
   );
   serviceLocator.registerFactory<FetchReceiptBloc>(
@@ -226,6 +229,9 @@ void init() {
       fetchPartyUseCase: serviceLocator(),
       fetchOrderBatchUseCase: serviceLocator(),
     ),
+  );
+  serviceLocator.registerFactory<UnsortedAmountCubit>(
+    () => UnsortedAmountCubit(),
   );
 
   //Cart
@@ -392,6 +398,11 @@ void init() {
   );
   serviceLocator.registerLazySingleton<CreateReceiptUseCase>(
     () => CreateReceiptUseCase(
+      repository: serviceLocator(),
+    ),
+  );
+  serviceLocator.registerLazySingleton<FetchUnpaidOrdersUseCase>(
+    () => FetchUnpaidOrdersUseCase(
       repository: serviceLocator(),
     ),
   );

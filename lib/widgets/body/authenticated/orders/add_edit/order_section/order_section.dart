@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jb_fe/constants/colors.dart';
 import 'package:jb_fe/controllers/bloc/order/new_order/add_order_bloc.dart';
+import 'package:jb_fe/widgets/common/instruction_banner.dart';
 
-import 'no_items.dart';
 import 'order_bottom_section.dart';
 import 'order_details_section.dart';
 import 'order_item_section.dart';
@@ -25,8 +25,18 @@ class OrderSectionForCart extends StatelessWidget {
       ),
       child: BlocBuilder<AddOrderBloc, AddOrderState>(
         builder: (BuildContext context, AddOrderState state) {
+          if (state.party == null) {
+            return InstructionBanner(
+              callback: _closeDrawer,
+              instruction: "Party not selected. Please, select party first.",
+            );
+          }
           if (state.order.items.isEmpty) {
-            return NoItems(closeDrawer: _closeDrawer);
+            return InstructionBanner(
+              callback: _closeDrawer,
+              instruction:
+                  "No Items in the cart. Please, add items to the cart first.",
+            );
           }
           return Column(
             children: [

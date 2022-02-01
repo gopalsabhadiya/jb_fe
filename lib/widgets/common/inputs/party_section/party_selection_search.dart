@@ -5,7 +5,6 @@ import 'package:jb_fe/backend_integration/dto/party/party_presentation.dart';
 import 'package:jb_fe/constants/colors.dart';
 import 'package:jb_fe/constants/texts/defaults.dart';
 import 'package:jb_fe/constants/texts/party_text.dart';
-import 'package:jb_fe/controllers/bloc/order/new_order/add_order_bloc.dart';
 import 'package:jb_fe/controllers/bloc/party/search_party/search_party_bloc.dart';
 import 'package:jb_fe/widgets/calligraphy/app_text.dart';
 import 'package:jb_fe/widgets/common/inputs/search_input.dart';
@@ -13,10 +12,15 @@ import 'package:jb_fe/widgets/common/inputs/search_input.dart';
 class PartySelectionSearch extends StatefulWidget {
   final List<PartyPresentation> _partyList;
   final Function(PartyPresentation) _onPartySelectCallback;
+  final PartyPresentation? _party;
   const PartySelectionSearch(
-      {Key? key, required partyList, required onPartySelectCallback})
+      {Key? key,
+      required List<PartyPresentation> partyList,
+      required Function(PartyPresentation) onPartySelectCallback,
+      required PartyPresentation? party})
       : _partyList = partyList,
         _onPartySelectCallback = onPartySelectCallback,
+        _party = party,
         super(key: key);
 
   @override
@@ -145,7 +149,7 @@ class _PartySelectionSearchState extends State<PartySelectionSearch> {
 
   String? _partySelectionValidator(String? p1) {
     print("Validator party called");
-    if (BlocProvider.of<AddOrderBloc>(context).state.party != null) {
+    if (widget._party != null) {
       return null;
     }
     return DefaultTexts.EMPTY;

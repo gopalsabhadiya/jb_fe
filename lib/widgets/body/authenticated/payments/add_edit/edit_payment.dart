@@ -51,7 +51,9 @@ class _EditPaymentState extends State<EditPayment> {
                       padding: const EdgeInsets.all(20),
                       child: Form(
                         key: _formKey,
-                        child: PaymentForm(closeDrawer: widget._closeDrawer),
+                        child: PaymentForm(
+                          closeDrawer: widget._closeDrawer,
+                        ),
                       ),
                     ),
                   );

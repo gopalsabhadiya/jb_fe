@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:jb_fe/constants/colors.dart';
+import 'package:jb_fe/util/screen_size.dart';
 import 'package:jb_fe/widgets/calligraphy/app_text.dart';
 
 class AppDropDownButton extends StatefulWidget {
@@ -77,15 +78,25 @@ class _AppDropDownButtonState extends State<AppDropDownButton> {
 
   OverlayEntry _createOverlayEntry() {
     RenderBox renderBox = context.findRenderObject() as RenderBox;
+
     var size = renderBox.size;
+    print(
+        "${MediaQuery.of(context).size.height} ${renderBox.localToGlobal(Offset.zero).dy + 5 + 200 + size.height}");
 
     return OverlayEntry(
-      builder: (context) => Positioned(
+      builder: (overlayContext) => Positioned(
         width: size.width,
         child: CompositedTransformFollower(
           link: _layerLink,
           showWhenUnlinked: false,
-          offset: Offset(0.0, size.height + 5.0),
+          offset: ScreenSizeUtil.isOverlayOutsideViewport(
+                  parentContext: context, childSize: Size(size.width, 200))
+              ? const Offset(0.0, 0.0)
+              : Offset(0.0, size.height),
+          followerAnchor: ScreenSizeUtil.isOverlayOutsideViewport(
+                  parentContext: context, childSize: Size(size.width, 200))
+              ? Alignment.bottomLeft
+              : Alignment.topLeft,
           child: Material(
             elevation: 4.0,
             child: Container(

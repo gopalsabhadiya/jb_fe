@@ -145,4 +145,28 @@ class ScreenSizeUtil {
         getNavbarPreferredSize(context).height -
         30;
   }
+
+  static bool isOverlayOutsideViewport(
+      {required BuildContext parentContext, required Size childSize}) {
+    RenderBox parentRenderBox = (parentContext.findRenderObject() as RenderBox);
+    var parentSize = parentRenderBox.size;
+
+    print("${parentRenderBox.localToGlobal(Offset.zero).dy}");
+    print(
+        "${parentRenderBox.localToGlobal(Offset.zero).dy + parentSize.height + childSize.height}");
+    print("${MediaQuery.of(parentContext).size.height}");
+    return parentRenderBox.localToGlobal(Offset.zero).dy +
+            parentSize.height +
+            childSize.height >
+        MediaQuery.of(parentContext).size.height;
+
+    // return parentRenderBox.localToGlobal(Offset.zero).dy +
+    //             parentSize.height +
+    //             childContext.size!.height >
+    //         MediaQuery.of(parentContext).size.height ||
+    //     parentRenderBox.localToGlobal(Offset.zero).dx +
+    //             parentSize.width +
+    //             childContext.size!.width >
+    //         MediaQuery.of(parentContext).size.width;
+  }
 }

@@ -8,4 +8,6 @@ abstract class OrderRepository {
   Future<List<OrderDetailsEntity>> searchOrder(String searchTerm, int skip);
   Future<OrderEntity> fetchOrder(String orderId);
   Future<List<OrderEntity>> fetchOrderBatch(List<String> orderIdList);
+
+  Future<List<OrderEntity>> fetchUnpaidOrders(String partyId);
 }

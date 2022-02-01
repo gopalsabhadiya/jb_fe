@@ -8,6 +8,7 @@ import 'order_section/order_section.dart';
 
 class OrderForm extends StatelessWidget {
   final VoidCallback _closeDrawer;
+
   const OrderForm({Key? key, required closeDrawer})
       : _closeDrawer = closeDrawer,
         super(key: key);
@@ -16,9 +17,14 @@ class OrderForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        PartySelectionAndDisplay(
-          onPartySelected: (PartyPresentation party) =>
-              _onPartySelected(party, context),
+        BlocBuilder<AddOrderBloc, AddOrderState>(
+          builder: (context, state) {
+            return PartySelectionAndDisplay(
+              onPartySelected: (PartyPresentation party) =>
+                  _onPartySelected(party, context),
+              party: state.party,
+            );
+          },
         ),
         const SizedBox(
           height: 20,

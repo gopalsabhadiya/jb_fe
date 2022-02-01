@@ -9,9 +9,8 @@ class ReceiptRepositoryImpl implements ReceiptRepository {
   ReceiptRepositoryImpl({required this.remoteDataSource});
 
   @override
-  Future<ReceiptEntity> addPayment(ReceiptEntity payment) {
-    // TODO: implement addPayment
-    throw UnimplementedError();
+  Future<ReceiptEntity> addReceipt(ReceiptEntity receipt) async {
+    return await remoteDataSource.addReceipt(receipt);
   }
 
   @override

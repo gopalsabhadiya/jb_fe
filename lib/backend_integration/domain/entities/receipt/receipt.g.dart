@@ -15,10 +15,10 @@ ReceiptEntity _$ReceiptEntityFromJson(Map<String, dynamic> json) =>
           .map((e) => PaymentEntity.fromJson(e as Map<String, dynamic>))
           .toList(),
       party: json['party'] as String,
-      business: json['business'] as String,
-      user: json['user'] as String,
+      business: json['business'] as String?,
+      user: json['user'] as String?,
       invalidated: json['invalidated'] as bool,
-      paymentMode: json['paymentMode'] as String,
+      paymentMode: $enumDecode(_$PaymentModeEnumEnumMap, json['paymentMode']),
       bank: json['bank'] as String?,
       check: json['check'] as int?,
       pan: json['pan'] as String?,
@@ -44,7 +44,7 @@ Map<String, dynamic> _$ReceiptEntityToJson(ReceiptEntity instance) {
   val['business'] = instance.business;
   val['user'] = instance.user;
   val['invalidated'] = instance.invalidated;
-  val['paymentMode'] = instance.paymentMode;
+  val['paymentMode'] = _$PaymentModeEnumEnumMap[instance.paymentMode];
   val['bank'] = instance.bank;
   val['check'] = instance.check;
   val['pan'] = instance.pan;
@@ -53,3 +53,9 @@ Map<String, dynamic> _$ReceiptEntityToJson(ReceiptEntity instance) {
   val['date'] = instance.date.toIso8601String();
   return val;
 }
+
+const _$PaymentModeEnumEnumMap = {
+  PaymentModeEnum.Cash: 'Cash',
+  PaymentModeEnum.Check: 'Check',
+  PaymentModeEnum.Online: 'Online',
+};

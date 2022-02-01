@@ -6,7 +6,7 @@ import 'package:jb_fe/backend_integration/domain/entities/receipt/details/receip
 import 'package:jb_fe/backend_integration/domain/entities/receipt/receipt.dart';
 
 abstract class ReceiptRemoteDataSource {
-  Future<ReceiptEntity> addPayment(ReceiptEntity payment);
+  Future<ReceiptEntity> addReceipt(ReceiptEntity payment);
   Future<void> deleteReceipt(String receiptId);
 
   Future<List<ReceiptDetailsEntity>> getReceiptPage(int pageNumber);
@@ -19,9 +19,17 @@ class ReceiptRemoteDataSourceImpl implements ReceiptRemoteDataSource {
   final _http = AppHttpClient.getHttpClient();
 
   @override
-  Future<ReceiptEntity> addPayment(ReceiptEntity payment) {
-    // TODO: implement addPayment
-    throw UnimplementedError();
+  Future<ReceiptEntity> addReceipt(ReceiptEntity receipt) async {
+    print("Submitting receipt: $receipt");
+    final response = await _http.post(
+      EndpointUri.getAddReceiptURL(),
+      body: jsonEncode(receipt.toJson()),
+      headers: {
+        "content-type": "application/json",
+      },
+    );
+    print("Response: ${response.body}");
+    return ReceiptEntity.fromJson(jsonDecode(response.body));
   }
 
   @override

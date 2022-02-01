@@ -17,7 +17,7 @@ class PaymentEntity extends Equatable {
   )
   final String? id;
   final String orderId;
-  final int ammount;
+  final double ammount;
   final bool invalidated;
 
   const PaymentEntity({
@@ -38,4 +38,9 @@ class PaymentEntity extends Equatable {
   factory PaymentEntity.fromJson(Map<String, dynamic> json) =>
       _$PaymentEntityFromJson(json);
   Map<String, dynamic> toJson() => _$PaymentEntityToJson(this);
+
+  @override
+  String toString() {
+    return 'PaymentEntity{id: $id, orderId: $orderId, ammount: $ammount, invalidated: $invalidated}';
+  }
 }

@@ -10,7 +10,7 @@ PaymentEntity _$PaymentEntityFromJson(Map<String, dynamic> json) =>
     PaymentEntity(
       id: json['_id'] as String?,
       orderId: json['orderId'] as String,
-      ammount: json['ammount'] as int,
+      ammount: (json['ammount'] as num).toDouble(),
       invalidated: json['invalidated'] as bool,
     );
 

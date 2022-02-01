@@ -14,6 +14,8 @@ abstract class OrderRemoteDataSource {
   Future<OrderEntity> fetchOrder(String orderId);
 
   Future<List<OrderEntity>> fetchOrderBatch(List<String> orderIdList);
+
+  Future<List<OrderEntity>> fetchUnpaidOrders(String partyId);
 }
 
 class OrderRemoteDataSourceImpl implements OrderRemoteDataSource {
@@ -83,7 +85,6 @@ class OrderRemoteDataSourceImpl implements OrderRemoteDataSource {
       },
     );
 
-    print("Response: ${response.statusCode} ${response.body}");
     OrderEntity order = OrderEntity.fromJson(
       json.decode(response.body),
     );
@@ -102,6 +103,23 @@ class OrderRemoteDataSourceImpl implements OrderRemoteDataSource {
     List<OrderEntity> orderBatch =
         OrderEntity.fromJsonToList(json.decode(response.body));
     // print("Your parties: $partyPage");
+    return orderBatch;
+  }
+
+  @override
+  Future<List<OrderEntity>> fetchUnpaidOrders(String partyId) async {
+    final Map<String, String> payload = {"partyId": partyId};
+    final response = await _http.post(
+      EndpointUri.getUnpaidOrdersURL(),
+      body: jsonEncode(payload),
+      headers: {
+        "content-type": "application/json",
+      },
+    );
+    // print("Response: ${response.statusCode} ${json.decode(response.body)}");
+    List<OrderEntity> orderBatch =
+        OrderEntity.fromJsonToList(json.decode(response.body));
+    print("Your orders: $orderBatch");
     return orderBatch;
   }
 }

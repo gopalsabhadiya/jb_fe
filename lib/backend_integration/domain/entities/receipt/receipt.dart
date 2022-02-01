@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:jb_fe/backend_integration/constants/enum/payment_mode_enum.dart';
 import 'package:jb_fe/backend_integration/domain/entities/receipt/payment.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -21,10 +22,10 @@ class ReceiptEntity extends Equatable {
   final double ammount;
   final List<PaymentEntity> payments;
   final String party;
-  final String business;
-  final String user;
+  final String? business;
+  final String? user;
   final bool invalidated;
-  final String paymentMode;
+  final PaymentModeEnum paymentMode;
   final String? bank;
   final int? check;
   final String? pan;
@@ -72,4 +73,9 @@ class ReceiptEntity extends Equatable {
   factory ReceiptEntity.fromJson(Map<String, dynamic> json) =>
       _$ReceiptEntityFromJson(json);
   Map<String, dynamic> toJson() => _$ReceiptEntityToJson(this);
+
+  @override
+  String toString() {
+    return 'ReceiptEntity{id: $id, receiptId: $receiptId, ammount: $ammount, payments: $payments, party: $party, business: $business, user: $user, invalidated: $invalidated, paymentMode: $paymentMode, bank: $bank, check: $check, pan: $pan, aadhar: $aadhar, activeAmmount: $activeAmmount, date: $date}';
+  }
 }

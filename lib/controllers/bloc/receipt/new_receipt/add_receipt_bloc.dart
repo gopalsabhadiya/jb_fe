@@ -2,7 +2,9 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:jb_fe/backend_integration/domain/usecase/order/fetch_unpaid_orders.dart';
 import 'package:jb_fe/backend_integration/domain/usecase/payment/create_receipt.dart';
+import 'package:jb_fe/backend_integration/dto/order/order_presentation.dart';
 import 'package:jb_fe/backend_integration/dto/party/party_presentation.dart';
 import 'package:jb_fe/backend_integration/dto/payment/receipt_presentation.dart';
 import 'package:jb_fe/controllers/bloc/receipt/mediator/notification/notification.dart';
@@ -15,8 +17,11 @@ part 'add_receipt_state.dart';
 class AddReceiptBloc extends Bloc<AddReceiptEvent, AddReceiptState>
     with AddReceiptNotifier {
   final CreateReceiptUseCase createReceiptUseCase;
+  final FetchUnpaidOrdersUseCase fetchUnpaidOrdersUseCase;
 
-  AddReceiptBloc({required this.createReceiptUseCase})
+  AddReceiptBloc(
+      {required this.createReceiptUseCase,
+      required this.fetchUnpaidOrdersUseCase})
       : super(
           AddReceiptState(
             receipt: ReceiptPresentation.empty(),
@@ -24,17 +29,26 @@ class AddReceiptBloc extends Bloc<AddReceiptEvent, AddReceiptState>
         ) {
     on<AddPartyToReceipt>(_addPartyToReceipt);
     on<SaveReceipt>(_saveReceipt);
+    on<AddPaymentToReceipt>(_addPaymentToReceipt);
   }
 
   FutureOr<void> _addPartyToReceipt(
-      AddPartyToReceipt event, Emitter<AddReceiptState> emit) {
+      AddPartyToReceipt event, Emitter<AddReceiptState> emit) async {
+    emit(
+      state.copyWith(
+        status: AddReceiptStatus.LOADING,
+      ),
+    );
     ReceiptPresentation receipt = state.receipt;
     receipt.setParty(event.party.id!);
-    print("Setting party: ${event.party}");
+    final List<OrderPresentation> orderList =
+        await fetchUnpaidOrdersUseCase(partyId: event.party.id!);
     emit(
       state.copyWith(
         party: event.party,
         receipt: receipt,
+        status: AddReceiptStatus.BUILDING,
+        unpaidOrderList: orderList,
       ),
     );
   }
@@ -46,6 +60,7 @@ class AddReceiptBloc extends Bloc<AddReceiptEvent, AddReceiptState>
         status: AddReceiptStatus.LOADING,
       ),
     );
+    state.receipt.updateActiveAmmount();
     ReceiptPresentation receiptPresentation =
         await createReceiptUseCase(receipt: state.receipt);
     print('Order placed: ${state.party}');
@@ -74,6 +89,21 @@ class AddReceiptBloc extends Bloc<AddReceiptEvent, AddReceiptState>
         status: AddReceiptStatus.COMPLETED,
         receipt: newReceipt,
         party: null,
+      ),
+    );
+  }
+
+  FutureOr<void> _addPaymentToReceipt(
+      AddPaymentToReceipt event, Emitter<AddReceiptState> emit) {
+    final ReceiptPresentation receipt = state.receipt;
+    receipt.addPayment(
+      amount: event.amount,
+      orderId: event.order.id!,
+    );
+
+    emit(
+      state.copyWith(
+        receipt: receipt,
       ),
     );
   }

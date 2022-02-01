@@ -18,6 +18,7 @@ class AppTextInput extends StatelessWidget {
   final String? Function(String?)? validator;
   final bool enabled;
   final VoidCallback? onRemoveFocus;
+  final TextEditingController? controller;
 
   const AppTextInput({
     Key? key,
@@ -34,16 +35,17 @@ class AppTextInput extends StatelessWidget {
     this.validator,
     this.enabled = true,
     this.onRemoveFocus,
+    this.controller,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final key = GlobalKey<State<Tooltip>>();
+    // final key = GlobalKey<State<Tooltip>>();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Tooltip(
-          key: key,
+          key: GlobalKey<State<Tooltip>>(),
           message: tooltip ?? hint,
           textStyle: const TextStyle(fontSize: 14, color: AppColors.blue_1),
           padding: const EdgeInsets.all(5),
@@ -69,7 +71,8 @@ class AppTextInput extends StatelessWidget {
                     ]
                   : [],
               validator: validator,
-              controller: TextEditingController()..text = initialValue ?? "",
+              controller: controller ?? TextEditingController()
+                ..text = initialValue ?? "",
               onChanged: onChanged,
               obscureText: obscureText ?? false,
               autovalidateMode: AutovalidateMode.onUserInteraction,

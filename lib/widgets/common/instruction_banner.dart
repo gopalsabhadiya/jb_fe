@@ -4,10 +4,13 @@ import 'package:jb_fe/constants/colors.dart';
 import 'package:jb_fe/constants/typography/font_weight.dart';
 import 'package:jb_fe/widgets/calligraphy/app_text.dart';
 
-class NoItems extends StatelessWidget {
-  final VoidCallback _closeDrawer;
-  const NoItems({Key? key, required closeDrawer})
-      : _closeDrawer = closeDrawer,
+class InstructionBanner extends StatelessWidget {
+  final VoidCallback _callback;
+  final String _instruction;
+  const InstructionBanner(
+      {Key? key, required VoidCallback callback, required String instruction})
+      : _instruction = instruction,
+        _callback = callback,
         super(key: key);
 
   @override
@@ -20,12 +23,11 @@ class NoItems extends StatelessWidget {
           children: [
             Expanded(
               child: InkWell(
-                onTap: _closeDrawer,
+                onTap: _callback,
                 child: Container(
                   color: AppColors.blue_1,
                   padding: const EdgeInsets.all(20),
-                  child: AppTextBuilder(
-                          "No items in the cart, Please select items first")
+                  child: AppTextBuilder(_instruction)
                       .color(AppColors.red_2)
                       .weight(AppFontWeight.BOLD)
                       .build(),

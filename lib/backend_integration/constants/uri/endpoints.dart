@@ -47,6 +47,7 @@ class EndpointUri {
   static const String _DELETE_ORDER = "$_BASE_ORDER/$_PATH_ORDER_ID";
   static const String _GET_ORDER_BY_ID = "$_BASE_ORDER/id/$_PATH_ORDER_ID";
   static const String _GET_ORDER_BATCH_BY_ID = "$_BASE_ORDER/batch";
+  static const String _GET_UNPAID_ORDERS = "$_BASE_ORDER/unpaid";
 
   static const String _BASE_BILL = "$_BASE_URL/bill";
   static const String _BASE_RECEIPT = "$_BASE_URL/receipt";
@@ -186,6 +187,10 @@ class EndpointUri {
     return Uri.parse(_GET_ORDER_BATCH_BY_ID);
   }
 
+  static Uri getUnpaidOrdersURL() {
+    return Uri.parse(_GET_UNPAID_ORDERS);
+  }
+
   static Uri getCreateDailyGoldRateURL() {
     return Uri.parse(_BASE_DAILY_GOLD_RATE);
   }
@@ -201,5 +206,9 @@ class EndpointUri {
   static Uri getReceiptByIdURL(String receiptId) {
     return Uri.parse(
         _GET_RECEIPT_BY_ID.replaceAll(_PATH_RECEIPT_ID, receiptId));
+  }
+
+  static Uri getAddReceiptURL() {
+    return Uri.parse(_BASE_RECEIPT);
   }
 }

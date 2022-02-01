@@ -15,7 +15,7 @@ ReceiptDetailsEntity _$ReceiptDetailsEntityFromJson(
       activeAmmount: (json['activeAmmount'] as num).toDouble(),
       party: ReceiptPartyDetailsEntity.fromJson(
           json['party'] as Map<String, dynamic>),
-      paymentMode: json['paymentMode'] as String,
+      paymentMode: $enumDecode(_$PaymentModeEnumEnumMap, json['paymentMode']),
       date: DateTime.parse(json['date'] as String),
     );
 
@@ -34,7 +34,13 @@ Map<String, dynamic> _$ReceiptDetailsEntityToJson(
   val['ammount'] = instance.ammount;
   val['activeAmmount'] = instance.activeAmmount;
   val['party'] = instance.party.toJson();
-  val['paymentMode'] = instance.paymentMode;
+  val['paymentMode'] = _$PaymentModeEnumEnumMap[instance.paymentMode];
   val['date'] = instance.date.toIso8601String();
   return val;
 }
+
+const _$PaymentModeEnumEnumMap = {
+  PaymentModeEnum.Cash: 'Cash',
+  PaymentModeEnum.Check: 'Check',
+  PaymentModeEnum.Online: 'Online',
+};

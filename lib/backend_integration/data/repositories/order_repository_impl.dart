@@ -38,4 +38,9 @@ class OrderRepositoryImpl implements OrderRepository {
   Future<List<OrderEntity>> fetchOrderBatch(List<String> orderIdList) async {
     return await remoteDataSource.fetchOrderBatch(orderIdList);
   }
+
+  @override
+  Future<List<OrderEntity>> fetchUnpaidOrders(String partyId) async {
+    return await remoteDataSource.fetchUnpaidOrders(partyId);
+  }
 }

@@ -8,7 +8,7 @@ class CreateReceiptUseCase {
 
   Future<ReceiptPresentation> call(
       {required ReceiptPresentation receipt}) async {
-    final receiptEntity = await repository.addPayment(receipt.getEntity());
+    final receiptEntity = await repository.addReceipt(receipt.getEntity());
     return ReceiptPresentation(receiptEntity);
   }
 }

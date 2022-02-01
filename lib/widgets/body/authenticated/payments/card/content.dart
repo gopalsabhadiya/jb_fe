@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:jb_fe/backend_integration/constants/enum/payment_mode_enum.dart';
 import 'package:jb_fe/backend_integration/dto/payment/details/receipt_details_presentation.dart';
 import 'package:jb_fe/constants/colors.dart';
 import 'package:jb_fe/constants/typography/font_weight.dart';
@@ -86,7 +87,7 @@ class PaymentCardContent extends StatelessWidget {
                   color: AppColors.blue_5,
                 ),
               ),
-              AppTextBuilder(_receipt.paymentMode).size(16).build()
+              AppTextBuilder(_receipt.paymentMode.name()).size(16).build()
             ]),
             Container(
               color: AppColors.grey_2,

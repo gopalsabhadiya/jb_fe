@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:jb_fe/backend_integration/constants/enum/payment_mode_enum.dart';
 import 'package:jb_fe/backend_integration/dto/payment/receipt_presentation.dart';
 import 'package:jb_fe/constants/colors.dart';
 import 'package:jb_fe/constants/texts/defaults.dart';
@@ -52,7 +53,7 @@ class ViewReceiptMidSection extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               KeyValueDisplay(
-                value: _receipt.paymentMode,
+                value: _receipt.paymentMode.name(),
                 textKey: "Payment Type",
                 backgroundColor: AppColors.white,
               ),

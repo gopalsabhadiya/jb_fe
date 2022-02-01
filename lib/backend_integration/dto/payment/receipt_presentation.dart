@@ -1,8 +1,11 @@
+import 'package:jb_fe/backend_integration/constants/enum/payment_mode_enum.dart';
 import 'package:jb_fe/backend_integration/domain/entities/receipt/details/receipt_details.dart';
 import 'package:jb_fe/backend_integration/domain/entities/receipt/details/receipt_party_details.dart';
+import 'package:jb_fe/backend_integration/domain/entities/receipt/payment.dart';
 import 'package:jb_fe/backend_integration/domain/entities/receipt/receipt.dart';
 import 'package:jb_fe/backend_integration/dto/party/party_presentation.dart';
 import 'package:jb_fe/backend_integration/dto/payment/payment_presentation.dart';
+import 'package:jb_fe/constants/texts/defaults.dart';
 
 import 'details/receipt_details_presentation.dart';
 
@@ -12,14 +15,14 @@ class ReceiptPresentation {
   late double _ammount;
   late List<PaymentPresentation> _payments;
   late String _party;
-  late String _business;
-  late String _user;
+  String? _business;
+  String? _user;
   late bool _invalidated;
-  late String _paymentMode;
-  late String? _bank;
-  late int? _check;
-  late String? _pan;
-  late int? _aadhar;
+  late PaymentModeEnum _paymentMode;
+  String? _bank;
+  int? _check;
+  String? _pan;
+  int? _aadhar;
   late double _activeAmmount;
   late DateTime _date;
 
@@ -65,7 +68,15 @@ class ReceiptPresentation {
   }
 
   ReceiptPresentation.empty()
-      : _date = DateTime.now(),
+      : _payments = <PaymentPresentation>[],
+        _paymentMode = PaymentModeEnum.values.first,
+        _ammount = 0,
+        _aadhar = 0,
+        _pan = DefaultTexts.EMPTY,
+        _bank = DefaultTexts.EMPTY,
+        _check = 0,
+        _invalidated = false,
+        _date = DateTime.now(),
         super();
 
   ReceiptPresentation(ReceiptEntity entity)
@@ -91,10 +102,10 @@ class ReceiptPresentation {
   double get ammount => _ammount;
   List<PaymentPresentation> get payments => _payments;
   String get party => _party;
-  String get business => _business;
-  String get user => _user;
+  String? get business => _business;
+  String? get user => _user;
   bool get invalidated => _invalidated;
-  String get paymentMode => _paymentMode;
+  PaymentModeEnum get paymentMode => _paymentMode;
   String? get bank => _bank;
   int? get check => _check;
   String? get pan => _pan;
@@ -107,35 +118,82 @@ class ReceiptPresentation {
   }
 
   setPaymentMode(String value) {
-    _paymentMode = value;
+    _paymentMode = PaymentModeEnum.values
+        .where((element) => element.name() == value)
+        .first;
   }
 
-  void setAmmount(double value) {
-    _ammount = value;
+  String? paymentModeValidator(String? value) {
+    return null;
+  }
+
+  void setAmmount(String value) {
+    _ammount = double.tryParse(value) ?? _ammount;
+  }
+
+  String? ammountValidator(String? value) {
+    if (value == null || value.isEmpty || double.tryParse(value) != null) {
+      return null;
+    }
+    return DefaultTexts.EMPTY;
   }
 
   void setPan(String value) {
     _pan = value;
   }
 
-  void setAadhar(int value) {
-    _aadhar = value;
+  String? panValidator(String? value) {
+    return null;
   }
 
-  void setCheck(int value) {
-    _check = value;
+  void setAadhar(String value) {
+    _aadhar = int.tryParse(value) ?? _aadhar;
+  }
+
+  String? aadharValidator(String? value) {
+    return null;
+  }
+
+  void setCheck(String value) {
+    _check = int.tryParse(value) ?? _check;
+  }
+
+  String? checkValidator(String? value) {
+    if (value == null || value.isEmpty || int.tryParse(value) != null) {
+      return null;
+    }
+    return DefaultTexts.EMPTY;
   }
 
   void setBank(String value) {
     _bank = value;
   }
 
+  String? bankValidator(String? value) {
+    return null;
+  }
+
   void setPayments(List<PaymentPresentation> value) {
     _payments = value;
   }
 
+  void addPayment({required double amount, required String orderId}) {
+    PaymentPresentation newPayment = PaymentPresentation(
+      PaymentEntity(
+        invalidated: false,
+        ammount: amount,
+        orderId: orderId,
+      ),
+    );
+    _payments.add(newPayment);
+  }
+
   void setDate(DateTime value) {
     _date = value;
+  }
+
+  void updateActiveAmmount() {
+    _activeAmmount = _ammount;
   }
 
   @override

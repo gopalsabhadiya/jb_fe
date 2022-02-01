@@ -2,7 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jb_fe/constants/colors.dart';
 import 'package:jb_fe/controllers/bloc/receipt/new_receipt/add_receipt_bloc.dart';
+import 'package:jb_fe/controllers/bloc/receipt/unsorted_amount/unsorted_amount_cubit.dart';
+import 'package:jb_fe/widgets/common/instruction_banner.dart';
 
+import '../../../../../../injection_container.dart';
 import '../orders_section.dart';
 import 'mid_section.dart';
 
@@ -24,13 +27,24 @@ class ReceiptSectionForCart extends StatelessWidget {
       ),
       child: BlocBuilder<AddReceiptBloc, AddReceiptState>(
         builder: (BuildContext context, AddReceiptState state) {
-          return Column(
-            children: [
-              ReceiptFormMidSection(
-                receipt: state.receipt,
-              ),
-              PaymentFormOrderSection()
-            ],
+          if (state.party == null) {
+            return InstructionBanner(
+              callback: _closeDrawer,
+              instruction: "Party not selected. Please, select party first.",
+            );
+          }
+          return BlocProvider(
+            create: (context) => serviceLocator<UnsortedAmountCubit>(),
+            child: Column(
+              children: [
+                ReceiptFormMidSection(
+                  receipt: state.receipt,
+                ),
+                PaymentFormOrderSection(
+                  unpaidOrderList: state.unpaidOrderList!,
+                )
+              ],
+            ),
           );
         },
       ),

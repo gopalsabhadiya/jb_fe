@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:jb_fe/backend_integration/constants/enum/payment_mode_enum.dart';
 import 'package:jb_fe/backend_integration/domain/entities/receipt/details/receipt_party_details.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -21,7 +22,7 @@ class ReceiptDetailsEntity extends Equatable {
   final double ammount;
   final double activeAmmount;
   final ReceiptPartyDetailsEntity party;
-  final String paymentMode;
+  final PaymentModeEnum paymentMode;
   final DateTime date;
 
   const ReceiptDetailsEntity({
