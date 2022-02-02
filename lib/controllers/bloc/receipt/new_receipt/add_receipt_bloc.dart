@@ -39,8 +39,16 @@ class AddReceiptBloc extends Bloc<AddReceiptEvent, AddReceiptState>
         status: AddReceiptStatus.LOADING,
       ),
     );
+
     ReceiptPresentation receipt = state.receipt;
     receipt.setParty(event.party.id!);
+
+    emit(
+      state.copyWith(
+        status: AddReceiptStatus.LOADING_UNPAID_ORDERS,
+      ),
+    );
+
     final List<OrderPresentation> orderList =
         await fetchUnpaidOrdersUseCase(partyId: event.party.id!);
     emit(

@@ -15,9 +15,9 @@ class OrderFormHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 50,
-      decoration: const BoxDecoration(
-        color: AppColors.grey_2,
-        borderRadius: BorderRadius.only(
+      decoration: BoxDecoration(
+        color: AppColors.grey3WithOpacity(0.5),
+        borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(5),
           topRight: Radius.circular(5),
         ),

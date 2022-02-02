@@ -20,33 +20,18 @@ class OrderDisplayContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Container(
-          constraints: const BoxConstraints(maxWidth: 1000),
-          decoration: BoxDecoration(
-            color: AppColors.white,
-            borderRadius: BorderRadius.circular(5),
-            boxShadow: const [
-              BoxShadow(
-                  offset: Offset(2, 2),
-                  color: AppColors.grey_3, //edited
-                  spreadRadius: 1,
-                  blurRadius: 5 //edited
-                  )
-            ],
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              OrderFormHeader(party: _party),
-              OrderFormMidSection(order: _order),
-              OrderFormItemSection(order: _order),
-            ],
-          ),
-        ),
+    return Container(
+      constraints: const BoxConstraints(maxWidth: 1000),
+      decoration: BoxDecoration(
+        color: AppColors.white,
+        borderRadius: BorderRadius.circular(5),
+      ),
+      child: Column(
+        children: [
+          OrderFormHeader(party: _party),
+          OrderFormMidSection(order: _order),
+          OrderFormItemSection(order: _order),
+        ],
       ),
     );
   }

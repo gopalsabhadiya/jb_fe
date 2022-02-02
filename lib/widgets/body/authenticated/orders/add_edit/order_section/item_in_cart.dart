@@ -176,12 +176,14 @@ class ItemInCart extends StatelessWidget {
   _getItemExtras() {
     List<Widget> itemExtras = <Widget>[];
     for (final ItemExtraPresentation iep in _item.extras!) {
-      itemExtras.add(KeyValueDisplay(
-        textKey: iep.type,
-        value: DefaultTexts.RUPEE_SYMBOL +
-            DefaultTexts.SPACE +
-            iep.amount.toString(),
-      ));
+      itemExtras.add(
+        KeyValueDisplay(
+          textKey: iep.type,
+          value: DefaultTexts.RUPEE_SYMBOL +
+              DefaultTexts.SPACE +
+              iep.amount.toString(),
+        ),
+      );
     }
     return itemExtras;
   }

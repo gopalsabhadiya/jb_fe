@@ -33,9 +33,15 @@ class ReceiptRemoteDataSourceImpl implements ReceiptRemoteDataSource {
   }
 
   @override
-  Future<void> deleteReceipt(String receiptId) {
-    // TODO: implement deleteReceipt
-    throw UnimplementedError();
+  Future<void> deleteReceipt(String receiptId) async {
+    try {
+      final response = await _http.delete(
+        EndpointUri.getDeleteReceiptURL(receiptId),
+        headers: {"content-type": "application/json"},
+      );
+    } catch (e) {
+      print("Exception");
+    }
   }
 
   @override
@@ -62,9 +68,19 @@ class ReceiptRemoteDataSourceImpl implements ReceiptRemoteDataSource {
 
   @override
   Future<List<ReceiptDetailsEntity>> searchReceipt(
-      String searchTerm, int skip) {
-    // TODO: implement searchReceipt
-    throw UnimplementedError();
+    String searchTerm,
+    int skip,
+  ) async {
+    final response = await _http.get(
+      EndpointUri.getSearchReceiptURL(skip, searchTerm),
+      headers: {
+        "content-type": "application/json",
+      },
+    );
+    List<ReceiptDetailsEntity> receiptPage =
+        ReceiptDetailsEntity.fromJsonToList(json.decode(response.body));
+    print("Your Receipts: $receiptPage");
+    return receiptPage;
   }
 
   @override

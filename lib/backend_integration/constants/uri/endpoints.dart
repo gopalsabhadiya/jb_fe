@@ -54,6 +54,9 @@ class EndpointUri {
   static const String _RECEIPT_SKIP = "$_BASE_RECEIPT/details?skip=$_SKIP";
   static const String _GET_RECEIPT_BY_ID =
       "$_BASE_RECEIPT/id/$_PATH_RECEIPT_ID";
+  static const String _DELETE_RECEIPT = "$_BASE_RECEIPT/$_PATH_RECEIPT_ID";
+  static const String _SEARCH_RECEIPT =
+      "$_BASE_RECEIPT/details?skip=$_SKIP&searchTerm=$_SEARCH_TERM";
 
   static const String _GET_USER = _BASE_USER;
   static const String _VERIFY_USER = "$_BASE_USER/verify";
@@ -210,5 +213,15 @@ class EndpointUri {
 
   static Uri getAddReceiptURL() {
     return Uri.parse(_BASE_RECEIPT);
+  }
+
+  static Uri getDeleteReceiptURL(String orderId) {
+    return Uri.parse(_DELETE_RECEIPT.replaceAll(_PATH_RECEIPT_ID, orderId));
+  }
+
+  static Uri getSearchReceiptURL(int skip, String searchTerm) {
+    return Uri.parse(_SEARCH_RECEIPT
+        .replaceAll(_SKIP, skip.toString())
+        .replaceAll(_SEARCH_TERM, searchTerm));
   }
 }

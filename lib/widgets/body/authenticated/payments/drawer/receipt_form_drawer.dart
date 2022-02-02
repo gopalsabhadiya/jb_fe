@@ -7,7 +7,7 @@ import 'package:jb_fe/controllers/bloc/receipt/new_receipt/add_receipt_bloc.dart
 import 'package:jb_fe/controllers/bloc/receipt/receipt_bloc/receipt_bloc.dart';
 import 'package:jb_fe/controllers/bloc/receipt/receipt_form_toggle/receipt_form_toggle_cubit.dart';
 import 'package:jb_fe/util/screen_size.dart';
-import 'package:jb_fe/widgets/body/authenticated/payments/add_edit/edit_payment.dart';
+import 'package:jb_fe/widgets/body/authenticated/payments/add_edit/add_payment.dart';
 import 'package:jb_fe/widgets/body/authenticated/payments/view/display_receipt.dart';
 
 import '../../../../../injection_container.dart';
@@ -60,7 +60,7 @@ class _ReceiptFormDrawerState extends State<ReceiptFormDrawer>
                       ..subscribe(
                         subscriber: BlocProvider.of<ReceiptBloc>(context),
                       ),
-                child: EditPayment(
+                child: AddPayment(
                   closeDrawer: _cancelAdd,
                 ),
               );
@@ -95,6 +95,7 @@ class _ReceiptFormDrawerState extends State<ReceiptFormDrawer>
 
   void _closeDrawer() {
     animationController.reverse();
+    BlocProvider.of<ReceiptFormToggleCubit>(context).closeDrawer();
   }
 
   _cancelAdd() {

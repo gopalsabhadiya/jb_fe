@@ -74,7 +74,10 @@ class OrderCard extends StatelessWidget {
   }
 
   _deleteOrder(BuildContext context) {
-    BlocProvider.of<DeleteOrderBloc>(context)
-        .add(DeleteOrder(orderIdToBeDeleted: _order.id));
+    BlocProvider.of<DeleteOrderBloc>(context).add(
+      DeleteOrder(
+        orderIdToBeDeleted: _order.id,
+      ),
+    );
   }
 }

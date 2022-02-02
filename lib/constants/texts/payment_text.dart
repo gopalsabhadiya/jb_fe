@@ -1,7 +1,11 @@
 class PaymentText {
-  static final String SEARCH_PAYMENT_HINT = "Search Order Here";
+  static final String DELETE_RECEIPT_ALERT_HEADER = "Delete Receipt";
+  static final String DELETE_RECEIPT_ALERT_MESSAGE =
+      "Are you sure you want to delete: ";
+
+  static final String SEARCH_PAYMENT_HINT = "Search Receipts Here";
   static final String SEARCH_PAYMENT_TOOLTIP =
-      "You can search payment by: Party Name, Id, Ammount";
+      "You can search payment by: Party Name, Contact No, Receipt Id, Ammount";
 
   static final String ORDERS_SECTION_HEADER = "Orders";
   static final String UNSORTED_AMMOUNT = "Unsorted Ammount";

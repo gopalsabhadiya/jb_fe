@@ -153,7 +153,10 @@ class OrderFormMidSection extends StatelessWidget {
                       .size(16)
                       .paddingVertical(5)
                       .build(),
-                  AppTextBuilder("₹ 10,000")
+                  AppTextBuilder(DefaultTexts.RUPEE_SYMBOL +
+                          DefaultTexts.SPACE +
+                          (_order.finalAmmount - _order.billOutstanding)
+                              .toString())
                       .weight(AppFontWeight.BOLD)
                       .color(AppColors.green_1)
                       .build()

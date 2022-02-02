@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:jb_fe/backend_integration/constants/enum/labour_type_enum.dart';
+import 'package:jb_fe/backend_integration/dto/item/item_extra_presentation.dart';
+import 'package:jb_fe/backend_integration/dto/item/item_presentation.dart';
 import 'package:jb_fe/constants/colors.dart';
-import 'package:jb_fe/constants/texts/order_text.dart';
+import 'package:jb_fe/constants/texts/defaults.dart';
 import 'package:jb_fe/constants/typography/font_weight.dart';
 import 'package:jb_fe/widgets/calligraphy/app_text.dart';
 import 'package:jb_fe/widgets/common/chip.dart';
@@ -9,160 +12,119 @@ import 'package:jb_fe/widgets/common/key_value_display.dart';
 import 'package:jb_fe/widgets/svg/icons/app_icons.dart';
 
 class OrderFormItemDetails extends StatelessWidget {
-  const OrderFormItemDetails({Key? key}) : super(key: key);
+  final ItemPresentation _item;
+  const OrderFormItemDetails({Key? key, required ItemPresentation item})
+      : _item = item,
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 15, top: 5, right: 5, left: 5),
-      child: Container(
-        decoration: BoxDecoration(
-          color: AppColors.white,
-          borderRadius: BorderRadius.circular(5),
-          boxShadow: const [
-            BoxShadow(
-                color: AppColors.grey_3, //edited
-                spreadRadius: 1,
-                blurRadius: 3 //edited
-                )
-          ],
-        ),
-        child: Column(
-          children: [
-            Container(
-              height: 40,
-              decoration: BoxDecoration(
-                color: AppColors.grey_2,
-                borderRadius: BorderRadius.circular(5),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  AppTextBuilder("Gold Earring")
-                      .color(AppColors.blue_5)
-                      .weight(AppFontWeight.BOLD)
-                      .paddingAll(10)
-                      .size(16)
-                      .build(),
-                  AppTextBuilder("₹ 25,000")
-                      .color(AppColors.red_2)
-                      .weight(AppFontWeight.BOLD)
-                      .paddingAll(10)
-                      .size(16)
-                      .build(),
-                  Row(
-                    children: [
-                      AppTextBuilder("JHFG654KLJH")
-                          .color(AppColors.blue_5)
-                          .weight(AppFontWeight.BOLD)
-                          .paddingAll(10)
-                          .size(16)
-                          .build(),
-                      IconButton(
-                          onPressed: _onClick,
-                          icon: const Icon(
-                            Icons.close,
-                            color: AppColors.red_2,
-                            size: 25,
-                          ))
-                    ],
-                  )
-                ],
-              ),
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(5),
+        color: AppColors.grey_1,
+      ),
+      child: Column(
+        children: [
+          Container(
+            decoration: const BoxDecoration(
+              color: AppColors.grey_2,
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(5), topRight: Radius.circular(5)),
             ),
-            Padding(
-              padding: const EdgeInsets.all(10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                AppTextBuilder(_item.name)
+                    .color(AppColors.blue_5)
+                    .weight(AppFontWeight.BOLD)
+                    .paddingAll(10)
+                    .size(16)
+                    .build(),
+                AppTextBuilder(DefaultTexts.RUPEE_SYMBOL +
+                        DefaultTexts.SPACE +
+                        _item.newNetAmount.toStringAsFixed(2))
+                    .color(AppColors.red_2)
+                    .weight(AppFontWeight.BOLD)
+                    .paddingAll(10)
+                    .size(16)
+                    .build(),
+                Row(
+                  children: [
+                    AppTextBuilder(_item.huid ?? DefaultTexts.EMPTY)
+                        .color(AppColors.blue_5)
+                        .weight(AppFontWeight.BOLD)
+                        .paddingAll(10)
+                        .size(16)
+                        .build(),
+                  ],
+                )
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: IntrinsicHeight(
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Wrap(
                     spacing: 10,
                     runSpacing: 10,
                     // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
-                      AppChip(text: "4.500", icon: AppIcons.gross_weight),
-                      AppChip(text: "4.500", icon: AppIcons.net_weight),
-                      AppChip(text: "24", icon: AppIcons.karat),
-                      AppChip(text: "400", icon: Icons.engineering),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Wrap(
-                    spacing: 10,
-                    runSpacing: 10,
                     children: [
-                      KeyValueDisplay(
-                        textKey: OrderText.DIAMOND,
-                        value: "₹ 250",
-                      ),
-                      KeyValueDisplay(
-                        textKey: OrderText.RHODIUM,
-                        value: "₹ 150",
-                      ),
-                      KeyValueDisplay(
-                        textKey: OrderText.HALL_MARK,
-                        value: "₹ 200",
-                      ),
-                      KeyValueDisplay(
-                        textKey: OrderText.RUBY,
-                        value: "₹ 2,500",
-                      ),
-                      KeyValueDisplay(
-                        textKey: OrderText.STONE,
-                        value: "₹ 50",
-                      ),
+                      AppChip(
+                          text: _item.grossWeight.toString(),
+                          icon: AppIcons.gross_weight),
+                      AppChip(
+                          text: _item.netWeight.toString(),
+                          icon: AppIcons.net_weight),
+                      AppChip(
+                          text: _item.carat != null
+                              ? _item.carat.toString()
+                              : DefaultTexts.NULL_STRING,
+                          icon: AppIcons.karat),
+                      _item.labour != null
+                          ? AppChip(
+                              text: _item.labour!.value.toString() +
+                                  DefaultTexts.SPACE +
+                                  _item.labour!.type.name(),
+                              icon: Icons.engineering)
+                          : Container(),
                     ],
                   ),
-                  const SizedBox(
-                    height: 10,
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8),
+                    child: Wrap(
+                      spacing: 10,
+                      runSpacing: 10,
+                      children: _getItemExtras(),
+                    ),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Container(
-                        decoration: const BoxDecoration(
-                          color: AppColors.blue_1,
-                          borderRadius: BorderRadius.all(Radius.circular(100)),
-                        ),
-                        child: Row(
-                          children: [
-                            IconButton(
-                              padding: EdgeInsets.zero,
-                              constraints: const BoxConstraints(),
-                              onPressed: _onClick,
-                              icon: const Icon(
-                                Icons.add_circle,
-                                color: AppColors.green_1,
-                                size: 25,
-                              ),
-                            ),
-                            AppTextBuilder("1").paddingHorizontal(10).build(),
-                            IconButton(
-                              padding: EdgeInsets.zero,
-                              constraints: const BoxConstraints(),
-                              onPressed: _onClick,
-                              icon: const Icon(
-                                Icons.remove_circle,
-                                color: AppColors.red_2,
-                                size: 25,
-                              ),
-                            )
-                          ],
-                        ),
-                      )
-                    ],
-                  )
                 ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
 
-  void _onClick() {
-    print("Close Clicked");
+  _getItemExtras() {
+    List<Widget> itemExtras = <Widget>[];
+    print(
+        "Building Extras:------------------------------------------------------------------------------------");
+    print(_item.extras);
+    for (final ItemExtraPresentation iep in _item.extras!) {
+      itemExtras.add(
+        KeyValueDisplay(
+          textKey: iep.type,
+          value: DefaultTexts.RUPEE_SYMBOL +
+              DefaultTexts.SPACE +
+              iep.amount.toString(),
+        ),
+      );
+    }
+    return itemExtras;
   }
 }

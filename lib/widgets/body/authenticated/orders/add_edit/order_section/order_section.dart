@@ -45,7 +45,6 @@ class OrderSectionForCart extends StatelessWidget {
               ),
               OrderItemSection(
                 order: state.order,
-                closeDrawer: _closeDrawer,
               ),
               OrderBottomSection(
                 order: state.order,

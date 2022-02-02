@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jb_fe/constants/colors.dart';
 import 'package:jb_fe/controllers/bloc/receipt/new_receipt/add_receipt_bloc.dart';
@@ -27,6 +28,11 @@ class ReceiptSectionForCart extends StatelessWidget {
       ),
       child: BlocBuilder<AddReceiptBloc, AddReceiptState>(
         builder: (BuildContext context, AddReceiptState state) {
+          if (state.status == AddReceiptStatus.LOADING_UNPAID_ORDERS) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
           if (state.party == null) {
             return InstructionBanner(
               callback: _closeDrawer,

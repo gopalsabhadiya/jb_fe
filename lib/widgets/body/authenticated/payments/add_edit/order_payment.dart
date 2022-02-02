@@ -62,14 +62,14 @@ class _PaymentFormOrderDetailsState extends State<PaymentFormOrderDetails> {
                 textKey: "Net",
                 value: DefaultTexts.RUPEE_SYMBOL +
                     DefaultTexts.SPACE +
-                    widget._order.netAmmount.toString(),
+                    widget._order.finalAmmount.toString(),
                 backgroundColor: AppColors.white,
               ),
               KeyValueDisplay(
                 textKey: "Paid",
                 value: DefaultTexts.RUPEE_SYMBOL +
                     DefaultTexts.SPACE +
-                    (widget._order.netAmmount - widget._order.billOutstanding)
+                    (widget._order.finalAmmount - widget._order.billOutstanding)
                         .toString(),
                 valueColor: AppColors.green_1,
                 backgroundColor: AppColors.white,

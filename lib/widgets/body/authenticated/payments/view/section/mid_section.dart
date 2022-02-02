@@ -65,7 +65,9 @@ class ViewReceiptMidSection extends StatelessWidget {
                     _receipt.pan != null ? AppColors.blue_5 : AppColors.red_2,
               ),
               KeyValueDisplay(
-                value: _receipt.aadhar ?? DefaultTexts.NULL_STRING,
+                value: _receipt.aadhar != null
+                    ? _receipt.aadhar.toString()
+                    : DefaultTexts.NULL_STRING,
                 backgroundColor: AppColors.white,
                 textKey: "Aadhar",
                 valueColor: _receipt.aadhar != null
@@ -73,7 +75,9 @@ class ViewReceiptMidSection extends StatelessWidget {
                     : AppColors.red_2,
               ),
               KeyValueDisplay(
-                value: _receipt.check ?? DefaultTexts.NULL_STRING,
+                value: _receipt.check != null
+                    ? _receipt.check.toString()
+                    : DefaultTexts.NULL_STRING,
                 backgroundColor: AppColors.white,
                 textKey: "Check",
                 valueColor:

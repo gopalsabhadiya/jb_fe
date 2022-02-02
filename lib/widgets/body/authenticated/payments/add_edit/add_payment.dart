@@ -7,18 +7,18 @@ import 'package:jb_fe/widgets/body/authenticated/payments/add_edit/payment_form.
 import 'package:jb_fe/widgets/calligraphy/app_text.dart';
 import 'package:jb_fe/widgets/common/save_cancel_bar.dart';
 
-class EditPayment extends StatefulWidget {
+class AddPayment extends StatefulWidget {
   final VoidCallback _closeDrawer;
 
-  const EditPayment({Key? key, required closeDrawer})
+  const AddPayment({Key? key, required closeDrawer})
       : _closeDrawer = closeDrawer,
         super(key: key);
 
   @override
-  State<EditPayment> createState() => _EditPaymentState();
+  State<AddPayment> createState() => _AddPaymentState();
 }
 
-class _EditPaymentState extends State<EditPayment> {
+class _AddPaymentState extends State<AddPayment> {
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -44,6 +44,7 @@ class _EditPaymentState extends State<EditPayment> {
                   return const Center(
                     child: CircularProgressIndicator(),
                   );
+                case AddReceiptStatus.LOADING_UNPAID_ORDERS:
                 case AddReceiptStatus.BUILDING:
                 case AddReceiptStatus.COMPLETED:
                   return Expanded(

@@ -2,8 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jb_fe/backend_integration/dto/payment/details/receipt_details_presentation.dart';
+import 'package:jb_fe/controllers/bloc/receipt/delete_receipt/delete_receipt_bloc.dart';
 import 'package:jb_fe/controllers/bloc/receipt/receipt_bloc/receipt_bloc.dart';
 import 'package:jb_fe/controllers/bloc/receipt/receipt_form_toggle/receipt_form_toggle_cubit.dart';
+import 'package:jb_fe/injection_container.dart';
 import 'package:jb_fe/widgets/body/authenticated/payments/card/payment_card.dart';
 import 'package:jb_fe/widgets/body/authenticated/payments/drawer/receipt_form_drawer.dart';
 import 'package:jb_fe/widgets/calligraphy/app_text.dart';
@@ -53,13 +55,21 @@ class _PaymentsState extends State<Payments> {
                             child: CircularProgressIndicator(),
                           );
                         case ReceiptStatus.SUCCESS:
-                          return Wrap(
-                            clipBehavior: Clip.hardEdge,
-                            spacing: 40,
-                            runSpacing: 40,
-                            crossAxisAlignment: WrapCrossAlignment.center,
-                            alignment: WrapAlignment.center,
-                            children: _getReceipts(state.receiptList),
+                          return BlocProvider<DeleteReceiptBloc>(
+                            create: (BuildContext context) =>
+                                serviceLocator<DeleteReceiptBloc>()
+                                  ..subscribe(
+                                    subscriber:
+                                        BlocProvider.of<ReceiptBloc>(context),
+                                  ),
+                            child: Wrap(
+                              clipBehavior: Clip.hardEdge,
+                              spacing: 40,
+                              runSpacing: 40,
+                              crossAxisAlignment: WrapCrossAlignment.center,
+                              alignment: WrapAlignment.center,
+                              children: _getReceipts(state.receiptList),
+                            ),
                           );
                         case ReceiptStatus.FAILURE:
                           return Center(

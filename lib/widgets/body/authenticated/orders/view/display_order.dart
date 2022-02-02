@@ -18,7 +18,7 @@ class ViewOrder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppColors.grey_1,
+      color: AppColors.grey_2,
       child: Column(
         mainAxisSize: MainAxisSize.max,
         children: [
@@ -37,9 +37,14 @@ class ViewOrder extends StatelessWidget {
                     child: CircularProgressIndicator(),
                   );
                 case FetchOrderStatus.COMPLETED:
-                  return OrderDisplayContent(
-                    order: state.order!,
-                    party: state.party!,
+                  return Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: OrderDisplayContent(
+                        order: state.order!,
+                        party: state.party!,
+                      ),
+                    ),
                   );
                 case FetchOrderStatus.ERROR:
                   return Center(

@@ -1,6 +1,12 @@
 part of 'add_receipt_bloc.dart';
 
-enum AddReceiptStatus { LOADING, COMPLETED, BUILDING, ERROR }
+enum AddReceiptStatus {
+  LOADING,
+  COMPLETED,
+  BUILDING,
+  ERROR,
+  LOADING_UNPAID_ORDERS,
+}
 
 class AddReceiptState extends Equatable {
   final AddReceiptStatus status;

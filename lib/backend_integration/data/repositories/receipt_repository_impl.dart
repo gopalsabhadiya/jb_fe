@@ -14,9 +14,8 @@ class ReceiptRepositoryImpl implements ReceiptRepository {
   }
 
   @override
-  Future<void> deleteReceipt(String receiptId) {
-    // TODO: implement deleteReceipt
-    throw UnimplementedError();
+  Future<void> deleteReceipt(String receiptId) async {
+    return await remoteDataSource.deleteReceipt(receiptId);
   }
 
   @override
@@ -27,9 +26,10 @@ class ReceiptRepositoryImpl implements ReceiptRepository {
 
   @override
   Future<List<ReceiptDetailsEntity>> searchReceipt(
-      String searchTerm, int skip) {
-    // TODO: implement searchReceipt
-    throw UnimplementedError();
+    String searchTerm,
+    int skip,
+  ) async {
+    return await remoteDataSource.searchReceipt(searchTerm, skip);
   }
 
   @override

@@ -1,7 +1,12 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jb_fe/backend_integration/dto/payment/details/receipt_details_presentation.dart';
 import 'package:jb_fe/constants/colors.dart';
+import 'package:jb_fe/constants/texts/payment_text.dart';
+import 'package:jb_fe/controllers/bloc/receipt/delete_receipt/delete_receipt_bloc.dart';
 import 'package:jb_fe/widgets/body/authenticated/payments/card/header.dart';
+import 'package:jb_fe/widgets/common/alerts/confirmation_alert.dart';
 
 import 'content.dart';
 import 'footer.dart';
@@ -46,14 +51,35 @@ class PaymentCard extends StatelessWidget {
             receipt: _receipt,
             onPaymentView: _onViewReceipt,
             // onPaymentEdit: _onPaymentEditClick,
-            onPaymentDelete: _onPaymentDeleteClick,
+            onPaymentDelete: () => _onPaymentDeleteClick(context),
           ),
         ],
       ),
     );
   }
 
-  _onPaymentDeleteClick() {
+  _onPaymentDeleteClick(BuildContext parentContext) {
     print("Party Deleted: $_receipt");
+    showDialog(
+      context: parentContext,
+      builder: (BuildContext context) {
+        return ConfirmationAlert(
+            title: PaymentText.DELETE_RECEIPT_ALERT_HEADER,
+            content: PaymentText.DELETE_RECEIPT_ALERT_MESSAGE,
+            variable: _receipt.receiptId.toString(),
+            continueCallBack: () {
+              Navigator.of(context).pop();
+              _deleteReceipt(parentContext);
+            });
+      },
+    );
+  }
+
+  _deleteReceipt(BuildContext context) {
+    BlocProvider.of<DeleteReceiptBloc>(context).add(
+      DeleteReceipt(
+        receiptIdToBeDeleted: _receipt.id,
+      ),
+    );
   }
 }

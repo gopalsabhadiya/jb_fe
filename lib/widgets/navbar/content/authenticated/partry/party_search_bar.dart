@@ -17,29 +17,13 @@ class PartySearchBar extends StatelessWidget {
       create: (BuildContext context) {
         final SearchPartyBloc searchPartyBloc =
             serviceLocator<SearchPartyBloc>()
-              ..subscribe(subscriber: BlocProvider.of<PartyBloc>(context));
+              ..subscribe(
+                subscriber: BlocProvider.of<PartyBloc>(context),
+              );
         BlocProvider.of<PartyBloc>(context)
             .subscribe(subscriber: searchPartyBloc);
         return searchPartyBloc;
       },
-      // create: (context) {
-      //   final SearchPartyBloc searchPartyBloc =
-      //       serviceLocator<SearchPartyBloc>()..subscribe(subscriber: BlocProvider.of<PartyBloc>(context));
-      //
-      //   searchPartyBloc.stream.listen(
-      //     (event) {
-      //       if (event.searchStatus == SearchPartyStatus.COMPLETED) {
-      //         BlocProvider.of<PartyBloc>(context).add(
-      //           SearchPartyDisplay(
-      //             searchResult: event.result,
-      //             searchTerm: event.searchTerm,
-      //           ),
-      //         );
-      //       }
-      //     },
-      //   );
-      //   return searchPartyBloc;
-      // },
       child: Builder(
         builder: (BuildContext context) {
           return SizedBox(
@@ -69,7 +53,10 @@ class PartySearchBar extends StatelessWidget {
   }
 
   _partySearchClickHandler(BuildContext context, String searchText) {
-    BlocProvider.of<SearchPartyBloc>(context)
-        .add(SearchParty(searchTerm: searchText));
+    BlocProvider.of<SearchPartyBloc>(context).add(
+      SearchParty(
+        searchTerm: searchText,
+      ),
+    );
   }
 }

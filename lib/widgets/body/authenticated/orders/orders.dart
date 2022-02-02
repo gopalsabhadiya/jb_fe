@@ -53,10 +53,12 @@ class _OrdersState extends State<Orders> {
                         );
                       case OrderStatus.SUCCESS:
                         return BlocProvider<DeleteOrderBloc>(
-                          create: (context) => serviceLocator<DeleteOrderBloc>()
-                            ..subscribe(
-                              subscriber: BlocProvider.of<OrderBloc>(context),
-                            ),
+                          create: (BuildContext context) =>
+                              serviceLocator<DeleteOrderBloc>()
+                                ..subscribe(
+                                  subscriber:
+                                      BlocProvider.of<OrderBloc>(context),
+                                ),
                           child: Wrap(
                             clipBehavior: Clip.hardEdge,
                             spacing: 40,
