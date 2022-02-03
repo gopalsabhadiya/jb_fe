@@ -30,6 +30,7 @@ class AppButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton(
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: _getContent(),
       ),
       style: ButtonStyle(
@@ -46,13 +47,20 @@ class AppButton extends StatelessWidget {
           },
         ),
         padding: MaterialStateProperty.all<EdgeInsets>(
-          _padding ?? const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
+          _padding ??
+              const EdgeInsets.symmetric(
+                vertical: 15,
+                horizontal: 30,
+              ),
         ),
         foregroundColor: MaterialStateProperty.all<Color>(_getColor()),
         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
           RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(50),
-            side: BorderSide(color: _getColor(), width: 2),
+            side: BorderSide(
+              color: _getColor(),
+              width: 2,
+            ),
           ),
         ),
       ),

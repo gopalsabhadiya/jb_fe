@@ -5,6 +5,7 @@ import 'package:jb_fe/constants/enum/screen.dart';
 import 'package:jb_fe/controllers/bloc/authenticated_sidepanel.dart';
 import 'package:jb_fe/controllers/bloc/dashboard/daily_gold_rate/daily_gold_rate_bloc.dart';
 import 'package:jb_fe/controllers/bloc/drawer.dart';
+import 'package:jb_fe/controllers/bloc/end_drawer/profile_or_settings/profile_or_settings_cubit.dart';
 import 'package:jb_fe/controllers/bloc/events/drawer.dart';
 import 'package:jb_fe/controllers/bloc/state/authenticated_sidepanel.dart';
 import 'package:jb_fe/controllers/bloc/state/drawer.dart';
@@ -14,7 +15,7 @@ import 'package:jb_fe/util/global_keys.dart';
 import 'package:jb_fe/util/screen_size.dart';
 import 'package:jb_fe/widgets/body/authenticated/body.dart';
 import 'package:jb_fe/widgets/navbar/content/authenticated/drawer.dart';
-import 'package:jb_fe/widgets/navbar/content/authenticated/end_drawer.dart';
+import 'package:jb_fe/widgets/navbar/content/authenticated/end_drawer/end_drawer.dart';
 
 import '../../injection_container.dart';
 
@@ -38,24 +39,26 @@ class AuthenticatedHomeScreen extends StatelessWidget {
           ),
         ),
         BlocProvider<DailyGoldRateBloc>(
-            create: (context) =>
-                serviceLocator<DailyGoldRateBloc>()..add(GetTodayGoldRate()),
-            lazy: false),
+          create: (context) =>
+              serviceLocator<DailyGoldRateBloc>()..add(GetTodayGoldRate()),
+          lazy: false,
+        ),
+        BlocProvider<ProfileOrSettingsCubit>(
+          create: (context) => serviceLocator<ProfileOrSettingsCubit>(),
+        ),
       ],
       child: Builder(builder: (context) {
         return Scaffold(
-            // appBar: PreferredSize(
-            //     preferredSize: ScreenSizeUtil.getNavbarPreferredSize(context),
-            //     child: const AppNavbar()),
-            body: Scaffold(
-          key: AppGlobalKeys.getBodyScaffoldKey(ScreenTypeEnum.AUTHENTICATED),
-          onDrawerChanged: (status) => _fireDrawerEvent(context),
-          drawer: ScreenSizeUtil.displayDrawer(context)
-              ? AuthenticatedDrawer()
-              : null,
-          endDrawer: AuthenticatedEndDrawer(),
-          body: const AppBodyAuthenticated(),
-        ));
+          body: Scaffold(
+            key: AppGlobalKeys.getBodyScaffoldKey(ScreenTypeEnum.AUTHENTICATED),
+            onDrawerChanged: (status) => _fireDrawerEvent(context),
+            drawer: ScreenSizeUtil.displayDrawer(context)
+                ? AuthenticatedDrawer()
+                : null,
+            endDrawer: const AuthenticatedEndDrawer(),
+            body: const AppBodyAuthenticated(),
+          ),
+        );
       }),
     );
   }

@@ -63,6 +63,7 @@ import 'backend_integration/domain/usecase/payment/fetch_receipt.dart';
 import 'backend_integration/domain/usecase/payment/get_receipt_page.dart';
 import 'backend_integration/domain/usecase/payment/search_receipt.dart';
 import 'controllers/bloc/dashboard/update_daily_gold_rate/update_daily_gold_rate_bloc.dart';
+import 'controllers/bloc/end_drawer/profile_or_settings/profile_or_settings_cubit.dart';
 import 'controllers/bloc/inventory/add_item/add_item_bloc.dart';
 import 'controllers/bloc/inventory/delete_item/delete_item_bloc.dart';
 import 'controllers/bloc/inventory/search_item/search_item_bloc.dart';
@@ -257,6 +258,11 @@ void init() {
     () => UpdateDailyGoldRateBloc(
       updateDailyGoldRateUseCase: serviceLocator(),
     ),
+  );
+
+  //end drawer
+  serviceLocator.registerFactory<ProfileOrSettingsCubit>(
+    () => ProfileOrSettingsCubit(),
   );
   //-----------------------------------------------------------------------------------------------------------------
   //usecases

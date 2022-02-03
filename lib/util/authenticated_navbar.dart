@@ -9,7 +9,7 @@ class AuthenticatedNavbarLinks {
     NavbarLinks.A_INVENTORY_KEY: NavbarLinks.A_INVENTORY_VALUE,
     NavbarLinks.A_ORDERS_KEY: NavbarLinks.A_ORDERS_VALUE,
     NavbarLinks.A_PAYMENTS_KEY: NavbarLinks.A_PAYMENTS_VALUE,
-    NavbarLinks.A_SHOP_EXPENSES_KEY: NavbarLinks.A_SHOP_EXPENSES_VALUE,
+    // NavbarLinks.A_SHOP_EXPENSES_KEY: NavbarLinks.A_SHOP_EXPENSES_VALUE,
   };
 
   static final Map<String, IconData> LINK_ICONS = {
@@ -18,7 +18,7 @@ class AuthenticatedNavbarLinks {
     NavbarLinks.A_INVENTORY_KEY: Icons.inventory_2,
     NavbarLinks.A_ORDERS_KEY: Icons.shopping_bag,
     NavbarLinks.A_PAYMENTS_KEY: Icons.payment,
-    NavbarLinks.A_SHOP_EXPENSES_KEY: Icons.storefront,
+    // NavbarLinks.A_SHOP_EXPENSES_KEY: Icons.storefront,
   };
 
   static const DEFAULT_ACTIVE_LINK = "dashboard";

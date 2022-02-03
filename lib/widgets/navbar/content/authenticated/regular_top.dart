@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jb_fe/constants/colors.dart';
 import 'package:jb_fe/constants/typography/font_weight.dart';
 import 'package:jb_fe/controllers/bloc/authenticated_sidepanel.dart';
+import 'package:jb_fe/controllers/bloc/end_drawer/profile_or_settings/profile_or_settings_cubit.dart';
 import 'package:jb_fe/controllers/bloc/order/new_order/add_order_bloc.dart';
 import 'package:jb_fe/controllers/bloc/order/order_form_toggle/order_form_toggle_cubit.dart';
 import 'package:jb_fe/controllers/bloc/state/authenticated_sidepanel.dart';
@@ -21,14 +22,11 @@ class RegularTopAuthenticatedNavbar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const int counter = 1;
-
     void _accountOnClickHandler() {
-      if (Scaffold.of(context).isEndDrawerOpen) {
-        Navigator.pop(context);
-      } else {
-        Scaffold.of(context).openEndDrawer();
-      }
+      BlocProvider.of<ProfileOrSettingsCubit>(context).openDrawer(
+        toggleFor: const ToggleForProfile(),
+      );
+      Scaffold.of(context).openEndDrawer();
     }
 
     return Container(
@@ -59,32 +57,32 @@ class RegularTopAuthenticatedNavbar extends StatelessWidget {
             ),
             Row(
               children: [
-                Stack(
-                  alignment: Alignment.topRight,
-                  children: [
-                    AppIconButtonBuilder(Icons.notifications)
-                        .size(30)
-                        .color(AppColors.blue_5)
-                        .padding(const EdgeInsets.only(left: 8, right: 8))
-                        .build(),
-                    Container(
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: AppColors.red_1,
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      constraints: const BoxConstraints(
-                        maxHeight: 16,
-                        maxWidth: 16,
-                      ),
-                      child: AppTextBuilder("5")
-                          .size(10)
-                          .weight(AppFontWeight.BOLD)
-                          .color(AppColors.grey_1)
-                          .build(),
-                    ),
-                  ],
-                ),
+                // Stack(
+                //   alignment: Alignment.topRight,
+                //   children: [
+                //     AppIconButtonBuilder(Icons.notifications)
+                //         .size(30)
+                //         .color(AppColors.blue_5)
+                //         .padding(const EdgeInsets.only(left: 8, right: 8))
+                //         .build(),
+                //     Container(
+                //       alignment: Alignment.center,
+                //       decoration: BoxDecoration(
+                //         color: AppColors.red_1,
+                //         borderRadius: BorderRadius.circular(20),
+                //       ),
+                //       constraints: const BoxConstraints(
+                //         maxHeight: 16,
+                //         maxWidth: 16,
+                //       ),
+                //       child: AppTextBuilder("5")
+                //           .size(10)
+                //           .weight(AppFontWeight.BOLD)
+                //           .color(AppColors.grey_1)
+                //           .build(),
+                //     ),
+                //   ],
+                // ),
                 Stack(
                   alignment: Alignment.topRight,
                   children: [
