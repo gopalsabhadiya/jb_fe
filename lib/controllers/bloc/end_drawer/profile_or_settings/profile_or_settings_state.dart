@@ -3,7 +3,7 @@ part of 'profile_or_settings_cubit.dart';
 class ProfileOrSettingsState extends Equatable {
   final ToggleForEndDrawer toggleForEndDrawer;
   const ProfileOrSettingsState({
-    this.toggleForEndDrawer = const DoNotToggle(),
+    this.toggleForEndDrawer = const ToggleForSettings(),
   });
 
   @override
