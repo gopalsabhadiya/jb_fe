@@ -53,8 +53,11 @@ class AppTextInput extends StatelessWidget {
           triggerMode: TooltipTriggerMode.longPress,
           enableFeedback: true,
           decoration: BoxDecoration(
-              color: AppColors.blue5WithOpacity(0.9),
-              borderRadius: const BorderRadius.all(Radius.circular(5))),
+            color: AppColors.blue5WithOpacity(0.9),
+            borderRadius: const BorderRadius.all(
+              Radius.circular(5),
+            ),
+          ),
           child: Focus(
             onFocusChange: (bool hasFocus) {
               if (!hasFocus && onRemoveFocus != null) {

@@ -22,7 +22,7 @@ class RegularTopAuthenticatedNavbar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Scaffold.of(context).openEndDrawer();
+    // Scaffold.of(context).openEndDrawer();
     void _accountOnClickHandler() {
       BlocProvider.of<ProfileOrSettingsCubit>(context).openDrawer(
         toggleFor: const ToggleForProfile(),

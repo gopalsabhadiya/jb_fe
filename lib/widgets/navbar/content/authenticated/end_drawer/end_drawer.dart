@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jb_fe/controllers/bloc/business/update_business/update_business_bloc.dart';
 import 'package:jb_fe/controllers/bloc/end_drawer/profile_or_settings/profile_or_settings_cubit.dart';
+import 'package:jb_fe/injection_container.dart';
 import 'package:jb_fe/widgets/navbar/content/authenticated/end_drawer/settings/settings.dart';
 
 import 'profile/profile.dart';
@@ -24,10 +26,13 @@ class _AuthenticatedEndDrawerState extends State<AuthenticatedEndDrawer> {
           );
         } else if (Scaffold.of(context).isEndDrawerOpen &&
             state.toggleForEndDrawer is ToggleForSettings) {
-          return const SizedBox(
-            width: double.maxFinite,
-            child: Drawer(
-              child: EndDrawerSettings(),
+          return BlocProvider<UpdateBusinessBloc>(
+            create: (context) => serviceLocator<UpdateBusinessBloc>(),
+            child: const SizedBox(
+              width: double.maxFinite,
+              child: Drawer(
+                child: EndDrawerSettings(),
+              ),
             ),
           );
         }

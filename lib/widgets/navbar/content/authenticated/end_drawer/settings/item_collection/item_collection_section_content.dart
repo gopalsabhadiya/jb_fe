@@ -8,8 +8,14 @@ import 'package:jb_fe/widgets/calligraphy/app_text.dart';
 import 'package:jb_fe/widgets/common/buttons/button.dart';
 import 'package:jb_fe/widgets/common/inputs/text_field.dart';
 
+import 'item_collection_section_type.dart';
+
 class ItemCollectionSectionContent extends StatefulWidget {
-  const ItemCollectionSectionContent({Key? key}) : super(key: key);
+  final Map<String, List<String>> _itemCollection;
+  const ItemCollectionSectionContent(
+      {Key? key, required Map<String, List<String>> itemCollection})
+      : _itemCollection = itemCollection,
+        super(key: key);
 
   @override
   State<ItemCollectionSectionContent> createState() =>
@@ -18,7 +24,15 @@ class ItemCollectionSectionContent extends StatefulWidget {
 
 class _ItemCollectionSectionContentState
     extends State<ItemCollectionSectionContent> {
-  final ScrollController controller = ScrollController();
+  late final ScrollController controller;
+  late final TextEditingController textEditingController;
+
+  @override
+  void initState() {
+    controller = ScrollController();
+    textEditingController = TextEditingController();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,10 +59,10 @@ class _ItemCollectionSectionContentState
               ),
               AppTextInput(
                 initialValue: DefaultTexts.EMPTY,
-                prefixIcon: Icons.extension,
-                hint: ItemText.EXTRA_PIECE_INPUT_TEXT,
-                onChanged: (String value) => {},
-                // validator: _extra.newPiecesValidator,
+                prefixIcon: Icons.category,
+                hint: ItemText.ADD_CATEGORY_INPUT_TEXT,
+                onChanged: _collectionCategoryChanged,
+                controller: textEditingController,
               ),
               const SizedBox(
                 height: 10,
@@ -56,7 +70,7 @@ class _ItemCollectionSectionContentState
               AppButton(
                 icon: Icons.add_circle,
                 hint: ItemText.ADD_EXTRA_INPUT_TEXT,
-                onClick: () => {},
+                onClick: _addCategoryToCollection,
                 colorScheme: ButtonColorScheme.BLUE,
               )
             ],
@@ -64,6 +78,7 @@ class _ItemCollectionSectionContentState
         ),
         Expanded(
           child: Container(
+            height: double.maxFinite,
             padding: const EdgeInsets.all(10),
             decoration: const BoxDecoration(
               color: AppColors.blue_5,
@@ -82,9 +97,28 @@ class _ItemCollectionSectionContentState
     );
   }
 
+  void _collectionCategoryChanged(String value) {
+    print("Category changed");
+  }
+
+  void _addCategoryToCollection() {
+    print('Add this categody to collection: ${textEditingController.text}');
+    if (!widget._itemCollection.containsKey(textEditingController.text) &&
+        textEditingController.text.isNotEmpty) {
+      widget._itemCollection[textEditingController.text] = [];
+      setState(() {});
+      print(widget._itemCollection);
+    }
+  }
+
   _getExtraItemForm() {
-    final extrasForms = <Widget>[];
-    extrasForms.add(const ItemCollectionSectionContent());
-    return extrasForms;
+    return widget._itemCollection.entries
+        .map(
+          (entry) => ItemCollectionSectionType(
+            category: entry.key,
+            types: entry.value,
+          ),
+        )
+        .toList();
   }
 }

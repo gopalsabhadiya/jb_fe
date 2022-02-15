@@ -11,7 +11,9 @@ class ItemText {
   static final String SELECT_IMAGE_INPUT_TEXT = "Select";
   static final String CLEAR_IMAGES_INPUT_TEXT = "Clear";
   static final String CATEGORY_INPUT_TEXT = "Select Category";
+  static final String ADD_CATEGORY_INPUT_TEXT = "Add new Category";
   static final String TYPE_INPUT_TEXT = "Select Type";
+  static final String ADD_TYPE_INPUT_TEXT = "Add new Type";
   static final String HUID_INPUT_TEXT = "Enter HUID";
   static final String PIECE_INPUT_TEXT = "Number of Pieces";
   static final String GW_INPUT_TEXT = "Gross Weight";
@@ -26,9 +28,13 @@ class ItemText {
   static final EXTRA_ITEM_TEXT = "Extras";
   static final String ADD_EXTRA_INPUT_TEXT = "Add";
   static final String EXTRA_TYPE_INPUT_TEXT = "Select Extra Type";
+  static final String ADD_EXTRA_TYPE_INPUT_TEXT = "Add new Extra Type";
   static final String EXTRA_PIECE_INPUT_TEXT = "Number of pieces";
   static final String EXTRA_LABOUR_INPUT_TEXT = "Enter Labour Value";
   static final String EXTRA_ITEM_RATE_INPUT_TEXT = "Extra Item Rate per piece";
+
+  static final String EXTRA_ITEM_QUANTITATIVE_TOOLTIP =
+      "Choose if the extra item will have quantity. E.x. Diamond, Ruby, Gemstone";
 
   // static final List<String> LABOUR_TYPE_LIST = [
   //   "Percentage",

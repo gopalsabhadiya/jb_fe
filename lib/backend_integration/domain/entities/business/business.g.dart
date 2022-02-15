@@ -10,7 +10,7 @@ BusinessEntity _$BusinessEntityFromJson(Map<String, dynamic> json) =>
     BusinessEntity(
       id: json['_id'] as String?,
       contactNo:
-          (json['contactNo'] as List<dynamic>).map((e) => e as int).toList(),
+          (json['contactNo'] as List<dynamic>).map((e) => e as String).toList(),
       name: json['name'] as String,
       address: json['address'] as String,
       gstin: json['gstin'] as String,

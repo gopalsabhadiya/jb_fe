@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jb_fe/controllers/bloc/authenticated_sidepanel.dart';
-import 'package:jb_fe/controllers/bloc/business/business_data_bloc.dart';
 import 'package:jb_fe/controllers/bloc/dashboard/daily_gold_rate/daily_gold_rate_bloc.dart';
 import 'package:jb_fe/controllers/bloc/order/new_order/add_order_bloc.dart';
 import 'package:jb_fe/controllers/bloc/order/order_form_toggle/order_form_toggle_cubit.dart';
@@ -64,38 +63,31 @@ class AppBodyAuthenticated extends StatelessWidget {
   }
 
   _getContentSection() {
-    return BlocProvider(
-      lazy: false,
-      create: (BuildContext context) => serviceLocator<BusinessDataBloc>()
-        ..add(
-          FetchBusinessData(),
-        ),
-      child:
-          BlocBuilder<AuthenticatedSidePanelCubit, AuthenticatedSidePanelState>(
-        builder: (BuildContext context, AuthenticatedSidePanelState state) {
-          switch (state) {
-            case AuthenticatedSidePanelState.DASHBOARD:
-              return const DashboardPage();
-            case AuthenticatedSidePanelState.PARTY:
-              return const PartyPage();
-            case AuthenticatedSidePanelState.INVENTORY:
-              return const InventoryPage();
-            case AuthenticatedSidePanelState.ORDERS:
-              return const OrderPage();
-            case AuthenticatedSidePanelState.PAYMENTS:
-              return const PaymentPage();
-            case AuthenticatedSidePanelState.SHOP_EXPENSES:
-              return Column(
-                children: [
-                  ScreenSizeUtil.getIsHamburgerNavbar(context)
-                      ? const HamburgerTopAuthenticatedNavbar()
-                      : const RegularTopAuthenticatedNavbar(),
-                  const ShopExpenses(),
-                ],
-              );
-          }
-        },
-      ),
+    return BlocBuilder<AuthenticatedSidePanelCubit,
+        AuthenticatedSidePanelState>(
+      builder: (BuildContext context, AuthenticatedSidePanelState state) {
+        switch (state) {
+          case AuthenticatedSidePanelState.DASHBOARD:
+            return const DashboardPage();
+          case AuthenticatedSidePanelState.PARTY:
+            return const PartyPage();
+          case AuthenticatedSidePanelState.INVENTORY:
+            return const InventoryPage();
+          case AuthenticatedSidePanelState.ORDERS:
+            return const OrderPage();
+          case AuthenticatedSidePanelState.PAYMENTS:
+            return const PaymentPage();
+          case AuthenticatedSidePanelState.SHOP_EXPENSES:
+            return Column(
+              children: [
+                ScreenSizeUtil.getIsHamburgerNavbar(context)
+                    ? const HamburgerTopAuthenticatedNavbar()
+                    : const RegularTopAuthenticatedNavbar(),
+                const ShopExpenses(),
+              ],
+            );
+        }
+      },
     );
   }
 }

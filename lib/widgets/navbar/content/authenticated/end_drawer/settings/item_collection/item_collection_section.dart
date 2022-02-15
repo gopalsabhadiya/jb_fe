@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:jb_fe/backend_integration/dto/business/business_presentation.dart';
 import 'package:jb_fe/constants/colors.dart';
 import 'package:jb_fe/constants/typography/font_weight.dart';
 import 'package:jb_fe/widgets/calligraphy/app_text.dart';
@@ -7,7 +8,11 @@ import 'package:jb_fe/widgets/calligraphy/app_text.dart';
 import 'item_collection_section_content.dart';
 
 class ItemCollectionSection extends StatelessWidget {
-  const ItemCollectionSection({Key? key}) : super(key: key);
+  final BusinessPresentation _business;
+  const ItemCollectionSection(
+      {Key? key, required BusinessPresentation business})
+      : _business = business,
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -49,8 +54,10 @@ class ItemCollectionSection extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
-            const Expanded(
-              child: ItemCollectionSectionContent(),
+            Expanded(
+              child: ItemCollectionSectionContent(
+                itemCollection: _business.itemCollection,
+              ),
             ),
           ],
         ),

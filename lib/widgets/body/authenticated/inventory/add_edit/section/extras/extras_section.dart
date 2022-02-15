@@ -5,7 +5,7 @@ import 'package:jb_fe/backend_integration/dto/item/item_extra_presentation.dart'
 import 'package:jb_fe/backend_integration/dto/item/item_presentation.dart';
 import 'package:jb_fe/constants/colors.dart';
 import 'package:jb_fe/constants/texts/item_text.dart';
-import 'package:jb_fe/controllers/bloc/business/business_data_bloc.dart';
+import 'package:jb_fe/controllers/bloc/business/business_data/business_data_bloc.dart';
 import 'package:jb_fe/widgets/body/authenticated/inventory/add_edit/section/extras/extra_item.dart';
 import 'package:jb_fe/widgets/calligraphy/app_text.dart';
 import 'package:jb_fe/widgets/common/buttons/button.dart';

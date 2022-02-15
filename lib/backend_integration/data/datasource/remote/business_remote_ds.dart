@@ -6,6 +6,8 @@ import 'package:jb_fe/backend_integration/domain/entities/business/business.dart
 
 abstract class BusinessRemoteDataSource {
   Future<BusinessEntity> getBusinessData();
+
+  Future<BusinessEntity> updateParty(BusinessEntity business);
 }
 
 class BusinessRemoteDataSourceImpl implements BusinessRemoteDataSource {
@@ -22,5 +24,17 @@ class BusinessRemoteDataSourceImpl implements BusinessRemoteDataSource {
     final BusinessEntity entity =
         BusinessEntity.fromJson(jsonDecode(response.body));
     return entity;
+  }
+
+  @override
+  Future<BusinessEntity> updateParty(BusinessEntity business) async {
+    final response = await _http.put(
+      EndpointUri.getUpdateBusinessURL(),
+      body: jsonEncode(business.toJson()),
+      headers: {
+        "content-type": "application/json",
+      },
+    );
+    return BusinessEntity.fromJson(jsonDecode(response.body));
   }
 }

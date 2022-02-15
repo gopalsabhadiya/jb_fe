@@ -24,7 +24,7 @@ import 'package:jb_fe/backend_integration/domain/usecase/party/get_party_page.da
 import 'package:jb_fe/backend_integration/domain/usecase/party/search_party.dart';
 import 'package:jb_fe/backend_integration/domain/usecase/party/update_party.dart';
 import 'package:jb_fe/backend_integration/utils/storage/shared_preference.dart';
-import 'package:jb_fe/controllers/bloc/business/business_data_bloc.dart';
+import 'package:jb_fe/controllers/bloc/business/business_data/business_data_bloc.dart';
 import 'package:jb_fe/controllers/bloc/dashboard/daily_gold_rate/daily_gold_rate_bloc.dart';
 import 'package:jb_fe/controllers/bloc/dashboard/new_daily_gold_rate/add_daily_gold_rate_bloc.dart';
 import 'package:jb_fe/controllers/bloc/inventory/form_build_status/form_build_cubit.dart';
@@ -46,6 +46,7 @@ import 'backend_integration/domain/repositories/business_repository.dart';
 import 'backend_integration/domain/repositories/daily_gold_rate_repository.dart';
 import 'backend_integration/domain/repositories/item_repository.dart';
 import 'backend_integration/domain/repositories/receipt_repository.dart';
+import 'backend_integration/domain/usecase/business/update_business.dart';
 import 'backend_integration/domain/usecase/daily_gold_rate/get_today_gold_rate.dart';
 import 'backend_integration/domain/usecase/daily_gold_rate/update_daily_gold_rate.dart';
 import 'backend_integration/domain/usecase/inventory/create_item.dart';
@@ -62,6 +63,7 @@ import 'backend_integration/domain/usecase/payment/delete_receipt.dart';
 import 'backend_integration/domain/usecase/payment/fetch_receipt.dart';
 import 'backend_integration/domain/usecase/payment/get_receipt_page.dart';
 import 'backend_integration/domain/usecase/payment/search_receipt.dart';
+import 'controllers/bloc/business/update_business/update_business_bloc.dart';
 import 'controllers/bloc/dashboard/update_daily_gold_rate/update_daily_gold_rate_bloc.dart';
 import 'controllers/bloc/end_drawer/profile_or_settings/profile_or_settings_cubit.dart';
 import 'controllers/bloc/inventory/add_item/add_item_bloc.dart';
@@ -90,6 +92,10 @@ void init() {
   //Business
   serviceLocator.registerFactory<BusinessDataBloc>(
     () => BusinessDataBloc(getBusinessDataUseCase: serviceLocator()),
+  );
+
+  serviceLocator.registerFactory<UpdateBusinessBloc>(
+    () => UpdateBusinessBloc(updateBusinessUseCase: serviceLocator()),
   );
 
   //party
@@ -269,6 +275,11 @@ void init() {
   //Business
   serviceLocator.registerLazySingleton<GetBusinessDataUseCase>(
     () => GetBusinessDataUseCase(
+      repository: serviceLocator(),
+    ),
+  );
+  serviceLocator.registerLazySingleton<UpdateBusinessUseCase>(
+    () => UpdateBusinessUseCase(
       repository: serviceLocator(),
     ),
   );

@@ -18,7 +18,7 @@ class BusinessEntity extends Equatable {
     toJson: ignoreIfEmpty,
   )
   final String? id;
-  final List<int> contactNo;
+  final List<String> contactNo;
   final String name;
   final String address;
   final String gstin;

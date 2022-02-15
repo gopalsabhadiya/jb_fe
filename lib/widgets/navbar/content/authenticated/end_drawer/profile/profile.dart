@@ -47,10 +47,10 @@ class EndDrawerProfile extends StatelessWidget {
   }
 
   _openSettings(BuildContext context) async {
+    Navigator.of(context).pop();
     BlocProvider.of<ProfileOrSettingsCubit>(context)
         .openDrawer(toggleFor: const ToggleForSettings());
-    Navigator.of(context).pop();
-    await Future.delayed(const Duration(milliseconds: 500));
+    await Future.delayed(const Duration(milliseconds: 400));
     AppGlobalKeys.getBodyScaffoldKey(ScreenTypeEnum.AUTHENTICATED)
         .currentState!
         .openEndDrawer();

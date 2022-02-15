@@ -1,6 +1,10 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jb_fe/controllers/bloc/business/business_data/business_data_bloc.dart';
+import 'package:jb_fe/controllers/bloc/business/update_business/update_business_bloc.dart';
 import 'package:jb_fe/widgets/common/save_cancel_bar.dart';
-import 'package:jb_fe/widgets/navbar/content/authenticated/end_drawer/settings/content.dart';
+
+import 'content.dart';
 
 class EndDrawerSettings extends StatelessWidget {
   const EndDrawerSettings({Key? key}) : super(key: key);
@@ -23,6 +27,7 @@ class EndDrawerSettings extends StatelessWidget {
   }
 
   _saveSettings(BuildContext context) {
-    print("Save Settings");
+    BlocProvider.of<UpdateBusinessBloc>(context).add(UpdateBusiness(
+        business: BlocProvider.of<BusinessDataBloc>(context).state.business!));
   }
 }

@@ -6,21 +6,37 @@ import 'package:jb_fe/widgets/calligraphy/app_text.dart';
 class AppChip extends StatelessWidget {
   final String _text;
   final IconData? _icon;
-  const AppChip({Key? key, required text, required icon})
-      : _text = text,
+  final VoidCallback? onDeleted;
+  const AppChip({
+    Key? key,
+    required text,
+    icon,
+    this.onDeleted,
+  })  : _text = text,
         _icon = icon,
         super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Chip(
-      avatar: CircleAvatar(
-        backgroundColor: AppColors.white,
+      deleteIcon: const MouseRegion(
+        cursor: SystemMouseCursors.click,
         child: Icon(
-          _icon,
-          color: AppColors.blue_5,
+          Icons.close,
+          color: AppColors.grey_4,
         ),
       ),
+      useDeleteButtonTooltip: false,
+      onDeleted: onDeleted,
+      avatar: _icon != null
+          ? CircleAvatar(
+              backgroundColor: AppColors.white,
+              child: Icon(
+                _icon,
+                color: AppColors.blue_5,
+              ),
+            )
+          : null,
       labelPadding: const EdgeInsets.symmetric(horizontal: 15),
       label: AppTextBuilder(_text).color(AppColors.blue_5).build(),
       backgroundColor: AppColors.blue_1,

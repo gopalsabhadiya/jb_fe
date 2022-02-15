@@ -11,4 +11,9 @@ class BusinessRepositoryImpl implements BusinessRepository {
   Future<BusinessEntity> getBusinessData() {
     return remoteDataSource.getBusinessData();
   }
+
+  @override
+  Future<BusinessEntity> updateBusiness(BusinessEntity business) async {
+    return await remoteDataSource.updateParty(business);
+  }
 }

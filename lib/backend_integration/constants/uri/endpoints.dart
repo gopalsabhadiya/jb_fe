@@ -94,17 +94,8 @@ class EndpointUri {
     return Uri.parse(_BASE_BUSINESS);
   }
 
-  static Uri getRegisterBusinessURL() {
-    return Uri.parse(_BASE_BUSINESS);
-  }
-
   static Uri getUpdateBusinessURL() {
     return Uri.parse(_BASE_BUSINESS);
-  }
-
-  static Uri getDeleteBusinessURL({required String businessId}) {
-    return Uri.parse(
-        _DELETE_BUSINESS.replaceAll(_PATH_BUSINESS_ID, businessId));
   }
 
   static Uri getBaseParty() {

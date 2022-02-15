@@ -6,7 +6,7 @@ import 'package:jb_fe/backend_integration/dto/item/item_presentation.dart';
 import 'package:jb_fe/constants/colors.dart';
 import 'package:jb_fe/constants/texts/defaults.dart';
 import 'package:jb_fe/constants/texts/item_text.dart';
-import 'package:jb_fe/controllers/bloc/business/business_data_bloc.dart';
+import 'package:jb_fe/controllers/bloc/business/business_data/business_data_bloc.dart';
 import 'package:jb_fe/controllers/bloc/inventory/pieces_enabler/pieces_enabler_cubit.dart';
 import 'package:jb_fe/injection_container.dart';
 import 'package:jb_fe/widgets/body/authenticated/inventory/add_edit/section/mid/category_type.dart';

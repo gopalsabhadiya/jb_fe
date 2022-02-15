@@ -1,12 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:jb_fe/backend_integration/dto/business/business_presentation.dart';
 import 'package:jb_fe/constants/colors.dart';
+import 'package:jb_fe/constants/texts/defaults.dart';
 import 'package:jb_fe/constants/typography/font_weight.dart';
 import 'package:jb_fe/widgets/calligraphy/app_text.dart';
 import 'package:jb_fe/widgets/common/inputs/text_field.dart';
 
 class BusinessDetailsSection extends StatelessWidget {
-  const BusinessDetailsSection({Key? key}) : super(key: key);
+  final BusinessPresentation _business;
+  const BusinessDetailsSection(
+      {Key? key, required BusinessPresentation business})
+      : _business = business,
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +59,8 @@ class BusinessDetailsSection extends StatelessWidget {
                 child: AppTextInput(
                   prefixIcon: Icons.storefront,
                   hint: "Enter business name",
-                  onChanged: (String value) => print("Business name changed"),
+                  onChanged: _business.setName,
+                  initialValue: _business.name,
                 ),
               ),
               const SizedBox(
@@ -63,7 +70,8 @@ class BusinessDetailsSection extends StatelessWidget {
                 child: AppTextInput(
                   prefixIcon: Icons.store,
                   hint: "Enter GST Number",
-                  onChanged: (String value) => print("Business name changed"),
+                  onChanged: _business.setGstin,
+                  initialValue: _business.gstin,
                 ),
               ),
               const SizedBox(
@@ -73,7 +81,8 @@ class BusinessDetailsSection extends StatelessWidget {
                 child: AppTextInput(
                   prefixIcon: Icons.call,
                   hint: "Enter contact no.",
-                  onChanged: (String value) => print("Business name changed"),
+                  onChanged: _business.setFirstContactNo,
+                  initialValue: _business.contactNo.first.toString(),
                 ),
               ),
               const SizedBox(
@@ -83,7 +92,10 @@ class BusinessDetailsSection extends StatelessWidget {
                 child: AppTextInput(
                   prefixIcon: Icons.call,
                   hint: "Enter alternate contact no.",
-                  onChanged: (String value) => print("Business name changed"),
+                  onChanged: _business.setAlternateContactNo,
+                  initialValue: _business.contactNo.length > 1
+                      ? _business.contactNo[1].toString()
+                      : DefaultTexts.EMPTY,
                 ),
               ),
             ],
@@ -97,7 +109,8 @@ class BusinessDetailsSection extends StatelessWidget {
                 child: AppTextInput(
                   prefixIcon: Icons.place,
                   hint: "Enter business address",
-                  onChanged: (String value) => print("Business name changed"),
+                  onChanged: _business.setAddress,
+                  initialValue: _business.address,
                 ),
               ),
               const SizedBox(
@@ -107,7 +120,8 @@ class BusinessDetailsSection extends StatelessWidget {
                 child: AppTextInput(
                   prefixIcon: Icons.email,
                   hint: "Enter busienss E-Mail ID",
-                  onChanged: (String value) => print("Business name changed"),
+                  onChanged: _business.setEmail,
+                  initialValue: _business.email,
                 ),
               ),
             ],

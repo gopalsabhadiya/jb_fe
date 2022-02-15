@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jb_fe/constants/enum/screen.dart';
 import 'package:jb_fe/controllers/bloc/authenticated_sidepanel.dart';
+import 'package:jb_fe/controllers/bloc/business/business_data/business_data_bloc.dart';
 import 'package:jb_fe/controllers/bloc/dashboard/daily_gold_rate/daily_gold_rate_bloc.dart';
 import 'package:jb_fe/controllers/bloc/drawer.dart';
 import 'package:jb_fe/controllers/bloc/end_drawer/profile_or_settings/profile_or_settings_cubit.dart';
@@ -45,6 +46,13 @@ class AuthenticatedHomeScreen extends StatelessWidget {
         ),
         BlocProvider<ProfileOrSettingsCubit>(
           create: (context) => serviceLocator<ProfileOrSettingsCubit>(),
+        ),
+        BlocProvider(
+          lazy: false,
+          create: (BuildContext context) => serviceLocator<BusinessDataBloc>()
+            ..add(
+              FetchBusinessData(),
+            ),
         ),
       ],
       child: Builder(builder: (context) {
