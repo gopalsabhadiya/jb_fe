@@ -22,8 +22,7 @@ BusinessEntity _$BusinessEntityFromJson(Map<String, dynamic> json) =>
             MapEntry(k, (e as List<dynamic>).map((e) => e as String).toList()),
       ),
       users: (json['users'] as List<dynamic>).map((e) => e as String).toList(),
-      extras:
-          (json['extras'] as List<dynamic>).map((e) => e as String).toList(),
+      extras: Map<String, bool>.from(json['extras'] as Map),
     );
 
 Map<String, dynamic> _$BusinessEntityToJson(BusinessEntity instance) {

@@ -65,20 +65,8 @@ class EndpointUri {
   static const _DELETE_BUSINESS = "$_BASE_BUSINESS/$_PATH_BUSINESS_ID";
   static const _ITEM_COLLECTION = "$_BASE_BUSINESS/itemcollection";
 
-  static Uri getCreateUserURL() {
-    return Uri.parse(_BASE_USER);
-  }
-
   static Uri getGetUserURL() {
     return Uri.parse(_GET_USER);
-  }
-
-  static Uri getVerifyUserURL() {
-    return Uri.parse(_VERIFY_USER);
-  }
-
-  static Uri getDeleteUserURL({required String userId}) {
-    return Uri.parse(_DELETE_USER.replaceAll(_PATH_USER_ID, userId));
   }
 
   static Uri getAuthenticateURL() {

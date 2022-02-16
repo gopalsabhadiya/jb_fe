@@ -3,10 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jb_fe/constants/colors.dart';
 import 'package:jb_fe/constants/enum/screen.dart';
+import 'package:jb_fe/controllers/bloc/authentication.dart';
 import 'package:jb_fe/controllers/bloc/end_drawer/profile_or_settings/profile_or_settings_cubit.dart';
 import 'package:jb_fe/util/global_keys.dart';
 import 'package:jb_fe/widgets/calligraphy/app_text.dart';
 import 'package:jb_fe/widgets/common/buttons/button.dart';
+
+import '../../../../../../controllers/bloc/events/authentication.dart';
+import '../../../../../../controllers/bloc/state/authentication.dart';
 
 class EndDrawerProfile extends StatelessWidget {
   const EndDrawerProfile({Key? key}) : super(key: key);
@@ -18,28 +22,41 @@ class EndDrawerProfile extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Column(
-            children: [
-              const Icon(
-                Icons.account_circle,
-                size: 155,
-                color: AppColors.blue_5,
-              ),
-              AppTextBuilder("Gopal Sabhadiya")
-                  .size(30)
-                  .color(AppColors.blue_5)
-                  .build(),
-              AppTextBuilder("gopal.sabhadiya@gmail.com")
-                  .size(15)
-                  .color(AppColors.blue_4)
-                  .build()
-            ],
+          BlocBuilder<AuthenticationBloc, AuthenticationState>(
+            builder: (context, state) {
+              return Column(
+                children: [
+                  const Icon(
+                    Icons.account_circle,
+                    size: 155,
+                    color: AppColors.blue_5,
+                  ),
+                  AppTextBuilder(state.user.name)
+                      .size(30)
+                      .color(AppColors.blue_5)
+                      .build(),
+                  AppTextBuilder(state.user.email)
+                      .size(15)
+                      .color(AppColors.blue_4)
+                      .build(),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  AppButton(
+                    icon: Icons.settings,
+                    colorScheme: ButtonColorScheme.BLUE,
+                    onClick: () => _openSettings(context),
+                    hint: "Settings",
+                  )
+                ],
+              );
+            },
           ),
           AppButton(
-            icon: Icons.settings,
+            icon: Icons.logout,
             colorScheme: ButtonColorScheme.BLUE,
-            onClick: () => _openSettings(context),
-            hint: "Settings",
+            onClick: () => _logout(context),
+            hint: "Logout",
           )
         ],
       ),
@@ -54,5 +71,10 @@ class EndDrawerProfile extends StatelessWidget {
     AppGlobalKeys.getBodyScaffoldKey(ScreenTypeEnum.AUTHENTICATED)
         .currentState!
         .openEndDrawer();
+  }
+
+  _logout(BuildContext context) {
+    BlocProvider.of<AuthenticationBloc>(context)
+        .add(AuthenticationLogoutRequested());
   }
 }

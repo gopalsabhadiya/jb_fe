@@ -27,7 +27,7 @@ class BusinessEntity extends Equatable {
   final DateTime date;
   final Map<String, List<String>> itemCollection;
   final List<String> users;
-  final List<String> extras;
+  final Map<String, bool> extras;
 
   const BusinessEntity({
     required this.id,

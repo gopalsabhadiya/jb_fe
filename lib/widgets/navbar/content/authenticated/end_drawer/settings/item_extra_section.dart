@@ -164,12 +164,12 @@ class _ItemExtraEditSectionState extends State<ItemExtraEditSection> {
   }
 
   List<Widget> _getExtraItems() {
-    return widget._business.extras
+    return widget._business.extras.entries
         .map(
-          (extra) => AppChip(
-            text: extra,
-            icon: Icons.check_box_outline_blank,
-            onDeleted: () => _deleteExtra(extra),
+          (entry) => AppChip(
+            text: entry.key,
+            icon: entry.value ? Icons.check_box : Icons.check_box_outline_blank,
+            onDeleted: () => _deleteExtra(entry.key),
           ),
         )
         .toList();
@@ -183,9 +183,9 @@ class _ItemExtraEditSectionState extends State<ItemExtraEditSection> {
 
   _addExtraToExtras() {
     print('Add this extra to collection: ${textEditingController.text}');
-    if (!widget._business.extras.contains(textEditingController.text) &&
+    if (!widget._business.extras.containsKey(textEditingController.text) &&
         textEditingController.text.isNotEmpty) {
-      widget._business.extras.add(textEditingController.text);
+      widget._business.extras[textEditingController.text] = quantitative;
     }
     setState(() {});
   }

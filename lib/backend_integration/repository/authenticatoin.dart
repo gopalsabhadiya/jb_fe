@@ -26,7 +26,8 @@ class AuthenticationRepository {
     _controller.add(AuthenticationStatus.AUTHENTICATED);
   }
 
-  void logOut() {
+  void logOut() async {
+    await serviceLocator<AppSharedPreference>().deleteString(key: "csrf");
     _controller.add(AuthenticationStatus.UNAUTHENTICATED);
   }
 

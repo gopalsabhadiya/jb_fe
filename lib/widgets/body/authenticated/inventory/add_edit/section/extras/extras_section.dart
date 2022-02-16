@@ -100,8 +100,12 @@ class _ItemInputExtrasSectionState extends State<ItemInputExtrasSection> {
     for (ItemExtraPresentation extra in widget._item.newExtras!) {
       extrasForms.add(
         ExtraItemForm(
-          extraTypes:
-              BlocProvider.of<BusinessDataBloc>(context).state.business!.extras,
+          extraTypes: BlocProvider.of<BusinessDataBloc>(context)
+              .state
+              .business!
+              .extras
+              .keys
+              .toList(),
           extra: extra,
           onRemoveExtra: _onRemoveExtra,
         ),

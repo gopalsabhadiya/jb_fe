@@ -47,6 +47,8 @@ class AuthenticationBloc
         return emit(const AuthenticationState.unauthenticated());
       case AuthenticationStatus.AUTHENTICATED:
         final user = await _tryGetUser();
+        print(
+            "Your User-------------------------------------------------------------------------------$user");
         return emit(user != null
             ? AuthenticationState.authenticated(user)
             : const AuthenticationState.unauthenticated());

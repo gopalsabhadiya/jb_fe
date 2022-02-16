@@ -89,6 +89,14 @@ final serviceLocator = GetIt.instance;
 void init() {
   //bloc
 
+  //Authentication
+  // serviceLocator.registerFactory<AuthenticationBloc>(
+  //   () => AuthenticationBloc(
+  //     authenticationRepository: serviceLocator(),
+  //     userRepository: serviceLocator(),
+  //   ),
+  // );
+
   //Business
   serviceLocator.registerFactory<BusinessDataBloc>(
     () => BusinessDataBloc(getBusinessDataUseCase: serviceLocator()),

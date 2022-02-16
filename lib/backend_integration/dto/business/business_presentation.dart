@@ -12,7 +12,7 @@ class BusinessPresentation {
   DateTime _date;
   Map<String, List<String>> _itemCollection;
   List<String> _users;
-  List<String> _extras;
+  Map<String, bool> _extras;
 
   BusinessPresentation(BusinessEntity entity)
       : _id = entity.id,
@@ -69,7 +69,7 @@ class BusinessPresentation {
   DateTime get date => _date;
   Map<String, List<String>> get itemCollection => _itemCollection;
   List<String> get users => _users;
-  List<String> get extras => _extras;
+  Map<String, bool> get extras => _extras;
 
   void setFirstContactNo(String value) {
     _contactNo[0] = value;
@@ -104,7 +104,7 @@ class BusinessPresentation {
     _itemCollection = value;
   }
 
-  void setExtras(List<String> value) {
+  void setExtras(Map<String, bool> value) {
     _extras = value;
   }
 

@@ -23,12 +23,6 @@ class RegularTopAuthenticatedNavbar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Scaffold.of(context).openEndDrawer();
-    void _accountOnClickHandler() {
-      BlocProvider.of<ProfileOrSettingsCubit>(context).openDrawer(
-        toggleFor: const ToggleForProfile(),
-      );
-      Scaffold.of(context).openEndDrawer();
-    }
 
     return Container(
       child: Padding(
@@ -58,32 +52,6 @@ class RegularTopAuthenticatedNavbar extends StatelessWidget {
             ),
             Row(
               children: [
-                // Stack(
-                //   alignment: Alignment.topRight,
-                //   children: [
-                //     AppIconButtonBuilder(Icons.notifications)
-                //         .size(30)
-                //         .color(AppColors.blue_5)
-                //         .padding(const EdgeInsets.only(left: 8, right: 8))
-                //         .build(),
-                //     Container(
-                //       alignment: Alignment.center,
-                //       decoration: BoxDecoration(
-                //         color: AppColors.red_1,
-                //         borderRadius: BorderRadius.circular(20),
-                //       ),
-                //       constraints: const BoxConstraints(
-                //         maxHeight: 16,
-                //         maxWidth: 16,
-                //       ),
-                //       child: AppTextBuilder("5")
-                //           .size(10)
-                //           .weight(AppFontWeight.BOLD)
-                //           .color(AppColors.grey_1)
-                //           .build(),
-                //     ),
-                //   ],
-                // ),
                 Stack(
                   alignment: Alignment.topRight,
                   children: [
@@ -122,7 +90,7 @@ class RegularTopAuthenticatedNavbar extends StatelessWidget {
                     .size(30)
                     .color(AppColors.blue_5)
                     .padding(const EdgeInsets.only(left: 8, right: 8))
-                    .onClickHandler(_accountOnClickHandler)
+                    .onClickHandler(() => _accountOnClickHandler(context))
                     .build(),
               ],
             )
@@ -144,5 +112,12 @@ class RegularTopAuthenticatedNavbar extends StatelessWidget {
   _openCart(BuildContext context) {
     BlocProvider.of<OrderFormToggleCubit>(context)
         .openDrawer(toggleForOrder: const ToggleForNewOrder());
+  }
+
+  void _accountOnClickHandler(BuildContext context) {
+    BlocProvider.of<ProfileOrSettingsCubit>(context).openDrawer(
+      toggleFor: const ToggleForProfile(),
+    );
+    Scaffold.of(context).openEndDrawer();
   }
 }

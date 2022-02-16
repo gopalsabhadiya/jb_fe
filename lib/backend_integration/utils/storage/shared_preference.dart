@@ -14,6 +14,10 @@ class AppSharedPreference {
     return (await _pref).getString(key) ?? DefaultTexts.EMPTY;
   }
 
+  Future<bool> deleteString({required String key}) async {
+    return (await _pref).remove(key);
+  }
+
   void saveImages({required String itemId, required String images}) async {
     (await _pref).setString(itemId, images);
   }
