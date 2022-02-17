@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:jb_fe/backend_integration/dto/register.dart';
 import 'package:jb_fe/constants/colors.dart';
 import 'package:jb_fe/constants/texts/sign_in.dart';
 import 'package:jb_fe/widgets/calligraphy/app_text.dart';
@@ -18,7 +17,6 @@ class RegisterForm extends StatefulWidget {
 class _RegisterForm extends State<RegisterForm> {
   bool _obscurePassword = true;
   IconData _suffixPasswordVisible = Icons.visibility;
-  RegisterFormDTO registerFormDTO = RegisterFormDTO();
 
   @override
   Widget build(BuildContext context) {
@@ -27,21 +25,24 @@ class _RegisterForm extends State<RegisterForm> {
       child: Column(
         children: [
           AppTextInput(
-              onChanged: registerFormDTO.setName,
+              onChanged: (String value) =>
+                  print("Register: username changed: $value"),
               prefixIcon: Icons.person_outline,
               hint: SignInText.REGISTER_USERNAME_HINT),
           const SizedBox(
             height: 20,
           ),
           AppTextInput(
-              onChanged: registerFormDTO.setEmail,
+              onChanged: (String value) =>
+                  print("Register: email changed: $value"),
               prefixIcon: Icons.email_outlined,
               hint: SignInText.SIGN_IN_EMAIL_HINT),
           const SizedBox(
             height: 20,
           ),
           AppTextInput(
-            onChanged: registerFormDTO.setPassword,
+            onChanged: (String value) =>
+                print("Register: password changed: $value"),
             prefixIcon: Icons.lock_outline,
             hint: SignInText.SIGN_IN_PASSWORD_HINT,
             suffixIcon: _suffixPasswordVisible,
@@ -54,7 +55,7 @@ class _RegisterForm extends State<RegisterForm> {
           InkWell(
             child: _getRegisterButton(),
             onTap: () {
-              print("Register: ${registerFormDTO.toString()}");
+              print("Register: this user}");
             },
           )
         ],

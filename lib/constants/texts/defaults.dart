@@ -5,4 +5,5 @@ class DefaultTexts {
   static const String RUPEE_SYMBOL = "\u{20B9}";
   static const String AGREE = "Yes";
   static const String DISAGREE = "No";
+  static const String CANCEL = "Cancel";
 }

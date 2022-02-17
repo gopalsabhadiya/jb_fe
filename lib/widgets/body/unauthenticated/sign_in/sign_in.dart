@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:jb_fe/backend_integration/dto/authentication/login_form_presentation.dart';
 import 'package:jb_fe/constants/colors.dart';
 import 'package:jb_fe/constants/durations/animation_durations.dart';
 import 'package:jb_fe/constants/enum/form_type.dart';
@@ -73,7 +74,9 @@ class _AppSignIn extends State<AppSignIn> {
   Widget _getForm() {
     switch (_formType) {
       case FormType.LOGIN:
-        return const LoginForm();
+        return LoginForm(
+          loginPresentation: LoginPresentation.empty(),
+        );
       case FormType.REGISTER:
         return const RegisterForm();
     }

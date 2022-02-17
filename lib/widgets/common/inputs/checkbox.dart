@@ -10,6 +10,8 @@ class AppCheckbox extends StatefulWidget {
   final Function(bool) onChanged;
   final String? tooltip;
   final bool initialValue;
+  final double? scale;
+  final double? fontSize;
 
   const AppCheckbox({
     Key? key,
@@ -18,6 +20,8 @@ class AppCheckbox extends StatefulWidget {
     this.obscureText,
     this.initialValue = false,
     this.tooltip,
+    this.scale,
+    this.fontSize,
   }) : super(key: key);
 
   @override
@@ -54,16 +58,20 @@ class _AppCheckboxState extends State<AppCheckbox> {
         children: [
           Theme(
             data: ThemeData(unselectedWidgetColor: AppColors.blue_5),
-            child: Checkbox(
-              value: checkboxValue,
-              onChanged: _checkboxValueChanged,
-              activeColor: AppColors.blue_5,
+            child: Transform.scale(
+              scale: widget.scale ?? 1,
+              child: Checkbox(
+                value: checkboxValue,
+                onChanged: _checkboxValueChanged,
+                activeColor: AppColors.blue_5,
+              ),
             ),
           ),
           AppTextBuilder(widget.hint)
               .color(AppColors.blue_5)
               .weight(AppFontWeight.BOLD)
               .paddingHorizontal(5)
+              .size(widget.fontSize ?? 18)
               .build()
         ],
       ),

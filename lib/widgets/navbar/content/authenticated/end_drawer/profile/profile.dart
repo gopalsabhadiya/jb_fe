@@ -3,14 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jb_fe/constants/colors.dart';
 import 'package:jb_fe/constants/enum/screen.dart';
-import 'package:jb_fe/controllers/bloc/authentication.dart';
 import 'package:jb_fe/controllers/bloc/end_drawer/profile_or_settings/profile_or_settings_cubit.dart';
 import 'package:jb_fe/util/global_keys.dart';
 import 'package:jb_fe/widgets/calligraphy/app_text.dart';
 import 'package:jb_fe/widgets/common/buttons/button.dart';
 
-import '../../../../../../controllers/bloc/events/authentication.dart';
-import '../../../../../../controllers/bloc/state/authentication.dart';
+import '../../../../../../controllers/bloc/authentication/login_logout/authentication_bloc.dart';
 
 class EndDrawerProfile extends StatelessWidget {
   const EndDrawerProfile({Key? key}) : super(key: key);
@@ -31,11 +29,11 @@ class EndDrawerProfile extends StatelessWidget {
                     size: 155,
                     color: AppColors.blue_5,
                   ),
-                  AppTextBuilder(state.user.name)
+                  AppTextBuilder(state.user!.name)
                       .size(30)
                       .color(AppColors.blue_5)
                       .build(),
-                  AppTextBuilder(state.user.email)
+                  AppTextBuilder(state.user!.email)
                       .size(15)
                       .color(AppColors.blue_4)
                       .build(),
@@ -74,7 +72,6 @@ class EndDrawerProfile extends StatelessWidget {
   }
 
   _logout(BuildContext context) {
-    BlocProvider.of<AuthenticationBloc>(context)
-        .add(AuthenticationLogoutRequested());
+    BlocProvider.of<AuthenticationBloc>(context).add(UnAuthenticate());
   }
 }

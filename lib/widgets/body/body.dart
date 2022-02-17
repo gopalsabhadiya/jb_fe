@@ -1,10 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:jb_fe/backend_integration/constants/stream/AuthenticationStatus.dart';
-import 'package:jb_fe/controllers/bloc/authentication.dart';
-import 'package:jb_fe/controllers/bloc/state/authentication.dart';
 import 'package:jb_fe/widgets/body/unauthenticated/body.dart';
 
+import '../../controllers/bloc/authentication/login_logout/authentication_bloc.dart';
 import 'authenticated/body.dart';
 
 class AppBody extends StatelessWidget {

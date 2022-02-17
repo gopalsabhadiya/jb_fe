@@ -1,16 +1,26 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:jb_fe/backend_integration/dto/login.dart';
+import 'package:jb_fe/backend_integration/domain/entities/authentication/login.dart';
+import 'package:jb_fe/backend_integration/dto/authentication/login_form_presentation.dart';
 import 'package:jb_fe/constants/colors.dart';
 import 'package:jb_fe/constants/texts/sign_in.dart';
-import 'package:jb_fe/controllers/bloc/authentication.dart';
-import 'package:jb_fe/controllers/bloc/events/authentication.dart';
+import 'package:jb_fe/controllers/bloc/authentication/forgot_password/forgot_password_bloc.dart';
+import 'package:jb_fe/widgets/body/unauthenticated/sign_in/login/forgot_password/forgot_password.dart';
 import 'package:jb_fe/widgets/calligraphy/app_text.dart';
+import 'package:jb_fe/widgets/common/inputs/checkbox.dart';
 import 'package:jb_fe/widgets/common/inputs/text_field.dart';
 
+import '../../../../../controllers/bloc/authentication/login_logout/authentication_bloc.dart';
+import '../../../../../injection_container.dart';
+
 class LoginForm extends StatefulWidget {
-  const LoginForm({Key? key}) : super(key: key);
+  final LoginPresentation _loginPresentation;
+
+  const LoginForm({Key? key, required LoginPresentation loginPresentation})
+      : _loginPresentation = loginPresentation,
+        super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -21,7 +31,6 @@ class LoginForm extends StatefulWidget {
 class _LoginForm extends State<LoginForm> {
   bool _obscurePassword = true;
   IconData _suffixPasswordVisible = Icons.visibility;
-  LoginFormDTO loginFormDTO = LoginFormDTO();
 
   @override
   Widget build(BuildContext context) {
@@ -30,19 +39,38 @@ class _LoginForm extends State<LoginForm> {
       child: Column(
         children: [
           AppTextInput(
-              onChanged: loginFormDTO.setEmail,
+              onChanged: widget._loginPresentation.setEmail,
               prefixIcon: Icons.email_outlined,
               hint: SignInText.SIGN_IN_EMAIL_HINT),
           const SizedBox(
             height: 20,
           ),
           AppTextInput(
-            onChanged: loginFormDTO.setPassword,
+            onChanged: widget._loginPresentation.setPassword,
             prefixIcon: Icons.lock_outline,
             hint: SignInText.SIGN_IN_PASSWORD_HINT,
             suffixIcon: _suffixPasswordVisible,
             obscureText: _obscurePassword,
             suffixIconClickHandler: _showHidePassword,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              AppCheckbox(
+                hint: "Remember me?",
+                onChanged: (bool value) => print("Remember: $value"),
+                scale: 0.8,
+                fontSize: 14,
+              ),
+              RichText(
+                text: TextSpan(
+                  text: 'Forgot Password?',
+                  style: const TextStyle(color: AppColors.blue_4),
+                  recognizer: TapGestureRecognizer()
+                    ..onTap = () => _forgotPassword(context),
+                ),
+              ),
+            ],
           ),
           const SizedBox(
             height: 20,
@@ -59,10 +87,14 @@ class _LoginForm extends State<LoginForm> {
   }
 
   Future<void> _authenticate() async {
-    loginFormDTO.setEmail("gopal.sabhadiya@gmail.com");
-    loginFormDTO.setPassword("123456");
+    LoginPresentation loginPresentation = LoginPresentation(
+      const LoginEntity(
+        email: "gopal.sabhadiya@gmail.com",
+        password: "123456",
+      ),
+    );
     BlocProvider.of<AuthenticationBloc>(context)
-        .add(AuthenticationLoginRequested(loginFormDTO));
+        .add(Authenticate(loginPresentation: loginPresentation));
   }
 
   void _showHidePassword() {
@@ -96,6 +128,18 @@ class _LoginForm extends State<LoginForm> {
               .build(),
         ],
       ),
+    );
+  }
+
+  void _forgotPassword(BuildContext parentContext) {
+    showDialog(
+      context: parentContext,
+      builder: (BuildContext context) {
+        return BlocProvider(
+          create: (context) => serviceLocator<ForgotPasswordBloc>(),
+          child: const ForgotPasswordAlert(),
+        );
+      },
     );
   }
 }
