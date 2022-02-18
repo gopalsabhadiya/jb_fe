@@ -3,6 +3,7 @@ import 'package:jb_fe/backend_integration/data/datasource/remote/authentication_
 import 'package:jb_fe/backend_integration/data/datasource/remote/business_remote_ds.dart';
 import 'package:jb_fe/backend_integration/data/datasource/remote/daily_gold_rate_remote_ds.dart';
 import 'package:jb_fe/backend_integration/data/datasource/remote/item_remote_ds.dart';
+import 'package:jb_fe/backend_integration/data/datasource/remote/mail_remote_ds.dart';
 import 'package:jb_fe/backend_integration/data/datasource/remote/order_remote_ds.dart';
 import 'package:jb_fe/backend_integration/data/datasource/remote/party_remote_ds.dart';
 import 'package:jb_fe/backend_integration/data/datasource/remote/user_remote_ds.dart';
@@ -19,6 +20,7 @@ import 'package:jb_fe/backend_integration/domain/usecase/business/get_business_d
 import 'package:jb_fe/backend_integration/domain/usecase/daily_gold_rate/create_daily_gold_rate.dart';
 import 'package:jb_fe/backend_integration/domain/usecase/inventory/fetch_item_images.dart';
 import 'package:jb_fe/backend_integration/domain/usecase/inventory/get_item_page.dart';
+import 'package:jb_fe/backend_integration/domain/usecase/mail/verify_otp.dart';
 import 'package:jb_fe/backend_integration/domain/usecase/order/create_order.dart';
 import 'package:jb_fe/backend_integration/domain/usecase/order/delete_order.dart';
 import 'package:jb_fe/backend_integration/domain/usecase/order/get_order_page.dart';
@@ -47,11 +49,13 @@ import 'package:jb_fe/controllers/bloc/party/update_party/update_party_bloc.dart
 
 import 'backend_integration/data/datasource/remote/receipt_remote_ds.dart';
 import 'backend_integration/data/repositories/authentication_repository_impl.dart';
+import 'backend_integration/data/repositories/mail_repository_impl.dart';
 import 'backend_integration/data/repositories/receipt_repository_impl.dart';
 import 'backend_integration/domain/repositories/authentication.dart';
 import 'backend_integration/domain/repositories/business_repository.dart';
 import 'backend_integration/domain/repositories/daily_gold_rate_repository.dart';
 import 'backend_integration/domain/repositories/item_repository.dart';
+import 'backend_integration/domain/repositories/mail_repository.dart';
 import 'backend_integration/domain/repositories/receipt_repository.dart';
 import 'backend_integration/domain/usecase/authentication/authenticate_user.dart';
 import 'backend_integration/domain/usecase/business/update_business.dart';
@@ -61,6 +65,8 @@ import 'backend_integration/domain/usecase/inventory/create_item.dart';
 import 'backend_integration/domain/usecase/inventory/delete_item.dart';
 import 'backend_integration/domain/usecase/inventory/search_item.dart';
 import 'backend_integration/domain/usecase/inventory/update_item.dart';
+import 'backend_integration/domain/usecase/mail/change_password.dart';
+import 'backend_integration/domain/usecase/mail/send_otp_mail.dart';
 import 'backend_integration/domain/usecase/order/fetch_batch_order.dart';
 import 'backend_integration/domain/usecase/order/fetch_order.dart';
 import 'backend_integration/domain/usecase/order/fetch_unpaid_orders.dart';
@@ -109,7 +115,11 @@ void init() {
 
   //Reset password
   serviceLocator.registerFactory<ForgotPasswordBloc>(
-    () => ForgotPasswordBloc(),
+    () => ForgotPasswordBloc(
+      sendOTPMailUseCase: serviceLocator(),
+      verifyOtpUseCase: serviceLocator(),
+      changePasswordUseCase: serviceLocator(),
+    ),
   );
 
   //Business
@@ -296,6 +306,21 @@ void init() {
   //-----------------------------------------------------------------------------------------------------------------
   //usecases
 
+  //Reset Password
+  serviceLocator.registerLazySingleton<SendOTPMailUseCase>(
+    () => SendOTPMailUseCase(
+      repository: serviceLocator(),
+    ),
+  );
+  serviceLocator.registerLazySingleton<VerifyOTPUseCase>(
+    () => VerifyOTPUseCase(
+      repository: serviceLocator(),
+    ),
+  );
+  serviceLocator.registerLazySingleton<ChangePasswordUseCase>(
+    () => ChangePasswordUseCase(repository: serviceLocator()),
+  );
+
   //authentication
   serviceLocator.registerLazySingleton<AuthenticateUserUseCase>(
     () => AuthenticateUserUseCase(
@@ -472,6 +497,11 @@ void init() {
 
   //------------------------------------------------------------------------------------------------------------------
   //repository
+  serviceLocator.registerLazySingleton<MailRepository>(
+    () => MailRepositoryImpl(
+      remoteDataSource: serviceLocator(),
+    ),
+  );
   serviceLocator.registerLazySingleton<AuthenticationRepository>(
     () => AuthenticationRepositoryImpl(
       authenticationRemoteDataSource: serviceLocator(),
@@ -510,6 +540,9 @@ void init() {
   );
 
   //data sources
+  serviceLocator.registerLazySingleton<MailRemoteDataSource>(
+    () => MailRemoteDataSourceImpl(),
+  );
   serviceLocator.registerLazySingleton<AuthenticationRemoteDataSource>(
     () => AuthenticationRemoteDataSourceImpl(),
   );

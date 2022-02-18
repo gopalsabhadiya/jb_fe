@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:jb_fe/constants/texts/defaults.dart';
 
 import '../../../../../../constants/colors.dart';
 import '../../../../../../constants/texts/sign_in.dart';
@@ -10,28 +9,29 @@ import '../../../../../calligraphy/app_text.dart';
 import '../../../../../common/buttons/button.dart';
 import '../../../../../common/inputs/text_field.dart';
 
-class SendOTPContent extends StatefulWidget {
-  final bool? _errorState;
+class VerifyOTPContent extends StatefulWidget {
   final String? _email;
-  const SendOTPContent({Key? key, bool? errorState, String? email})
-      : _errorState = errorState,
-        _email = email,
+  const VerifyOTPContent({Key? key, String? email})
+      : _email = email,
         super(key: key);
 
   @override
-  State<SendOTPContent> createState() => _SendOTPContentState();
+  State<VerifyOTPContent> createState() => _VerifyOTPContentState();
 }
 
-class _SendOTPContentState extends State<SendOTPContent> {
-  late String email;
-
+class _VerifyOTPContentState extends State<VerifyOTPContent> {
+  late String otp;
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        AppTextBuilder("Please, enter the email address to get the OTP")
+        AppTextBuilder("Please, enter OTP sent to email address:")
             .color(AppColors.blue_5)
+            .size(16)
+            .build(),
+        AppTextBuilder(widget._email!)
+            .color(AppColors.green_1)
             .size(16)
             .build(),
         const SizedBox(
@@ -39,27 +39,25 @@ class _SendOTPContentState extends State<SendOTPContent> {
         ),
         AppTextInput(
           prefixIcon: Icons.email,
-          hint: SignInText.SIGN_IN_EMAIL_HINT,
-          onChanged: (String value) => email = value,
-          initialValue: widget._email ?? DefaultTexts.EMPTY,
-          errorText: widget._errorState ?? false ? DefaultTexts.EMPTY : null,
+          hint: SignInText.SIGN_IN_OTP_HINT,
+          onChanged: (String value) => otp = value,
         ),
         const SizedBox(
           height: 10,
         ),
         AppButton(
-          hint: "Get OTP",
-          onClick: () => _verifyOTP(context),
+          hint: "Submit OTP",
+          onClick: () => _sendOTP(context),
           colorScheme: ButtonColorScheme.BLUE,
         ),
       ],
     );
   }
 
-  _verifyOTP(BuildContext context) {
+  _sendOTP(BuildContext context) {
     BlocProvider.of<ForgotPasswordBloc>(context).add(
-      SendOTPMail(
-        email: email,
+      VerifyOTP(
+        otp: otp,
       ),
     );
   }

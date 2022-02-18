@@ -6,4 +6,5 @@ class DefaultTexts {
   static const String AGREE = "Yes";
   static const String DISAGREE = "No";
   static const String CANCEL = "Cancel";
+  static const String OK = "Ok";
 }

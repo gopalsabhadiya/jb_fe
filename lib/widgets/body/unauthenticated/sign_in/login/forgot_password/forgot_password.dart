@@ -2,7 +2,11 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jb_fe/controllers/bloc/authentication/forgot_password/forgot_password_bloc.dart';
+import 'package:jb_fe/widgets/body/unauthenticated/sign_in/login/forgot_password/change_password.dart';
 import 'package:jb_fe/widgets/body/unauthenticated/sign_in/login/forgot_password/send_otp.dart';
+import 'package:jb_fe/widgets/body/unauthenticated/sign_in/login/forgot_password/verify_otp.dart';
 import 'package:jb_fe/widgets/calligraphy/app_text.dart';
 
 import '../../../../../../constants/colors.dart';
@@ -23,7 +27,32 @@ class ForgotPasswordAlert extends StatelessWidget {
             .weight(AppFontWeight.BOLD)
             .textAlign(TextAlign.start)
             .build(),
-        content: const SendOTPContent(),
+        content: BlocBuilder<ForgotPasswordBloc, ForgotPasswordState>(
+          builder: (context, state) {
+            switch (state.status) {
+              case ForgotPasswordStatus.INITIATED:
+                return const SendOTPContent();
+              case ForgotPasswordStatus.FAILED_TO_SEND_OTP:
+                return SendOTPContent(
+                  email: state.email,
+                  errorState: true,
+                );
+              case ForgotPasswordStatus.LOADING:
+                return AppTextBuilder("Dummy").build();
+              case ForgotPasswordStatus.COMPLETED:
+                return AppTextBuilder("Password Changed Successfully")
+                    .color(AppColors.green_1)
+                    .size(22)
+                    .build();
+              case ForgotPasswordStatus.VERIFY_OTP:
+                return VerifyOTPContent(email: state.email);
+              case ForgotPasswordStatus.CHANGE_PASSWORD:
+                return const ChangePasswordContent();
+              case ForgotPasswordStatus.ERROR:
+                return const SendOTPContent();
+            }
+          },
+        ),
         actions: <Widget>[
           TextButton(
             style: ButtonStyle(
@@ -53,10 +82,20 @@ class ForgotPasswordAlert extends StatelessWidget {
                 ),
               ),
             ),
-            child: AppTextBuilder(DefaultTexts.CANCEL)
-                .color(AppColors.red_2)
-                .size(16)
-                .build(),
+            child: BlocBuilder<ForgotPasswordBloc, ForgotPasswordState>(
+              builder: (context, state) {
+                if (state.status == ForgotPasswordStatus.COMPLETED) {
+                  return AppTextBuilder(DefaultTexts.OK)
+                      .color(AppColors.blue_5)
+                      .size(16)
+                      .build();
+                }
+                return AppTextBuilder(DefaultTexts.CANCEL)
+                    .color(AppColors.red_2)
+                    .size(16)
+                    .build();
+              },
+            ),
             onPressed: () {
               Navigator.of(context).pop();
             },

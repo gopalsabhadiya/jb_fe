@@ -19,6 +19,7 @@ class AppTextInput extends StatelessWidget {
   final bool enabled;
   final VoidCallback? onRemoveFocus;
   final TextEditingController? controller;
+  final String? errorText;
 
   const AppTextInput({
     Key? key,
@@ -36,6 +37,7 @@ class AppTextInput extends StatelessWidget {
     this.enabled = true,
     this.onRemoveFocus,
     this.controller,
+    this.errorText,
   }) : super(key: key);
 
   @override
@@ -80,6 +82,7 @@ class AppTextInput extends StatelessWidget {
               obscureText: obscureText ?? false,
               autovalidateMode: AutovalidateMode.onUserInteraction,
               decoration: InputDecoration(
+                errorText: errorText,
                 contentPadding: const EdgeInsets.all(0),
                 filled: true,
                 isDense: true,

@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:jb_fe/constants/texts/defaults.dart';
 
 import '../../../../../../constants/colors.dart';
 import '../../../../../../constants/texts/sign_in.dart';
@@ -10,27 +9,23 @@ import '../../../../../calligraphy/app_text.dart';
 import '../../../../../common/buttons/button.dart';
 import '../../../../../common/inputs/text_field.dart';
 
-class SendOTPContent extends StatefulWidget {
-  final bool? _errorState;
-  final String? _email;
-  const SendOTPContent({Key? key, bool? errorState, String? email})
-      : _errorState = errorState,
-        _email = email,
-        super(key: key);
+class ChangePasswordContent extends StatefulWidget {
+  const ChangePasswordContent({Key? key}) : super(key: key);
 
   @override
-  State<SendOTPContent> createState() => _SendOTPContentState();
+  State<ChangePasswordContent> createState() => _ChangePasswordContentState();
 }
 
-class _SendOTPContentState extends State<SendOTPContent> {
-  late String email;
+class _ChangePasswordContentState extends State<ChangePasswordContent> {
+  late String password;
+  late String confirmPassword;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        AppTextBuilder("Please, enter the email address to get the OTP")
+        AppTextBuilder("Please, enter new password.")
             .color(AppColors.blue_5)
             .size(16)
             .build(),
@@ -39,27 +34,33 @@ class _SendOTPContentState extends State<SendOTPContent> {
         ),
         AppTextInput(
           prefixIcon: Icons.email,
-          hint: SignInText.SIGN_IN_EMAIL_HINT,
-          onChanged: (String value) => email = value,
-          initialValue: widget._email ?? DefaultTexts.EMPTY,
-          errorText: widget._errorState ?? false ? DefaultTexts.EMPTY : null,
+          hint: SignInText.SIGN_IN_NEW_PASSWORD_HINT,
+          onChanged: (String value) => password = value,
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        AppTextInput(
+          prefixIcon: Icons.email,
+          hint: SignInText.SIGN_IN_NEW_PASSWORD_HINT,
+          onChanged: (String value) => password = value,
         ),
         const SizedBox(
           height: 10,
         ),
         AppButton(
-          hint: "Get OTP",
-          onClick: () => _verifyOTP(context),
+          hint: "Submit OTP",
+          onClick: () => _sendOTP(context),
           colorScheme: ButtonColorScheme.BLUE,
         ),
       ],
     );
   }
 
-  _verifyOTP(BuildContext context) {
+  _sendOTP(BuildContext context) {
     BlocProvider.of<ForgotPasswordBloc>(context).add(
-      SendOTPMail(
-        email: email,
+      ChangePassword(
+        password: password,
       ),
     );
   }

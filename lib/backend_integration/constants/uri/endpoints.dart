@@ -15,6 +15,12 @@ class EndpointUri {
 
   static const String _BASE_URL = "$_SERVER_ADDRESS/api";
 
+  static const String _BASE_RESET_PASSWORD = "$_BASE_URL/resetpassword";
+  static const String _RESET_PASSWORD_OTP_MAIL_URL =
+      "$_BASE_URL/resetpassword/mail";
+  static const String _RESET_PASSWORD_VERIFY_OTP_URL =
+      "$_BASE_URL/resetpassword/varifyotp";
+
   static const String _BASE_USER = "$_BASE_URL/user";
   static const String _BASE_AUTH = "$_BASE_URL/auth";
   static const String _VALIDATE_AUTH = "$_BASE_AUTH/validate";
@@ -64,6 +70,18 @@ class EndpointUri {
 
   static const _DELETE_BUSINESS = "$_BASE_BUSINESS/$_PATH_BUSINESS_ID";
   static const _ITEM_COLLECTION = "$_BASE_BUSINESS/itemcollection";
+
+  static Uri getSendOTPMailURL() {
+    return Uri.parse(_RESET_PASSWORD_OTP_MAIL_URL);
+  }
+
+  static Uri getVerifyOTPURL() {
+    return Uri.parse(_RESET_PASSWORD_VERIFY_OTP_URL);
+  }
+
+  static Uri getChangePasswordURL() {
+    return Uri.parse(_BASE_RESET_PASSWORD);
+  }
 
   static Uri getGetUserURL() {
     return Uri.parse(_GET_USER);
