@@ -6,6 +6,7 @@ enum ForgotPasswordStatus {
   LOADING,
   COMPLETED,
   VERIFY_OTP,
+  INCORRECT_OTP,
   CHANGE_PASSWORD,
   ERROR
 }

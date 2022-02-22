@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../../constants/colors.dart';
+import '../../../../../../constants/texts/defaults.dart';
 import '../../../../../../constants/texts/sign_in.dart';
 import '../../../../../../controllers/bloc/authentication/forgot_password/forgot_password_bloc.dart';
 import '../../../../../calligraphy/app_text.dart';
@@ -11,8 +12,16 @@ import '../../../../../common/inputs/text_field.dart';
 
 class VerifyOTPContent extends StatefulWidget {
   final String? _email;
-  const VerifyOTPContent({Key? key, String? email})
-      : _email = email,
+  final bool? _errorState;
+  final String? _otp;
+  const VerifyOTPContent({
+    Key? key,
+    String? email,
+    bool? errorState,
+    String? otp,
+  })  : _email = email,
+        _errorState = errorState,
+        _otp = otp,
         super(key: key);
 
   @override
@@ -41,6 +50,8 @@ class _VerifyOTPContentState extends State<VerifyOTPContent> {
           prefixIcon: Icons.email,
           hint: SignInText.SIGN_IN_OTP_HINT,
           onChanged: (String value) => otp = value,
+          initialValue: widget._otp ?? DefaultTexts.EMPTY,
+          errorText: widget._errorState ?? false ? DefaultTexts.EMPTY : null,
         ),
         const SizedBox(
           height: 10,

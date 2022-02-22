@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jb_fe/constants/texts/defaults.dart';
 
 import '../../../../../../constants/colors.dart';
 import '../../../../../../constants/texts/sign_in.dart';
@@ -19,6 +20,17 @@ class ChangePasswordContent extends StatefulWidget {
 class _ChangePasswordContentState extends State<ChangePasswordContent> {
   late String password;
   late String confirmPassword;
+  late bool _obscurePassword;
+  late IconData _suffixPasswordVisible;
+
+  @override
+  void initState() {
+    password = DefaultTexts.EMPTY;
+    confirmPassword = DefaultTexts.EMPTY;
+    _obscurePassword = true;
+    _suffixPasswordVisible = Icons.visibility;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,23 +45,31 @@ class _ChangePasswordContentState extends State<ChangePasswordContent> {
           height: 30,
         ),
         AppTextInput(
-          prefixIcon: Icons.email,
+          initialValue: password,
+          obscureText: _obscurePassword,
+          prefixIcon: Icons.lock_outline,
           hint: SignInText.SIGN_IN_NEW_PASSWORD_HINT,
           onChanged: (String value) => password = value,
+          suffixIcon: _suffixPasswordVisible,
+          suffixIconClickHandler: _showHidePassword,
         ),
         const SizedBox(
           height: 10,
         ),
         AppTextInput(
-          prefixIcon: Icons.email,
+          initialValue: confirmPassword,
+          obscureText: _obscurePassword,
+          prefixIcon: Icons.lock_outline,
           hint: SignInText.SIGN_IN_NEW_PASSWORD_HINT,
-          onChanged: (String value) => password = value,
+          onChanged: (String value) => confirmPassword = value,
+          suffixIcon: _suffixPasswordVisible,
+          suffixIconClickHandler: _showHidePassword,
         ),
         const SizedBox(
           height: 10,
         ),
         AppButton(
-          hint: "Submit OTP",
+          hint: "Submit",
           onClick: () => _sendOTP(context),
           colorScheme: ButtonColorScheme.BLUE,
         ),
@@ -63,5 +83,13 @@ class _ChangePasswordContentState extends State<ChangePasswordContent> {
         password: password,
       ),
     );
+  }
+
+  void _showHidePassword() {
+    setState(() {
+      _obscurePassword = !_obscurePassword;
+      _suffixPasswordVisible =
+          _obscurePassword ? Icons.visibility : Icons.visibility_off;
+    });
   }
 }

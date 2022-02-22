@@ -65,18 +65,23 @@ class ForgotPasswordBloc
   FutureOr<void> _onVerifyOTP(
       VerifyOTP event, Emitter<ForgotPasswordState> emit) async {
     try {
+      emit(
+        state.copyWith(
+          status: ForgotPasswordStatus.LOADING,
+          otp: event.otp,
+        ),
+      );
       final mailSent = await verifyOtpUseCase(otp: event.otp);
       if (mailSent) {
         emit(
           state.copyWith(
             status: ForgotPasswordStatus.CHANGE_PASSWORD,
-            otp: event.otp,
           ),
         );
       } else {
         emit(
           state.copyWith(
-            status: ForgotPasswordStatus.ERROR,
+            status: ForgotPasswordStatus.INCORRECT_OTP,
           ),
         );
       }
@@ -84,7 +89,7 @@ class ForgotPasswordBloc
       print("Error while verifying otp: ${e}");
       emit(
         state.copyWith(
-          status: ForgotPasswordStatus.ERROR,
+          status: ForgotPasswordStatus.INCORRECT_OTP,
         ),
       );
     }

@@ -38,7 +38,11 @@ class ForgotPasswordAlert extends StatelessWidget {
                   errorState: true,
                 );
               case ForgotPasswordStatus.LOADING:
-                return AppTextBuilder("Dummy").build();
+                return const Center(
+                  heightFactor: 1,
+                  widthFactor: 1,
+                  child: CircularProgressIndicator(),
+                );
               case ForgotPasswordStatus.COMPLETED:
                 return AppTextBuilder("Password Changed Successfully")
                     .color(AppColors.green_1)
@@ -46,6 +50,12 @@ class ForgotPasswordAlert extends StatelessWidget {
                     .build();
               case ForgotPasswordStatus.VERIFY_OTP:
                 return VerifyOTPContent(email: state.email);
+              case ForgotPasswordStatus.INCORRECT_OTP:
+                return VerifyOTPContent(
+                  email: state.email,
+                  errorState: true,
+                  otp: state.otp,
+                );
               case ForgotPasswordStatus.CHANGE_PASSWORD:
                 return const ChangePasswordContent();
               case ForgotPasswordStatus.ERROR:
