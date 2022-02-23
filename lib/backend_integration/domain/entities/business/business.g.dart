@@ -23,6 +23,9 @@ BusinessEntity _$BusinessEntityFromJson(Map<String, dynamic> json) =>
       ),
       users: (json['users'] as List<dynamic>).map((e) => e as String).toList(),
       extras: Map<String, bool>.from(json['extras'] as Map),
+      subscribed: json['subscribed'] as bool,
+      subscriptionStart: DateTime.parse(json['subscriptionStart'] as String),
+      subscriptionEnd: DateTime.parse(json['subscriptionEnd'] as String),
     );
 
 Map<String, dynamic> _$BusinessEntityToJson(BusinessEntity instance) {
@@ -45,5 +48,8 @@ Map<String, dynamic> _$BusinessEntityToJson(BusinessEntity instance) {
   val['itemCollection'] = instance.itemCollection;
   val['users'] = instance.users;
   val['extras'] = instance.extras;
+  val['subscribed'] = instance.subscribed;
+  val['subscriptionStart'] = instance.subscriptionStart.toIso8601String();
+  val['subscriptionEnd'] = instance.subscriptionEnd.toIso8601String();
   return val;
 }

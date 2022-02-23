@@ -13,6 +13,9 @@ class BusinessPresentation {
   Map<String, List<String>> _itemCollection;
   List<String> _users;
   Map<String, bool> _extras;
+  DateTime _subscriptionStart;
+  DateTime _subscriptionEnd;
+  bool _subscribed;
 
   BusinessPresentation(BusinessEntity entity)
       : _id = entity.id,
@@ -26,6 +29,9 @@ class BusinessPresentation {
         _itemCollection = entity.itemCollection,
         _users = entity.users,
         _extras = entity.extras,
+        _subscribed = entity.subscribed,
+        _subscriptionStart = entity.subscriptionStart,
+        _subscriptionEnd = entity.subscriptionEnd,
         super();
 
   BusinessPresentation.empty(
@@ -40,6 +46,9 @@ class BusinessPresentation {
     this._itemCollection,
     this._users,
     this._extras,
+    this._subscribed,
+    this._subscriptionStart,
+    this._subscriptionEnd,
   ) : super();
 
   void updateValues() {}
@@ -57,6 +66,9 @@ class BusinessPresentation {
       itemCollection: _itemCollection,
       users: _users,
       extras: _extras,
+      subscribed: _subscribed,
+      subscriptionStart: _subscriptionStart,
+      subscriptionEnd: _subscriptionEnd,
     );
   }
 
@@ -70,6 +82,9 @@ class BusinessPresentation {
   Map<String, List<String>> get itemCollection => _itemCollection;
   List<String> get users => _users;
   Map<String, bool> get extras => _extras;
+  bool get subscribed => _subscribed;
+  DateTime get subscriptionStart => _subscriptionStart;
+  DateTime get subscriptionEnd => _subscriptionEnd;
 
   void setFirstContactNo(String value) {
     _contactNo[0] = value;

@@ -28,6 +28,9 @@ class BusinessEntity extends Equatable {
   final Map<String, List<String>> itemCollection;
   final List<String> users;
   final Map<String, bool> extras;
+  final bool subscribed;
+  final DateTime subscriptionStart;
+  final DateTime subscriptionEnd;
 
   const BusinessEntity({
     required this.id,
@@ -41,10 +44,14 @@ class BusinessEntity extends Equatable {
     required this.itemCollection,
     required this.users,
     required this.extras,
+    required this.subscribed,
+    required this.subscriptionStart,
+    required this.subscriptionEnd,
   }) : super();
 
   factory BusinessEntity.fromJson(Map<String, dynamic> json) =>
       _$BusinessEntityFromJson(json);
+
   Map<String, dynamic> toJson() => _$BusinessEntityToJson(this);
 
   @override
@@ -60,10 +67,13 @@ class BusinessEntity extends Equatable {
         itemCollection,
         users,
         extras,
+        subscribed,
+        subscriptionStart,
+        subscriptionEnd,
       ];
 
   @override
   String toString() {
-    return 'BusinessEntity{id: $id, contactNo: $contactNo, name: $name, address: $address, gstin: $gstin, email: $email, bank: $bank, date: $date, itemCollection: $itemCollection, users: $users, extras: $extras}';
+    return 'BusinessEntity{id: $id, contactNo: $contactNo, name: $name, address: $address, gstin: $gstin, email: $email, bank: $bank, date: $date, itemCollection: $itemCollection, users: $users, extras: $extras, subscribed: $subscribed, subscriptionStart: $subscriptionStart, subscriptionEnd: $subscriptionEnd}';
   }
 }
