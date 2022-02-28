@@ -16,6 +16,7 @@ class FailedToFetchRemoteDSResponse implements AppException {
   void logException() {
     final log = getLogger<FailedToFetchRemoteDSResponse>();
     log.e(
-        "Error while fetching response from: $_uri \n Response Code: $_responseCode");
+      "Error while fetching response from: $_uri \n Response Code: $_responseCode",
+    );
   }
 }

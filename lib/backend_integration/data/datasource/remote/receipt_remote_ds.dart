@@ -5,6 +5,7 @@ import 'package:jb_fe/backend_integration/constants/uri/endpoints.dart';
 import 'package:jb_fe/backend_integration/domain/entities/receipt/details/receipt_details.dart';
 import 'package:jb_fe/backend_integration/domain/entities/receipt/receipt.dart';
 
+import '../../../../util/exceptions/app_exception.dart';
 import '../../../../util/logger.dart';
 import '../../../utils/header_utils.dart';
 
@@ -25,14 +26,22 @@ class ReceiptRemoteDataSourceImpl implements ReceiptRemoteDataSource {
 
   @override
   Future<ReceiptEntity> addReceipt(ReceiptEntity receipt) async {
-    print("Submitting receipt: $receipt");
-    final response = await _http.post(
-      EndpointUri.getAddReceiptURL(),
-      body: jsonEncode(receipt.toJson()),
-      headers: HeaderUtils.getHeader(),
-    );
-    print("Response: ${response.body}");
-    return ReceiptEntity.fromJson(jsonDecode(response.body));
+    try {
+      final response = await _http.post(
+        EndpointUri.getAddReceiptURL(),
+        body: jsonEncode(receipt.toJson()),
+        headers: HeaderUtils.getHeader(),
+      );
+      return ReceiptEntity.fromJson(jsonDecode(response.body));
+    } on AppException {
+      rethrow;
+    } catch (e) {
+      log.e(
+        "Error while fetching response for: ${EndpointUri.getUpdateBusinessURL()}",
+      );
+      log.e(e);
+      rethrow;
+    }
   }
 
   @override
@@ -42,8 +51,14 @@ class ReceiptRemoteDataSourceImpl implements ReceiptRemoteDataSource {
         EndpointUri.getDeleteReceiptURL(receiptId),
         headers: HeaderUtils.getHeader(),
       );
+    } on AppException {
+      rethrow;
     } catch (e) {
-      print("Exception");
+      log.e(
+        "Error while fetching response for: ${EndpointUri.getUpdateBusinessURL()}",
+      );
+      log.e(e);
+      rethrow;
     }
   }
 
@@ -59,9 +74,14 @@ class ReceiptRemoteDataSourceImpl implements ReceiptRemoteDataSource {
         json.decode(response.body),
       );
       return receiptPage;
+    } on AppException {
+      rethrow;
     } catch (e) {
-      print("Error found: $e");
-      throw e;
+      log.e(
+        "Error while fetching response for: ${EndpointUri.getUpdateBusinessURL()}",
+      );
+      log.e(e);
+      rethrow;
     }
   }
 
@@ -70,26 +90,45 @@ class ReceiptRemoteDataSourceImpl implements ReceiptRemoteDataSource {
     String searchTerm,
     int skip,
   ) async {
-    final response = await _http.get(
-      EndpointUri.getSearchReceiptURL(skip, searchTerm),
-      headers: HeaderUtils.getHeader(),
-    );
-    List<ReceiptDetailsEntity> receiptPage =
-        ReceiptDetailsEntity.fromJsonToList(json.decode(response.body));
-    return receiptPage;
+    try {
+      final response = await _http.get(
+        EndpointUri.getSearchReceiptURL(skip, searchTerm),
+        headers: HeaderUtils.getHeader(),
+      );
+      List<ReceiptDetailsEntity> receiptPage =
+          ReceiptDetailsEntity.fromJsonToList(json.decode(response.body));
+      return receiptPage;
+    } on AppException {
+      rethrow;
+    } catch (e) {
+      log.e(
+        "Error while fetching response for: ${EndpointUri.getUpdateBusinessURL()}",
+      );
+      log.e(e);
+      rethrow;
+    }
   }
 
   @override
   Future<ReceiptEntity> fetchReceipt(String receiptId) async {
-    print("Fetching receipt: $receiptId");
-    final response = await _http.get(
-      EndpointUri.getReceiptByIdURL(receiptId),
-      headers: HeaderUtils.getHeader(),
-    );
+    try {
+      final response = await _http.get(
+        EndpointUri.getReceiptByIdURL(receiptId),
+        headers: HeaderUtils.getHeader(),
+      );
 
-    ReceiptEntity receipt = ReceiptEntity.fromJson(
-      json.decode(response.body),
-    );
-    return receipt;
+      ReceiptEntity receipt = ReceiptEntity.fromJson(
+        json.decode(response.body),
+      );
+      return receipt;
+    } on AppException {
+      rethrow;
+    } catch (e) {
+      log.e(
+        "Error while fetching response for: ${EndpointUri.getReceiptByIdURL(receiptId)}",
+      );
+      log.e(e);
+      rethrow;
+    }
   }
 }

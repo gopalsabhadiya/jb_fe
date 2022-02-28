@@ -4,6 +4,7 @@ import 'package:jb_fe/backend_integration/client/http_client.dart';
 import 'package:jb_fe/backend_integration/constants/uri/endpoints.dart';
 import 'package:jb_fe/backend_integration/domain/entities/user/user.dart';
 
+import '../../../../util/exceptions/app_exception.dart';
 import '../../../../util/logger.dart';
 import '../../../utils/header_utils.dart';
 
@@ -27,9 +28,14 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
         json.decode(response.body),
       );
       return user;
+    } on AppException {
+      rethrow;
     } catch (e) {
-      print("Error found: $e");
-      throw e;
+      log.e(
+        "Error while fetching response for: ${EndpointUri.getGetUserURL()}",
+      );
+      log.e(e);
+      rethrow;
     }
   }
 }

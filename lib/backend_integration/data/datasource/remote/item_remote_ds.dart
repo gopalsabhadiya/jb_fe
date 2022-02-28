@@ -4,6 +4,7 @@ import 'package:jb_fe/backend_integration/client/http_client.dart';
 import 'package:jb_fe/backend_integration/constants/uri/endpoints.dart';
 import 'package:jb_fe/backend_integration/domain/entities/item/item.dart';
 
+import '../../../../util/exceptions/app_exception.dart';
 import '../../../../util/logger.dart';
 import '../../../utils/header_utils.dart';
 
@@ -25,23 +26,41 @@ class ItemRemoteDataSourceImpl implements ItemRemoteDataSource {
 
   @override
   Future<ItemEntity> addItem(ItemEntity item) async {
-    final response = await _http.post(
-      EndpointUri.getAddItemURL(),
-      body: jsonEncode(item.toJson()),
-      headers: HeaderUtils.getHeader(),
-    );
-    return ItemEntity.fromJson(jsonDecode(response.body));
+    try {
+      log.d("Trying to add item: $item");
+      final response = await _http.post(
+        EndpointUri.getAddItemURL(),
+        body: jsonEncode(item.toJson()),
+        headers: HeaderUtils.getHeader(),
+      );
+      return ItemEntity.fromJson(jsonDecode(response.body));
+    } on AppException {
+      rethrow;
+    } catch (e) {
+      log.e(
+        "Error while fetching response for: ${EndpointUri.getAddItemURL()}",
+      );
+      log.e(e);
+      rethrow;
+    }
   }
 
   @override
   Future<void> deleteItem(String itemId) async {
     try {
+      log.d("Trying to delete item: $itemId");
       final response = await _http.delete(
         EndpointUri.getDeleteItemURL(itemId),
         headers: HeaderUtils.getHeader(),
       );
+    } on AppException {
+      rethrow;
     } catch (e) {
-      print("Exception");
+      log.e(
+        "Error while fetching response for: ${EndpointUri.getDeleteItemURL(itemId)}",
+      );
+      log.e(e);
+      rethrow;
     }
   }
 
@@ -53,55 +72,99 @@ class ItemRemoteDataSourceImpl implements ItemRemoteDataSource {
 
   @override
   Future<List<ItemEntity>> getItemPage(int skip) async {
-    final response = await _http.get(
-      EndpointUri.getItemPage(skip),
-      headers: HeaderUtils.getHeader(),
-    );
-    List<ItemEntity> itemPage = ItemEntity.fromJsonToList(
-      json.decode(response.body),
-    );
-    return itemPage;
+    try {
+      log.d("Trying to get item page: skip($skip)");
+      final response = await _http.get(
+        EndpointUri.getItemPage(skip),
+        headers: HeaderUtils.getHeader(),
+      );
+      List<ItemEntity> itemPage = ItemEntity.fromJsonToList(
+        json.decode(response.body),
+      );
+      return itemPage;
+    } on AppException {
+      rethrow;
+    } catch (e) {
+      log.e(
+        "Error while fetching response for: ${EndpointUri.getItemPage(skip)}",
+      );
+      log.e(e);
+      rethrow;
+    }
   }
 
   @override
   Future<List<ItemEntity>> searchItem(String searchTerm, int skip) async {
-    final response = await _http.get(
-      EndpointUri.getSearchItemURL(skip, searchTerm),
-      headers: HeaderUtils.getHeader(),
-    );
-    List<ItemEntity> itemPage =
-        ItemEntity.fromJsonToList(json.decode(response.body));
-    // print("Your parties: $partyPage");
-    return itemPage;
+    try {
+      log.d("Trying to search item: SearchTerm($searchTerm) Skip($skip)");
+      final response = await _http.get(
+        EndpointUri.getSearchItemURL(skip, searchTerm),
+        headers: HeaderUtils.getHeader(),
+      );
+      List<ItemEntity> itemPage =
+          ItemEntity.fromJsonToList(json.decode(response.body));
+      // print("Your parties: $partyPage");
+      return itemPage;
+    } on AppException {
+      rethrow;
+    } catch (e) {
+      log.e(
+        "Error while fetching response for: ${EndpointUri.getSearchItemURL(skip, searchTerm)}",
+      );
+      log.e(e);
+      rethrow;
+    }
   }
 
   @override
   Future<ItemEntity> updateItem(ItemEntity item) async {
-    final response = await _http.put(
-      EndpointUri.getUpdateItemURL(),
-      body: jsonEncode(item.toJson()),
-      headers: HeaderUtils.getHeader(),
-    );
-    return ItemEntity.fromJson(jsonDecode(response.body));
+    try {
+      log.d("Trying to update item: $item");
+      final response = await _http.put(
+        EndpointUri.getUpdateItemURL(),
+        body: jsonEncode(item.toJson()),
+        headers: HeaderUtils.getHeader(),
+      );
+      return ItemEntity.fromJson(jsonDecode(response.body));
+    } on AppException {
+      rethrow;
+    } catch (e) {
+      log.e(
+        "Error while fetching response for: ${EndpointUri.getUpdateItemURL()}",
+      );
+      log.e(e);
+      rethrow;
+    }
   }
 
   @override
   Future<bool> uploadImages(Map<String, String> images, String itemId) async {
-    final response = await _http.get(
-      EndpointUri.getUploadImageSignedItemURL(itemId),
-      headers: HeaderUtils.getHeader(),
-    );
+    try {
+      log.d("Trying to upload Images: $itemId");
+      final response = await _http.get(
+        EndpointUri.getUploadImageSignedItemURL(itemId),
+        headers: HeaderUtils.getHeader(),
+      );
 
-    // Map<String, String> imageMap = {
-    //   for (PlatformFile image in images)
-    //     image.name: base64.encode(GZipEncoder().encode(image.bytes!.toList())!)
-    // };
+      // Map<String, String> imageMap = {
+      //   for (PlatformFile image in images)
+      //     image.name: base64.encode(GZipEncoder().encode(image.bytes!.toList())!)
+      // };
 
-    final uploadResponse = await _http.put(
-      Uri.parse(json.decode(response.body)["url"]),
-      body: json.encode(images),
-    );
-    return uploadResponse.statusCode == 200;
+      final uploadResponse = await _http.put(
+        Uri.parse(json.decode(response.body)["url"]),
+        body: json.encode(images),
+      );
+      return uploadResponse.statusCode == 200;
+    } on AppException {
+      rethrow;
+    } catch (e) {
+      log.e(
+        "Error while fetching response for: ${EndpointUri.getUploadImageSignedItemURL(itemId)}",
+      );
+      log.e(e);
+      rethrow;
+    }
   }
 
   // @override
@@ -154,31 +217,42 @@ class ItemRemoteDataSourceImpl implements ItemRemoteDataSource {
 
   @override
   Future<Map<String, String>> downloadImages(String itemId) async {
-    final response = await _http.get(
-      EndpointUri.getDownloadImageSignedItemURL(itemId),
-    );
-    final downloadResponse = await _http.get(
-      Uri.parse(json.decode(response.body)["url"]),
-      headers: {
-        "content-type": "text/plain; charset=utf-8",
-      },
-    );
+    try {
+      log.d("Trying to download image for item: $itemId");
+      final response = await _http.get(
+        EndpointUri.getDownloadImageSignedItemURL(itemId),
+      );
+      final downloadResponse = await _http.get(
+        Uri.parse(json.decode(response.body)["url"]),
+        headers: {
+          "content-type": "text/plain; charset=utf-8",
+        },
+      );
 
-    // print("DownloadResponse: ${downloadResponse.statusCode}");
+      // print("DownloadResponse: ${downloadResponse.statusCode}");
 
-    // print("Json type: ${downloadResponse.body}");
+      // print("Json type: ${downloadResponse.body}");
 
-    // base64.encode(GZipEncoder().encode(e.bytes!.toList())!)
+      // base64.encode(GZipEncoder().encode(e.bytes!.toList())!)
 
-    Map<String, String> imageMap = <String, String>{};
-    for (MapEntry imageEntry
-        in (json.decode(downloadResponse.body) as Map).entries) {
-      // List<int> intMappedList = image.map((e) => e as int).toList();
-      // imageMap[imageEntry.key] = Uint8List.fromList(
-      //     GZipDecoder().decodeBytes(base64.decode(imageEntry.value)));
-      imageMap[imageEntry.key] = imageEntry.value;
+      Map<String, String> imageMap = <String, String>{};
+      for (MapEntry imageEntry
+          in (json.decode(downloadResponse.body) as Map).entries) {
+        // List<int> intMappedList = image.map((e) => e as int).toList();
+        // imageMap[imageEntry.key] = Uint8List.fromList(
+        //     GZipDecoder().decodeBytes(base64.decode(imageEntry.value)));
+        imageMap[imageEntry.key] = imageEntry.value;
+      }
+      return imageMap;
+    } on AppException {
+      rethrow;
+    } catch (e) {
+      log.e(
+        "Error while fetching response for: ${EndpointUri.getDownloadImageSignedItemURL(itemId)}",
+      );
+      log.e(e);
+      rethrow;
     }
-    return imageMap;
   }
 
   // @override

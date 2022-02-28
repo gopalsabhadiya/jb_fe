@@ -4,16 +4,19 @@ import 'package:jb_fe/backend_integration/domain/entities/authentication/respons
 import 'package:jb_fe/backend_integration/utils/storage/shared_preference.dart';
 import 'package:jb_fe/injection_container.dart';
 
+import '../../../util/logger.dart';
 import '../../domain/repositories/authentication.dart';
 
 class AuthenticationRepositoryImpl implements AuthenticationRepository {
+  final log = getLogger<AuthenticationRepositoryImpl>();
+
   final AuthenticationRemoteDataSource authenticationRemoteDataSource;
 
   AuthenticationRepositoryImpl({required this.authenticationRemoteDataSource});
 
   @override
   Future<bool> authenticateUser(LoginEntity loginEntity) async {
-    print("Authenticating user: Repository");
+    log.d("Authenticating User");
     LoginResponseEntity loginResponseEntity =
         await authenticationRemoteDataSource.authenticateUser(loginEntity);
     serviceLocator<AppSharedPreference>()
@@ -23,6 +26,8 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
 
   @override
   Future<bool> validateAuthentication() async {
+    log.d("Validating User Authentication");
+
     bool validationStatus =
         await authenticationRemoteDataSource.validateAuthentication();
     return validationStatus;
@@ -30,6 +35,8 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
 
   @override
   Future<void> unAuthenticateUser() async {
+    log.d("UnAuthenticating User");
+
     await serviceLocator<AppSharedPreference>().deleteString(key: "csrf");
   }
 }

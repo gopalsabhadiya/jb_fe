@@ -9,28 +9,36 @@ import 'package:jb_fe/backend_integration/domain/repositories/item_repository.da
 import 'package:jb_fe/backend_integration/utils/storage/shared_preference.dart';
 import 'package:jb_fe/injection_container.dart';
 
+import '../../../util/logger.dart';
+
 class ItemRepositoryImpl implements ItemRepository {
+  final log = getLogger<ItemRepositoryImpl>();
+
   final ItemRemoteDataSource remoteDataSource;
 
   ItemRepositoryImpl({required this.remoteDataSource});
 
   @override
   Future<ItemEntity> addItem(ItemEntity item) async {
+    log.d("Adding item");
     return await remoteDataSource.addItem(item);
   }
 
   @override
   Future<void> deleteItem(String itemId) async {
+    log.d("Deleting Item");
     return await remoteDataSource.deleteItem(itemId);
   }
 
   @override
   Future<ItemEntity> getItem(String itemId) async {
+    log.d("Fetching Item");
     return await remoteDataSource.getItem(itemId);
   }
 
   @override
   Future<List<ItemEntity>> searchItem(String searchTerm, int skip) async {
+    log.d("Searching Item");
     return await remoteDataSource.searchItem(searchTerm, skip);
   }
 
