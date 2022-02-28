@@ -5,6 +5,7 @@ import 'package:jb_fe/backend_integration/constants/uri/endpoints.dart';
 import 'package:jb_fe/backend_integration/domain/entities/business/business.dart';
 
 import '../../../../util/logger.dart';
+import '../../../utils/header_utils.dart';
 
 abstract class BusinessRemoteDataSource {
   Future<BusinessEntity> getBusinessData();
@@ -21,9 +22,7 @@ class BusinessRemoteDataSourceImpl implements BusinessRemoteDataSource {
   Future<BusinessEntity> getBusinessData() async {
     final response = await _http.get(
       EndpointUri.getGetBusinessURL(),
-      headers: {
-        "content-type": "application/json",
-      },
+      headers: HeaderUtils.getHeader(),
     );
     final BusinessEntity entity =
         BusinessEntity.fromJson(jsonDecode(response.body));
@@ -35,9 +34,7 @@ class BusinessRemoteDataSourceImpl implements BusinessRemoteDataSource {
     final response = await _http.put(
       EndpointUri.getUpdateBusinessURL(),
       body: jsonEncode(business.toJson()),
-      headers: {
-        "content-type": "application/json",
-      },
+      headers: HeaderUtils.getHeader(),
     );
     return BusinessEntity.fromJson(jsonDecode(response.body));
   }

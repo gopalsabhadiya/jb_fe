@@ -4,7 +4,7 @@ import 'package:jb_fe/backend_integration/client/http_client.dart';
 import 'package:jb_fe/backend_integration/constants/uri/endpoints.dart';
 import 'package:jb_fe/backend_integration/domain/entities/party/party.dart';
 
-import '../../../../util/logger.dart';
+import '../../../utils/header_utils.dart';
 
 abstract class PartyRemoteDataSource {
   Future<PartyEntity> getParty(String partyId);
@@ -17,8 +17,6 @@ abstract class PartyRemoteDataSource {
 }
 
 class PartyRemoteDataSourceImpl implements PartyRemoteDataSource {
-  final log = getLogger<PartyRemoteDataSourceImpl>();
-
   final _http = AppHttpClient.getHttpClient();
 
   @override
@@ -26,9 +24,7 @@ class PartyRemoteDataSourceImpl implements PartyRemoteDataSource {
     final response = await _http.post(
       EndpointUri.getBaseParty(),
       body: jsonEncode(party.toJson()),
-      headers: {
-        "content-type": "application/json",
-      },
+      headers: HeaderUtils.getHeader(),
     );
     return PartyEntity.fromJson(jsonDecode(response.body));
   }
@@ -38,7 +34,7 @@ class PartyRemoteDataSourceImpl implements PartyRemoteDataSource {
     try {
       final response = await _http.delete(
         EndpointUri.getDeletePartyURL(partyId),
-        headers: {"content-type": "application/json"},
+        headers: HeaderUtils.getHeader(),
       );
     } catch (e) {
       print("Exception");
@@ -55,9 +51,7 @@ class PartyRemoteDataSourceImpl implements PartyRemoteDataSource {
   Future<List<PartyEntity>> searchParty(String searchTerm, int skip) async {
     final response = await _http.get(
       EndpointUri.getSearchPartyURL(skip, searchTerm),
-      headers: {
-        "content-type": "application/json",
-      },
+      headers: HeaderUtils.getHeader(),
     );
     List<PartyEntity> partyPage =
         PartyEntity.fromJsonToList(json.decode(response.body));
@@ -70,9 +64,7 @@ class PartyRemoteDataSourceImpl implements PartyRemoteDataSource {
     final response = await _http.put(
       EndpointUri.getUpdatePartyURL(),
       body: jsonEncode(party.toJson()),
-      headers: {
-        "content-type": "application/json",
-      },
+      headers: HeaderUtils.getHeader(),
     );
     return PartyEntity.fromJson(jsonDecode(response.body));
   }
@@ -81,9 +73,7 @@ class PartyRemoteDataSourceImpl implements PartyRemoteDataSource {
   Future<List<PartyEntity>> getPartyPage(int skip) async {
     final response = await _http.get(
       EndpointUri.getPartyPage(skip),
-      headers: {
-        "content-type": "application/json",
-      },
+      headers: HeaderUtils.getHeader(),
     );
     List<PartyEntity> partyPage = PartyEntity.fromJsonToList(
       json.decode(response.body),
@@ -96,9 +86,7 @@ class PartyRemoteDataSourceImpl implements PartyRemoteDataSource {
     print("Fetching party: $partyId");
     final response = await _http.get(
       EndpointUri.getPartyByIdURL(partyId),
-      headers: {
-        "content-type": "application/json",
-      },
+      headers: HeaderUtils.getHeader(),
     );
 
     print("Response: ${response.statusCode} ${response.body}");

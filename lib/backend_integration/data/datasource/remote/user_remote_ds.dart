@@ -5,6 +5,7 @@ import 'package:jb_fe/backend_integration/constants/uri/endpoints.dart';
 import 'package:jb_fe/backend_integration/domain/entities/user/user.dart';
 
 import '../../../../util/logger.dart';
+import '../../../utils/header_utils.dart';
 
 abstract class UserRemoteDataSource {
   Future<UserEntity> getUser();
@@ -17,15 +18,11 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
 
   @override
   Future<UserEntity> getUser() async {
-    print("Fetching response");
     try {
       final response = await _http.get(
         EndpointUri.getGetUserURL(),
-        headers: {
-          "content-type": "application/json",
-        },
+        headers: HeaderUtils.getHeader(),
       );
-      print("User fetch: ${response.statusCode} ${response.body}");
       UserEntity user = UserEntity.fromJson(
         json.decode(response.body),
       );

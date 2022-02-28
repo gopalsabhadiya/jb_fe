@@ -6,6 +6,7 @@ import 'package:jb_fe/backend_integration/domain/entities/receipt/details/receip
 import 'package:jb_fe/backend_integration/domain/entities/receipt/receipt.dart';
 
 import '../../../../util/logger.dart';
+import '../../../utils/header_utils.dart';
 
 abstract class ReceiptRemoteDataSource {
   Future<ReceiptEntity> addReceipt(ReceiptEntity payment);
@@ -28,9 +29,7 @@ class ReceiptRemoteDataSourceImpl implements ReceiptRemoteDataSource {
     final response = await _http.post(
       EndpointUri.getAddReceiptURL(),
       body: jsonEncode(receipt.toJson()),
-      headers: {
-        "content-type": "application/json",
-      },
+      headers: HeaderUtils.getHeader(),
     );
     print("Response: ${response.body}");
     return ReceiptEntity.fromJson(jsonDecode(response.body));
@@ -41,7 +40,7 @@ class ReceiptRemoteDataSourceImpl implements ReceiptRemoteDataSource {
     try {
       final response = await _http.delete(
         EndpointUri.getDeleteReceiptURL(receiptId),
-        headers: {"content-type": "application/json"},
+        headers: HeaderUtils.getHeader(),
       );
     } catch (e) {
       print("Exception");
@@ -50,15 +49,11 @@ class ReceiptRemoteDataSourceImpl implements ReceiptRemoteDataSource {
 
   @override
   Future<List<ReceiptDetailsEntity>> getReceiptPage(int skip) async {
-    print("Fetching response");
     try {
       final response = await _http.get(
         EndpointUri.getReceiptPageURL(skip),
-        headers: {
-          "content-type": "application/json",
-        },
+        headers: HeaderUtils.getHeader(),
       );
-      print("Receipt fetch: ${response.statusCode} ${response.body}");
       List<ReceiptDetailsEntity> receiptPage =
           ReceiptDetailsEntity.fromJsonToList(
         json.decode(response.body),
@@ -77,13 +72,10 @@ class ReceiptRemoteDataSourceImpl implements ReceiptRemoteDataSource {
   ) async {
     final response = await _http.get(
       EndpointUri.getSearchReceiptURL(skip, searchTerm),
-      headers: {
-        "content-type": "application/json",
-      },
+      headers: HeaderUtils.getHeader(),
     );
     List<ReceiptDetailsEntity> receiptPage =
         ReceiptDetailsEntity.fromJsonToList(json.decode(response.body));
-    print("Your Receipts: $receiptPage");
     return receiptPage;
   }
 
@@ -92,12 +84,9 @@ class ReceiptRemoteDataSourceImpl implements ReceiptRemoteDataSource {
     print("Fetching receipt: $receiptId");
     final response = await _http.get(
       EndpointUri.getReceiptByIdURL(receiptId),
-      headers: {
-        "content-type": "application/json",
-      },
+      headers: HeaderUtils.getHeader(),
     );
 
-    print("Response: ${response.statusCode} ${response.body}");
     ReceiptEntity receipt = ReceiptEntity.fromJson(
       json.decode(response.body),
     );

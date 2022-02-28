@@ -5,6 +5,7 @@ import 'package:jb_fe/backend_integration/constants/uri/endpoints.dart';
 import 'package:jb_fe/backend_integration/domain/entities/item/item.dart';
 
 import '../../../../util/logger.dart';
+import '../../../utils/header_utils.dart';
 
 abstract class ItemRemoteDataSource {
   Future<ItemEntity> getItem(String itemId);
@@ -27,9 +28,7 @@ class ItemRemoteDataSourceImpl implements ItemRemoteDataSource {
     final response = await _http.post(
       EndpointUri.getAddItemURL(),
       body: jsonEncode(item.toJson()),
-      headers: {
-        "content-type": "application/json",
-      },
+      headers: HeaderUtils.getHeader(),
     );
     return ItemEntity.fromJson(jsonDecode(response.body));
   }
@@ -39,7 +38,7 @@ class ItemRemoteDataSourceImpl implements ItemRemoteDataSource {
     try {
       final response = await _http.delete(
         EndpointUri.getDeleteItemURL(itemId),
-        headers: {"content-type": "application/json"},
+        headers: HeaderUtils.getHeader(),
       );
     } catch (e) {
       print("Exception");
@@ -56,9 +55,7 @@ class ItemRemoteDataSourceImpl implements ItemRemoteDataSource {
   Future<List<ItemEntity>> getItemPage(int skip) async {
     final response = await _http.get(
       EndpointUri.getItemPage(skip),
-      headers: {
-        "content-type": "application/json",
-      },
+      headers: HeaderUtils.getHeader(),
     );
     List<ItemEntity> itemPage = ItemEntity.fromJsonToList(
       json.decode(response.body),
@@ -70,9 +67,7 @@ class ItemRemoteDataSourceImpl implements ItemRemoteDataSource {
   Future<List<ItemEntity>> searchItem(String searchTerm, int skip) async {
     final response = await _http.get(
       EndpointUri.getSearchItemURL(skip, searchTerm),
-      headers: {
-        "content-type": "application/json",
-      },
+      headers: HeaderUtils.getHeader(),
     );
     List<ItemEntity> itemPage =
         ItemEntity.fromJsonToList(json.decode(response.body));
@@ -85,9 +80,7 @@ class ItemRemoteDataSourceImpl implements ItemRemoteDataSource {
     final response = await _http.put(
       EndpointUri.getUpdateItemURL(),
       body: jsonEncode(item.toJson()),
-      headers: {
-        "content-type": "application/json",
-      },
+      headers: HeaderUtils.getHeader(),
     );
     return ItemEntity.fromJson(jsonDecode(response.body));
   }
@@ -96,9 +89,7 @@ class ItemRemoteDataSourceImpl implements ItemRemoteDataSource {
   Future<bool> uploadImages(Map<String, String> images, String itemId) async {
     final response = await _http.get(
       EndpointUri.getUploadImageSignedItemURL(itemId),
-      headers: {
-        "content-type": "application/json",
-      },
+      headers: HeaderUtils.getHeader(),
     );
 
     // Map<String, String> imageMap = {

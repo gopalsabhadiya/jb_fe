@@ -6,6 +6,7 @@ import 'package:jb_fe/backend_integration/domain/entities/order/details/order_de
 import 'package:jb_fe/backend_integration/domain/entities/order/order.dart';
 
 import '../../../../util/logger.dart';
+import '../../../utils/header_utils.dart';
 
 abstract class OrderRemoteDataSource {
   Future<OrderEntity> addOrder(OrderEntity order);
@@ -30,9 +31,7 @@ class OrderRemoteDataSourceImpl implements OrderRemoteDataSource {
     final response = await _http.post(
       EndpointUri.getAddOrderURL(),
       body: jsonEncode(order.toJson()),
-      headers: {
-        "content-type": "application/json",
-      },
+      headers: HeaderUtils.getHeader(),
     );
     print(response.body);
     return OrderEntity.fromJson(jsonDecode(response.body));
@@ -42,9 +41,7 @@ class OrderRemoteDataSourceImpl implements OrderRemoteDataSource {
   Future<List<OrderDetailsEntity>> getOrderPage(int skip) async {
     final response = await _http.get(
       EndpointUri.getOrderPageURL(skip),
-      headers: {
-        "content-type": "application/json",
-      },
+      headers: HeaderUtils.getHeader(),
     );
     List<OrderDetailsEntity> orderPage = OrderDetailsEntity.fromJsonToList(
       json.decode(response.body),
@@ -57,9 +54,7 @@ class OrderRemoteDataSourceImpl implements OrderRemoteDataSource {
       String searchTerm, int skip) async {
     final response = await _http.get(
       EndpointUri.getSearchOrderURL(skip, searchTerm),
-      headers: {
-        "content-type": "application/json",
-      },
+      headers: HeaderUtils.getHeader(),
     );
     List<OrderDetailsEntity> orderPage =
         OrderDetailsEntity.fromJsonToList(json.decode(response.body));
@@ -72,7 +67,7 @@ class OrderRemoteDataSourceImpl implements OrderRemoteDataSource {
     try {
       final response = await _http.delete(
         EndpointUri.getDeleteOrderURL(orderId),
-        headers: {"content-type": "application/json"},
+        headers: HeaderUtils.getHeader(),
       );
     } catch (e) {
       print("Exception");
@@ -84,9 +79,7 @@ class OrderRemoteDataSourceImpl implements OrderRemoteDataSource {
     print("Fetching order: $orderId");
     final response = await _http.get(
       EndpointUri.getOrderByIdURL(orderId),
-      headers: {
-        "content-type": "application/json",
-      },
+      headers: HeaderUtils.getHeader(),
     );
 
     OrderEntity order = OrderEntity.fromJson(
@@ -100,9 +93,7 @@ class OrderRemoteDataSourceImpl implements OrderRemoteDataSource {
     final response = await _http.post(
       EndpointUri.getOrderBatchByIdURL(),
       body: jsonEncode(orderIdList),
-      headers: {
-        "content-type": "application/json",
-      },
+      headers: HeaderUtils.getHeader(),
     );
     List<OrderEntity> orderBatch =
         OrderEntity.fromJsonToList(json.decode(response.body));
@@ -116,9 +107,7 @@ class OrderRemoteDataSourceImpl implements OrderRemoteDataSource {
     final response = await _http.post(
       EndpointUri.getUnpaidOrdersURL(),
       body: jsonEncode(payload),
-      headers: {
-        "content-type": "application/json",
-      },
+      headers: HeaderUtils.getHeader(),
     );
     // print("Response: ${response.statusCode} ${json.decode(response.body)}");
     List<OrderEntity> orderBatch =

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:jb_fe/backend_integration/domain/entities/authentication/login.dart';
 import 'package:jb_fe/backend_integration/domain/entities/authentication/response/login_response.dart';
+import 'package:jb_fe/backend_integration/utils/header_utils.dart';
 
 import '../../../../injection_container.dart';
 import '../../../../util/logger.dart';
@@ -22,15 +23,11 @@ class AuthenticationRemoteDataSourceImpl
 
   @override
   Future<LoginResponseEntity> authenticateUser(LoginEntity loginEntity) async {
-    print("Authenticating user: Remote datasource: $loginEntity");
     final response = await _http.post(
       EndpointUri.getAuthenticateURL(),
       body: jsonEncode(loginEntity.toJson()),
-      headers: {
-        "content-type": "application/json",
-      },
+      headers: HeaderUtils.getHeader(),
     );
-    print("Response: ${response.body}");
     final LoginResponseEntity entity =
         LoginResponseEntity.fromJson(jsonDecode(response.body));
     return entity;
@@ -45,7 +42,7 @@ class AuthenticationRemoteDataSourceImpl
           LoginResponseEntity(token: csrfToken, subscriptionExpired: false);
       final response = await _http.post(
         EndpointUri.getValidateAuthenticationURL(),
-        headers: {"content-type": "application/json"},
+        headers: HeaderUtils.getHeader(),
         body: jsonEncode(
           loginRequest.toJson(),
         ),

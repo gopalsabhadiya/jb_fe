@@ -4,6 +4,7 @@ import 'package:jb_fe/backend_integration/client/http_client.dart';
 
 import '../../../../util/logger.dart';
 import '../../../constants/uri/endpoints.dart';
+import '../../../utils/header_utils.dart';
 
 abstract class MailRemoteDataSource {
   Future<bool> sendOTPMail(String email);
@@ -22,11 +23,8 @@ class MailRemoteDataSourceImpl implements MailRemoteDataSource {
     final response = await _http.post(
       EndpointUri.getSendOTPMailURL(),
       body: jsonEncode(payload),
-      headers: {
-        "content-type": "application/json",
-      },
+      headers: HeaderUtils.getHeader(),
     );
-    print("Send mail response: ${response.body}");
     return response.statusCode == 200;
   }
 
@@ -36,24 +34,18 @@ class MailRemoteDataSourceImpl implements MailRemoteDataSource {
     final response = await _http.post(
       EndpointUri.getVerifyOTPURL(),
       body: jsonEncode(payload),
-      headers: {
-        "content-type": "application/json",
-      },
+      headers: HeaderUtils.getHeader(),
     );
-    print("Response: ${response.body}");
     return response.statusCode == 200;
   }
 
   @override
   Future<bool> changePassword(String password, String otp) async {
     final Map<String, String> payload = {"password": password, "otp": otp};
-    print("Payload: $payload");
     final response = await _http.post(
       EndpointUri.getChangePasswordURL(),
       body: jsonEncode(payload),
-      headers: {
-        "content-type": "application/json",
-      },
+      headers: HeaderUtils.getHeader(),
     );
     print("Response: ${response.body}");
     return response.statusCode == 200;

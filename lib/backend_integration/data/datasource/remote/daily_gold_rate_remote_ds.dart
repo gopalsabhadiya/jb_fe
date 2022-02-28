@@ -5,6 +5,7 @@ import 'package:jb_fe/backend_integration/constants/uri/endpoints.dart';
 import 'package:jb_fe/backend_integration/domain/entities/daily_gold_rate/daily_gold_rate.dart';
 
 import '../../../../util/logger.dart';
+import '../../../utils/header_utils.dart';
 
 abstract class DailyGoldRateRemoteDataSource {
   Future<DailyGoldRateEntity> getTodayGoldRate();
@@ -25,9 +26,7 @@ class DailyGoldRateRemoteDataSourceImpl extends DailyGoldRateRemoteDataSource {
     final response = await _http.post(
       EndpointUri.getCreateDailyGoldRateURL(),
       body: jsonEncode(dailyGoldRate.toJson()),
-      headers: {
-        "content-type": "application/json",
-      },
+      headers: HeaderUtils.getHeader(),
     );
     return DailyGoldRateEntity.fromJson(jsonDecode(response.body));
   }
@@ -36,9 +35,7 @@ class DailyGoldRateRemoteDataSourceImpl extends DailyGoldRateRemoteDataSource {
   Future<DailyGoldRateEntity> getTodayGoldRate() async {
     final response = await _http.get(
       EndpointUri.getGetTodayGoldRateURL(),
-      headers: {
-        "content-type": "application/json",
-      },
+      headers: HeaderUtils.getHeader(),
     );
     return DailyGoldRateEntity.fromJson(jsonDecode(response.body));
   }
@@ -49,9 +46,7 @@ class DailyGoldRateRemoteDataSourceImpl extends DailyGoldRateRemoteDataSource {
     final response = await _http.put(
       EndpointUri.getCreateDailyGoldRateURL(),
       body: jsonEncode(dailyGoldRate.toJson()),
-      headers: {
-        "content-type": "application/json",
-      },
+      headers: HeaderUtils.getHeader(),
     );
     return DailyGoldRateEntity.fromJson(jsonDecode(response.body));
   }
