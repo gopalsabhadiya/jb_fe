@@ -51,11 +51,9 @@ class ReceiptDetailsEntity extends Equatable {
   Map<String, dynamic> toJson() => _$ReceiptDetailsEntityToJson(this);
 
   static List<ReceiptDetailsEntity> fromJsonToList(List<dynamic> json) {
-    print("JSON: $json ${json.length}");
     for (int i = 0; i < json.length; i++) {
       final ReceiptDetailsEntity entity =
           ReceiptDetailsEntity.fromJson(json[i]);
-      print("Entity: $entity");
     }
     return List<ReceiptDetailsEntity>.from(
       json.map(

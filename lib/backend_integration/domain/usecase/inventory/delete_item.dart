@@ -6,7 +6,6 @@ class DeleteItemUseCase {
   DeleteItemUseCase({required this.repository});
 
   Future<void> call({required String itemId}) async {
-    print("Delete item Use Case: $itemId");
     return await repository.deleteItem(itemId);
   }
 }

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:jb_fe/backend_integration/client/http_client.dart';
 
+import '../../../../util/logger.dart';
 import '../../../constants/uri/endpoints.dart';
 
 abstract class MailRemoteDataSource {
@@ -11,6 +12,8 @@ abstract class MailRemoteDataSource {
 }
 
 class MailRemoteDataSourceImpl implements MailRemoteDataSource {
+  final log = getLogger<MailRemoteDataSourceImpl>();
+
   final _http = AppHttpClient.getHttpClient();
 
   @override

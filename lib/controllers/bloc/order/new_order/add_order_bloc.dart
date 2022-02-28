@@ -9,14 +9,19 @@ import 'package:jb_fe/backend_integration/dto/party/party_presentation.dart';
 import 'package:jb_fe/controllers/bloc/inventory/mediator/notification/notification.dart';
 import 'package:jb_fe/controllers/bloc/order/mediator/notification/notification.dart';
 import 'package:jb_fe/controllers/bloc/order/mediator/notifier/add_notifier.dart';
+import 'package:jb_fe/util/extension/common_logging.dart';
 import 'package:jb_fe/util/item.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../../../../util/logger.dart';
 
 part 'add_order_event.dart';
 part 'add_order_state.dart';
 
 class AddOrderBloc extends Bloc<AddOrderEvent, AddOrderState>
     with AddOrderNotifier {
+  final log = getLogger<AddOrderBloc>();
+
   final CreateOrderUseCase createOrderUseCase;
 
   AddOrderBloc({required this.createOrderUseCase})
@@ -36,6 +41,7 @@ class AddOrderBloc extends Bloc<AddOrderEvent, AddOrderState>
 
   FutureOr<void> _addItemToOrder(
       AddItemToOrder event, Emitter<AddOrderState> emit) {
+    log.logEvent<AddItemToOrder>();
     emit(state.copyWith(
       status: AddOrderStatus.LOADING,
     ));
@@ -70,6 +76,7 @@ class AddOrderBloc extends Bloc<AddOrderEvent, AddOrderState>
 
   FutureOr<void> _removeItemFromOrder(
       RemoveItemFromOrder event, Emitter<AddOrderState> emit) {
+    log.logEvent<RemoveItemFromOrder>();
     emit(
       state.copyWith(
         status: AddOrderStatus.LOADING,
@@ -96,6 +103,7 @@ class AddOrderBloc extends Bloc<AddOrderEvent, AddOrderState>
 
   FutureOr<void> _decreaseItemQuantityInOrder(
       DecreaseItemQuantityInOrder event, Emitter<AddOrderState> emit) {
+    log.logEvent<DecreaseItemQuantityInOrder>();
     emit(
       state.copyWith(
         status: AddOrderStatus.LOADING,
@@ -129,6 +137,7 @@ class AddOrderBloc extends Bloc<AddOrderEvent, AddOrderState>
 
   FutureOr<void> _addPartyToOrder(
       AddPartyToOrder event, Emitter<AddOrderState> emit) {
+    log.logEvent<AddPartyToOrder>();
     OrderPresentation order = state.order;
     order.setParty(event.party.id!);
     print("Setting party: ${event.party}");
@@ -141,6 +150,7 @@ class AddOrderBloc extends Bloc<AddOrderEvent, AddOrderState>
   }
 
   FutureOr<void> _setGoldRate(AddGoldRate event, Emitter<AddOrderState> emit) {
+    log.logEvent<AddGoldRate>();
     OrderPresentation order = state.order;
     order.setGoldRate(event.goldRate.toString());
     emit(
@@ -162,6 +172,7 @@ class AddOrderBloc extends Bloc<AddOrderEvent, AddOrderState>
 
   FutureOr<void> _updateOrder(
       UpdateScrapAndKasar event, Emitter<AddOrderState> emit) {
+    log.logEvent<UpdateScrapAndKasar>();
     emit(state.copyWith(status: AddOrderStatus.LOADING));
     ItemUtils.calculateAndSetOrderPriceDetails(order: state.order);
     emit(state.copyWith(status: AddOrderStatus.BUILDING));
@@ -169,6 +180,7 @@ class AddOrderBloc extends Bloc<AddOrderEvent, AddOrderState>
 
   FutureOr<void> _saveOrder(
       SaveOrder event, Emitter<AddOrderState> emit) async {
+    log.logEvent<SaveOrder>();
     emit(
       state.copyWith(
         status: AddOrderStatus.LOADING,

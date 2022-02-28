@@ -6,13 +6,17 @@ import 'package:jb_fe/backend_integration/domain/usecase/inventory/update_item.d
 import 'package:jb_fe/backend_integration/dto/item/item_presentation.dart';
 import 'package:jb_fe/controllers/bloc/inventory/mediator/notification/notification.dart';
 import 'package:jb_fe/controllers/bloc/inventory/mediator/notifier/update_notifier.dart';
-import 'package:jb_fe/controllers/bloc/party/update_party/update_party_bloc.dart';
+import 'package:jb_fe/util/extension/common_logging.dart';
+
+import '../../../../util/logger.dart';
 
 part 'update_item_event.dart';
 part 'update_item_state.dart';
 
 class UpdateItemBloc extends Bloc<UpdateItemEvent, UpdateItemState>
     with UpdateItemNotifier {
+  final log = getLogger<UpdateItemBloc>();
+
   final UpdateItemUseCase updateItemUseCase;
 
   UpdateItemBloc({required this.updateItemUseCase})
@@ -22,7 +26,8 @@ class UpdateItemBloc extends Bloc<UpdateItemEvent, UpdateItemState>
 
   FutureOr<void> _onUpdateItem(
       UpdateItem event, Emitter<UpdateItemState> emit) async {
-    print("Updating item");
+    log.logEvent<UpdateItem>();
+
     emit(
       const UpdateItemState(
         status: UpdateItemStatus.LOADING,

@@ -60,7 +60,6 @@ class OrderEntity extends Equatable {
   Map<String, dynamic> toJson() => _$OrderEntityToJson(this);
 
   static List<OrderEntity> fromJsonToList(List<dynamic> json) {
-    print("Json: ${json.length} ${json is List}");
     return List<OrderEntity>.from(
       json.map(
         (order) {

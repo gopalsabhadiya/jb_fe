@@ -8,7 +8,6 @@ class FetchItemImagesUseCase {
   FetchItemImagesUseCase({required this.repository});
 
   Future<Map<String, Uint8List>> call({required String itemId}) async {
-    print("Fetch9ing images");
     final Map<String, Uint8List> images =
         await repository.downloadImages(itemId);
     return images;

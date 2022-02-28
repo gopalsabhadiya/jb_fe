@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jb_fe/constants/colors.dart';
-import 'package:jb_fe/controllers/bloc/authenticated_sidepanel.dart';
+import 'package:jb_fe/controllers/bloc/authentication/sidepanel/authenticated_sidepanel.dart';
 import 'package:jb_fe/helpers/responsive/responsive_helper.dart';
 import 'package:jb_fe/router/delegate.dart';
 import 'package:jb_fe/util/authenticated_navbar.dart';

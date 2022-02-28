@@ -8,13 +8,18 @@ import 'package:jb_fe/constants/texts/defaults.dart';
 import 'package:jb_fe/controllers/bloc/party/mediator/notification/notification.dart';
 import 'package:jb_fe/controllers/bloc/party/mediator/notifier/search_notifier.dart';
 import 'package:jb_fe/controllers/bloc/party/mediator/subscriber/operation_subscriber.dart';
+import 'package:jb_fe/util/extension/common_logging.dart';
 import 'package:uuid/uuid.dart';
+
+import '../../../../util/logger.dart';
 
 part 'search_party_event.dart';
 part 'search_party_state.dart';
 
 class SearchPartyBloc extends Bloc<SearchPartyEvent, SearchPartyState>
     with SearchPartyNotifier, PartyOperationSubscriber {
+  final log = getLogger<SearchPartyBloc>();
+
   final String _id = const Uuid().v4();
 
   final SearchPartyUseCase searchPartyUseCase;
@@ -27,6 +32,8 @@ class SearchPartyBloc extends Bloc<SearchPartyEvent, SearchPartyState>
 
   FutureOr<void> _onSearchParty(
       SearchParty event, Emitter<SearchPartyState> emit) async {
+    log.logEvent<SearchParty>();
+
     emit(
       state.copyWith(
         searchStatus: SearchPartyStatus.LOADING,
@@ -61,6 +68,8 @@ class SearchPartyBloc extends Bloc<SearchPartyEvent, SearchPartyState>
 
   FutureOr<void> _onClearSearchTerm(
       ClearSearchPartyTerm event, Emitter<SearchPartyState> emit) {
+    log.logEvent<ClearSearchPartyTerm>();
+
     emit(
       state.copyWith(
         result: <PartyPresentation>[],

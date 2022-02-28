@@ -6,7 +6,10 @@ import 'package:jb_fe/backend_integration/domain/usecase/daily_gold_rate/get_tod
 import 'package:jb_fe/backend_integration/dto/daily_gold_rate/daily_gold_rate_presentation.dart';
 import 'package:jb_fe/controllers/bloc/dashboard/mediator/notification/notification.dart';
 import 'package:jb_fe/controllers/bloc/dashboard/mediator/subscriber/operation_subscriber.dart';
+import 'package:jb_fe/util/extension/common_logging.dart';
 import 'package:uuid/uuid.dart';
+
+import '../../../../util/logger.dart';
 
 part 'daily_gold_rate_event.dart';
 part 'daily_gold_rate_state.dart';
@@ -30,6 +33,8 @@ class _UpdateDailyGoldRate extends DailyGoldRateEvent {
 class DailyGoldRateBloc extends Bloc<DailyGoldRateEvent, DailyGoldRateState>
     with DailyGoldRateOperationSubscriber {
   final String _id = const Uuid().v4();
+  final log = getLogger<DailyGoldRateBloc>();
+
   final GetTodayGoldRateUseCase getTodayGoldRateUseCase;
   DailyGoldRateBloc({required this.getTodayGoldRateUseCase})
       : super(const DailyGoldRateState()) {
@@ -40,7 +45,8 @@ class DailyGoldRateBloc extends Bloc<DailyGoldRateEvent, DailyGoldRateState>
 
   FutureOr<void> _getTodayGoldRate(
       GetTodayGoldRate event, Emitter<DailyGoldRateState> emit) async {
-    print("Trying to read daily gold rate");
+    log.logEvent<GetTodayGoldRate>();
+
     emit(
       state.copyWith(
         status: DailyGoldRateStatus.LOADING,
@@ -68,6 +74,7 @@ class DailyGoldRateBloc extends Bloc<DailyGoldRateEvent, DailyGoldRateState>
 
   FutureOr<void> _addDailyGoldRate(
       _AddDailyGoldRate event, Emitter<DailyGoldRateState> emit) {
+    log.logEvent<_AddDailyGoldRate>();
     emit(
       state.copyWith(
           todayGoldRate: event.dailyGoldRate, todayGoldRateAvailable: true),
@@ -76,6 +83,7 @@ class DailyGoldRateBloc extends Bloc<DailyGoldRateEvent, DailyGoldRateState>
 
   FutureOr<void> _updateDailyGoldRate(
       _UpdateDailyGoldRate event, Emitter<DailyGoldRateState> emit) {
+    log.logEvent<_UpdateDailyGoldRate>();
     emit(
       state.copyWith(
         todayGoldRate: event.dailyGoldRate,
@@ -86,6 +94,9 @@ class DailyGoldRateBloc extends Bloc<DailyGoldRateEvent, DailyGoldRateState>
 
   @override
   void update({required DailyGoldRateOperationNotification notification}) {
+    log.logReceivedEventNotification(
+      notificationType: notification.runtimeType,
+    );
     switch (notification.notificationType) {
       case DailyGoldRateNotificationType.DAILY_GOLD_RATE_UPDATED:
         add(

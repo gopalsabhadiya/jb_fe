@@ -3,15 +3,19 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:jb_fe/backend_integration/domain/usecase/mail/send_otp_mail.dart';
+import 'package:jb_fe/util/extension/common_logging.dart';
 
 import '../../../../backend_integration/domain/usecase/mail/change_password.dart';
 import '../../../../backend_integration/domain/usecase/mail/verify_otp.dart';
+import '../../../../util/logger.dart';
 
 part 'forgot_password_event.dart';
 part 'forgot_password_state.dart';
 
 class ForgotPasswordBloc
     extends Bloc<ForgotPasswordEvent, ForgotPasswordState> {
+  final log = getLogger<ForgotPasswordBloc>();
+
   final SendOTPMailUseCase sendOTPMailUseCase;
   final VerifyOTPUseCase verifyOtpUseCase;
   final ChangePasswordUseCase changePasswordUseCase;
@@ -30,6 +34,7 @@ class ForgotPasswordBloc
     SendOTPMail event,
     Emitter<ForgotPasswordState> emit,
   ) async {
+    log.logEvent<SendOTPMail>();
     try {
       emit(
         state.copyWith(
@@ -64,6 +69,7 @@ class ForgotPasswordBloc
 
   FutureOr<void> _onVerifyOTP(
       VerifyOTP event, Emitter<ForgotPasswordState> emit) async {
+    log.logEvent<VerifyOTP>();
     try {
       emit(
         state.copyWith(
@@ -97,6 +103,8 @@ class ForgotPasswordBloc
 
   FutureOr<void> _onChangePassword(
       ChangePassword event, Emitter<ForgotPasswordState> emit) async {
+    log.logEvent<ChangePassword>();
+
     try {
       final mailSent = await changePasswordUseCase(
         password: event.password,

@@ -8,13 +8,18 @@ import 'package:jb_fe/constants/texts/defaults.dart';
 import 'package:jb_fe/controllers/bloc/inventory/mediator/notification/notification.dart';
 import 'package:jb_fe/controllers/bloc/inventory/mediator/notifier/search_notifier.dart';
 import 'package:jb_fe/controllers/bloc/inventory/mediator/subscriber/operation_subscriber.dart';
+import 'package:jb_fe/util/extension/common_logging.dart';
 import 'package:uuid/uuid.dart';
+
+import '../../../../util/logger.dart';
 
 part 'search_item_event.dart';
 part 'search_item_state.dart';
 
 class SearchItemBloc extends Bloc<SearchItemEvent, SearchItemState>
     with SearchItemNotifier, ItemOperationSubscriber {
+  final log = getLogger<SearchItemBloc>();
+
   final String _id = const Uuid().v4();
 
   final SearchItemUseCase searchItemUseCase;
@@ -27,6 +32,7 @@ class SearchItemBloc extends Bloc<SearchItemEvent, SearchItemState>
 
   FutureOr<void> _onSearchItem(
       SearchItem event, Emitter<SearchItemState> emit) async {
+    log.logEvent<SearchItem>();
     emit(
       state.copyWith(
         searchStatus: SearchItemStatus.LOADING,
@@ -68,6 +74,8 @@ class SearchItemBloc extends Bloc<SearchItemEvent, SearchItemState>
 
   FutureOr<void> _onClearSearchTerm(
       ClearSearchItemTerm event, Emitter<SearchItemState> emit) {
+    log.logEvent<ClearSearchItemTerm>();
+
     emit(
       state.copyWith(
         result: <ItemPresentation>[],
@@ -84,6 +92,9 @@ class SearchItemBloc extends Bloc<SearchItemEvent, SearchItemState>
 
   @override
   void update({required ItemOperationNotification notification}) async {
+    log.logReceivedEventNotification(
+      notificationType: notification.runtimeType,
+    );
     final searchResult = await searchItemUseCase(
       searchTerm: state.searchTerm,
       skip: state.result.length,

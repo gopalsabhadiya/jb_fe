@@ -4,6 +4,8 @@ import 'package:jb_fe/backend_integration/client/http_client.dart';
 import 'package:jb_fe/backend_integration/constants/uri/endpoints.dart';
 import 'package:jb_fe/backend_integration/domain/entities/item/item.dart';
 
+import '../../../../util/logger.dart';
+
 abstract class ItemRemoteDataSource {
   Future<ItemEntity> getItem(String itemId);
   Future<List<ItemEntity>> getItemPage(int skip);
@@ -16,6 +18,8 @@ abstract class ItemRemoteDataSource {
 }
 
 class ItemRemoteDataSourceImpl implements ItemRemoteDataSource {
+  final log = getLogger<ItemRemoteDataSourceImpl>();
+
   final _http = AppHttpClient.getHttpClient();
 
   @override

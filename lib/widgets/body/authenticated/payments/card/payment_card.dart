@@ -59,7 +59,6 @@ class PaymentCard extends StatelessWidget {
   }
 
   _onPaymentDeleteClick(BuildContext parentContext) {
-    print("Party Deleted: $_receipt");
     showDialog(
       context: parentContext,
       builder: (BuildContext context) {

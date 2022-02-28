@@ -6,12 +6,17 @@ import 'package:jb_fe/backend_integration/domain/usecase/inventory/create_item.d
 import 'package:jb_fe/backend_integration/dto/item/item_presentation.dart';
 import 'package:jb_fe/controllers/bloc/inventory/mediator/notification/notification.dart';
 import 'package:jb_fe/controllers/bloc/inventory/mediator/notifier/add_notifier.dart';
+import 'package:jb_fe/util/extension/common_logging.dart';
+
+import '../../../../util/logger.dart';
 
 part 'add_item_event.dart';
 part 'add_item_state.dart';
 
 class AddItemBloc extends Bloc<AddItemEvent, AddItemState>
     with AddItemNotifier {
+  final log = getLogger<AddItemBloc>();
+
   final CreateItemUseCase createItemUseCase;
 
   AddItemBloc({required this.createItemUseCase}) : super(const AddItemState()) {
@@ -20,6 +25,7 @@ class AddItemBloc extends Bloc<AddItemEvent, AddItemState>
 
   FutureOr<void> _onAddNewItem(
       AddNewItem event, Emitter<AddItemState> emit) async {
+    log.logEvent<AddNewItem>();
     emit(const AddItemState(status: AddItemStatus.LOADING));
     try {
       final savedItem = await createItemUseCase(item: event.item);

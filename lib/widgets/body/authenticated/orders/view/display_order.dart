@@ -30,7 +30,6 @@ class ViewOrder extends StatelessWidget {
           // const Expanded(child: OrderForm()),
           BlocBuilder<FetchOrderBloc, FetchOrderState>(
             builder: (context, state) {
-              print("Re rendering: $state");
               switch (state.status) {
                 case FetchOrderStatus.LOADING:
                   return const Center(
@@ -60,7 +59,6 @@ class ViewOrder extends StatelessWidget {
   }
 
   void _cancelSave() {
-    print("Cancel Save Order");
     _closeDrawer();
   }
 }

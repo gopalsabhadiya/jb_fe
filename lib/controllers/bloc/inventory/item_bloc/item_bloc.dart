@@ -8,7 +8,10 @@ import 'package:jb_fe/backend_integration/dto/order/order_presentation.dart';
 import 'package:jb_fe/controllers/bloc/inventory/mediator/notification/notification.dart';
 import 'package:jb_fe/controllers/bloc/inventory/mediator/notifier/next_page_notifier.dart';
 import 'package:jb_fe/controllers/bloc/inventory/mediator/subscriber/operation_subscriber.dart';
+import 'package:jb_fe/util/extension/common_logging.dart';
 import 'package:uuid/uuid.dart';
+
+import '../../../../util/logger.dart';
 
 part 'item_event.dart';
 part 'item_state.dart';
@@ -55,6 +58,8 @@ class _UpdateForOrderPlaced extends ItemEvent {
 
 class ItemBloc extends Bloc<ItemEvent, ItemState>
     with ItemOperationSubscriber, SearchNextItemPageNotifier {
+  final log = getLogger<ItemBloc>();
+
   final String _id = const Uuid().v4();
 
   final GetItemPageUseCase getItemPageUseCase;
@@ -73,6 +78,7 @@ class ItemBloc extends Bloc<ItemEvent, ItemState>
 
   FutureOr<void> _onFetchItemFirstPage(
       FetchItemFirstPage event, Emitter<ItemState> emit) async {
+    log.logEvent<FetchItemFirstPage>();
     emit(
       state.copyWith(
         status: ItemStatus.LOADING,
@@ -88,7 +94,6 @@ class ItemBloc extends Bloc<ItemEvent, ItemState>
           }
         }
       }
-      print("Emitting new item list");
       emit(
         state.copyWith(
           status: ItemStatus.SUCCESS,
@@ -108,6 +113,7 @@ class ItemBloc extends Bloc<ItemEvent, ItemState>
 
   FutureOr<void> _fetchNextItemPage(
       FetchNextItemPage event, Emitter<ItemState> emit) async {
+    log.logEvent<FetchNextItemPage>();
     if (state.hasReachedMax == true) {
       return null;
     }
@@ -131,6 +137,7 @@ class ItemBloc extends Bloc<ItemEvent, ItemState>
 
   FutureOr<void> _displaySearchResult(
       _DisplaySearchItemResult event, Emitter<ItemState> emit) {
+    log.logEvent<_DisplaySearchItemResult>();
     emit(
       state.copyWith(
         status: ItemStatus.LOADING,
@@ -148,6 +155,7 @@ class ItemBloc extends Bloc<ItemEvent, ItemState>
 
   FutureOr<void> _clearSearchTerm(
       _ClearSearchTerm event, Emitter<ItemState> emit) {
+    log.logEvent<_ClearSearchTerm>();
     emit(
       state.copyWith(
         status: ItemStatus.LOADING,
@@ -160,6 +168,7 @@ class ItemBloc extends Bloc<ItemEvent, ItemState>
 
   FutureOr<void> _removeItemFromList(
       _DeleteItem event, Emitter<ItemState> emit) {
+    log.logEvent<_DeleteItem>();
     final newList = <ItemPresentation>[];
     for (var item in state.itemList) {
       if (item.id != event.itemId) {
@@ -175,6 +184,7 @@ class ItemBloc extends Bloc<ItemEvent, ItemState>
   }
 
   FutureOr<void> _updateItem(_UpdateItem event, Emitter<ItemState> emit) {
+    log.logEvent<_UpdateItem>();
     emit(state.copyWith(status: ItemStatus.LOADING));
     final newList = <ItemPresentation>[];
     for (var item in state.itemList) {
@@ -192,6 +202,7 @@ class ItemBloc extends Bloc<ItemEvent, ItemState>
   }
 
   FutureOr<void> _addItem(_AddItem event, Emitter<ItemState> emit) {
+    log.logEvent<_AddItem>();
     emit(
       state.copyWith(
         status: ItemStatus.SUCCESS,
@@ -202,6 +213,7 @@ class ItemBloc extends Bloc<ItemEvent, ItemState>
 
   FutureOr<void> _updateItemFromCart(
       _UpdateItemFromCart event, Emitter<ItemState> emit) {
+    log.logEvent<_UpdateItemFromCart>();
     emit(
       state.copyWith(
         status: ItemStatus.LOADING,
@@ -217,12 +229,15 @@ class ItemBloc extends Bloc<ItemEvent, ItemState>
 
   FutureOr<void> _updateForPlacedOrder(
       _UpdateForOrderPlaced event, Emitter<ItemState> emit) {
-    print("Update item for placed order: ${event.order.id}");
+    log.logEvent<_UpdateForOrderPlaced>();
     add(const FetchItemFirstPage(cartItems: <ItemPresentation>[]));
   }
 
   @override
   void update({required ItemOperationNotification notification}) {
+    log.logReceivedEventNotification(
+      notificationType: notification.runtimeType,
+    );
     switch (notification.notificationType) {
       case ItemNotificationType.ITEM_DELETED:
         add(

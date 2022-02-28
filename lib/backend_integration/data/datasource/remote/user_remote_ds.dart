@@ -4,11 +4,15 @@ import 'package:jb_fe/backend_integration/client/http_client.dart';
 import 'package:jb_fe/backend_integration/constants/uri/endpoints.dart';
 import 'package:jb_fe/backend_integration/domain/entities/user/user.dart';
 
+import '../../../../util/logger.dart';
+
 abstract class UserRemoteDataSource {
   Future<UserEntity> getUser();
 }
 
 class UserRemoteDataSourceImpl implements UserRemoteDataSource {
+  final log = getLogger<UserRemoteDataSourceImpl>();
+
   final _http = AppHttpClient.getHttpClient();
 
   @override

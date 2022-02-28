@@ -4,6 +4,8 @@ import 'package:jb_fe/backend_integration/client/http_client.dart';
 import 'package:jb_fe/backend_integration/constants/uri/endpoints.dart';
 import 'package:jb_fe/backend_integration/domain/entities/business/business.dart';
 
+import '../../../../util/logger.dart';
+
 abstract class BusinessRemoteDataSource {
   Future<BusinessEntity> getBusinessData();
 
@@ -11,6 +13,8 @@ abstract class BusinessRemoteDataSource {
 }
 
 class BusinessRemoteDataSourceImpl implements BusinessRemoteDataSource {
+  final log = getLogger<BusinessRemoteDataSourceImpl>();
+
   final _http = AppHttpClient.getHttpClient();
 
   @override

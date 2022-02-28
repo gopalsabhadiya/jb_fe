@@ -4,6 +4,7 @@ import 'package:jb_fe/backend_integration/domain/entities/authentication/login.d
 import 'package:jb_fe/backend_integration/domain/entities/authentication/response/login_response.dart';
 
 import '../../../../injection_container.dart';
+import '../../../../util/logger.dart';
 import '../../../client/http_client.dart';
 import '../../../constants/uri/endpoints.dart';
 import '../../../utils/storage/shared_preference.dart';
@@ -15,6 +16,8 @@ abstract class AuthenticationRemoteDataSource {
 
 class AuthenticationRemoteDataSourceImpl
     implements AuthenticationRemoteDataSource {
+  final log = getLogger<AuthenticationRemoteDataSource>();
+
   final _http = AppHttpClient.getHttpClient();
 
   @override
@@ -33,6 +36,7 @@ class AuthenticationRemoteDataSourceImpl
     return entity;
   }
 
+  @override
   Future<bool> validateAuthentication() async {
     final String csrfToken =
         await serviceLocator<AppSharedPreference>().getString(key: "csrf");

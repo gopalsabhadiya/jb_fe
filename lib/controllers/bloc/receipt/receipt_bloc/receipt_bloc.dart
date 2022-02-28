@@ -8,7 +8,10 @@ import 'package:jb_fe/backend_integration/dto/payment/receipt_presentation.dart'
 import 'package:jb_fe/controllers/bloc/receipt/mediator/notification/notification.dart';
 import 'package:jb_fe/controllers/bloc/receipt/mediator/notifier/next_page_notifier.dart';
 import 'package:jb_fe/controllers/bloc/receipt/mediator/subscriber/operation_subscriber.dart';
+import 'package:jb_fe/util/extension/common_logging.dart';
 import 'package:uuid/uuid.dart';
+
+import '../../../../util/logger.dart';
 
 part 'receipt_event.dart';
 part 'receipt_state.dart';
@@ -33,6 +36,8 @@ class _ClearSearchTerm extends ReceiptEvent {}
 
 class ReceiptBloc extends Bloc<ReceiptEvent, ReceiptState>
     with ReceiptOperationSubscriber, SearchNextReceiptPageNotifier {
+  final log = getLogger<ReceiptBloc>();
+
   final String _id = const Uuid().v4();
 
   final GetReceiptPageUseCase getReceiptPageUseCase;
@@ -49,16 +54,15 @@ class ReceiptBloc extends Bloc<ReceiptEvent, ReceiptState>
 
   FutureOr<void> _onFetchReceiptFirstPage(
       FetchReceiptFirstPage event, Emitter<ReceiptState> emit) async {
-    print("1");
+    log.logEvent<FetchReceiptFirstPage>();
+
     emit(
       state.copyWith(
         status: ReceiptStatus.LOADING,
       ),
     );
-    print("2");
     try {
       final receiptList = await getReceiptPageUseCase();
-      print("3");
       emit(
         state.copyWith(
           status: ReceiptStatus.SUCCESS,
@@ -66,7 +70,6 @@ class ReceiptBloc extends Bloc<ReceiptEvent, ReceiptState>
           hasReachedMax: receiptList.length < 20,
         ),
       );
-      print("Your receipt list: $receiptList");
     } catch (e) {
       emit(
         state.copyWith(
@@ -78,6 +81,8 @@ class ReceiptBloc extends Bloc<ReceiptEvent, ReceiptState>
 
   FutureOr<void> _fetchNextReceiptPage(
       FetchNextReceiptPage event, Emitter<ReceiptState> emit) async {
+    log.logEvent<FetchNextReceiptPage>();
+
     if (state.hasReachedMax == true) {
       return null;
     }
@@ -102,6 +107,8 @@ class ReceiptBloc extends Bloc<ReceiptEvent, ReceiptState>
 
   FutureOr<void> _displaySearchResult(
       _DisplaySearchReceiptResult event, Emitter<ReceiptState> emit) {
+    log.logEvent<_DisplaySearchReceiptResult>();
+
     emit(
       state.copyWith(
         status: ReceiptStatus.LOADING,
@@ -119,6 +126,8 @@ class ReceiptBloc extends Bloc<ReceiptEvent, ReceiptState>
 
   FutureOr<void> _clearSearchTerm(
       _ClearSearchTerm event, Emitter<ReceiptState> emit) {
+    log.logEvent<_ClearSearchTerm>();
+
     emit(
       state.copyWith(
         status: ReceiptStatus.LOADING,
@@ -131,6 +140,8 @@ class ReceiptBloc extends Bloc<ReceiptEvent, ReceiptState>
 
   FutureOr<void> _removeReceiptFromList(
       _DeleteReceipt event, Emitter<ReceiptState> emit) {
+    log.logEvent<_DeleteReceipt>();
+
     final newList = <ReceiptDetailsPresentation>[];
     for (var receipt in state.receiptList) {
       if (receipt.id != event.receiptId) {
@@ -146,6 +157,8 @@ class ReceiptBloc extends Bloc<ReceiptEvent, ReceiptState>
   }
 
   FutureOr<void> _addReceipt(_AddReceipt event, Emitter<ReceiptState> emit) {
+    log.logEvent<_AddReceipt>();
+
     emit(
       state.copyWith(
         status: ReceiptStatus.SUCCESS,
@@ -156,6 +169,9 @@ class ReceiptBloc extends Bloc<ReceiptEvent, ReceiptState>
 
   @override
   void update({required ReceiptOperationNotification notification}) {
+    log.logReceivedEventNotification(
+      notificationType: notification.runtimeType,
+    );
     switch (notification.notificationType) {
       case ReceiptNotificationType.RECEIPT_DELETED:
         add(

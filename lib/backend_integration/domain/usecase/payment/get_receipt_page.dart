@@ -8,10 +8,8 @@ class GetReceiptPageUseCase {
   GetReceiptPageUseCase({required this.repository});
 
   Future<List<ReceiptDetailsPresentation>> call({int skip = 0}) async {
-    print("A");
     List<ReceiptDetailsEntity> receiptEntityList =
         await repository.getReceiptPage(skip);
-    print("B");
     List<ReceiptDetailsPresentation> receiptPresentationList = receiptEntityList
         .map((receipt) => ReceiptDetailsPresentation(receipt))
         .toList();

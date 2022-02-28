@@ -7,7 +7,10 @@ import 'package:jb_fe/backend_integration/dto/party/party_presentation.dart';
 import 'package:jb_fe/controllers/bloc/party/mediator/notification/notification.dart';
 import 'package:jb_fe/controllers/bloc/party/mediator/notifier/next_page_notifier.dart';
 import 'package:jb_fe/controllers/bloc/party/mediator/subscriber/operation_subscriber.dart';
+import 'package:jb_fe/util/extension/common_logging.dart';
 import 'package:uuid/uuid.dart';
+
+import '../../../../util/logger.dart';
 
 part 'party_event.dart';
 part 'party_state.dart';
@@ -37,6 +40,8 @@ class _ClearSearchTerm extends PartyEvent {}
 
 class PartyBloc extends Bloc<PartyEvent, PartyState>
     with PartyOperationSubscriber, SearchNextPartyPageNotifier {
+  final log = getLogger<PartyBloc>();
+
   final String _id = const Uuid().v4();
 
   final GetPartyPageUseCase getPartyPageUseCase;
@@ -53,6 +58,8 @@ class PartyBloc extends Bloc<PartyEvent, PartyState>
 
   FutureOr<void> _onFetchPartyFirstPage(
       FetchPartyFirstPage event, Emitter<PartyState> emit) async {
+    log.logEvent<FetchPartyFirstPage>();
+
     emit(
       state.copyWith(
         status: PartyStatus.LOADING,
@@ -78,6 +85,8 @@ class PartyBloc extends Bloc<PartyEvent, PartyState>
 
   FutureOr<void> _fetchNextPartyPage(
       FetchNextPartyPage event, Emitter<PartyState> emit) async {
+    log.logEvent<FetchNextPartyPage>();
+
     if (state.hasReachedMax == true) {
       return null;
     }
@@ -101,6 +110,8 @@ class PartyBloc extends Bloc<PartyEvent, PartyState>
 
   FutureOr<void> _displaySearchResult(
       _DisplaySearchPartyResult event, Emitter<PartyState> emit) {
+    log.logEvent<_DisplaySearchPartyResult>();
+
     emit(
       state.copyWith(
         status: PartyStatus.LOADING,
@@ -118,6 +129,8 @@ class PartyBloc extends Bloc<PartyEvent, PartyState>
 
   FutureOr<void> _clearSearchTerm(
       _ClearSearchTerm event, Emitter<PartyState> emit) {
+    log.logEvent<_ClearSearchTerm>();
+
     emit(
       state.copyWith(
         status: PartyStatus.LOADING,
@@ -130,6 +143,8 @@ class PartyBloc extends Bloc<PartyEvent, PartyState>
 
   FutureOr<void> _removePartyFromList(
       _DeleteParty event, Emitter<PartyState> emit) {
+    log.logEvent<_DeleteParty>();
+
     final newList = <PartyPresentation>[];
     for (var party in state.partyList) {
       if (party.id != event.partyId) {
@@ -145,6 +160,8 @@ class PartyBloc extends Bloc<PartyEvent, PartyState>
   }
 
   FutureOr<void> _updateParty(_UpdateParty event, Emitter<PartyState> emit) {
+    log.logEvent<_UpdateParty>();
+
     emit(state.copyWith(status: PartyStatus.LOADING));
     final newList = <PartyPresentation>[];
     for (var party in state.partyList) {
@@ -162,6 +179,8 @@ class PartyBloc extends Bloc<PartyEvent, PartyState>
   }
 
   FutureOr<void> _addParty(_AddParty event, Emitter<PartyState> emit) {
+    log.logEvent<_AddParty>();
+
     emit(
       state.copyWith(
         status: PartyStatus.SUCCESS,
@@ -172,6 +191,9 @@ class PartyBloc extends Bloc<PartyEvent, PartyState>
 
   @override
   void update({required PartyOperationNotification notification}) {
+    log.logReceivedEventNotification(
+      notificationType: notification.runtimeType,
+    );
     switch (notification.notificationType) {
       case PartyNotificationType.PARTY_DELETED:
         add(

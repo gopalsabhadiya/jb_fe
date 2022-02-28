@@ -51,7 +51,6 @@ class _PartySelectionSearchState extends State<PartySelectionSearch> {
 
   @override
   Widget build(BuildContext context) {
-    print("Building again: ${widget._partyList.length}");
     return CompositedTransformTarget(
       link: _layerLink,
       child: AppSearchInput(

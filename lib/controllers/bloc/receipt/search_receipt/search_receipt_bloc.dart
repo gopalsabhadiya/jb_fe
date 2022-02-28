@@ -8,13 +8,18 @@ import 'package:jb_fe/constants/texts/defaults.dart';
 import 'package:jb_fe/controllers/bloc/receipt/mediator/notification/notification.dart';
 import 'package:jb_fe/controllers/bloc/receipt/mediator/notifier/search_notifier.dart';
 import 'package:jb_fe/controllers/bloc/receipt/mediator/subscriber/operation_subscriber.dart';
+import 'package:jb_fe/util/extension/common_logging.dart';
 import 'package:uuid/uuid.dart';
+
+import '../../../../util/logger.dart';
 
 part 'search_receipt_event.dart';
 part 'search_receipt_state.dart';
 
 class SearchReceiptBloc extends Bloc<SearchReceiptEvent, SearchReceiptState>
     with SearchReceiptNotifier, ReceiptOperationSubscriber {
+  final log = getLogger<SearchReceiptBloc>();
+
   final String _id = const Uuid().v4();
 
   final SearchReceiptUseCase searchReceiptUseCase;
@@ -27,6 +32,8 @@ class SearchReceiptBloc extends Bloc<SearchReceiptEvent, SearchReceiptState>
 
   FutureOr<void> _onSearchReceipt(
       SearchReceipt event, Emitter<SearchReceiptState> emit) async {
+    log.logEvent<SearchReceipt>();
+
     emit(
       state.copyWith(
         searchStatus: SearchReceiptStatus.LOADING,
@@ -62,6 +69,8 @@ class SearchReceiptBloc extends Bloc<SearchReceiptEvent, SearchReceiptState>
 
   FutureOr<void> _onClearSearchTerm(
       ClearSearchReceiptTerm event, Emitter<SearchReceiptState> emit) {
+    log.logEvent<ClearSearchReceiptTerm>();
+
     emit(
       state.copyWith(
         result: <ReceiptDetailsPresentation>[],

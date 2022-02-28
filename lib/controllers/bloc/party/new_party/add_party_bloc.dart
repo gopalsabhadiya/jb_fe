@@ -6,12 +6,17 @@ import 'package:jb_fe/backend_integration/domain/usecase/party/create_party.dart
 import 'package:jb_fe/backend_integration/dto/party/party_presentation.dart';
 import 'package:jb_fe/controllers/bloc/party/mediator/notification/notification.dart';
 import 'package:jb_fe/controllers/bloc/party/mediator/notifier/add_notifier.dart';
+import 'package:jb_fe/util/extension/common_logging.dart';
+
+import '../../../../util/logger.dart';
 
 part 'add_party_event.dart';
 part 'add_party_state.dart';
 
 class AddPartyBloc extends Bloc<AddPartyEvent, AddPartyState>
     with AddPartyNotifier {
+  final log = getLogger<AddPartyBloc>();
+
   final CreatePartyUseCase createPartyUseCase;
 
   AddPartyBloc({required this.createPartyUseCase})
@@ -21,6 +26,8 @@ class AddPartyBloc extends Bloc<AddPartyEvent, AddPartyState>
 
   FutureOr<void> _onAddNewParty(
       AddNewParty event, Emitter<AddPartyState> emit) async {
+    log.logEvent<AddNewParty>();
+
     emit(const AddPartyState(status: AddPartyStatus.LOADING));
     try {
       final savedParty = await createPartyUseCase(party: event.party);

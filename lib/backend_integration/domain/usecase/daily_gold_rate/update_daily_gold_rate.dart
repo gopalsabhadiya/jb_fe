@@ -9,7 +9,6 @@ class UpdateTodayGoldRateUseCase {
   Future<DailyGoldRatePresentation> call(
       {required DailyGoldRatePresentation dailyGoldRate}) async {
     dailyGoldRate.updateValues();
-    print("Update daily gold rate: $dailyGoldRate");
     final dailyGoldRateEntity =
         await repository.updateTodayGoldRate(dailyGoldRate.getEntity());
     return DailyGoldRatePresentation(dailyGoldRateEntity);

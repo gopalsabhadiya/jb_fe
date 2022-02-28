@@ -28,6 +28,7 @@ dependencies:
   share_plus:
   syncfusion_flutter_datepicker:
   printing:
+  logger:
 
 
 dev_dependencies:

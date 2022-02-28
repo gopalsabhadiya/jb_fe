@@ -5,11 +5,16 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:jb_fe/backend_integration/domain/usecase/inventory/fetch_item_images.dart';
 import 'package:jb_fe/backend_integration/dto/item/item_presentation.dart';
+import 'package:jb_fe/util/extension/common_logging.dart';
+
+import '../../../../util/logger.dart';
 
 part 'item_image_event.dart';
 part 'item_image_state.dart';
 
 class ItemImageBloc extends Bloc<ItemImageEvent, ItemImageState> {
+  final log = getLogger<ItemImageBloc>();
+
   final FetchItemImagesUseCase fetchItemImagesUseCase;
   ItemImageBloc({required this.fetchItemImagesUseCase})
       : super(const ItemImageState()) {
@@ -18,6 +23,7 @@ class ItemImageBloc extends Bloc<ItemImageEvent, ItemImageState> {
 
   FutureOr<void> _fetchItemImages(
       FetchImages event, Emitter<ItemImageState> emit) async {
+    log.logEvent<FetchImages>();
     try {
       if (event.item.hasImages ?? false) {
         final Map<String, Uint8List> imageMap =

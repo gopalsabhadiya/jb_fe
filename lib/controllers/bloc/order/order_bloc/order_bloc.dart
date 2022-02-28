@@ -8,7 +8,10 @@ import 'package:jb_fe/backend_integration/dto/order/order_presentation.dart';
 import 'package:jb_fe/controllers/bloc/order/mediator/notification/notification.dart';
 import 'package:jb_fe/controllers/bloc/order/mediator/notifier/next_page_notifier.dart';
 import 'package:jb_fe/controllers/bloc/order/mediator/subscriber/operation_subscriber.dart';
+import 'package:jb_fe/util/extension/common_logging.dart';
 import 'package:uuid/uuid.dart';
+
+import '../../../../util/logger.dart';
 
 part 'order_event.dart';
 part 'order_state.dart';
@@ -33,6 +36,7 @@ class _ClearSearchTerm extends OrderEvent {}
 
 class OrderBloc extends Bloc<OrderEvent, OrderState>
     with OrderOperationSubscriber, SearchNextOrderPageNotifier {
+  final log = getLogger<OrderBloc>();
   final String _id = const Uuid().v4();
 
   final GetOrderPageUseCase getOrderPageUseCase;
@@ -48,6 +52,7 @@ class OrderBloc extends Bloc<OrderEvent, OrderState>
 
   FutureOr<void> _onFetchOrderFirstPage(
       FetchOrderFirstPage event, Emitter<OrderState> emit) async {
+    log.logEvent<FetchOrderFirstPage>();
     emit(
       state.copyWith(
         status: OrderStatus.LOADING,
@@ -63,7 +68,6 @@ class OrderBloc extends Bloc<OrderEvent, OrderState>
         ),
       );
     } catch (e) {
-      print("Error: $e");
       emit(
         state.copyWith(
           status: OrderStatus.FAILURE,
@@ -74,6 +78,7 @@ class OrderBloc extends Bloc<OrderEvent, OrderState>
 
   FutureOr<void> _fetchNextOrderPage(
       FetchNextOrderPage event, Emitter<OrderState> emit) async {
+    log.logEvent<FetchNextOrderPage>();
     if (state.hasReachedMax == true) {
       return null;
     }
@@ -97,7 +102,7 @@ class OrderBloc extends Bloc<OrderEvent, OrderState>
 
   FutureOr<void> _displaySearchResult(
       _DisplaySearchOrderResult event, Emitter<OrderState> emit) {
-    print("Display Search result");
+    log.logEvent<_DisplaySearchOrderResult>();
     emit(
       state.copyWith(
         status: OrderStatus.LOADING,
@@ -115,6 +120,7 @@ class OrderBloc extends Bloc<OrderEvent, OrderState>
 
   FutureOr<void> _clearSearchTerm(
       _ClearSearchTerm event, Emitter<OrderState> emit) {
+    log.logEvent<_ClearSearchTerm>();
     emit(
       state.copyWith(
         status: OrderStatus.LOADING,
@@ -127,6 +133,7 @@ class OrderBloc extends Bloc<OrderEvent, OrderState>
 
   FutureOr<void> _removeOrderFromList(
       _DeleteOrder event, Emitter<OrderState> emit) {
+    log.logEvent<_DeleteOrder>();
     final newList = <OrderDetailsPresentation>[];
     for (var order in state.orderList) {
       if (order.id != event.orderId) {
@@ -142,6 +149,7 @@ class OrderBloc extends Bloc<OrderEvent, OrderState>
   }
 
   FutureOr<void> _addOrder(_AddOrder event, Emitter<OrderState> emit) {
+    log.logEvent<_AddOrder>();
     emit(
       state.copyWith(
         status: OrderStatus.SUCCESS,
@@ -152,6 +160,9 @@ class OrderBloc extends Bloc<OrderEvent, OrderState>
 
   @override
   void update({required OrderOperationNotification notification}) {
+    log.logReceivedEventNotification(
+      notificationType: notification.runtimeType,
+    );
     switch (notification.notificationType) {
       case OrderNotificationType.ORDER_DELETED:
         add(

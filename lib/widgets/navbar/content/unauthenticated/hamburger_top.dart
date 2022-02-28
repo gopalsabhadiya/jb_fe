@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jb_fe/constants/colors.dart';
 import 'package:jb_fe/constants/durations/animation_durations.dart';
-import 'package:jb_fe/controllers/bloc/drawer.dart';
-import 'package:jb_fe/controllers/bloc/state/drawer.dart';
+import 'package:jb_fe/controllers/bloc/authentication/drawer/drawer_bloc.dart';
+import 'package:jb_fe/controllers/bloc/authentication/drawer/drawer_state.dart';
 import 'package:jb_fe/util/global_keys.dart';
 import 'package:jb_fe/widgets/svg/logo_svg.dart';
 

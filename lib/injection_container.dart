@@ -34,7 +34,6 @@ import 'package:jb_fe/controllers/bloc/authentication/forgot_password/forgot_pas
 import 'package:jb_fe/controllers/bloc/business/business_data/business_data_bloc.dart';
 import 'package:jb_fe/controllers/bloc/dashboard/daily_gold_rate/daily_gold_rate_bloc.dart';
 import 'package:jb_fe/controllers/bloc/dashboard/new_daily_gold_rate/add_daily_gold_rate_bloc.dart';
-import 'package:jb_fe/controllers/bloc/inventory/form_build_status/form_build_cubit.dart';
 import 'package:jb_fe/controllers/bloc/inventory/item_bloc/item_bloc.dart';
 import 'package:jb_fe/controllers/bloc/inventory/item_form_toggle/item_form_toggle_cubit.dart';
 import 'package:jb_fe/controllers/bloc/inventory/item_image/item_image_bloc.dart';
@@ -51,12 +50,14 @@ import 'backend_integration/data/datasource/remote/receipt_remote_ds.dart';
 import 'backend_integration/data/repositories/authentication_repository_impl.dart';
 import 'backend_integration/data/repositories/mail_repository_impl.dart';
 import 'backend_integration/data/repositories/receipt_repository_impl.dart';
+import 'backend_integration/data/repositories/user_repository_impl.dart';
 import 'backend_integration/domain/repositories/authentication.dart';
 import 'backend_integration/domain/repositories/business_repository.dart';
 import 'backend_integration/domain/repositories/daily_gold_rate_repository.dart';
 import 'backend_integration/domain/repositories/item_repository.dart';
 import 'backend_integration/domain/repositories/mail_repository.dart';
 import 'backend_integration/domain/repositories/receipt_repository.dart';
+import 'backend_integration/domain/repositories/user_repository.dart';
 import 'backend_integration/domain/usecase/authentication/authenticate_user.dart';
 import 'backend_integration/domain/usecase/business/update_business.dart';
 import 'backend_integration/domain/usecase/daily_gold_rate/get_today_gold_rate.dart';
@@ -77,6 +78,7 @@ import 'backend_integration/domain/usecase/payment/delete_receipt.dart';
 import 'backend_integration/domain/usecase/payment/fetch_receipt.dart';
 import 'backend_integration/domain/usecase/payment/get_receipt_page.dart';
 import 'backend_integration/domain/usecase/payment/search_receipt.dart';
+import 'backend_integration/domain/usecase/user/fetch_user.dart';
 import 'controllers/bloc/authentication/login_logout/authentication_bloc.dart';
 import 'controllers/bloc/business/update_business/update_business_bloc.dart';
 import 'controllers/bloc/dashboard/update_daily_gold_rate/update_daily_gold_rate_bloc.dart';
@@ -107,10 +109,10 @@ void init() {
   //Authentication
   serviceLocator.registerFactory<AuthenticationBloc>(
     () => AuthenticationBloc(
-      authenticateUserUseCase: serviceLocator(),
-      validateAuthenticationUseCase: serviceLocator(),
-      unAuthenticateUserUseCase: serviceLocator(),
-    ),
+        authenticateUserUseCase: serviceLocator(),
+        validateAuthenticationUseCase: serviceLocator(),
+        unAuthenticateUserUseCase: serviceLocator(),
+        fetchUserUseCase: serviceLocator()),
   );
 
   //Reset password
@@ -197,9 +199,6 @@ void init() {
   );
   serviceLocator.registerFactory<PiecesEnablerCubit>(
     () => PiecesEnablerCubit(),
-  );
-  serviceLocator.registerFactory<FormBuildCubit>(
-    () => FormBuildCubit(),
   );
 
   //order
@@ -334,6 +333,13 @@ void init() {
   );
   serviceLocator.registerLazySingleton<UnAuthenticateUserUseCase>(
     () => UnAuthenticateUserUseCase(
+      repository: serviceLocator(),
+    ),
+  );
+
+  //user
+  serviceLocator.registerLazySingleton<FetchUserUseCase>(
+    () => FetchUserUseCase(
       repository: serviceLocator(),
     ),
   );
@@ -497,6 +503,12 @@ void init() {
 
   //------------------------------------------------------------------------------------------------------------------
   //repository
+
+  serviceLocator.registerLazySingleton<UserRepository>(
+    () => UserRepositoryImpl(
+      remoteDataSource: serviceLocator(),
+    ),
+  );
   serviceLocator.registerLazySingleton<MailRepository>(
     () => MailRepositoryImpl(
       remoteDataSource: serviceLocator(),
@@ -504,9 +516,7 @@ void init() {
   );
   serviceLocator.registerLazySingleton<AuthenticationRepository>(
     () => AuthenticationRepositoryImpl(
-      authenticationRemoteDataSource: serviceLocator(),
-      userRemoteDataSource: serviceLocator(),
-    ),
+        authenticationRemoteDataSource: serviceLocator()),
   );
   serviceLocator.registerLazySingleton<BusinessRepository>(
     () => BusinessRepositoryImpl(

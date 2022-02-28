@@ -1,3 +1,5 @@
+import 'package:logger/logger.dart';
+
 void configureApp() {
-  // No-op.
+  Logger.level = Level.verbose;
 }

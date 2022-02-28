@@ -1,13 +1,19 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:jb_fe/util/extension/common_logging.dart';
+
+import '../../../../util/logger.dart';
 
 part 'profile_or_settings_state.dart';
 
 class ProfileOrSettingsCubit extends Cubit<ProfileOrSettingsState> {
+  final log = getLogger<ProfileOrSettingsCubit>();
+
   ProfileOrSettingsCubit() : super(const ProfileOrSettingsState());
 
   void openDrawer({required ToggleForEndDrawer toggleFor}) {
-    print("Opening drwaer: ${toggleFor}");
+    log.logEventForCubit(eventName: "openDrawer");
+
     emit(
       ProfileOrSettingsState(
         toggleForEndDrawer: toggleFor,
@@ -16,7 +22,7 @@ class ProfileOrSettingsCubit extends Cubit<ProfileOrSettingsState> {
   }
 
   void closeDrawer() {
-    print("Closing drawer");
+    log.logEventForCubit(eventName: "closeDrawer");
     emit(
       const ProfileOrSettingsState(
         toggleForEndDrawer: DoNotToggle(),

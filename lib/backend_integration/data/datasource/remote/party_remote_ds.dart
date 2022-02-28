@@ -4,6 +4,8 @@ import 'package:jb_fe/backend_integration/client/http_client.dart';
 import 'package:jb_fe/backend_integration/constants/uri/endpoints.dart';
 import 'package:jb_fe/backend_integration/domain/entities/party/party.dart';
 
+import '../../../../util/logger.dart';
+
 abstract class PartyRemoteDataSource {
   Future<PartyEntity> getParty(String partyId);
   Future<List<PartyEntity>> getPartyPage(int pageNumber);
@@ -15,6 +17,8 @@ abstract class PartyRemoteDataSource {
 }
 
 class PartyRemoteDataSourceImpl implements PartyRemoteDataSource {
+  final log = getLogger<PartyRemoteDataSourceImpl>();
+
   final _http = AppHttpClient.getHttpClient();
 
   @override

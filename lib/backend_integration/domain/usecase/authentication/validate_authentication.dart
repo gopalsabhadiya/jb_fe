@@ -1,4 +1,3 @@
-import '../../../dto/user/user_presentation.dart';
 import '../../repositories/authentication.dart';
 
 class ValidateAuthenticationUseCase {
@@ -6,9 +5,7 @@ class ValidateAuthenticationUseCase {
 
   ValidateAuthenticationUseCase({required this.repository});
 
-  Future<UserPresentation> call() async {
-    print("Authenticating user: Use case");
-    final userEntity = await repository.validateAuthentication();
-    return UserPresentation(userEntity);
+  Future<bool> call() async {
+    return await repository.validateAuthentication();
   }
 }

@@ -13,7 +13,6 @@ class SearchOrderUseCase {
   }) async {
     List<OrderDetailsEntity> orderEntityList =
         await repository.searchOrder(searchTerm, skip);
-    print("Searched orders: $orderEntityList");
 
     List<OrderDetailsPresentation> orderPresentationList = orderEntityList
         .map((order) => OrderDetailsPresentation(order))

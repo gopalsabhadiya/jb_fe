@@ -8,11 +8,16 @@ import 'package:jb_fe/backend_integration/domain/usecase/payment/fetch_receipt.d
 import 'package:jb_fe/backend_integration/dto/order/order_presentation.dart';
 import 'package:jb_fe/backend_integration/dto/party/party_presentation.dart';
 import 'package:jb_fe/backend_integration/dto/payment/receipt_presentation.dart';
+import 'package:jb_fe/util/extension/common_logging.dart';
+
+import '../../../../util/logger.dart';
 
 part 'fetch_receipt_event.dart';
 part 'fetch_receipt_state.dart';
 
 class FetchReceiptBloc extends Bloc<FetchReceiptEvent, FetchReceiptState> {
+  final log = getLogger<FetchReceiptBloc>();
+
   final FetchReceiptUseCase fetchReceiptUseCase;
   final FetchPartyUseCase fetchPartyUseCase;
   final FetchOrderBatchUseCase fetchOrderBatchUseCase;
@@ -27,6 +32,8 @@ class FetchReceiptBloc extends Bloc<FetchReceiptEvent, FetchReceiptState> {
 
   FutureOr<void> _onFetchReceipt(
       FetchReceipt event, Emitter<FetchReceiptState> emit) async {
+    log.logEvent<FetchReceipt>();
+
     emit(
       state.copyWith(
         status: FetchReceiptStatus.LOADING,

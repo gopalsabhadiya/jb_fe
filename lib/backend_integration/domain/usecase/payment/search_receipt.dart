@@ -13,7 +13,6 @@ class SearchReceiptUseCase {
   }) async {
     List<ReceiptDetailsEntity> receiptEntityList =
         await repository.searchReceipt(searchTerm, skip);
-    print("Searched receipts: $receiptEntityList");
 
     List<ReceiptDetailsPresentation> receiptPresentationList = receiptEntityList
         .map((receipt) => ReceiptDetailsPresentation(receipt))

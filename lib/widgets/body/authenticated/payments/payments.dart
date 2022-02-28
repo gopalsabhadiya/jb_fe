@@ -103,7 +103,6 @@ class _PaymentsState extends State<Payments> {
   }
 
   _onViewReceipt(String receiptId) {
-    print("View receipt called");
     BlocProvider.of<ReceiptFormToggleCubit>(context).openDrawer(
       toggleForReceipt: ToggleForReceiptDisplay(receiptId: receiptId),
     );

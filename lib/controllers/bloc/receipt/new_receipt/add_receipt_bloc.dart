@@ -9,13 +9,18 @@ import 'package:jb_fe/backend_integration/dto/party/party_presentation.dart';
 import 'package:jb_fe/backend_integration/dto/payment/receipt_presentation.dart';
 import 'package:jb_fe/controllers/bloc/receipt/mediator/notification/notification.dart';
 import 'package:jb_fe/controllers/bloc/receipt/mediator/notifier/add_notifier.dart';
+import 'package:jb_fe/util/extension/common_logging.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../../../../util/logger.dart';
 
 part 'add_receipt_event.dart';
 part 'add_receipt_state.dart';
 
 class AddReceiptBloc extends Bloc<AddReceiptEvent, AddReceiptState>
     with AddReceiptNotifier {
+  final log = getLogger<AddReceiptBloc>();
+
   final CreateReceiptUseCase createReceiptUseCase;
   final FetchUnpaidOrdersUseCase fetchUnpaidOrdersUseCase;
 
@@ -34,6 +39,8 @@ class AddReceiptBloc extends Bloc<AddReceiptEvent, AddReceiptState>
 
   FutureOr<void> _addPartyToReceipt(
       AddPartyToReceipt event, Emitter<AddReceiptState> emit) async {
+    log.logEvent<AddPartyToReceipt>();
+
     emit(
       state.copyWith(
         status: AddReceiptStatus.LOADING,
@@ -63,6 +70,8 @@ class AddReceiptBloc extends Bloc<AddReceiptEvent, AddReceiptState>
 
   FutureOr<void> _saveReceipt(
       SaveReceipt event, Emitter<AddReceiptState> emit) async {
+    log.logEvent<SaveReceipt>();
+
     emit(
       state.copyWith(
         status: AddReceiptStatus.LOADING,
@@ -103,6 +112,8 @@ class AddReceiptBloc extends Bloc<AddReceiptEvent, AddReceiptState>
 
   FutureOr<void> _addPaymentToReceipt(
       AddPaymentToReceipt event, Emitter<AddReceiptState> emit) {
+    log.logEvent<AddPaymentToReceipt>();
+
     final ReceiptPresentation receipt = state.receipt;
     receipt.addPayment(
       amount: event.amount,

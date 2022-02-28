@@ -5,6 +5,8 @@ import 'package:jb_fe/backend_integration/constants/uri/endpoints.dart';
 import 'package:jb_fe/backend_integration/domain/entities/receipt/details/receipt_details.dart';
 import 'package:jb_fe/backend_integration/domain/entities/receipt/receipt.dart';
 
+import '../../../../util/logger.dart';
+
 abstract class ReceiptRemoteDataSource {
   Future<ReceiptEntity> addReceipt(ReceiptEntity payment);
   Future<void> deleteReceipt(String receiptId);
@@ -16,6 +18,8 @@ abstract class ReceiptRemoteDataSource {
 }
 
 class ReceiptRemoteDataSourceImpl implements ReceiptRemoteDataSource {
+  final log = getLogger<ReceiptRemoteDataSourceImpl>();
+
   final _http = AppHttpClient.getHttpClient();
 
   @override

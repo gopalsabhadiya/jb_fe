@@ -5,12 +5,17 @@ import 'package:equatable/equatable.dart';
 import 'package:jb_fe/backend_integration/domain/usecase/inventory/delete_item.dart';
 import 'package:jb_fe/controllers/bloc/inventory/mediator/notification/notification.dart';
 import 'package:jb_fe/controllers/bloc/inventory/mediator/notifier/delete_notifier.dart';
+import 'package:jb_fe/util/extension/common_logging.dart';
+
+import '../../../../util/logger.dart';
 
 part 'delete_item_event.dart';
 part 'delete_item_state.dart';
 
 class DeleteItemBloc extends Bloc<DeleteItemEvent, DeleteItemState>
     with DeleteItemNotifier {
+  final log = getLogger<DeleteItemBloc>();
+
   final DeleteItemUseCase deleteItemUseCase;
 
   DeleteItemBloc({required this.deleteItemUseCase})
@@ -20,6 +25,8 @@ class DeleteItemBloc extends Bloc<DeleteItemEvent, DeleteItemState>
 
   FutureOr<void> _onDeleteItem(
       DeleteItem event, Emitter<DeleteItemState> emit) async {
+    log.logEvent<DeleteItem>();
+
     emit(
       state.copyWith(
         deleteStatus: DeleteItemStatus.LOADING,

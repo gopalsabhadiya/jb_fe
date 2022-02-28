@@ -11,7 +11,6 @@ class GetItemPageUseCase {
     List<ItemEntity> itemEntityList = await repository.getItemPage(skip);
     List<ItemPresentation> itemPresentationList =
         itemEntityList.map((item) => ItemPresentation(item)).toList();
-    print("Presentation");
     return itemPresentationList;
   }
 }

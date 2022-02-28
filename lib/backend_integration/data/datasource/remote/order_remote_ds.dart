@@ -5,6 +5,8 @@ import 'package:jb_fe/backend_integration/constants/uri/endpoints.dart';
 import 'package:jb_fe/backend_integration/domain/entities/order/details/order_details.dart';
 import 'package:jb_fe/backend_integration/domain/entities/order/order.dart';
 
+import '../../../../util/logger.dart';
+
 abstract class OrderRemoteDataSource {
   Future<OrderEntity> addOrder(OrderEntity order);
   Future<List<OrderDetailsEntity>> getOrderPage(int skip);
@@ -19,6 +21,8 @@ abstract class OrderRemoteDataSource {
 }
 
 class OrderRemoteDataSourceImpl implements OrderRemoteDataSource {
+  final log = getLogger<OrderRemoteDataSourceImpl>();
+
   final _http = AppHttpClient.getHttpClient();
 
   @override

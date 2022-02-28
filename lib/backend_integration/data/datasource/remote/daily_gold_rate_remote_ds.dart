@@ -4,6 +4,8 @@ import 'package:jb_fe/backend_integration/client/http_client.dart';
 import 'package:jb_fe/backend_integration/constants/uri/endpoints.dart';
 import 'package:jb_fe/backend_integration/domain/entities/daily_gold_rate/daily_gold_rate.dart';
 
+import '../../../../util/logger.dart';
+
 abstract class DailyGoldRateRemoteDataSource {
   Future<DailyGoldRateEntity> getTodayGoldRate();
   Future<DailyGoldRateEntity> addTodayGoldRate(
@@ -13,6 +15,8 @@ abstract class DailyGoldRateRemoteDataSource {
 }
 
 class DailyGoldRateRemoteDataSourceImpl extends DailyGoldRateRemoteDataSource {
+  final log = getLogger<DailyGoldRateRemoteDataSourceImpl>();
+
   final _http = AppHttpClient.getHttpClient();
 
   @override

@@ -54,22 +54,17 @@ class _BottomSheetDemoState extends State<BottomSheetDemo>
               child: GestureDetector(
                 onVerticalDragDown: (details) {
                   int sensitivity = 8;
-                  print("Dragged vertically down");
                 },
-                onVerticalDragEnd: (details) {
-                  print("Dragged vertically down: $details");
-                },
+                onVerticalDragEnd: (details) {},
                 onVerticalDragUpdate: (details) {
                   int sensitivity = 8;
                   if (details.delta.dy > sensitivity) {
-                    print("Dragged vertically up");
                     animationController.reverse();
                     setState(() {
                       draggedUp = true;
                     });
                   } else if (details.delta.dy < -sensitivity) {
                     animationController.forward();
-                    print("Dragged vertically down");
                     setState(() {
                       draggedDown = true;
                     });

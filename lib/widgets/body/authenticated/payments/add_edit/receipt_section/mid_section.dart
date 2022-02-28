@@ -121,7 +121,6 @@ class ReceiptFormMidSection extends StatelessWidget {
 
   _onReceiptAmountChange(String amount, BuildContext context) {
     if (amount.isNotEmpty && double.tryParse(amount) != null) {
-      print("New Ammount: $amount");
       _receipt.setAmmount(amount);
       BlocProvider.of<UnsortedAmountCubit>(context)
           .setReceiptAmount(amount: double.parse(amount));

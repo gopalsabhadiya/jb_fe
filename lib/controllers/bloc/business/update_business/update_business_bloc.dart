@@ -7,11 +7,15 @@ import 'package:jb_fe/backend_integration/dto/business/business_presentation.dar
 import 'package:jb_fe/controllers/bloc/business/mediator/notification/notification.dart';
 import 'package:jb_fe/controllers/bloc/business/mediator/notifier/update_notifier.dart';
 
+import '../../../../util/logger.dart';
+
 part 'update_business_event.dart';
 part 'update_business_state.dart';
 
 class UpdateBusinessBloc extends Bloc<UpdateBusinessEvent, UpdateBusinessState>
     with UpdateBusinessNotifier {
+  final log = getLogger<UpdateBusinessBloc>();
+
   final UpdateBusinessUseCase updateBusinessUseCase;
 
   UpdateBusinessBloc({required this.updateBusinessUseCase})

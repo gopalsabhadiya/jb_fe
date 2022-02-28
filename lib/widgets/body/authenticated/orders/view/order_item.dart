@@ -112,9 +112,6 @@ class OrderFormItemDetails extends StatelessWidget {
 
   _getItemExtras() {
     List<Widget> itemExtras = <Widget>[];
-    print(
-        "Building Extras:------------------------------------------------------------------------------------");
-    print(_item.extras);
     for (final ItemExtraPresentation iep in _item.extras!) {
       itemExtras.add(
         KeyValueDisplay(
