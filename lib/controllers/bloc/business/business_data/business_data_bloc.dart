@@ -24,6 +24,11 @@ class BusinessDataBloc extends Bloc<BusinessDataEvent, BusinessDataState> {
   FutureOr<void> _onFetchBusinessData(
       FetchBusinessData event, Emitter<BusinessDataState> emit) async {
     log.logEvent<FetchBusinessData>();
+    emit(
+      state.copyWith(
+        status: BusinessDataStatus.LOADING,
+      ),
+    );
     final BusinessPresentation businessData = await getBusinessDataUseCase();
     emit(
       state.copyWith(

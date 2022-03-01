@@ -11,7 +11,7 @@ class BusinessDataState extends Equatable {
   final BusinessPresentation? business;
 
   const BusinessDataState({
-    this.status = BusinessDataStatus.COMPLETED,
+    this.status = BusinessDataStatus.LOADING,
     this.business,
   });
 

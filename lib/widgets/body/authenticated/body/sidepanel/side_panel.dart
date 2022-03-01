@@ -6,7 +6,7 @@ import 'package:jb_fe/helpers/responsive/responsive_helper.dart';
 import 'package:jb_fe/router/delegate.dart';
 import 'package:jb_fe/util/authenticated_navbar.dart';
 import 'package:jb_fe/util/screen_size.dart';
-import 'package:jb_fe/widgets/body/authenticated/side_panel_link.dart';
+import 'package:jb_fe/widgets/body/authenticated/body/sidepanel/side_panel_link.dart';
 import 'package:jb_fe/widgets/svg/logo_svg.dart';
 
 class SidePanel extends StatefulWidget {

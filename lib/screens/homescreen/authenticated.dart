@@ -13,7 +13,7 @@ import 'package:jb_fe/router/delegate.dart';
 import 'package:jb_fe/util/authenticated_navbar.dart';
 import 'package:jb_fe/util/global_keys.dart';
 import 'package:jb_fe/util/screen_size.dart';
-import 'package:jb_fe/widgets/body/authenticated/body.dart';
+import 'package:jb_fe/widgets/body/authenticated/body/body.dart';
 import 'package:jb_fe/widgets/navbar/content/authenticated/drawer.dart';
 import 'package:jb_fe/widgets/navbar/content/authenticated/end_drawer/end_drawer.dart';
 
@@ -35,7 +35,7 @@ class AuthenticatedHomeScreen extends StatelessWidget {
             lazy: false, create: (context) => DrawerBloc(DrawerState.CLOSED)),
         BlocProvider<AuthenticatedSidePanelCubit>(
           create: (context) => AuthenticatedSidePanelCubit(
-            AuthenticatedSidePanelState.PAYMENTS,
+            AuthenticatedSidePanelState.DASHBOARD,
           ),
         ),
         BlocProvider<DailyGoldRateBloc>(

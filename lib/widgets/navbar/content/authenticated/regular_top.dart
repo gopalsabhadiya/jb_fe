@@ -4,9 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jb_fe/constants/colors.dart';
 import 'package:jb_fe/constants/typography/font_weight.dart';
 import 'package:jb_fe/controllers/bloc/authentication/sidepanel/authenticated_sidepanel.dart';
+import 'package:jb_fe/controllers/bloc/business/business_data/business_data_bloc.dart';
 import 'package:jb_fe/controllers/bloc/end_drawer/profile_or_settings/profile_or_settings_cubit.dart';
 import 'package:jb_fe/controllers/bloc/order/new_order/add_order_bloc.dart';
 import 'package:jb_fe/controllers/bloc/order/order_form_toggle/order_form_toggle_cubit.dart';
+import 'package:jb_fe/util/date_util.dart';
 import 'package:jb_fe/widgets/calligraphy/app_text.dart';
 import 'package:jb_fe/widgets/common/buttons/icon_button.dart';
 import 'package:jb_fe/widgets/navbar/content/authenticated/dashboard/navbar_dashboard_content.dart';
@@ -30,22 +32,39 @@ class RegularTopAuthenticatedNavbar extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             // LogoSVG(),
-            BlocBuilder<AuthenticatedSidePanelCubit,
-                AuthenticatedSidePanelState>(
-              builder: (context, state) {
-                switch (state) {
-                  case AuthenticatedSidePanelState.DASHBOARD:
-                    return const NavbarDashboardContent();
-                  case AuthenticatedSidePanelState.PARTY:
-                    return const NavbarPartyContent();
-                  case AuthenticatedSidePanelState.INVENTORY:
-                    return const NavbarInventoryContent();
-                  case AuthenticatedSidePanelState.ORDERS:
-                    return const NavbarOrderContent();
-                  case AuthenticatedSidePanelState.PAYMENTS:
-                    return const NavbarPaymentContent();
-                  case AuthenticatedSidePanelState.SHOP_EXPENSES:
-                    return const NavbarShopExpensesContent();
+            BlocBuilder<BusinessDataBloc, BusinessDataState>(
+              builder:
+                  (BuildContext context, BusinessDataState businessDataState) {
+                switch (businessDataState.status) {
+                  case BusinessDataStatus.LOADING:
+                    return const Center(child: CircularProgressIndicator());
+                  case BusinessDataStatus.COMPLETED:
+                    if (DateUtil.pastDate(
+                        businessDataState.business!.subscriptionEnd)) {
+                      return Container();
+                    }
+                    return BlocBuilder<AuthenticatedSidePanelCubit,
+                        AuthenticatedSidePanelState>(
+                      builder: (BuildContext context,
+                          AuthenticatedSidePanelState state) {
+                        switch (state) {
+                          case AuthenticatedSidePanelState.DASHBOARD:
+                            return const NavbarDashboardContent();
+                          case AuthenticatedSidePanelState.PARTY:
+                            return const NavbarPartyContent();
+                          case AuthenticatedSidePanelState.INVENTORY:
+                            return const NavbarInventoryContent();
+                          case AuthenticatedSidePanelState.ORDERS:
+                            return const NavbarOrderContent();
+                          case AuthenticatedSidePanelState.PAYMENTS:
+                            return const NavbarPaymentContent();
+                          case AuthenticatedSidePanelState.SHOP_EXPENSES:
+                            return const NavbarShopExpensesContent();
+                        }
+                      },
+                    );
+                  case BusinessDataStatus.ERROR:
+                    return Container();
                 }
               },
             ),
