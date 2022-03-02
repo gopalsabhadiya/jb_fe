@@ -80,8 +80,8 @@ class _AppDropDownButtonState extends State<AppDropDownButton> {
     RenderBox renderBox = context.findRenderObject() as RenderBox;
 
     var size = renderBox.size;
-    print(
-        "${MediaQuery.of(context).size.height} ${renderBox.localToGlobal(Offset.zero).dy + 5 + 200 + size.height}");
+    // print(
+    //     "${MediaQuery.of(context).size.height} ${renderBox.localToGlobal(Offset.zero).dy + 5 + 200 + size.height}");
 
     return OverlayEntry(
       builder: (overlayContext) => Positioned(

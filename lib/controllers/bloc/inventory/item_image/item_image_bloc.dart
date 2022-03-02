@@ -24,6 +24,7 @@ class ItemImageBloc extends Bloc<ItemImageEvent, ItemImageState> {
   FutureOr<void> _fetchItemImages(
       FetchImages event, Emitter<ItemImageState> emit) async {
     log.logEvent<FetchImages>();
+    print("Trying to fetch images for: ${event.item.id}");
     try {
       if (event.item.hasImages ?? false) {
         final Map<String, Uint8List> imageMap =

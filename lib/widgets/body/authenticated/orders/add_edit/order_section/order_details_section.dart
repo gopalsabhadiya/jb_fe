@@ -35,15 +35,18 @@ class OrderDetailsSectionInCart extends StatelessWidget {
                   hint: DashboardText.ADD_DAILY_GOLD_RATE_HINT,
                   tooltip: DashboardText.ADD_DAILY_GOLD_RATE_TOOLTIP,
                   onChanged: _order.setGoldRate,
-                  initialValue: _order.goldRate!.toStringAsFixed(3),
+                  initialValue: _order.goldRate != null && _order.goldRate! > 0
+                      ? _order.goldRate!.toStringAsFixed(3)
+                      : DefaultTexts.EMPTY,
                   isNumberInput: true,
                   validator: _order.goldRateValidator,
-                  onRemoveFocus: () =>
+                  onRemoveFocus: () {
+                    print("On Remove focus called ---------------------------------------------------");
                       BlocProvider.of<AddOrderBloc>(context).add(
                     AddGoldRate(
                       goldRate: _order.goldRate!,
                     ),
-                  ),
+                  );},
                 ),
               ),
               AppTextBuilder(DefaultTexts.RUPEE_SYMBOL +

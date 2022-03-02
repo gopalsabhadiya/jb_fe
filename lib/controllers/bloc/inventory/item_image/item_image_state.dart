@@ -1,6 +1,7 @@
 part of 'item_image_bloc.dart';
 
 enum ItemImageStatus {
+  NO_IMAGES,
   LOADING,
   SUCCESS_WITH_IMAGES,
   SUCCESS_WITH_NO_IMAGES,

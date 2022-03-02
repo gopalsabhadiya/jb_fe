@@ -20,6 +20,7 @@ class ItemEntity extends Equatable {
   )
   final String? id;
   final String? itemId;
+  final String? userDefinedId;
   final String category;
   final String type;
   final String name;
@@ -38,6 +39,7 @@ class ItemEntity extends Equatable {
   const ItemEntity({
     this.id,
     this.itemId,
+    this.userDefinedId,
     required this.category,
     required this.type,
     required this.name,
@@ -58,6 +60,7 @@ class ItemEntity extends Equatable {
   List<Object?> get props => [
         id,
         itemId,
+        userDefinedId,
         category,
         type,
         name,
@@ -90,6 +93,6 @@ class ItemEntity extends Equatable {
 
   @override
   String toString() {
-    return 'ItemEntity{id: $id, itemId: $itemId, category: $category, type: $type, name: $name, grossWeight: $grossWeight, netWeight: $netWeight, carat: $carat, labour: $labour, itemAmount: $itemAmount, netAmount: $netAmount, stockPieces: $stockPieces, extras: $extras, huid: $huid, hasImages: $hasImages, pieces: $pieces}';
+    return 'ItemEntity{id: $id, itemId: $itemId, userDefinedId: $userDefinedId, category: $category, type: $type, name: $name, grossWeight: $grossWeight, netWeight: $netWeight, carat: $carat, labour: $labour, itemAmount: $itemAmount, netAmount: $netAmount, stockPieces: $stockPieces, extras: $extras, huid: $huid, hasImages: $hasImages, pieces: $pieces}';
   }
 }

@@ -203,6 +203,7 @@ class ItemBloc extends Bloc<ItemEvent, ItemState>
 
   FutureOr<void> _addItem(_AddItem event, Emitter<ItemState> emit) {
     log.logEvent<_AddItem>();
+    print("Newly added item being added to inventory: ${event.addedItem}");
     emit(
       state.copyWith(
         status: ItemStatus.SUCCESS,

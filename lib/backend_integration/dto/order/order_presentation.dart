@@ -145,7 +145,7 @@ class OrderPresentation {
 
   String? goldRateValidator(String? value) {
     if (_goldRate != null &&
-        _goldRate! >= 0 &&
+        _goldRate! > 0 &&
         value != null &&
         double.tryParse(value) != null) {
       return null;

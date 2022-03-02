@@ -21,6 +21,7 @@ class ItemText {
   static final String KARAT_INPUT_TEXT = "Select Karat";
 
   static final String LABOUR_INPUT_TEXT = "Enter Labour";
+  static final String USER_DEFINED_ID_TEXT = "Enter Item ID";
   static final String LAOUR_PERCENTAGE = "Percentage";
   static final String LAOUR_PER_GRAM = "Per Gram";
   static final String LAOUR_TOTAL = "Total";

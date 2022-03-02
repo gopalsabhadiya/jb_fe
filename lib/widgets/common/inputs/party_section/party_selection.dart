@@ -42,9 +42,10 @@ class PartySelectionAndDisplay extends StatelessWidget {
                 child: BlocBuilder<SearchPartyBloc, SearchPartyState>(
                   builder: (context, state) {
                     return PartySelectionSearch(
-                        partyList: state.result,
-                        onPartySelectCallback: _onPartySelectCallback,
-                        party: _party);
+                      partyList: state.result,
+                      onPartySelectCallback: _onPartySelectCallback,
+                      party: _party,
+                    );
                   },
                 ),
               ),

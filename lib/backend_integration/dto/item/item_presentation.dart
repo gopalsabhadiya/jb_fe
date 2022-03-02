@@ -9,6 +9,8 @@ class ItemPresentation {
   final String uuid = const Uuid().v4();
   String? _id;
   String? _itemId;
+  String? _userDefinedId;
+  String? _newUserDefinedId;
   late String _category;
   late String _newCategory;
   late String _type;
@@ -40,6 +42,7 @@ class ItemPresentation {
   ItemPresentation(ItemEntity entity)
       : _id = entity.id,
         _itemId = entity.itemId,
+        _userDefinedId = entity.userDefinedId,
         _category = entity.category,
         _newCategory = entity.category,
         _type = entity.type,
@@ -84,6 +87,7 @@ class ItemPresentation {
       : _newCategory = DefaultTexts.EMPTY,
         _newType = DefaultTexts.EMPTY,
         _newHuid = DefaultTexts.EMPTY,
+        _userDefinedId = DefaultTexts.EMPTY,
         _newStockPieces = 1,
         _newLabour = LabourPresentation.empty(),
         _newExtras = [ItemExtraPresentation.empty()],
@@ -98,6 +102,10 @@ class ItemPresentation {
   String? get id => _id;
 
   String? get itemId => _itemId;
+
+  String? get userDefinedId => _userDefinedId;
+
+  String? get newUserDefinedId => _newUserDefinedId;
 
   String get category => _category;
 
@@ -155,6 +163,10 @@ class ItemPresentation {
 
   void setCartQuantity(int value) {
     _cartQuantity = value;
+  }
+
+  void setNewUserDefinedId(String value) {
+    _newUserDefinedId = value;
   }
 
   void setNewHasImages(bool value) {
@@ -284,6 +296,7 @@ class ItemPresentation {
 
   void updateValues() {
     _category = _newCategory;
+    _userDefinedId = _newUserDefinedId;
     _type = _newType;
     _name = _category + DefaultTexts.SPACE + _type;
     _grossWeight = _newGrossWeight;
@@ -296,17 +309,14 @@ class ItemPresentation {
     _itemAmount = _newItemAmount;
     _netAmount = _newNetAmount;
     _stockPieces = _newStockPieces;
-    print("New Extras: $_newExtras");
     _newExtras = _newExtras!
         .where((element) =>
             element.newLabourCharge != null ||
             element.newPieces != null ||
             element.newRate != null)
         .toList();
-    print("New Extras after filte: $_newExtras");
     _newExtras!.forEach((e) => e.updateValues());
     _extras = _newExtras;
-    print("New Extras after update: $_extras");
     // for (var extra in _newExtras!) {
     //   extra.updateValues();
     // }
@@ -327,6 +337,7 @@ class ItemPresentation {
     return ItemEntity(
       id: id,
       itemId: _itemId,
+      userDefinedId: _userDefinedId,
       category: _category,
       type: _type,
       name: _name,
@@ -347,6 +358,7 @@ class ItemPresentation {
     return ItemEntity(
       id: id,
       itemId: _itemId,
+      userDefinedId: _userDefinedId,
       category: _category,
       type: _type,
       name: _name,
@@ -366,6 +378,6 @@ class ItemPresentation {
 
   @override
   String toString() {
-    return 'ItemPresentation{uuid: $uuid, _id: $_id, _itemId: $_itemId, _category: $_category, _newCategory: $_newCategory, _type: $_type, _newType: $_newType, _name: $_name, _grossWeight: $_grossWeight, _newGrossWeight: $_newGrossWeight, _netWeight: $_netWeight, _newNetWeight: $_newNetWeight, _carat: $_carat, _newCarat: $_newCarat, _labour: $_labour, _newLabour: $_newLabour, _itemAmount: $_itemAmount, _newItemAmount: $_newItemAmount, _netAmount: $_netAmount, _newNetAmount: $_newNetAmount, _stockPieces: $_stockPieces, _newStockPieces: $_newStockPieces, _cartQuantity: $_cartQuantity, _extras: $_extras, _newExtras: $_newExtras, _huid: $_huid, _newHuid: $_newHuid, _newImages: $_newImages, _hasImages: $_hasImages, _newHasImages: $_newHasImages}';
+    return 'ItemPresentation{uuid: $uuid, _id: $_id, _itemId: $_itemId, _userDefinedId: $_userDefinedId, _newUserDefinedId: $_newUserDefinedId, _category: $_category, _newCategory: $_newCategory, _type: $_type, _newType: $_newType, _name: $_name, _grossWeight: $_grossWeight, _newGrossWeight: $_newGrossWeight, _netWeight: $_netWeight, _newNetWeight: $_newNetWeight, _carat: $_carat, _newCarat: $_newCarat, _labour: $_labour, _newLabour: $_newLabour, _itemAmount: $_itemAmount, _newItemAmount: $_newItemAmount, _netAmount: $_netAmount, _newNetAmount: $_newNetAmount, _stockPieces: $_stockPieces, _newStockPieces: $_newStockPieces, _cartQuantity: $_cartQuantity, _extras: $_extras, _newExtras: $_newExtras, _huid: $_huid, _newHuid: $_newHuid, _newImages: $_newImages, _hasImages: $_hasImages, _newHasImages: $_newHasImages}';
   }
 }

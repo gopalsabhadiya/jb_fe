@@ -8,7 +8,7 @@ import 'package:jb_fe/widgets/common/inputs/dropdown_button.dart';
 import 'package:jb_fe/widgets/common/inputs/text_field.dart';
 import 'package:jb_fe/widgets/svg/icons/app_icons.dart';
 
-class ExtraItemForm extends StatelessWidget {
+class ExtraItemForm extends StatefulWidget {
   final ItemExtraPresentation _extra;
   final List<String> _extraTypes;
   final Function(String) _onRemoveExtra;
@@ -24,8 +24,28 @@ class ExtraItemForm extends StatelessWidget {
         super(key: key);
 
   @override
+  State<ExtraItemForm> createState() => _ExtraItemFormState();
+}
+
+class _ExtraItemFormState extends State<ExtraItemForm> {
+  late final List<FocusNode> _focusNodeList;
+
+  @override
+  void initState() {
+    _focusNodeList = [FocusNode(), FocusNode(), FocusNode()];
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    for (var focusNode in _focusNodeList) {
+      focusNode.dispose();
+    }
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    print("Building extra item");
     return Padding(
       padding: const EdgeInsets.only(bottom: 15, top: 5, right: 5, left: 5),
       child: Container(
@@ -49,27 +69,29 @@ class ExtraItemForm extends StatelessWidget {
                 child: Column(
                   children: [
                     AppDropDownButton(
-                      initialValue:
-                          _extra.newType != null && _extra.newType!.isNotEmpty
-                              ? _extra.newType
-                              : DefaultTexts.EMPTY,
-                      items: _extraTypes,
+                      initialValue: widget._extra.newType != null &&
+                              widget._extra.newType!.isNotEmpty
+                          ? widget._extra.newType
+                          : DefaultTexts.EMPTY,
+                      items: widget._extraTypes,
                       prefixIcon: AppIcons.crystal,
-                      onSetValue: _extra.setNewType,
+                      onSetValue: widget._extra.setNewType,
                       hint: ItemText.EXTRA_TYPE_INPUT_TEXT,
-                      validator: _extra.newTypeValidator,
+                      validator: widget._extra.newTypeValidator,
                     ),
                     const SizedBox(
                       height: 10,
                     ),
                     AppTextInput(
-                      initialValue: _extra.newPieces != null
-                          ? _extra.newPieces.toString()
+                      onEditingComplete: () => _focusNextTextBox(1),
+                      focusNode: _focusNodeList[1],
+                      initialValue: widget._extra.newPieces != null
+                          ? widget._extra.newPieces.toString()
                           : DefaultTexts.EMPTY,
                       prefixIcon: Icons.extension,
                       hint: ItemText.EXTRA_PIECE_INPUT_TEXT,
-                      onChanged: _extra.setNewPieces,
-                      validator: _extra.newPiecesValidator,
+                      onChanged: widget._extra.setNewPieces,
+                      validator: widget._extra.newPiecesValidator,
                     ),
                   ],
                 ),
@@ -81,24 +103,28 @@ class ExtraItemForm extends StatelessWidget {
                 child: Column(
                   children: [
                     AppTextInput(
-                        initialValue: _extra.newLabourCharge != null
-                            ? _extra.newLabourCharge.toString()
+                        onEditingComplete: () => _focusNextTextBox(0),
+                        focusNode: _focusNodeList[0],
+                        initialValue: widget._extra.newLabourCharge != null
+                            ? widget._extra.newLabourCharge.toString()
                             : DefaultTexts.EMPTY,
                         prefixIcon: Icons.engineering,
                         hint: ItemText.EXTRA_LABOUR_INPUT_TEXT,
-                        onChanged: _extra.setNewLabourCharge,
-                        validator: _extra.newLabourValidator),
+                        onChanged: widget._extra.setNewLabourCharge,
+                        validator: widget._extra.newLabourValidator),
                     const SizedBox(
                       height: 10,
                     ),
                     AppTextInput(
-                      initialValue: _extra.newRate != null
-                          ? _extra.newRate.toString()
+                      onEditingComplete: () => _focusNextTextBox(2),
+                      focusNode: _focusNodeList[2],
+                      initialValue: widget._extra.newRate != null
+                          ? widget._extra.newRate.toString()
                           : DefaultTexts.EMPTY,
                       prefixIcon: Icons.local_offer,
                       hint: ItemText.EXTRA_ITEM_RATE_INPUT_TEXT,
-                      onChanged: _extra.setNewRate,
-                      validator: _extra.newRateValidator,
+                      onChanged: widget._extra.setNewRate,
+                      validator: widget._extra.newRateValidator,
                     ),
                   ],
                 ),
@@ -106,7 +132,7 @@ class ExtraItemForm extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(20),
                 child: IconButton(
-                  onPressed: () => _onRemoveExtra(_extra.uuid),
+                  onPressed: () => widget._onRemoveExtra(widget._extra.uuid),
                   icon: const Icon(
                     Icons.cancel,
                     size: 35,
@@ -119,5 +145,11 @@ class ExtraItemForm extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  _focusNextTextBox(int currentNodeIndex) {
+    if (currentNodeIndex + 1 < _focusNodeList.length) {
+      _focusNodeList[currentNodeIndex + 1].requestFocus();
+    }
   }
 }

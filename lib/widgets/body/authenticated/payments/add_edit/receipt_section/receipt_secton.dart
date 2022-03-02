@@ -10,10 +10,10 @@ import '../../../../../../injection_container.dart';
 import '../orders_section.dart';
 import 'mid_section.dart';
 
-class ReceiptSectionForCart extends StatelessWidget {
+class ReceiptSectionForPayment extends StatelessWidget {
   final VoidCallback _closeDrawer;
 
-  const ReceiptSectionForCart({Key? key, required VoidCallback closeDrawer})
+  const ReceiptSectionForPayment({Key? key, required VoidCallback closeDrawer})
       : _closeDrawer = closeDrawer,
         super(key: key);
 

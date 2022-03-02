@@ -47,7 +47,7 @@ class SearchPartyBloc extends Bloc<SearchPartyEvent, SearchPartyState>
         state.copyWith(
           searchStatus: SearchPartyStatus.COMPLETED,
           searchTerm: event.searchTerm,
-          result: List.of(state.result)..addAll(searchResult),
+          result: List.of(searchResult),
         ),
       );
       notifySubscriber(

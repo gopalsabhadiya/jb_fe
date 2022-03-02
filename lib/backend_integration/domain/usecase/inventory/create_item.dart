@@ -10,6 +10,9 @@ class CreateItemUseCase {
     item.updateValues();
 
     final itemEntity = await repository.addItem(item.getEntity());
+    if (item.newImages != null) {
+      await repository.uploadImages(item.newImages!, itemEntity.id!);
+    }
     return ItemPresentation(itemEntity);
   }
 }

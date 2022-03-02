@@ -56,6 +56,7 @@ class ItemRepositoryImpl implements ItemRepository {
 
     final bool imagesAreSaved =
         await remoteDataSource.uploadImages(imageMap, itemId);
+
     if (imagesAreSaved) {
       serviceLocator<AppSharedPreference>().saveImages(
         itemId: itemId,

@@ -120,6 +120,7 @@ class _InventoryState extends State<Inventory> {
     return itemList
         .map(
           (item) => ItemCard(
+            key: Key(item.id!),
             item: item,
             onItemEdit: (item) => _onItemEdit(item),
           ),

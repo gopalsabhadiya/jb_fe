@@ -25,6 +25,7 @@ class ItemCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("Item card being build for item: ${_item.id}");
     return Container(
       constraints: const BoxConstraints(
           minWidth: 250, minHeight: 340, maxWidth: 250, maxHeight: 340),
@@ -42,10 +43,13 @@ class ItemCard extends StatelessWidget {
       ),
       child: BlocProvider<ItemImageBloc>(
         lazy: false,
-        create: (BuildContext context) => serviceLocator<ItemImageBloc>()
-          ..add(
+        create: (BuildContext context) {
+          ItemImageBloc itemImageBloc = serviceLocator<ItemImageBloc>();
+          itemImageBloc.add(
             FetchImages(item: _item),
-          ),
+          );
+          return itemImageBloc;
+        },
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

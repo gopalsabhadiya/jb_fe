@@ -82,7 +82,7 @@ class AddOrderBloc extends Bloc<AddOrderEvent, AddOrderState>
         status: AddOrderStatus.LOADING,
       ),
     );
-
+    int totalItemCount = state.totalItemCount - event.item.cartQuantity;
     event.item.setCartQuantity(0);
     OrderPresentation order = state.order;
     order.removeItem(event.item);
@@ -92,6 +92,7 @@ class AddOrderBloc extends Bloc<AddOrderEvent, AddOrderState>
       state.copyWith(
         status: AddOrderStatus.BUILDING,
         order: order,
+        totalItemCount: totalItemCount,
       ),
     );
     notifySubscriberForItemOperation(
@@ -126,6 +127,7 @@ class AddOrderBloc extends Bloc<AddOrderEvent, AddOrderState>
       state.copyWith(
         status: AddOrderStatus.BUILDING,
         order: order,
+        totalItemCount: state.totalItemCount - 1,
       ),
     );
     notifySubscriberForItemOperation(

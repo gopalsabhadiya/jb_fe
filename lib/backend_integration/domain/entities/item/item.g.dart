@@ -9,6 +9,7 @@ part of 'item.dart';
 ItemEntity _$ItemEntityFromJson(Map<String, dynamic> json) => ItemEntity(
       id: json['_id'] as String?,
       itemId: json['itemId'] as String?,
+      userDefinedId: json['userDefinedId'] as String?,
       category: json['category'] as String,
       type: json['type'] as String,
       name: json['name'] as String,
@@ -40,6 +41,7 @@ Map<String, dynamic> _$ItemEntityToJson(ItemEntity instance) {
 
   writeNotNull('_id', ignoreIfEmpty(instance.id));
   val['itemId'] = instance.itemId;
+  val['userDefinedId'] = instance.userDefinedId;
   val['category'] = instance.category;
   val['type'] = instance.type;
   val['name'] = instance.name;

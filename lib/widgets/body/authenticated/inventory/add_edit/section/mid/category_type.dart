@@ -95,7 +95,6 @@ class _CategoryTypeSelectorState extends State<CategoryTypeSelector> {
   }
 
   void _setCategory(String? category) {
-    print("SetCategory: $category");
     if (category != null) {
       setState(() {
         _category = category;
@@ -108,7 +107,6 @@ class _CategoryTypeSelectorState extends State<CategoryTypeSelector> {
   }
 
   void _setType(String? type) {
-    print("SetType: $type");
     if (type != null) {
       widget._item.setNewType(type);
       setState(() {

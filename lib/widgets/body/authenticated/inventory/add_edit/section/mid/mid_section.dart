@@ -28,24 +28,39 @@ class ItemInputMidSection extends StatefulWidget {
 }
 
 class _ItemInputMidSectionState extends State<ItemInputMidSection> {
+  late final List<FocusNode> _focusNodeList;
+
   final List<bool> _labourTypeSelections =
       List.generate(LabourTypeEnum.values.length, (index) => false);
   late bool _piecesEnabled;
 
   @override
   void initState() {
-    WidgetsBinding.instance!.addPostFrameCallback((_) =>
-        print("Midsectionbuilt: ${DateTime.now().millisecondsSinceEpoch}"));
     _piecesEnabled =
         widget._item.newHuid == null || widget._item.newHuid!.isEmpty;
     _labourTypeSelections[
         LabourTypeEnum.values.indexOf(widget._item.newLabour!.type)] = true;
+    _focusNodeList = [
+      FocusNode(),
+      FocusNode(),
+      FocusNode(),
+      FocusNode(),
+      FocusNode(),
+      FocusNode()
+    ];
     super.initState();
   }
 
   @override
+  void dispose() {
+    for (var focusNode in _focusNodeList) {
+      focusNode.dispose();
+    }
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    print("Building mid section: ${DateTime.now().millisecondsSinceEpoch}");
     return BlocProvider(
       create: (BuildContext context) {
         final PiecesEnablerCubit cubit = serviceLocator<PiecesEnablerCubit>();
@@ -75,6 +90,8 @@ class _ItemInputMidSectionState extends State<ItemInputMidSection> {
                   ),
                   Expanded(
                     child: AppTextInput(
+                      onEditingComplete: () => _focusNextTextBox(0),
+                      focusNode: _focusNodeList[0],
                       initialValue: widget._item.newHuid,
                       prefixIcon: AppIcons.id,
                       hint: ItemText.HUID_INPUT_TEXT,
@@ -94,6 +111,8 @@ class _ItemInputMidSectionState extends State<ItemInputMidSection> {
                       builder:
                           (BuildContext context, PiecesEnablerState state) {
                         return AppTextInput(
+                          onEditingComplete: () => _focusNextTextBox(1),
+                          focusNode: _focusNodeList[1],
                           initialValue: widget._item.newStockPieces.toString(),
                           enabled: state.value,
                           prefixIcon: Icons.extension,
@@ -109,6 +128,8 @@ class _ItemInputMidSectionState extends State<ItemInputMidSection> {
                   ),
                   Expanded(
                     child: AppTextInput(
+                      onEditingComplete: () => _focusNextTextBox(2),
+                      focusNode: _focusNodeList[2],
                       initialValue: widget._item.newGrossWeight != 0
                           ? widget._item.newGrossWeight.toString()
                           : DefaultTexts.EMPTY,
@@ -123,6 +144,8 @@ class _ItemInputMidSectionState extends State<ItemInputMidSection> {
                   ),
                   Expanded(
                     child: AppTextInput(
+                      onEditingComplete: () => _focusNextTextBox(3),
+                      focusNode: _focusNodeList[3],
                       initialValue: widget._item.newNetWeight != 0
                           ? widget._item.newNetWeight.toString()
                           : DefaultTexts.EMPTY,
@@ -142,6 +165,8 @@ class _ItemInputMidSectionState extends State<ItemInputMidSection> {
                   // AppTextBuilder("Hello").build()
                   Expanded(
                     child: AppTextInput(
+                      onEditingComplete: () => _focusNextTextBox(4),
+                      focusNode: _focusNodeList[4],
                       initialValue: widget._item.newCarat != null
                           ? widget._item.newCarat.toString()
                           : DefaultTexts.EMPTY,
@@ -156,6 +181,8 @@ class _ItemInputMidSectionState extends State<ItemInputMidSection> {
                   ),
                   Expanded(
                     child: AppTextInput(
+                      onEditingComplete: () => _focusNextTextBox(5),
+                      focusNode: _focusNodeList[5],
                       initialValue: widget._item.newLabour != null &&
                               widget._item.newLabour!.value != null
                           ? widget._item.newLabour!.value.toString()
@@ -233,5 +260,11 @@ class _ItemInputMidSectionState extends State<ItemInputMidSection> {
       BlocProvider.of<PiecesEnablerCubit>(context).positive();
     }
     widget._item.setNewHuid(newHuid);
+  }
+
+  _focusNextTextBox(int currentNodeIndex) {
+    if (currentNodeIndex + 1 < _focusNodeList.length) {
+      _focusNodeList[currentNodeIndex + 1].requestFocus();
+    }
   }
 }

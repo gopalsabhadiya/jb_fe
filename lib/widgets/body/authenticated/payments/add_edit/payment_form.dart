@@ -33,7 +33,7 @@ class PaymentForm extends StatelessWidget {
           height: 20,
         ),
         Expanded(
-          child: ReceiptSectionForCart(
+          child: ReceiptSectionForPayment(
             closeDrawer: _closeDrawer,
           ),
         )

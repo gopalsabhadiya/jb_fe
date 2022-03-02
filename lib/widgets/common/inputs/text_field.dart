@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:jb_fe/backend_integration/constants/other/regex.dart';
 import 'package:jb_fe/constants/colors.dart';
+import 'package:jb_fe/constants/texts/defaults.dart';
 
 class AppTextInput extends StatelessWidget {
   final IconData prefixIcon;
@@ -21,12 +22,16 @@ class AppTextInput extends StatelessWidget {
   final VoidCallback? onRemoveFocus;
   final TextEditingController? controller;
   final String? errorText;
+  final VoidCallback? onEditingComplete;
+  final FocusNode? focusNode;
 
   const AppTextInput({
     Key? key,
     required this.prefixIcon,
     required this.hint,
     required this.onChanged,
+    this.onEditingComplete,
+    this.focusNode,
     this.initialValue,
     this.suffixIcon,
     this.obscureText,
@@ -60,14 +65,16 @@ class AppTextInput extends StatelessWidget {
         ),
       ),
       child: Focus(
-        // focusNode: FocusNode(),
         onFocusChange: (bool hasFocus) {
+          if (!hasFocus && onEditingComplete != null) {
+            onEditingComplete!();
+          }
           if (!hasFocus && onRemoveFocus != null) {
             onRemoveFocus!();
           }
         },
         child: TextFormField(
-          textInputAction: TextInputAction.next,
+          focusNode: focusNode,
           keyboardType:
               isNumberInput ? TextInputType.number : TextInputType.text,
           inputFormatters: isNumberInput
@@ -78,7 +85,7 @@ class AppTextInput extends StatelessWidget {
               : [],
           validator: validator,
           controller: controller ?? TextEditingController()
-            ..text = initialValue ?? "",
+            ..text = initialValue ?? DefaultTexts.EMPTY,
           onChanged: onChanged,
           obscureText: obscureText ?? false,
           autovalidateMode: AutovalidateMode.onUserInteraction,

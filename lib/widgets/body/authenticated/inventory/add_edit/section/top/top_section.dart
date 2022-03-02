@@ -11,6 +11,10 @@ import 'package:jb_fe/widgets/calligraphy/app_text.dart';
 import 'package:jb_fe/widgets/common/buttons/button.dart';
 import 'package:jb_fe/widgets/common/inputs/checkbox.dart';
 
+import '../../../../../../../constants/texts/defaults.dart';
+import '../../../../../../common/inputs/text_field.dart';
+import '../../../../../../svg/icons/app_icons.dart';
+
 class ItemInputTopSection extends StatefulWidget {
   final ItemPresentation _item;
   const ItemInputTopSection({
@@ -92,13 +96,28 @@ class _ItemInputTopSectionState extends State<ItemInputTopSection> {
                   ),
                 ),
               ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: _getImages(),
+                ),
+              )
             ],
           ),
         ),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: _getImages(),
-        )
+        SizedBox(
+          width: 200,
+          child: AppTextInput(
+            initialValue: widget._item.newUserDefinedId != null &&
+                    widget._item.newUserDefinedId!.isNotEmpty
+                ? widget._item.newUserDefinedId.toString()
+                : DefaultTexts.EMPTY,
+            prefixIcon: AppIcons.id,
+            hint: ItemText.USER_DEFINED_ID_TEXT,
+            onChanged: widget._item.setNewUserDefinedId,
+          ),
+        ),
       ],
     );
   }

@@ -46,6 +46,12 @@ class ItemImageContent extends StatelessWidget {
               height: 250,
               child: DiamondSVG(),
             );
+          case ItemImageStatus.NO_IMAGES:
+            return const SizedBox(
+              width: 250,
+              height: 250,
+              child: DiamondSVG(),
+            );
         }
       },
     );
