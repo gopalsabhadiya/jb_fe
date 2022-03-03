@@ -32,6 +32,7 @@ import 'package:jb_fe/backend_integration/domain/usecase/party/update_party.dart
 import 'package:jb_fe/backend_integration/utils/storage/shared_preference.dart';
 import 'package:jb_fe/controllers/bloc/authentication/forgot_password/forgot_password_bloc.dart';
 import 'package:jb_fe/controllers/bloc/business/business_data/business_data_bloc.dart';
+import 'package:jb_fe/controllers/bloc/dashboard/business_stats/business_stats_bloc.dart';
 import 'package:jb_fe/controllers/bloc/dashboard/daily_gold_rate/daily_gold_rate_bloc.dart';
 import 'package:jb_fe/controllers/bloc/dashboard/new_daily_gold_rate/add_daily_gold_rate_bloc.dart';
 import 'package:jb_fe/controllers/bloc/inventory/item_bloc/item_bloc.dart';
@@ -47,9 +48,11 @@ import 'package:jb_fe/controllers/bloc/party/search_party/search_party_bloc.dart
 import 'package:jb_fe/controllers/bloc/party/update_party/update_party_bloc.dart';
 
 import 'backend_integration/data/datasource/remote/receipt_remote_ds.dart';
+import 'backend_integration/data/datasource/remote/stats_remote_ds.dart';
 import 'backend_integration/data/repositories/authentication_repository_impl.dart';
 import 'backend_integration/data/repositories/mail_repository_impl.dart';
 import 'backend_integration/data/repositories/receipt_repository_impl.dart';
+import 'backend_integration/data/repositories/stats_repository_impl.dart';
 import 'backend_integration/data/repositories/user_repository_impl.dart';
 import 'backend_integration/domain/repositories/authentication.dart';
 import 'backend_integration/domain/repositories/business_repository.dart';
@@ -57,8 +60,10 @@ import 'backend_integration/domain/repositories/daily_gold_rate_repository.dart'
 import 'backend_integration/domain/repositories/item_repository.dart';
 import 'backend_integration/domain/repositories/mail_repository.dart';
 import 'backend_integration/domain/repositories/receipt_repository.dart';
+import 'backend_integration/domain/repositories/stats_repository.dart';
 import 'backend_integration/domain/repositories/user_repository.dart';
 import 'backend_integration/domain/usecase/authentication/authenticate_user.dart';
+import 'backend_integration/domain/usecase/business/get_business_stats.dart';
 import 'backend_integration/domain/usecase/business/update_business.dart';
 import 'backend_integration/domain/usecase/daily_gold_rate/get_today_gold_rate.dart';
 import 'backend_integration/domain/usecase/daily_gold_rate/update_daily_gold_rate.dart';
@@ -124,13 +129,24 @@ void init() {
     ),
   );
 
+  //Stats
+  serviceLocator.registerFactory<BusinessStatsBloc>(
+    () => BusinessStatsBloc(
+      getBusinessStatsUseCase: serviceLocator(),
+    ),
+  );
+
   //Business
   serviceLocator.registerFactory<BusinessDataBloc>(
-    () => BusinessDataBloc(getBusinessDataUseCase: serviceLocator()),
+    () => BusinessDataBloc(
+      getBusinessDataUseCase: serviceLocator(),
+    ),
   );
 
   serviceLocator.registerFactory<UpdateBusinessBloc>(
-    () => UpdateBusinessBloc(updateBusinessUseCase: serviceLocator()),
+    () => UpdateBusinessBloc(
+      updateBusinessUseCase: serviceLocator(),
+    ),
   );
 
   //party
@@ -317,7 +333,16 @@ void init() {
     ),
   );
   serviceLocator.registerLazySingleton<ChangePasswordUseCase>(
-    () => ChangePasswordUseCase(repository: serviceLocator()),
+    () => ChangePasswordUseCase(
+      repository: serviceLocator(),
+    ),
+  );
+
+  //stats
+  serviceLocator.registerLazySingleton<GetBusinessStatsUseCase>(
+    () => GetBusinessStatsUseCase(
+      repository: serviceLocator(),
+    ),
   );
 
   //authentication
@@ -509,6 +534,11 @@ void init() {
       remoteDataSource: serviceLocator(),
     ),
   );
+  serviceLocator.registerLazySingleton<StatsRepository>(
+    () => StatsRepositoryImpl(
+      remoteDataSource: serviceLocator(),
+    ),
+  );
   serviceLocator.registerLazySingleton<MailRepository>(
     () => MailRepositoryImpl(
       remoteDataSource: serviceLocator(),
@@ -552,6 +582,9 @@ void init() {
   //data sources
   serviceLocator.registerLazySingleton<MailRemoteDataSource>(
     () => MailRemoteDataSourceImpl(),
+  );
+  serviceLocator.registerLazySingleton<StatsRemoteDataSource>(
+    () => StatsRemoteDataSourceImpl(),
   );
   serviceLocator.registerLazySingleton<AuthenticationRemoteDataSource>(
     () => AuthenticationRemoteDataSourceImpl(),

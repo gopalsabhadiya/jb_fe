@@ -41,12 +41,12 @@ class OrderDetailsSectionInCart extends StatelessWidget {
                   isNumberInput: true,
                   validator: _order.goldRateValidator,
                   onRemoveFocus: () {
-                    print("On Remove focus called ---------------------------------------------------");
-                      BlocProvider.of<AddOrderBloc>(context).add(
-                    AddGoldRate(
-                      goldRate: _order.goldRate!,
-                    ),
-                  );},
+                    BlocProvider.of<AddOrderBloc>(context).add(
+                      AddGoldRate(
+                        goldRate: _order.goldRate!,
+                      ),
+                    );
+                  },
                 ),
               ),
               AppTextBuilder(DefaultTexts.RUPEE_SYMBOL +

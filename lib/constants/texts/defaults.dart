@@ -7,4 +7,6 @@ class DefaultTexts {
   static const String DISAGREE = "No";
   static const String CANCEL = "Cancel";
   static const String OK = "Ok";
+
+  static const String INVALID_OPERATIONS = "Invalid Operation";
 }

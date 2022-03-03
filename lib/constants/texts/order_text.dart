@@ -27,4 +27,8 @@ class OrderText {
   static final String HALL_MARK = "Hallmark";
   static final String RUBY = "Ruby";
   static final String STONE = "Stone";
+  static final String ADD_TO_CART_INVALID_OPERATION_TITLE =
+      "The cart contains item with Category: ";
+  static final String ADD_TO_CART_INVALID_OPERATION_SUBTITLE =
+      "If you want to add this item, remove all items from cart first";
 }

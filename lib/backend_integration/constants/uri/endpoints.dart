@@ -1,6 +1,7 @@
 class EndpointUri {
   //static const String _SERVER_ADDRESS = "https://j-m-s.herokuapp.com";
   static const String _SERVER_ADDRESS = "http://localhost:8080";
+  static const String _BASE_URL = "$_SERVER_ADDRESS/api";
   // static const String _SERVER_ADDRESS = "http://10.0.2.2:8080";
 
   static const String _PATH_USER_ID = "{USER_ID}";
@@ -13,16 +14,15 @@ class EndpointUri {
   static const String _SKIP = "{SKIP}";
   static const String _SEARCH_TERM = "{SEARCH_TERM}";
 
-  static const String _BASE_URL = "$_SERVER_ADDRESS/api";
-
   static const String _BASE_RESET_PASSWORD = "$_BASE_URL/resetpassword";
   static const String _RESET_PASSWORD_OTP_MAIL_URL =
       "$_BASE_URL/resetpassword/mail";
   static const String _RESET_PASSWORD_VERIFY_OTP_URL =
       "$_BASE_URL/resetpassword/varifyotp";
 
-  static const String _BASE_USER = "$_BASE_URL/user";
   static const String _BASE_AUTH = "$_BASE_URL/auth";
+  static const String _BASE_STATS = "$_BASE_URL/stats";
+  static const String _BUSINESS_STATS = "$_BASE_STATS/business";
   static const String _VALIDATE_AUTH = "$_BASE_AUTH/validate";
   static const String _BASE_BUSINESS = "$_BASE_URL/business";
 
@@ -33,6 +33,7 @@ class EndpointUri {
       "$_BASE_PARTY/?skip=$_SKIP&searchTerm=$_SEARCH_TERM";
   static const String _GET_PARTY_BY_ID = "$_BASE_PARTY/id/$_PATH_PARTY_ID";
 
+  //item
   static const String _BASE_ITEM = "$_BASE_URL/item";
   static const String _ITEM_SKIP = "$_BASE_ITEM/?skip=$_SKIP";
   static const String _DELETE_ITEM = "$_BASE_ITEM/$_PATH_ITEM_ID";
@@ -46,6 +47,7 @@ class EndpointUri {
 
   static const String _BASE_DAILY_GOLD_RATE = "$_BASE_URL/daily_gold_rate";
 
+  //order
   static const String _BASE_ORDER = "$_BASE_URL/order";
   static const String _ORDER_SKIP = "$_BASE_ORDER/details?skip=$_SKIP";
   static const String _SEARCH_ORDER =
@@ -55,7 +57,7 @@ class EndpointUri {
   static const String _GET_ORDER_BATCH_BY_ID = "$_BASE_ORDER/batch";
   static const String _GET_UNPAID_ORDERS = "$_BASE_ORDER/unpaid";
 
-  static const String _BASE_BILL = "$_BASE_URL/bill";
+  //receipt
   static const String _BASE_RECEIPT = "$_BASE_URL/receipt";
   static const String _RECEIPT_SKIP = "$_BASE_RECEIPT/details?skip=$_SKIP";
   static const String _GET_RECEIPT_BY_ID =
@@ -64,12 +66,13 @@ class EndpointUri {
   static const String _SEARCH_RECEIPT =
       "$_BASE_RECEIPT/details?skip=$_SKIP&searchTerm=$_SEARCH_TERM";
 
+  //user
+  static const String _BASE_USER = "$_BASE_URL/user";
   static const String _GET_USER = _BASE_USER;
-  static const String _VERIFY_USER = "$_BASE_USER/verify";
-  static const String _DELETE_USER = "$_BASE_USER/$_PATH_USER_ID";
 
-  static const _DELETE_BUSINESS = "$_BASE_BUSINESS/$_PATH_BUSINESS_ID";
-  static const _ITEM_COLLECTION = "$_BASE_BUSINESS/itemcollection";
+  static Uri getGetBusinessStatsURL() {
+    return Uri.parse(_BUSINESS_STATS);
+  }
 
   static Uri getSendOTPMailURL() {
     return Uri.parse(_RESET_PASSWORD_OTP_MAIL_URL);

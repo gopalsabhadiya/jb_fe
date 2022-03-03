@@ -6,7 +6,6 @@ class DateUtil {
   static bool pastDate(DateTime date) {
     DateTime currentDate = DateTime.now();
     DateTime currentDate2 = DateTime.now();
-    print(currentDate.compareTo(date));
     return currentDate.compareTo(date) > 0 ? true : false;
   }
 }

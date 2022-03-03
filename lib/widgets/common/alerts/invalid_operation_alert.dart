@@ -7,22 +7,22 @@ import 'package:jb_fe/constants/texts/defaults.dart';
 import 'package:jb_fe/constants/typography/font_weight.dart';
 import 'package:jb_fe/widgets/calligraphy/app_text.dart';
 
-class ConfirmationAlert extends StatelessWidget {
+class InvalidOperationAlert extends StatelessWidget {
   final String _title;
+  final String? _subtitle;
   final String _content;
   final String _variable;
-  final VoidCallback _continueCallBack;
 
-  const ConfirmationAlert(
+  const InvalidOperationAlert(
       {Key? key,
       required title,
+      String? subtitle,
       required content,
-      required continueCallBack,
       required variable})
       : _title = title,
+        _subtitle = subtitle,
         _content = content,
         _variable = variable,
-        _continueCallBack = continueCallBack,
         super(key: key);
 
   @override
@@ -51,41 +51,17 @@ class ConfirmationAlert extends StatelessWidget {
                 .size(16)
                 .textAlign(TextAlign.start)
                 .build(),
+            _subtitle != null
+                ? AppTextBuilder("\n" + _subtitle!)
+                    .color(AppColors.blue_5)
+                    .weight(AppFontWeight.BOLD)
+                    .size(14)
+                    .textAlign(TextAlign.start)
+                    .build()
+                : Container(),
           ],
         ),
         actions: <Widget>[
-          TextButton(
-            style: ButtonStyle(
-              overlayColor: MaterialStateProperty.resolveWith<Color?>(
-                (Set<MaterialState> states) {
-                  if (states.contains(MaterialState.hovered)) {
-                    return AppColors.red2WithOpacity(0.04);
-                  }
-                  if (states.contains(MaterialState.focused) ||
-                      states.contains(MaterialState.pressed)) {
-                    return AppColors.red2WithOpacity(0.04);
-                  }
-                  return null; // Defer to the widget's default.
-                },
-              ),
-              padding: MaterialStateProperty.all<EdgeInsets>(
-                const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-              ),
-              foregroundColor:
-                  MaterialStateProperty.all<Color>(AppColors.red_2),
-              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(50),
-                  side: const BorderSide(color: AppColors.red_2, width: 2),
-                ),
-              ),
-            ),
-            child: AppTextBuilder(DefaultTexts.AGREE)
-                .color(AppColors.red_2)
-                .size(16)
-                .build(),
-            onPressed: _continueCallBack,
-          ),
           TextButton(
             style: ButtonStyle(
               overlayColor: MaterialStateProperty.resolveWith<Color?>(
@@ -114,7 +90,7 @@ class ConfirmationAlert extends StatelessWidget {
                 ),
               ),
             ),
-            child: AppTextBuilder(DefaultTexts.DISAGREE)
+            child: AppTextBuilder(DefaultTexts.OK)
                 .color(AppColors.blue_5)
                 .size(16)
                 .build(),

@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:jb_fe/backend_integration/repository/user.dart';
 import 'package:jb_fe/injection_container.dart';
 import 'package:jb_fe/router/config.dart';
 import 'package:jb_fe/screens/homescreen/home_screen.dart';
@@ -23,9 +22,6 @@ class AppRouterDelegate extends RouterDelegate<AppRouterConfiguration>
   static final ValueNotifier<bool?> unknownStateNotifier = ValueNotifier(null);
 
   AppRouterDelegate() {
-    // final authenticationRepository = AuthenticationRepository();
-    final userRepository = UserRepository();
-
     _homePage = MaterialPage(
       key: const ValueKey<String>("HomePage"),
       child: BlocProvider<AuthenticationBloc>(
